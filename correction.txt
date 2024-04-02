@@ -1,0 +1,58 @@
+export class Accident {
+  public dateIncident: MyDate | string;
+
+
+
+public formatterMyDate(myDate: MyDate | string): string {
+    
+    if (typeof myDate === 'string') {
+      return '';
+    }
+
+    if (!myDate || !myDate.year || !myDate.month || !myDate.day) {
+      return '';
+    }
+
+    const { year, month, day } = myDate;
+    const date = new Date(year, month - 1, day);
+
+    const datePipe = new DatePipe('en-US');
+    const formattedDate = datePipe.transform(date, 'yyyy-MM-dd') || '';
+    return formattedDate;
+  }
+
+
+
+
+
+
+Nombre Automobile (bon pour)
+
+date de prise en charge (maintenance)
+
+etat maintenance (en cours ou terminer) : filre etat
+
+table huile et pieces , materiels ()
+
+
+
+a chaque validation, confirmation
+
+initialiser au debart 0 pour les nombres
+
+
+date de creation du compte
+
+
+commentaire sur 2 rows
+
+unite pour la liste d'agent
+
+
+
+
+
+
+
+
+

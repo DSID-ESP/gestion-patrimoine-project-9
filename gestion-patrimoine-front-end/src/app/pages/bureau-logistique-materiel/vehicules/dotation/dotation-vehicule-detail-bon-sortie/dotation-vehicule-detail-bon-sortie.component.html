@@ -1,0 +1,222 @@
+<div class="card shadow">
+
+  <div class="card-header text-center fw-bold bg-myprimary fs-5">
+      Ajouter
+  </div>
+
+  <div class="card-body">
+
+    <div class="container">
+
+        <!-- ------------------BON POUR-------------------------------------------------------- -->
+
+      <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+         Bonpour
+      </div>
+
+      <!-- {{ bonPour | json }} -->
+
+
+
+      <form class="container px-3 py-2">
+
+          <div class="row g-4 mb-3">
+              <div class="col-3 mx-auto">
+                  <span class="fw-bold">N° courriel origine</span>
+                  <div class="text-input">{{ bonPour!.numeroCourrielOrigine }}</div>
+              </div>
+
+              <div class="col-3 mx-auto">
+                <span class="fw-bold">Date courriel origine</span>
+                <div class="text-input text-uppercase">
+                    <!-- {{ bonEntree!.identifiantBL!.dateBL }}  -->
+                    {{ myDateStringFormatter(bonPour!.dateCourrielOrigine) }}
+                </div>
+              </div>
+
+
+
+            <div class="col-3 mx-auto">
+              <span class="fw-bold">Etat bon pour</span>
+              <div class="text-input text-uppercase">{{ bonPour!.etatBonPour }} </div>
+           </div>
+
+            <div class="col-3 mx-auto">
+                <span class="fw-bold">Object courriel origine</span>
+                <div class="text-input text-uppercase"> {{ bonPour!.objectCourrielOrigine }} </div>
+            </div>
+
+
+          </div>
+
+          <div class="row g-4 mb-3">
+
+
+              <div class="col-3 mx-auto">
+                <span class="fw-bold">N° arrive dlf</span>
+                <div class="text-input text-uppercase">{{ bonPour!.numeroArriveDLF }} </div>
+              </div>
+
+              <div class="col-3 mx-auto">
+                <span class="fw-bold">Date arrive dlf</span>
+                <div class="text-input text-uppercase">
+                    <!-- {{ bonEntree!.identifiantBL!.dateBL }}  -->
+                    {{ myDateStringFormatter(bonPour!.dateArriveDLF) }}
+                </div>
+              </div>
+
+
+            <div class="col-3 mx-auto">
+              <span class="fw-bold"> N° arrive blm</span>
+              <div class="text-input text-uppercase"> {{ bonPour!.numeroArriveBLM }} </div>
+           </div>
+
+           <div class="col-3 mx-auto">
+            <span class="fw-bold">Date arrive blm</span>
+            <div class="text-input text-uppercase">
+                <!-- {{ bonEntree!.identifiantBL!.dateBL }}  -->
+                {{ myDateStringFormatter(bonPour!. dateArriveBLM) }}
+            </div>
+          </div>
+
+
+          </div>
+
+
+          <div class="row g-4 mb-3">
+
+
+            <div class="col-3 mx-auto">
+              <span class="fw-bold">N° arrive section</span>
+              <div class="text-input text-uppercase">{{ bonPour!.numeroArriveSection }} </div>
+            </div>
+
+            <div class="col-3 mx-auto">
+              <span class="fw-bold">Date arrive section</span>
+              <div class="text-input text-uppercase">
+                  <!-- {{ bonEntree!.identifiantBL!.dateBL }}  -->
+                  {{ myDateStringFormatter(bonPour!.dateArriveSection) }}
+              </div>
+            </div>
+
+
+
+           <div class="col-3 mx-auto form-group">
+
+           </div>
+
+           <div class="col-3 mx-auto form-group">
+
+           </div>
+
+
+
+        </div>
+
+          <div class="row g-4 mb-3">
+
+              <div class="col-12 mx-auto">
+                  <span class="fw-bold">Description bon pour</span>
+                  <div class="text-input text-uppercase"> {{ bonPour!.descriptionBonPour }} </div>
+              </div>
+
+
+
+          </div>
+
+          <div class="row g-4 mb-3">
+
+            <div class="col-12 mx-auto">
+                <span class="fw-bold">Observation bon pour</span>
+                <!-- <div class="text-input text-uppercase">{{ bonPour!.observationBP }} </div> -->
+            </div>
+
+        </div>
+
+      </form>
+  </div>
+
+
+
+
+   <!---------------------------------------------------BON DE SORTIE----------------------------------------------------------------------------->
+
+
+    <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+        Bon de sortie
+      </div>
+
+      <div class="container px-3 py-2">
+
+          <form class="form" #BonDeSortieForm="ngForm" (ngSubmit)="ajouterBonDeSortie(BonDeSortieForm)">
+
+              <div class="row g-4 mb-3">
+                  <div class="col-3 mx-auto form-group">
+                      <label for="numeroBS" class="form-label fw-bold">N° bon de sortie</label>
+                      <input id="numeroBS" type="text" name="numeroBS" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                  </div>
+
+                  <div class="col-3 mx-auto form-group">
+                      <label for="dateBS" class="form-label fw-bold">Date bon de sortie</label>
+                      <input type="text" name="dateBS" id="dateBS" autocomplete="off" ngbDatepicker #dp2="ngbDatepicker" (click)="dp2.toggle()" required [(ngModel)]="modelDate1" [value]="formatDate(modelDate1)" class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                  </div>
+
+                  <div class="col-3 mx-auto form-group">
+
+                  </div>
+
+                  <div class="col-3 mx-auto form-group">
+
+                  </div>
+
+
+              </div>
+
+              <div class="row g-4">
+
+
+                <div class="col-12 mx-auto form-group">
+                  <label for="descriptionBS" class="form-label fw-bold">Description bon de sortie</label>
+                  <textarea name="descriptionBS" id="descriptionBS" rows="2" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
+                </div>
+
+            </div>
+
+
+              <div class="row g-4">
+
+                  <div class="col-12 mx-auto form-group">
+                      <label for="observationBS" class="form-label fw-bold">Observation bon de sortie</label>
+                      <textarea name="observationBS" id="observationBS" rows="2" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
+                  </div>
+
+
+              </div>
+
+              <div class="row">
+                  <div class="col-12 text-end">
+                      <button type="submit" [disabled]="BonDeSortieForm.invalid" id="bon-de-sortie-form" hidden class="btn btn-myprimary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                          Valider
+                      </button>
+                  </div>
+              </div>
+
+          </form>
+      </div>
+
+      <div class="container px-3 py-2">
+          <div class="row">
+              <div class="col-12 text-end">
+                  <button (click)="submitForm()" [disabled]="BonDeSortieForm.invalid" type="button" class="btn btn-myprimary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                      Valider
+                  </button>
+
+                  <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                      Retour
+                  </button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+</div>

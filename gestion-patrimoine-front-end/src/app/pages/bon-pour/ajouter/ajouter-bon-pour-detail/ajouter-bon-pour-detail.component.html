@@ -1,0 +1,66 @@
+<div class="card shadow">
+
+    <div class="card-header text-center fw-bold bg-myprimary fs-5">
+        Détail
+    </div>
+
+    <div class="card-body">
+
+        <!-- ------------------Article bon pour-------------------------------------------------------- -->
+        <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+            Article bon pour
+        </div>
+
+        <div class="container px-3 py-2">
+            <form class="container px-3 py-2">
+
+                <div class="row g-4 mb-3">
+                    <div class="col-3 mx-auto">
+                        <span class="fw-bold">Code article</span>
+                        <div class="text-input text-uppercase"> {{ articleBonPour.codeArticleBonPour }} </div>
+                    </div>
+
+                    <div class="col-6 mx-auto">
+                        <span class="fw-bold">Type objet</span>
+                        <div class="text-input text-uppercase"> {{ articleBonPour.codeTypeObjet.libelleTypeObjet }} </div>
+                    </div>
+
+                    <div class="col-3 mx-auto">
+                        <span class="fw-bold">Quantité demandée</span>
+                        <div class="text-input text-uppercase"> {{ articleBonPour.quantiteDemandee }} </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-3">
+                    <div class="col-12 mx-auto">
+                        <span class="fw-bold">Libellé article</span>
+                        <div class="text-input text-uppercase"> {{ articleBonPour.libelleArticleBonPour }} </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+
+        <!-- -------------------------------------------------------------------------- -->
+        <div class="container px-3 py-2">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <button  type="button" class="btn btn-mybrown fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour supprimer">
+                        Supprimer
+                    </button>
+
+                    <button  type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                        Modifier
+                    </button>
+
+                    <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
+                        data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                        Retour
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

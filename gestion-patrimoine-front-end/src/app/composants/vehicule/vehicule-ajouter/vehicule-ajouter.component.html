@@ -1,0 +1,116 @@
+<form class="form" #VehiculeForm="ngForm" (ngSubmit)="ajouterVehicule(VehiculeForm)">
+
+    <div class="row g-4 mb-3">
+        <div class="col-3 mx-auto form-group">
+            <label for="numeroSerie" class="form-label fw-bold">N° série</label>
+            <input id="numeroSerie" type="text" name="numeroSerie" required ngModel
+                class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+            <label for="numeroImmatriculation" class="form-label fw-bold">N° immatriculation</label>
+            <input id="numeroImmatriculation" type="text" name="numeroImmatriculation" required ngModel
+                class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+            <label for="codeTypeVehicule" class="form-label fw-bold">Type véhicule</label>
+            <select id="codeTypeVehicule" name="codeTypeVehicule" required ngModel
+                class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                <option *ngFor="let typeVehicule of typeVehicules" [ngValue]="typeVehicule">
+                    {{ typeVehicule!.libelleTypeVehicule }}
+                </option>
+            </select>
+        </div>
+
+
+    </div>
+
+
+    <div class="row g-4 mb-3">
+        <div class="col-3 mx-auto form-group">
+            <label for="codeMarque" class="form-label fw-bold">Marque</label>
+            <select id="codeMarque" name="codeMarque" required ngModel
+                class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                <option *ngFor="let marqueVehicule of marqueVehicules" [ngValue]="marqueVehicule">
+                    {{ marqueVehicule!.libelleMarqueVH }}
+                </option>
+            </select>
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+            <label for="modele" class="form-label fw-bold">Modèle</label>
+            <input id="modele" type="text" name="modele" required ngModel
+                class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+            <label for="codeEtat" class="form-label fw-bold">Etat véhicule</label>
+            <!-- <select id="codeEtat" name="codeEtat" required ngModel
+                class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                <option *ngFor="let etatVehicule of etatVehicules" [ngValue]="etatVehicule">
+                    {{ etatVehicule!.libelleEtat }}
+                </option>
+            </select> -->
+        </div>
+    </div>
+
+
+    <div class="row g-4 mb-3">
+        <div class="col-3 mx-auto form-group">
+            <label for="codeTypeEnergie" class="form-label fw-bold">Type énergie</label>
+            <select id="codeTypeEnergie" name="codeTypeEnergie" required ngModel
+                class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                <option *ngFor="let typeEnergie of typeEnergies" [ngValue]="typeEnergie">
+                    {{ typeEnergie!.libelleTypeEnergie }}
+                </option>
+            </select>
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+            <label for="codePays" class="form-label fw-bold">Provenance</label>
+            <select id="codePays" name="codePays" required ngModel
+                class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                <option *ngFor="let LePays of pays" [ngValue]="LePays">
+                    {{ LePays!.libellePays}}
+                </option>
+            </select>
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+            <label for="numeroCarteGrise" class="form-label fw-bold">N° carte grise</label>
+            <input id="numeroCarteGrise" type="text" name="numeroCarteGrise" required ngModel
+                class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+        </div>
+    </div>
+
+
+    <div class="row g-4 mb-3">
+
+
+        <div class="col-3 mx-auto form-group">
+            <!-- <label for="codeUniteDouaniere" class="form-label fw-bold">Unite douaniére</label>
+            <select id="codeUniteDouaniere" name="codeUniteDouaniere" required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                <option *ngFor="let uniteDouaniere of uniteDouanieres" [ngValue]="uniteDouaniere">
+                    {{ uniteDouaniere!.nomUniteDouaniere }}
+                </option>
+            </select> -->
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-end">
+            <button type="submit" [disabled]="VehiculeForm.invalid" id="vehicule-form" hidden
+                class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                Valider
+            </button>
+        </div>
+    </div>
+
+</form>

@@ -1,0 +1,52 @@
+<form class="form" #ArticleBonEntreeForm="ngForm" (ngSubmit)="ajouterArticleBonEntree(ArticleBonEntreeForm)">
+
+    <div class="row g-4 mb-3">
+        <div class="col-3 mx-auto form-group">
+            <label for="codeTypeObjet" class="form-label fw-bold">Type objet</label>
+            <select id="codeTypeObjet" name="codeTypeObjet" required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                <option *ngFor="let typeObjet of typeObjets" [ngValue]="typeObjet">
+                    {{ typeObjet!.libelleTypeObjet }}
+                </option>
+            </select>
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+        </div>
+
+    </div>
+
+    <div class="row g-4 mb-3">
+        <div class="col-3 mx-auto form-group">
+            <label for="codeArticleBonEntree" class="form-label fw-bold">Code article bon entree</label>
+            <input id="codeArticleBonEntree" type="number" name="codeArticleBonEntree" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+            <label for="libelleArticleBonEntree" class="form-label fw-bold">Libellé article bon entrée</label>
+            <input id="libelleArticleBonEntree" type="text" name="libelleArticleBonEntree" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+        </div>
+        
+
+        <div class="col-3 mx-auto form-group d-none">
+            <label for="quantiteEntree" class="form-label fw-bold">Quantite entrée</label>
+            <input id="quantiteEntree" type="number" name="quantiteEntree" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-end">
+            <button type="submit" [disabled]="ArticleBonEntreeForm.invalid" id="article-bon-entree-form" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                Valider
+            </button>
+        </div>
+    </div>
+
+
+    
+</form>

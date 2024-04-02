@@ -1,0 +1,13 @@
+<form class="container px-3 py-2">
+
+    <div class="row g-4 mb-3">
+        <div class="col mx-auto text-center">
+            <div class="text-input text-uppercase">
+                <span class="border border-2 border-mysecondary rounded-4 p-2 m-1" *ngFor="let secteurActivite of secteurActivites" style="display: inline-block; white-space: nowrap;">
+                    {{ secteurActivite.libelleSecteurActivite }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+</form>

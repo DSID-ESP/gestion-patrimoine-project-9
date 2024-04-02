@@ -1,0 +1,183 @@
+<div class="card shadow">
+
+    <ng-container *ngIf="afficherPopupDetail; else modifier">
+        <div class="card-header text-center fw-bold bg-myprimary fs-5">
+            Détail
+        </div>
+
+        <div class="card-body">
+            <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                Prestataire
+            </div>
+
+            <div class="container px-3 py-2">
+                <app-prestataire-detail #dataPrestataire></app-prestataire-detail>
+            </div>
+
+            <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                Secteur activités
+            </div>
+
+            <div class="container px-3 py-2">
+                <app-secteur-activite-detail #dataSecteurActivite></app-secteur-activite-detail>
+            </div>
+
+            <div class="container px-3 py-2">
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <button (click)="supprimerPrestataireById(dataPrestataire.prestataire.ninea)"  type="button" class="btn btn-mybrown fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour supprimer">
+                            Supprimer
+                        </button>
+
+                        <button (click)="popupModifier()" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour modifier">
+                            Modifier
+                        </button>
+
+                        <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                            Retour
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #modifier>
+        <div class="card-header text-center fw-bold bg-myprimary fs-5">
+            Modifier Prestataire
+        </div>
+
+        <div class="card-body">
+
+            <div class="container px-3 py-2">
+                <form class="form" #PrestataireForm="ngForm" (ngSubmit)="modifierPrestataire(PrestataireForm)">
+
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto form-group">
+                            <span class="fw-bold">Ninea</span>
+                            <div class="text-input"> {{ prestataire.ninea }} </div>
+                            <!-- <label for="ninea" class="form-label fw-bold">NINEA</label> -->
+                            <input id="ninea" type="text" name="ninea" required hidden [(ngModel)]="prestataire.ninea" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        </div>
+
+                        <div class="col-3 mx-auto form-group">
+                            <label for="adresseEmail" class="form-label fw-bold"> Email</label>
+                            <input id="adresseEmail" type="text" name="adresseEmail" required [(ngModel)]="prestataire.adresseEmail" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        </div>
+
+                        <div class="col-3 mx-auto form-group">
+                            <label for="numeroTelephone" class="form-label fw-bold">N° téléphone</label>
+                            <input type="number" name="numeroTelephone" id="numeroTelephone" required [(ngModel)]="prestataire.numeroTelephone" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        </div>
+                    </div>
+
+
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto form-group">
+                            <label for="adresse" class="form-label fw-bold">Adresse</label>
+                            <input id="adresse" type="text" name="adresse" required [(ngModel)]="prestataire.adresse" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        </div>
+
+                        <div class="col-3 mx-auto form-group">
+                            <!-- <label for="secteurActivite" class="form-label fw-bold">Secteur d'activité</label>
+                            <input (click)="popupSecteurActivite(secteurActivites, prestataire)" id="secteurActivite" type="button" name="secteurActivite" required ngModel class="text-input form-control shadow-none bg-mysecondary border border-mysecondary px-1 text-uppercase"> -->
+
+                            <label for="secteurActivite" class="form-label fw-bold">Secteur d'activité</label>
+                            <!-- <input (click)="popupSecteurActivite(secteurActivites, prestataire)" [ngClass]="{'secteur-activites-select': secteurActivitesSelect && secteurActivitesSelect.length > 0, 'default-secteur-activites-select': !(secteurActivitesSelect && secteurActivitesSelect.length > 0)}" id="secteurActivite" type="button" name="secteurActivite" required  class="text-input form-control shadow-none border border-mysecondary px-1 text-uppercase fw-bold" value="Sélectionner">             -->
+                            <!-- <input (click)="popupSecteurActivite(secteurActivites, prestataire)" [style.backgroundColor]="(secteurActivitesSelect && secteurActivitesSelect.length > 0) ? '#f0dd99' : '#D9D9D9'" id="secteurActivite" type="button" name="secteurActivite" required  class="text-input form-control shadow-none border border-mysecondary px-1 text-uppercase fw-bold" value="Sélectionner">             -->
+
+                            <!-- <input
+                                *ngIf="secteurActivitesSelect && secteurActivitesSelect.length > 0"
+                                (click)="popupSecteurActivite(secteurActivites, prestataire, secteurActivitesSelect)"
+                                [style.backgroundColor]="'#f0dd99'"
+                                id="secteurActivite"
+                                type="button"
+                                name="secteurActivite"
+                                required
+                                class="text-input form-control shadow-none border border-mysecondary px-1 text-uppercase fw-bold"
+                                value="Sélectionner"
+                            >
+                            <input
+                                *ngIf="!(secteurActivitesSelect && secteurActivitesSelect.length > 0)"
+                                (click)="popupSecteurActivite(secteurActivites, prestataire)"
+                                [style.backgroundColor]="'#D9D9D9'"
+                                id="secteurActivite"
+                                type="button"
+                                name="secteurActivite"
+                                required
+                                class="text-input form-control shadow-none border border-mysecondary px-1 text-uppercase fw-bold"
+                                value="Sélectionner"
+                            > -->
+
+                            <input
+                                *ngIf="prestataire.secteurActivite && prestataire.secteurActivite.length > 0"
+                                (click)="popupSecteurActivite(secteurActivites, prestataire, prestataire.secteurActivite)"
+                                [style.backgroundColor]="'#cff39f'"
+                                id="secteurActivite"
+                                type="button"
+                                name="secteurActivite"
+                                required
+                                class="text-input form-control shadow-none border border-mysecondary px-1 text-uppercase fw-bold"
+                                value="Sélectionner"
+                            >
+                            <input
+                                *ngIf="!(prestataire.secteurActivite && prestataire.secteurActivite.length > 0)"
+                                (click)="popupSecteurActivite(secteurActivites, prestataire, prestataire.secteurActivite)"
+                                [style.backgroundColor]="'#D9D9D9'"
+                                id="secteurActivite"
+                                type="button"
+                                name="secteurActivite"
+                                required
+                                class="text-input form-control shadow-none border border-mysecondary px-1 text-uppercase fw-bold"
+                                value="Sélectionner"
+                            >
+
+                            <!-- <label class="btn btn-secondary active">
+                                <input type="checkbox" checked autocomplete="off"> Checked
+                            </label> -->
+                        </div>
+
+                        <div class="col-3 mx-auto form-group">
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-3">
+                        <div class="col-11 mx-auto form-group">
+                            <label for="raisonSociale" class="form-label fw-bold">Raison sociale</label>
+                            <textarea name="raisonSociale" id="raisonSociale" rows="2" required [(ngModel)]="prestataire.raisonSociale" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 text-end">
+                            <button type="submit" id="prestataire-form" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                                Valider
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="container px-3 py-2">
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <button (click)="submitForm()" type="button" [disabled]="PrestataireForm.invalid || !(prestataire.secteurActivite && prestataire.secteurActivite.length > 0)" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour modifier">
+                            Valider
+                        </button>
+
+                        <button (click)="PopupDetail()" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                            Retour
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+  </div>
+
+
+
+
+

@@ -1,0 +1,158 @@
+<div class="card shadow">
+
+    <div class="card-header text-center fw-bold bg-myprimary fs-5">
+        Modifier
+    </div>
+
+    <div class="card-body">
+        <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+            Bordereau Livraison
+        </div>
+
+        <div class="container px-3 py-2">
+
+            <form class="form" #BordereauLivraisonForm="ngForm" (ngSubmit)="modifierBordereauLivraison(BordereauLivraisonForm)">
+
+                <div class="row g-4 mb-3">
+                    <div class="col-3 mx-auto form-group">
+                        <label for="numeroBL" class="form-label fw-bold">N° bordereau livraison</label>
+                        <input id="numeroBL" type="text" name="numeroBL" required [(ngModel)]="bonEntree!.identifiantBL.numeroBL" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                    </div>
+
+
+                    <div class="col-3 mx-auto form-group">
+                        <label for="dateBL" class="form-label fw-bold">Date bordereau livraison</label>
+                        <input type="text" name="dateBL" id="dateBL" autocomplete="off" ngbDatepicker #dp1="ngbDatepicker" (click)="dp1.toggle()" required [(ngModel)]="modelDate1" [value]="formatterNgbDateStructToString(modelDate1)" class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                    </div>
+
+
+                    <div class="col-3 mx-auto form-group">
+                        <label for="lieuDeLivraison" class="form-label fw-bold">Lieu de livraison</label>
+                        <input type="text" name="lieuDeLivraison" id="lieuDeLivraison" required [(ngModel)]="bonEntree!.identifiantBL.lieuDeLivraison" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-3">
+                    <div class="col-3 mx-auto form-group d-none">
+                        <label for="conformiteBL" class="form-label fw-bold">Conformite bordereau livraison</label>
+                        <select name="conformiteBL" id="conformiteBL" required [(ngModel)]="selectedValueConformiteBL" class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                            <option value="OUI">OUI</option>
+                            <option value="NON">NON</option>
+                        </select>
+                    </div>
+
+
+
+
+
+                    <ng-container *ngIf="bonEntree!.identifiantBL.ninea; else pasDePrestataires">
+                        <div class="col-7 mx-auto form-group">
+                            <label for="ninea" class="form-label fw-bold">Prestataire</label>
+                            <select name="ninea" id="ninea" required [(ngModel)]="bonEntree!.identifiantBL.ninea.raisonSociale" class="form-select text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                                <option *ngFor="let prestataire of prestataires" [ngValue]="prestataire.raisonSociale">
+                                    {{ prestataire.raisonSociale }}
+                                </option>
+                            </select>
+                        </div>
+                    </ng-container>
+                    <ng-template #pasDePrestataires>
+                        <div class="col-7 mx-auto form-group">
+                            <label for="ninea" class="form-label fw-bold">Prestataire</label>
+                            <select name="ninea" id="ninea" required ngModel class="form-select text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                                <option *ngFor="let prestataire of prestataires" [ngValue]="prestataire.raisonSociale">
+                                    {{ prestataire.raisonSociale }}
+                                </option>
+                            </select>
+                        </div>
+                    </ng-template>
+
+
+                    <div class="col-3 mx-auto form-group">
+                      <label for="representantPrestataire" class="form-label fw-bold">Représentant prestataire</label>
+                      <input type="text" name="representantPrestataire" id="representantPrestataire" required [(ngModel)]="bonEntree!.identifiantBL.representantPrestataire" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                   </div>
+
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-11 mx-auto form-group">
+                        <label for="descriptionBL" class="form-label fw-bold">Description bordereau livraison</label>
+                        <textarea name="descriptionBL" id="descriptionBL" rows="2" required [(ngModel)]="bonEntree!.identifiantBL.descriptionBL" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <button type="submit" [disabled]="BordereauLivraisonForm.invalid" id="bordereau-livraison-form" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                            Valider
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+            Bon d'Entrée
+        </div>
+
+        <div class="container px-3 py-2">
+
+            <form class="form" #BonEntreeForm="ngForm" (ngSubmit)="modifierBonEntree(BonEntreeForm)">
+
+                <div class="row g-4 mb-3">
+                    <div class="col-3 mx-auto form-group">
+                        <label for="numeroBE" class="form-label fw-bold">N° bon d'entrée</label>
+                        <input id="numeroBE" type="text" name="numeroBE" required [(ngModel)]="bonEntree!.numeroBE" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                    </div>
+
+                    <div class="col-3 mx-auto form-group">
+                        <label for="dateBonEntree" class="form-label fw-bold">Date bon d'entrée</label>
+                        <input type="text" name="dateBonEntree" id="dateBonEntree" autocomplete="off" ngbDatepicker #dp2="ngbDatepicker" (click)="dp2.toggle()" required [(ngModel)]="modelDate2" [value]="formatterNgbDateStructToString(modelDate2)" class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                    </div>
+
+
+                    <div class="col-3 mx-auto form-group">
+                        <label for="libelleBonEntree" class="form-label fw-bold">Libellé bon d'entrée</label>
+                        <input type="text" name="libelleBonEntree" id="libelleBonEntree" required [(ngModel)]="bonEntree!.libelleBonEntree" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                    </div>
+                </div>
+
+
+                <div class="row g-4">
+
+
+                    <div class="col-11 mx-auto form-group">
+                        <label for="observationBonEntree" class="form-label fw-bold">Observation bon d'entrée</label>
+                        <input name="observationBonEntree" id="observationBonEntree" rows="2" required [(ngModel)]="bonEntree!.observationBonEntree" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <button type="submit" [disabled]="BonEntreeForm.invalid" id="bon-entree-form" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                            Valider
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="container px-3 py-2">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <button (click)="submitForm()" [disabled]="BonEntreeForm.invalid || BordereauLivraisonForm.invalid" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                        Valider
+                    </button>
+
+                    <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                        Retour
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

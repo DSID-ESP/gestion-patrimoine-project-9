@@ -1,0 +1,115 @@
+<div class="container-fluid bg-mywhite h-100">
+  <div class="row">
+
+    <ul style="list-style-type: none; margin: 0; padding: 0;">
+      <li class="my-2">
+        <button [routerLink]="'/accueil'" class="menu-button" href="#">
+          <mat-icon class="me-4" fontIcon="home"></mat-icon> Accueil
+        </button>
+      </li>
+
+      <li class="my-2">
+        <button class="collapsible menu-button">
+          <mat-icon class="me-4">directions_car</mat-icon> Véhicules <mat-icon
+            class="fa-solid fa-chevron-down ms-auto">expand_more</mat-icon>
+        </button>
+
+        <div class="content">
+          <button [routerLink]="'/reception-vehicule'" class="menu-button" href="#" style="padding-left: 60px;">
+            Ajouter Réception
+          </button>
+          <button [routerLink]="'/consultation-reception-vehicule'" class="menu-button" href="#" style="padding-left: 60px;">
+            Consultation Réception
+          </button>
+          <button [routerLink]="'/affectation-vehicule'" class="menu-button" href="#" style="padding-left: 60px;">
+            Affectation des véhicules
+          </button>
+          <button [routerLink]="'/dotation-vehicule'" class="menu-button" href="#" style="padding-left: 60px;">
+            Consultation Dotation
+          </button>
+          <button [routerLink]="'/consultation-vehicule'" class="menu-button" href="#" style="padding-left: 60px;">
+            Consultation Véhicule
+          </button>
+        </div>
+      </li>
+
+      <!-- <li class="my-2">
+        <button class="collapsible menu-button">
+          <mat-icon class="me-4">directions_car</mat-icon> Maintenances <mat-icon
+            class="fa-solid fa-chevron-down ms-auto">expand_more</mat-icon>
+        </button>
+        <div class="content">
+          <button class="menu-button" href="#" style="padding-left: 60px;">
+            Réparation
+          </button>
+          <button class="menu-button" href="#" style="padding-left: 60px;">
+            Entretient
+          </button>
+        </div>
+      </li> -->
+
+
+      <li class="my-2">
+        <button class="menu-button" [routerLink]="'/maintenance'">
+          <mat-icon class="me-4">build</mat-icon> Maintenances
+        </button>
+      </li>
+
+
+      <li class="my-2">
+        <button class="collapsible menu-button">
+          <mat-icon class="me-4">flight_land icon</mat-icon> Bon Pour <mat-icon
+            class="fa-solid fa-chevron-down ms-auto">expand_more</mat-icon>
+        </button>
+
+        <div class="content">
+          <button [routerLink]="'/ajouter-bon-pour'" class="menu-button" href="#" style="padding-left: 60px;">
+            Ajouter Bon Pour
+          </button>
+          <button [routerLink]="'/consultation-bon-pour'" class="menu-button" href="#" style="padding-left: 60px;">
+            Consultation Bon Pour
+          </button>
+        </div>
+      </li>
+
+
+
+      <li class="my-2">
+        <button class="collapsible menu-button">
+          <!-- <mat-icon class="me-4">person</mat-icon> Utilisateur <mat-icon class="fa-solid fa-chevron-down ms-auto">expand_more</mat-icon> -->
+          <mat-icon class="me-4">receipt icon</mat-icon>Autres consultations<mat-icon
+            class="fa-solid fa-chevron-down ms-auto">expand_more</mat-icon>
+        </button>
+
+        <div class="content">
+          <button class="menu-button" [routerLink]="'/agent-liste'" href="#" style="padding-left: 60px;">
+            <mat-icon class="me-4">contact_mail</mat-icon> Agents
+          </button>
+          <button class="menu-button" [routerLink]="'/fonction'" href="#" style="padding-left: 60px;">
+            <mat-icon class="me-4">account_circle</mat-icon>Fonction
+          </button>
+          <button class="menu-button" [routerLink]="'/utilisateur-liste'" href="#" style="padding-left: 60px;">
+            <mat-icon class="me-4">person_add</mat-icon> Utilisateurs
+          </button>
+          <button class="menu-button" [routerLink]="'/secteur-activite'" href="#" style="padding-left: 60px;">
+            <mat-icon class="me-4"> local_activity</mat-icon> Secteur Activité
+          </button>
+          <button class="menu-button" [routerLink]="'/prestataire'" href="#" style="padding-left: 60px;">
+            <mat-icon class="me-4">contact_mail</mat-icon> Prestataires
+          </button>
+          <button class="menu-button" [routerLink]="'/type-unite-douaniere'" href="#" style="padding-left: 60px;">
+            <mat-icon class="me-4">supervised_user_circle</mat-icon> Type Unités
+          </button>
+          <button class="menu-button" [routerLink]="'/unite-douaniere'" href="#" style="padding-left: 60px;">
+            <mat-icon class="me-4">supervised_user_circle</mat-icon> Unités Douanières
+          </button>
+          <button class="menu-button" [routerLink]="'/section'" href="#" style="padding-left: 60px;">
+            <mat-icon class="me-4">party_mode</mat-icon> Sections
+          </button>
+        </div>
+      </li>
+
+    </ul>
+
+  </div>
+</div>

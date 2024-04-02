@@ -1,0 +1,72 @@
+<div class="card shadow">
+
+    <div class="card-header text-center fw-bold bg-myprimary fs-5">
+        Ajouter Bon pour
+    </div>
+
+    <div class="card-body">
+
+        <div class="container px-3 py-2">
+            <form class="form" #ArticleBonPourForm="ngForm" (ngSubmit)="ajouterArticleBonPour(ArticleBonPourForm)">
+
+                <div class="row g-4 mb-3">
+
+
+
+                    <div class="col-3 mx-auto form-group">
+                        <label for="codeArticleBonPour" class="form-label fw-bold">Code article</label>
+                        <input id="codeArticleBonPour" hidden type="number" name="codeArticleBonPour" disabled required [(ngModel)]="nombreArticle" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        <input   [placeholder]="'Article ' + nombreArticle" type="text" disabled   class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                    </div>
+
+                    <div class="col-6 mx-auto form-group">
+                        <label for="codeTypeObjet" class="form-label fw-bold">Type objet</label>
+                        <select name="codeTypeObjet" id="codeTypeObjet" required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                            <option *ngFor="let typeObjet of typeObjets" [ngValue]="typeObjet">
+                                {{ typeObjet.libelleTypeObjet }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-3 mx-auto form-group">
+                        <label for="quantiteDemandee" class="form-label fw-bold">Quantité demandée</label>
+                        <input type="number" name="quantiteDemandee" id="quantiteDemandee" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-3">
+
+                    <div class="col-12 mx-auto form-group">
+                        <label for="libelleArticleBonPour" class="form-label fw-bold">Libellé article bon pour</label>
+                        <input id="libelleArticleBonPour" type="text" name="libelleArticleBonPour" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <button type="submit" id="article-bon-pour-form" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                            Valider
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="container px-3 py-2">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <button (click)="submitForm()" type="button" [disabled]="ArticleBonPourForm.invalid" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                        Valider
+                    </button>
+
+                    <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                        Retour
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

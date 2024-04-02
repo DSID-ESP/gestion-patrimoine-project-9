@@ -1,0 +1,396 @@
+<div class="container1 bg-mywhite">
+
+  <nav>
+      <app-entete></app-entete>
+  </nav>
+
+  <div id="sidebar">
+      <app-menu></app-menu>
+  </div>
+
+  <main class="bg-mywhite">
+
+      <div class="container p-2">
+
+          <!-- --------------------FORMULAIRES------------------------------------------------------ -->
+          <div class="container">
+
+              <!-- --------------------Unite Douaniere------------------------------------------------------ -->
+              <div class="container">
+                  <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                      Unité douanière
+
+                  </div>
+
+                  <form class="container px-3 py-2">
+                      <div class="row g-4 mb-3">
+                          <div class="col-3 mx-auto">
+                              <span class="fw-bold">Code unité</span>
+                              <div class="text-input"> {{ bonPour.codeUniteDouaniere.codeUniteDouaniere }} </div>
+                          </div>
+
+                          <div class="col-7 mx-auto">
+                              <span class="fw-bold">Nom unité</span>
+                              <div class="text-input text-uppercase"> {{ bonPour.codeUniteDouaniere.nomUniteDouaniere }} </div>
+                          </div>
+                      </div>
+
+                      <div class="row g-4 mb-3">
+                          <div class="col-3 mx-auto">
+                              <span class="fw-bold">Nombre arme</span>
+                              <div class="text-input text-uppercase"> {{ bonPour.codeUniteDouaniere.nombreArme }} </div>
+                          </div>
+
+                          <div class="col-3 mx-auto">
+                              <span class="fw-bold">Nombre véhicules</span>
+                              <div class="text-input text-uppercase"> {{ bonPour.codeUniteDouaniere.nombreAutomobile }} </div>
+                          </div>
+
+                          <div class="col-3 mx-auto">
+                              <span class="fw-bold">Nombre materiel</span>
+                              <div class="text-input text-uppercase"> {{ bonPour.codeUniteDouaniere.nombreMateriel }} </div>
+                          </div>
+                      </div>
+
+                  </form>
+
+
+              </div>
+
+
+          </div>
+
+
+
+
+          <!-- <div class="container">
+
+
+            <div class="container">
+                <ng-container  *ngIf="bonSortie.identifiantBonSortie== ''; else detailFormBonSortie">
+
+                      <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                        Bon de sortie
+                      </div>
+                      <div class="container px-3 py-2">
+
+
+                        <form class="form" #BonSortieForm="ngForm" (ngSubmit)="ajouterBonSortie(BonSortieForm)">
+
+
+
+
+                          <div class="row g-4">
+                              <div class="col-11 mx-auto form-group">
+                                  <label for="descriptionBonSortie" class="form-label fw-bold">Description bon sortie</label>
+                                  <textarea name="descriptionBonSortie" id="descriptionBonSortie" rows="2" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-12 text-end">
+                                <button   type="submit"  id="bon-sortie-form" [disabled]="BonSortieForm.invalid" hidden class="btn btn-myprimary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                                    Valider
+                                </button>
+                            </div>
+                         </div>
+
+
+
+                      </form>
+                      <div class="row  px-3 py-3">
+                        <div class="col-12 text-end">
+                            <button (click)="submitForm()" [disabled]="BonSortieForm.invalid"   class="btn btn-myprimary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                                Valider
+                            </button>
+
+                            <button [routerLink]="'/affectation-vehicule'" type="button"
+                              class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
+                              title="cliquer ici pour retourner">
+                              Retour
+                          </button>
+                        </div>
+                    </div>
+                    </div>
+
+
+                  </ng-container>
+
+
+            </div>
+
+
+
+
+        </div> -->
+
+
+          <!-- --------------------FORMULAIRES------------------------------------------------------ -->
+          <div class="container">
+
+            <!-- --------------------Bonpour------------------------------------------------------ -->
+            <div class="container">
+                <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                   Bonpour
+
+                </div>
+
+                <form class="container px-3 py-2">
+                    <div class="row g-4 mb-3">
+
+                      <div class="col-3 mx-auto">
+                        <span class="fw-bold">N° courrier origine</span>
+                        <div class="text-input"> {{ bonPour.numeroCourrielOrigine }} </div>
+                      </div>
+
+                      <div class="col-3 mx-auto">
+                          <span class="fw-bold">Date courrier origine</span>
+                          <div class="text-input text-uppercase">
+                              {{ myDateStringFormatter(bonPour.dateCourrielOrigine) }}
+                          </div>
+                      </div>
+
+                      <div class="col-3 mx-auto">
+                          <span class="fw-bold">Etat bon pour</span>
+                          <div class="text-input"> {{ bonPour.etatBonPour }} </div>
+                      </div>
+
+                      <div class="col-3 mx-auto">
+
+                      </div>
+
+                    </div>
+
+                    <div class="row g-4 mb-3">
+
+                        <div class="col-6 mx-auto">
+                          <span class="fw-bold">Unité douanière</span>
+                          <div class="text-input"> {{ bonPour.codeUniteDouaniere.nomUniteDouaniere }} </div>
+                        </div>
+
+                        <div class="col-6 mx-auto">
+                            <span class="fw-bold">Object Courrier origine</span>
+                            <div class="text-input"> {{ bonPour.objectCourrielOrigine }} </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-3">
+                      <div class="col-12 mx-auto">
+                          <span class="fw-bold">Description bon pour</span>
+                          <div class="text-input"> {{ bonPour.descriptionBonPour }} </div>
+                      </div>
+                  </div>
+
+
+                  <div class="row g-4 mb-3">
+                      <div class="col-3 mx-auto">
+                          <span class="fw-bold">N° arrivée DLF</span>
+                          <div class="text-input"> {{ bonPour.numeroArriveDLF }} </div>
+                      </div>
+
+                      <div class="col-3 mx-auto">
+                          <span class="fw-bold">Date arrivée DLF</span>
+                          <div class="text-input text-uppercase">
+                              {{ myDateStringFormatter(bonPour.dateArriveDLF) }}
+                          </div>
+                      </div>
+
+                      <div class="col-6 mx-auto">
+                          <span class="fw-bold">Observation DLF</span>
+                          <div class="text-input"> {{ bonPour.observationDLF }} </div>
+                      </div>
+                  </div>
+
+                  <div class="row g-4 mb-3">
+                      <div class="col-3 mx-auto">
+                          <span class="fw-bold">N° arrivée BLM</span>
+                          <div class="text-input"> {{ bonPour.numeroArriveBLM }} </div>
+                      </div>
+
+                      <div class="col-3 mx-auto">
+                          <span class="fw-bold">Date arrivée BLM</span>
+                          <div class="text-input text-uppercase">
+                              {{ myDateStringFormatter(bonPour.dateArriveBLM) }}
+                          </div>
+                      </div>
+
+                      <div class="col-6 mx-auto">
+                          <span class="fw-bold">Observation BLM</span>
+                          <div class="text-input"> {{ bonPour.observationBLM }} </div>
+                      </div>
+                  </div>
+
+
+                  <div class="row g-4 mb-3">
+                      <div class="col-3 mx-auto">
+                          <span class="fw-bold">N° arrivée section</span>
+                          <div class="text-input"> {{ bonPour.numeroArriveSection }} </div>
+                      </div>
+
+                      <div class="col-3 mx-auto">
+                          <span class="fw-bold">Date arrivée section</span>
+                          <div class="text-input text-uppercase">
+                              {{ myDateStringFormatter(bonPour.dateArriveSection) }}
+                          </div>
+                      </div>
+
+                      <div class="col-6 mx-auto">
+                          <span class="fw-bold">Observation Section</span>
+                          <div class="text-input"> {{ bonPour.observationSection }} </div>
+                      </div>
+                  </div>
+
+                </form>
+                <div class="container px-3 py-2">
+                  <div class="row">
+                      <div class="col-12 text-end">
+
+
+
+                          <button [routerLink]="'/affectation-vehicule'" type="button"
+                              class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
+                              title="cliquer ici pour retourner">
+                              Retour
+                          </button>
+                      </div>
+                  </div>
+              </div>
+            </div>
+
+
+        </div>
+
+
+
+
+        <!-- <div class="container">
+
+
+          <div class="container">
+              <ng-template #detailFormBonSortie >
+
+                    <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                      Bon de sortie
+                    </div>
+
+                    <form class="container px-3 py-2">
+
+
+                      <div class="row g-4 mb-3">
+
+
+                          <div class="col-11 mx-auto">
+                              <span class="fw-bold"> Description bon sortie</span>
+                              <div class="text-input"> {{ bonSortie.descriptionBonSortie }} </div>
+                          </div>
+
+
+
+                      </div>
+
+
+                  </form>
+
+                  <div class="container px-3 py-2">
+                    <div class="row">
+                        <div class="col-12 text-end">
+
+
+
+                            <button [routerLink]="'/affectation-vehicule'" type="button"
+                                class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
+                                title="cliquer ici pour retourner">
+                                Retour
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                </ng-template>
+
+
+          </div>
+
+
+
+
+      </div>
+
+ -->
+
+          <!-- ----------------LISTES--------------------------------------------------------- -->
+
+          <!-- ------------------Dotation-------------------------------------------------------- -->
+
+          <div class="container">
+
+            <div class="container">
+              <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                  Listes d'articles
+              </div>
+
+              <div class="container px-3 py-2 mt-1">
+                  <div class="mat-elevation-z8">
+
+                      <!-- <table mat-table [dataSource]="dataSource" matTableExporter #exporter="matTableExporter"> -->
+                      <table mat-table [dataSource]="dataSource">
+                          <!-- Define columns and cells for IVehicule properties -->
+                          <ng-container *ngFor="let column of displayedColumns let i = index" [matColumnDef]="column">
+                              <th mat-header-cell *matHeaderCellDef class="fw-bold"
+                                  [style.display]="columnsToHide.includes(column) ? 'none' : 'table-cell'">
+                                  {{ displayedColumnsCustom[i] }}
+                              </th>
+
+                              <td (click)="popupAjouterDotationVehicule(element, quantiteAccordeeTotal)" mat-cell *matCellDef="let element"
+                                  style="cursor: pointer;"
+                                  [style.display]="columnsToHide.includes(column) ? 'none' : 'table-cell'">
+
+                                  <!-- Check if the current column is the "N°" column -->
+                                  <!-- <ng-container *ngIf="columnsDateFormat.includes(column) || columnsToCodeMarque.includes(column) || columnsToCodePays.includes(column); else normalCell">
+                                      <ng-container *ngIf="columnsDateFormat.includes(column)">
+                                          {{ element[column] | date: 'dd MMM yy' | uppercase }}
+                                      </ng-container>
+                                      <ng-container *ngIf="columnsToCodeMarque.includes(column)">
+                                          {{ element[column].libelleMarque }}
+                                      </ng-container>
+                                      <ng-container *ngIf="columnsToCodePays.includes(column);">
+                                          {{ element[column].libellePays }}
+                                      </ng-container>
+                                  </ng-container> -->
+                                  <ng-container *ngIf="columnsDateFormat.includes(column); else normalCell">
+                                      {{ element[column] | date: 'dd MMMM yyyy' | uppercase }}
+                                  </ng-container>
+                                  <ng-template #normalCell>
+                                      {{ element[column] }}
+                                  </ng-template>
+
+                              </td>
+                          </ng-container>
+
+                          <!-- Header row -->
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                          <!-- Data rows -->
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                      </table>
+
+                      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                          aria-label="Select page of vehicles">
+                      </mat-paginator>
+
+                  </div>
+              </div>
+          </div>
+
+
+        </div>
+
+
+
+      </div>
+
+  </main>
+
+
+</div>

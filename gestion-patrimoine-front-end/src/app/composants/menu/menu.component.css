@@ -1,0 +1,41 @@
+/* ----------------------------------------------------------------------------------------- */
+.menu-button {
+    font-size: 1.1rem;
+    /* margin: 5px 0 5px 0; */
+    background-color: #fff; /* Couleur de fond du bouton */
+    color: black; /* Couleur du texte */
+    padding: 10px 20px; /* Espacement interne */
+    border: 1px solid #fff;
+    /* border: 1px solid #e7e7e7; */
+    /* border-radius: 5px; */
+    /* text-align: left; */
+    width: 100%; /* Largeur du bouton à 100% */
+    cursor: pointer; /* Curseur en forme de main pour indiquer qu'il est cliquable */
+    display: flex;
+    /* justify-content: start; */
+    align-items: center; /* Centre verticalement le contenu */
+    transition: background-color 0.3s ease; /* Transition de couleur de fond */
+  }
+  
+  .menu-button:hover {
+    border: 1px solid #e7e7e7;
+    border-radius: 5px;
+  }
+  
+  /* ----------------------------------------------------------------------------------------- */
+  
+  
+  /* ----------------------------------------------------------------------------------------- */
+  /* Style the collapsible content. Note: hidden by default */
+  .content {
+    display: none;
+    overflow: hidden;
+    background-color: #fff;
+    border: none;
+    /* border: 1px solid #e7e7e7; */
+    /* box-shadow: 0 4px 6px rgba(231, 231, 231, 1); */
+    /* border-radius: 5px; */
+    /* margin: 0 20px 0 20px; */
+    /* padding: 10px; */
+  }
+  /* ----------------------------------------------------------------------------------------- */

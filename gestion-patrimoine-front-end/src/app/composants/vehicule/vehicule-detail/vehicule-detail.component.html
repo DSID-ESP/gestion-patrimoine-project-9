@@ -1,0 +1,70 @@
+<form class="container px-3 py-2">
+
+    <div class="row g-4 mb-3">
+        <div class="col-3 mx-auto">
+            <span class="fw-bold">N° série</span>
+            <div class="text-input"> {{ vehicule.numeroSerie }} </div>
+        </div>
+
+        <div class="col-3 mx-auto">
+            <span class="fw-bold">N° immatriculation</span>
+            <div class="text-input text-uppercase"> {{ vehicule.numeroImmatriculation }} </div>
+        </div>
+
+        <div class="col-3 mx-auto">
+            <span class="fw-bold">Modèle</span>
+            <div class="text-input text-uppercase"> {{ vehicule.modele }} </div>
+        </div>
+
+        <div class="col-3 mx-auto">
+            <span class="fw-bold">Etat véhicule</span>
+            <div class="text-input"> {{ vehicule.libelleEtatVehicule }} </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-3">
+    
+        <div class="col-3 mx-auto">
+            <span class="fw-bold">Type énergie</span>
+            <div class="text-input text-uppercase"> {{ vehicule.codeTypeEnergie.libelleTypeEnergie }} </div>
+        </div>
+
+        <div class="col-3 mx-auto">
+            <span class="fw-bold">Provenance</span>
+            <div class="text-input text-uppercase"> {{ vehicule.codePays.libellePays }} </div>
+        </div>
+
+        <div class="col-3 mx-auto">
+            <span class="fw-bold">N° carte grise</span>
+            <div class="text-input"> {{ vehicule.numeroCarteGrise }} </div>
+        </div>
+
+        <div class="col-3 mx-auto">
+            <span class="fw-bold">Date mise en circulation</span>
+            <div class="text-input text-uppercase"> 
+                <!-- {{ vehicule.dateMiseEnCirculation }}  -->
+                {{ myDateStringFormatter(vehicule.dateMiseEnCirculation) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-3">
+        <div class="col-3 mx-auto">
+            <span class="fw-bold">Type véhicule</span>
+            <div class="text-input text-uppercase"> {{ vehicule.codeTypeVehicule.libelleTypeVehicule }} </div>
+        </div>
+
+        <div class="col-3 mx-auto">
+            <span class="fw-bold">Marque</span>
+            <div class="text-input text-uppercase"> {{ vehicule.codeMarque.libelleMarqueVH }} </div>
+        </div>
+
+        <div class="col-3 mx-auto">
+        </div>
+
+        <div class="col-3 mx-auto">
+        </div>
+    </div>
+
+
+</form>

@@ -1,0 +1,184 @@
+<div class="card shadow">
+
+  <div class="card-header text-center fw-bold bg-myprimary fs-5">
+    Ajouter
+  </div>
+
+
+  <div class="card-body">
+
+
+    <div class="container px-3 py-2">
+
+      <ng-container *ngIf="bonSortie.identifiantBonSortie== ''; else detailFormBonSortie">
+
+        <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+          Bon de sortie
+        </div>
+
+        <div class="container px-3 py-2">
+
+          <form class="form" #BonSortieForm="ngForm" (ngSubmit)="ajouterBonSortie(BonSortieForm)">
+
+            <div class="row g-4">
+              <div class="col-12 mx-auto form-group">
+                <label for="descriptionBonSortie" class="form-label fw-bold">Description bon sortie</label>
+                <textarea name="descriptionBonSortie" id="descriptionBonSortie" rows="2" required ngModel
+                  class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
+                  style="resize: none;"></textarea>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 text-end">
+                <button type="submit" id="bon-sortie-form" [disabled]="BonSortieForm.invalid" hidden
+                  class="btn btn-myprimary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                  Valider
+                </button>
+              </div>
+            </div>
+
+
+
+          </form>
+          <div class="row  px-3 py-3">
+            <div class="col-12 text-end">
+              <button (click)="submitForm()" [disabled]="BonSortieForm.invalid" class="btn btn-myprimary fw-bold mx-2"
+                data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                Valider
+              </button>
+
+              <!-- <button [routerLink]="'/affectation-vehicule'" type="button"
+                class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
+                title="cliquer ici pour retourner">
+                Retour
+            </button> -->
+            </div>
+          </div>
+        </div>
+
+
+      </ng-container>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="container">
+
+
+    <div class="container">
+      <ng-template #detailFormBonSortie>
+
+        <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+          Bon de sortie
+        </div>
+
+        <form class="container px-3 py-2">
+          <div class="row g-4 mb-3">
+            <div class="col-12 mx-auto">
+              <span class="fw-bold"> Description bon sortie</span>
+              <div class="text-input"> {{ bonSortie.descriptionBonSortie }} </div>
+            </div>
+          </div>
+        </form>
+
+
+
+      </ng-template>
+
+
+    </div>
+
+
+
+
+  </div>
+
+
+
+
+  <div class="card-body">
+
+    <div class="container px-3 py-2">
+      <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+        Dotation véhicule
+      </div>
+
+      <div class="container px-3 py-2">
+        <!-- <app-bordereau-livraison-ajouter></app-bordereau-livraison-ajouter> -->
+        <form class="form" #ArticleBonSortieForm="ngForm" (ngSubmit)="ajouterArticleBonSortie(ArticleBonSortieForm)">
+
+          <div class="row g-4 mb-3">
+
+
+            <div class="col-3 mx-auto form-group">
+              <label for="codeArticleBonSortie" class="form-label fw-bold">N° article</label>
+              <input id="codeArticleBonSortie" hidden type="number" name="codeArticleBonSortie" disabled required [(ngModel)]="nombreArticle" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+              <input type="text" name="codeArticleBonSortie" disabled [placeholder]="'Article ' + nombreArticle" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+            </div>
+
+
+            <div class="col-3 mx-auto form-group">
+              <label for="quantiteAccordee" class="form-label fw-bold">Quantité accordée </label>
+              <input id="quantiteAccordee" type="number" name="quantiteAccordee" required ngModel
+                class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+            </div>
+
+
+            <div class="col-3 mx-auto form-group">
+
+
+            </div>
+
+            <div class="col-3 mx-auto form-group">
+
+
+            </div>
+
+            <div class="col-3 mx-auto form-group">
+
+
+            </div>
+
+
+
+
+          </div>
+
+
+
+
+          <div class="row">
+            <div class="col-12 text-end">
+              <button type="submit" id="article-bon-sortie-form" hidden class="btn btn-myprimary fw-bold mx-2"
+                data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                Valider
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="container px-3 py-2">
+        <div class="row">
+          <div class="col-12 text-end">
+            <button (click)="submitArticleBonSortieForm()" type="button"  [disabled]="ArticleBonSortieForm.invalid || (bonSortie.identifiantBonSortie == '') "
+              class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour continuer">
+              Continuer
+            </button>
+
+            <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
+              data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+              Retour
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,308 @@
+<div class="card shadow">
+
+    <ng-container *ngIf="afficherPopupDetail; else modifier">
+        <div class="card-header text-center fw-bold bg-myprimary fs-5">
+            Détail
+        </div>
+
+        <div class="card-body">
+
+            <div class="container" style="height: 500px; overflow-y: auto;">
+
+                <!-- ------------------Agent-------------------------------------------------------- -->
+                <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                    Agent
+                </div>
+
+                <div class="container px-3 py-2">
+                    <form class="container px-3 py-2">
+
+                        <div class="row g-4 mb-3">
+                            <div class="col-3 mx-auto">
+                                <span class="fw-bold">N° matricule</span>
+                                <div class="text-input"> {{ utilisateur.matriculeAgent.matriculeAgent }} </div>
+                            </div>
+
+                            <div class="col-3 mx-auto">
+                                <span class="fw-bold">N° code</span>
+                                <div class="text-input text-uppercase"> {{ utilisateur.matriculeAgent.codeAgent }}
+                                </div>
+                            </div>
+
+                            <div class="col-3 mx-auto">
+                                <span class="fw-bold">N° téléphone</span>
+                                <div class="text-input text-uppercase"> {{
+                                    utilisateur.matriculeAgent.numeroTelephoneAgent }} </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-4 mb-3">
+                            <div class="col-3 mx-auto">
+                                <span class="fw-bold">Prénom</span>
+                                <div class="text-input text-uppercase"> {{ utilisateur.matriculeAgent.prenomAgent }}
+                                </div>
+                            </div>
+
+                            <div class="col-3 mx-auto">
+                                <span class="fw-bold">Nom</span>
+                                <div class="text-input text-uppercase"> {{ utilisateur.matriculeAgent.nomAgent }} </div>
+                            </div>
+
+                            <div class="col-3 mx-auto">
+                                <span class="fw-bold">Email</span>
+                                <div class="text-input text-uppercase"> {{ utilisateur.matriculeAgent.emailAgent }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-4 mb-3">
+                            <div class="col-7 mx-auto">
+                                <span class="fw-bold">Nom unité</span>
+                                <div class="text-input text-uppercase">
+                                    {{ utilisateur.matriculeAgent.codeUniteDouaniere ?
+                                    utilisateur.matriculeAgent.codeUniteDouaniere.nomUniteDouaniere : '---' }}
+                                </div>
+                            </div>
+
+                            <div class="col-3 mx-auto">
+                                <span class="fw-bold">Sections</span>
+                                <div class="text-input text-uppercase">
+                                    {{utilisateur.matriculeAgent.codeSection ?
+                                    utilisateur.matriculeAgent.codeSection.libelleSection : '---'}}
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- ------------------Utilisateur-------------------------------------------------------- -->
+                <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                    Utilisateur
+                </div>
+
+                <div class="container px-3 py-2">
+                    <form class="container px-3 py-2">
+                        <div class="row g-4 mb-3">
+                            <div class="col-3 mx-auto form-group">
+                                <span class="fw-bold">N° matricule</span>
+                                <div class="text-input text-uppercase"> {{ utilisateur.userName }} </div>
+                            </div>
+        
+                            <div class="col-3 mx-auto form-group">
+                                <span class="fw-bold">Prénom</span>
+                                <div class="text-input text-uppercase"> {{ utilisateur.matriculeAgent.prenomAgent }} </div>
+                            </div>
+        
+                            <div class="col-3 mx-auto form-group">
+                                <span class="fw-bold">Nom</span>
+                                <div class="text-input text-uppercase"> {{ utilisateur.matriculeAgent.nomAgent }} </div>
+                            </div>
+        
+                        </div>
+        
+        
+                        <div class="row g-4 mb-3">
+                            <div class="col-3 mx-auto form-group">
+                                <span class="fw-bold">Fonction</span>
+                                <div class="text-input text-uppercase"> {{ utilisateur.codeFonction.libelleFonction }} </div>
+                            </div>
+                            
+                            <div class="col-3 mx-auto form-group">
+                                <span class="fw-bold">Authorité</span>
+                                <div class="text-input text-uppercase"> {{ utilisateur.authorities[0].nameAuthority }} </div>
+                            </div>
+
+                            <div class="col-3 mx-auto form-group">
+                            </div>
+                        </div>
+        
+                        <div class="row g-4 mb-3">
+                            <div class="col-3 mx-auto">
+                                <span class="fw-bold">Join le</span>
+                                <div class="text-input text-uppercase">
+                                    {{ myDateStringFormatter(utilisateur.joinDate ?? '') }}
+                                </div>
+                            </div>
+
+                            <div class="col-3 mx-auto">
+                                <span class="fw-bold">Connecté le</span>
+                                <div class="text-input text-uppercase">
+                                    {{ myDateStringFormatter(utilisateur.lastLoginDateDisplay ?? '') != '' ? myDateStringFormatter(utilisateur.lastLoginDateDisplay ?? '') :  'Pas Encore' }}
+                                </div>
+                            </div>
+
+                            <div class="col-3 mx-auto">
+                            </div>
+                        </div>
+
+
+                        <div class="row g-4 mb-3">
+                            <div class="col-3 mx-auto">
+                                <span class="fw-bold">Activé</span>
+                                <div class="text-input text-uppercase">
+                                    <!-- {{ utilisateur.isActive ? 'non' : 'oui' }} -->
+                                    <span [hidden]="!utilisateur.active" class="badge bg-mygreen">Activé</span>
+                                    <span [hidden]="utilisateur.active" class="badge bg-mybrown">Désactivé</span>
+                                </div>
+                            </div>
+
+                            <div class="col-3 mx-auto">
+                                <span class="fw-bold">Blocké</span>
+                                <div class="text-input text-uppercase">
+                                    <!-- {{ utilisateur.isNotLocked ? 'oui' : 'non' }} -->
+                                    <span [hidden]="!utilisateur.notLocked" class="badge bg-mygreen">Non Bloqué</span>
+                                    <span [hidden]="utilisateur.notLocked" class="badge bg-mybrown">Bloqué</span>
+                                </div>
+                            </div>
+
+                            <div class="col-3 mx-auto">
+                            </div>
+                        </div>
+
+
+                        <!-- <div class="row g-4 mb-3">
+                            <div class="col-3 mx-auto">
+                                <span class="fw-bold">Activé</span>
+                                <div class="text-input text-uppercase">
+                                    {{ utilisateur.isActive ? 'non' : 'oui' }}
+                                </div>
+                            </div>
+
+                            <div class="col-3 mx-auto">
+                                <span class="fw-bold">Blocké</span>
+                                <div class="text-input text-uppercase">
+                                    {{ utilisateur.isNotLocked ? 'oui' : 'non' }}
+                                </div>
+                            </div>
+
+                            <div class="col-3 mx-auto">
+                            </div>
+                        </div> -->
+                    </form>
+                </div>
+
+            </div>
+
+
+            <!-- -------------------------------------------------------------------------- -->
+            <div class="container px-3 py-2">
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <button (click)="supprimerUtilisateurById(utilisateur.userName)" type="button"
+                            class="btn btn-mybrown fw-bold mx-2" data-bs-toggle="tooltip"
+                            title="cliquer ici pour supprimer">
+                            Supprimer
+                        </button>
+
+                        <button (click)="popupModifier()" type="button"
+                            class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
+                            title="cliquer ici pour ajouter">
+                            Modifier
+                        </button>
+
+                        <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
+                            data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                            Retour
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #modifier>
+        <div class="card-header text-center fw-bold bg-myprimary fs-5">
+            Modifier
+        </div>
+
+        <div class="card-body">
+
+            <div class="container px-3 py-2">
+                <form class="form" #UtilisateurForm="ngForm" (ngSubmit)="modifierUtilisateur(UtilisateurForm)">
+
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto form-group">
+                            <span class="fw-bold">N° matricule</span>
+                            <div class="text-input text-uppercase"> {{ utilisateur.userName }} </div>
+                        </div>
+    
+                        <div class="col-3 mx-auto form-group">
+                            <span class="fw-bold">Prénom agent</span>
+                            <div class="text-input text-uppercase"> {{ utilisateur.matriculeAgent.prenomAgent }} </div>
+                        </div>
+    
+                        <div class="col-3 mx-auto form-group">
+                            <span class="fw-bold">Nom agent</span>
+                            <div class="text-input text-uppercase"> {{ utilisateur.matriculeAgent.nomAgent }} </div>
+                        </div>
+                    </div>
+    
+    
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto form-group">
+                            <label for="codeFonction" class="form-label fw-bold">Fonction</label>
+                            <select name="codeFonction" id="codeFonction" required [(ngModel)]="utilisateur!.codeFonction.libelleFonction" class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" autocomplete="off">
+                                <option *ngFor="let codeFonction of fonctions" [ngValue]="codeFonction.libelleFonction">
+                                    {{ codeFonction.libelleFonction }}
+                                </option>
+                            </select>
+                        </div>
+    
+                        <div class="col-3 mx-auto form-group"> 
+                            <label for="authorities" class="form-label fw-bold">Authorité</label>
+                            <select name="authorities" id="authorities" required [(ngModel)]="utilisateur!.authorities[0].nameAuthority" class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" autocomplete="off">
+                                <option *ngFor="let authority of authorities" [ngValue]="authority.nameAuthority">
+                                    {{ authority.nameAuthority }}
+                                </option>
+                            </select>
+                        </div>
+    
+                        <div class="col-3 mx-auto form-group">
+                        </div>
+                    </div>
+
+
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <input name="active" type="checkbox" [(ngModel)]="!utilisateur!.active" class="custom-control-input mx-2" id="active">
+                            <label class="custom-control-label fs-5" for="active">Désactivé</label>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <input name="notLocked" type="checkbox" [(ngModel)]="!utilisateur!.notLocked" class="custom-control-input mx-2" id="notLocked">
+                            <label class="custom-control-label fs-5" for="notLocked">Bloqué</label>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 text-end">
+                            <button type="submit" id="utilisateur-form" [disabled]="UtilisateurForm.invalid" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                                Valider
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="container px-3 py-2">
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <button (click)="submitForm()" type="button" [disabled]="UtilisateurForm.invalid" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour modifier">
+                            Valider
+                        </button>
+
+                        <button (click)="PopupDetail()" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                            Retour
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+</div>

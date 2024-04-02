@@ -1,0 +1,22 @@
+/* .arriere-plan {
+    background-image: url("../../../assets/map.png");
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+   */
+  
+
+.arriere-plan {
+    background-image: url("../../../assets/map.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Essayez différentes valeurs pour background-size */
+    background-size: 100% 120%; /* Par exemple, une taille en pixels */
+    /* background-size: 150% 100%; */ /* Par exemple, une taille en pourcentage */
+    /* background-size: auto 100%; */ /* Pour conserver les proportions */
+}
+
+  
+  

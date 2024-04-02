@@ -1,0 +1,73 @@
+<div class="card shadow">
+
+  <div class="card-header text-center fw-bold bg-myprimary fs-5">
+      Ajouter
+  </div>
+
+  <div class="card-body">
+      <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+         Section
+      </div>
+
+      <div class="container px-3 py-2">
+          <!-- <app-bordereau-livraison-ajouter></app-bordereau-livraison-ajouter> -->
+          <form class="form" #SectionForm="ngForm" (ngSubmit)="ajouterSections(SectionForm)">
+
+              <div class="row g-4 mb-3">
+                  <div class="col-3 mx-auto form-group">
+                      <label for="codeSection" class="form-label fw-bold">Code section </label>
+                      <input id="codeSection" type="text" name="codeSection" required ngModel
+                          class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                  </div>
+
+                  <!-- <div class="col-3 mx-auto form-group">
+                      <label for="dateBL" class="form-label fw-bold">Date bordereau</label>
+                      <input type="date" name="dateBL" id="dateBL" ngbDatepicker #dp1="ngbDatepicker" (click)="dp1.toggle()" required ngModel class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                  </div> -->
+
+
+                  <div class="col-7 mx-auto form-group">
+                      <label for="libelleSection" class="form-label fw-bold">Libellé section </label>
+                      <input type="text" name="libelleSection" id="libelleSection" required ngModel
+                          class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                  </div>
+
+
+
+              </div>
+
+
+
+              <div class="row">
+                  <div class="col-12 text-end">
+                      <button type="submit" [disabled]="SectionForm.invalid" id="section-form" hidden
+                          class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
+                          title="cliquer ici pour valider">
+                          Valider
+                      </button>
+                  </div>
+              </div>
+
+          </form>
+      </div>
+
+      <div class="container px-3 py-2">
+          <div class="row">
+              <div class="col-12 text-end">
+                  <button (click)="submitForm()" [disabled]="SectionForm.invalid" type="button"
+                      class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
+                      title="cliquer ici pour ajouter">
+                      Valider
+                  </button>
+
+                  <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
+                      data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                      Retour
+                  </button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+</div>
+

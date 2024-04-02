@@ -1,0 +1,36 @@
+<form class="form" #BonEntreeForm="ngForm" (ngSubmit)="ajouterBonEntree(BonEntreeForm)">
+
+    <div class="row g-4 mb-3">
+        <div class="col-3 mx-auto form-group">
+            <label for="numeroBE" class="form-label fw-bold">N° bon d'entrée</label>
+            <input id="numeroBE" type="text" name="numeroBE" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+        </div>
+        
+        <div class="col-3 mx-auto form-group">
+            <label for="dateBonEntree" class="form-label fw-bold">Date bon d'entrée</label>
+            <input type="text" name="dateBonEntree" id="dateBonEntree" autocomplete="off" ngbDatepicker #dp2="ngbDatepicker" (click)="dp2.toggle()" required ngModel class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+            <label for="libelleBonEntree" class="form-label fw-bold">Libelle bon d'entrée</label>
+            <input type="text" name="libelleBonEntree" id="libelleBonEntree" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+        </div>
+    </div>
+
+
+    <div class="row g-4">
+        <div class="col-11 mx-auto form-group">
+            <label for="observationBonEntree" class="form-label fw-bold">Observation bon d'entrée</label>
+            <textarea name="observationBonEntree" id="observationBonEntree" rows="2" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-end">
+            <button type="submit" [disabled]="BonEntreeForm.invalid" id="bon-entree-form" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                Valider
+            </button>
+        </div>
+    </div>
+
+</form>

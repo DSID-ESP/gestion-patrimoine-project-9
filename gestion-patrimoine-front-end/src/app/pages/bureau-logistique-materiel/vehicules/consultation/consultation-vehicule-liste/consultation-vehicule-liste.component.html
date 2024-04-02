@@ -1,0 +1,210 @@
+<div class="container1 bg-mywhite">
+
+    <nav>
+        <app-entete></app-entete>
+    </nav>
+
+    <div id="sidebar">
+        <app-menu></app-menu>
+    </div>
+
+    <main class="bg-mywhite">
+
+        <div class="container bg-myprimary bg-gradient py-2 my-2"
+            style="box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); width: 98%;">
+            <div class="row">
+                <div class="col-12 text-center fw-bolder fs-5">
+                    Consultation des Véhicules
+                </div>
+            </div>
+        </div>
+
+        <div class="container py-4" style="text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
+            <div class="row">
+
+                <div #monDiv (click)="divClique()" class="col-4">
+                    <div class="input-group" style=" width: 100%; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text h-100"
+                                style="box-shadow: #cff39f 0px 50px 100px -20px, #cff39f 0px 30px 60px -30px, #cff39f 0px -2px 6px 0px inset; outline: none;">
+                                <img src="../../../../../assets/loupe.png" alt="">
+                            </span>
+                        </div>
+
+                        <input id="myInputSearch" #myInputSearch matInput (input)="applyFilter($event)" #searchBox
+                            (input)="search(searchBox.value)" class="form-control input-sm bg-mywhite border-0"
+                            type="search" placeholder="Rechercher" aria-label="Search" name="myInputSearch"
+                            style="box-shadow: #cff39f 0px 50px 100px -20px, #cff39f 0px 30px 60px -30px, #cff39f 0px -2px 6px 0px inset; outline: none;">
+                    </div>
+
+                    <div *ngIf="focusOnInput" style="position: absolute; background-color: #e7e7e7;">
+
+                        <ng-container *ngFor="let vehicle of vehiculeFilterDoubleNumeroSerieModele$ | async;"
+                            style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
+                            <!-- {{ vehicle | json }} -->
+                            <ng-container *ngIf="isNumber(termeRechercheNumeroSerieModele); else nonNumeric">
+                                <ng-container *ngIf="vehicle?.numeroSerie as numeroSerie;">
+                                    <a (click)="FilterDoubleNumeroSerieModele(numeroSerie)"
+                                        style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
+                                        {{ numeroSerie }}
+                                    </a>
+                                </ng-container>
+                            </ng-container>
+                            <ng-template #nonNumeric>
+                                <ng-container *ngIf="vehicle?.modele as modele;">
+                                    <a (click)="FilterDoubleNumeroSerieModele(modele)"
+                                        style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
+                                        {{ modele }}
+                                    </a>
+                                </ng-container>
+                            </ng-template>
+                        </ng-container>
+
+                        <!-- <ng-container *ngFor="let vehicle of vehiculeFilterDoubleNumeroSerieModele$ | async;" style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
+                            <ng-container *ngIf="isNumber(termeRechercheNumeroSerieModele); else nonNumeric">
+                                <ng-container *ngIf="vehicle?.numeroMatricule as matricule;">
+                                    <a (click)="FilterDoubleNumeroSerieModele(matricule.toString())"
+                                        style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
+                                        {{ matricule }}
+                                    </a>
+                                </ng-container>
+                            </ng-container>
+                            <ng-template #nonNumeric>
+                                <ng-container *ngIf="vehicle?.marque as marque;">
+                                    <a (click)="FilterDoubleNumeroSerieModele(marque)"
+                                        style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
+                                        {{ marque }}
+                                    </a>
+                                </ng-container>
+                            </ng-template>
+                        </ng-container> -->
+
+                    </div>
+                </div>
+
+                <div class="col-5 text-center">
+
+                </div>
+
+                <div class="col-3 d-flex justify-content-end">
+                    <!-- <img (click)="popupAjouter()" src="../../../../../assets/add.png" alt="" class="icon-button"> -->
+                    <img (click)="generatePDF()" src="../../../../../assets/fichier-pdf.png" alt="" class="icon-button">
+                    <!-- <img (click)="exporter.exportTable('xlsx', {fileName:'vehicule-liste'})" src="../../../../../assets/xls.png" alt="" class="icon-button"> -->
+                    <img src="../../../../../assets/xls.png" alt="" class="icon-button">
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-3 text-center">
+                    <input type="text" placeholder="Rechercher une unité" [formControl]="control"
+                        [matAutocomplete]="auto" id="codeUniteDouaniere" #codeUniteDouaniere #searchBoxCodeUniteDouaniere
+                        (input)="search(searchBoxCodeUniteDouaniere.value)" name="codeUniteDouaniere"
+                        class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+
+                    <mat-autocomplete #auto="matAutocomplete" style="width: 500px;">
+                        <mat-option *ngFor="let uniteDouaniere of (filteredUniteDouanieres | async)?.slice(0, 5)"
+                            [value]="uniteDouaniere.nomUniteDouaniere">
+                            <span style="font-size: 12px;">{{ uniteDouaniere.nomUniteDouaniere }}</span>
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <!-- 
+                    <select  (change)="filtrerParUniteDouaniere($event)" name="codeUniteDouaniere" id="codeUniteDouaniere" required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        <option value="">Nom unite </option>
+                        <option *ngFor="let uniteDouaniere of uniteDouanieres" [value]="uniteDouaniere.nomUniteDouaniere">
+                            {{ uniteDouaniere.nomUniteDouaniere }}
+                        </option>
+                    </select> 
+                    -->
+
+                </div>
+
+                <div class="col-3 text-center">
+                    <select (change)="filtrerParLieuStockageVehicule($event)" name="codeLieuVH" id="codeLieuVH" 
+                        required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        <option value="">Lieu stockage vehicule</option>
+                        <option *ngFor="let lieuStockageVehicule of lieuStockageVehicules"
+                            [value]="lieuStockageVehicule.libellleLieuVH">
+                            {{ lieuStockageVehicule.libellleLieuVH }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-3 text-center">
+
+                    <select (change)="filtrerParAgeVehicule($event)" required ngModel
+                        class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        <option value="">Age (années)</option>
+                        <option value="1 ans">1 ans</option>
+                        <option value="2 ans">2 ans</option>
+                        <option value="3 ans">3 ans</option>
+                        <option value="4 ans">4 ans</option>
+                        <option value="5 ans">5 ans</option>
+                    </select>
+
+                </div>
+
+                <div class="col-2  text-center">
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="container">
+            <div class="mat-elevation-z8">
+
+                <!-- <table mat-table [dataSource]="dataSource" matTableExporter #exporter="matTableExporter"> -->
+                <table mat-table [dataSource]="dataSource">
+                    <!-- Define columns and cells for IVehicule properties -->
+                    <ng-container *ngFor="let column of displayedColumns let i = index" [matColumnDef]="column">
+                        <th mat-header-cell *matHeaderCellDef class="fw-bold"
+                            [style.display]="columnsToHide.includes(column) ? 'none' : 'table-cell'">
+                            {{ displayedColumnsCustom[i] }}
+                        </th>
+
+                        <td mat-cell *matCellDef="let element" (click)="popupDetail(element)" style="cursor: pointer;"
+                            [style.display]="columnsToHide.includes(column) ? 'none' : 'table-cell'">
+
+                            <!-- Check if the current column is the "N°" column -->
+                            <!-- <ng-container *ngIf="columnsDateFormat.includes(column) || columnsToCodeMarque.includes(column) || columnsToCodePays.includes(column); else normalCell">
+                                <ng-container *ngIf="columnsDateFormat.includes(column)">
+                                    {{ element[column] | date: 'dd MMM yy' | uppercase }}
+                                </ng-container>
+                                <ng-container *ngIf="columnsToCodeMarque.includes(column)">
+                                    {{ element[column].libelleMarque }}
+                                </ng-container>
+                                <ng-container *ngIf="columnsToCodePays.includes(column);">
+                                    {{ element[column].libellePays }}
+                                </ng-container>
+                            </ng-container> -->
+                            <ng-container *ngIf="columnsDateFormat.includes(column); else normalCell">
+                                {{ element[column] | date: 'dd MMMM yyyy' | uppercase }}
+                            </ng-container>
+                            <ng-template #normalCell>
+                                {{ element[column] }}
+                            </ng-template>
+
+                        </td>
+                    </ng-container>
+
+                    <!-- Header row -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <!-- Data rows -->
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                    aria-label="Select page of vehicles">
+                </mat-paginator>
+
+            </div>
+        </div>
+
+    </main>
+
+
+</div>

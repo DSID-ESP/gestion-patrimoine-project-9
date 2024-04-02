@@ -1,0 +1,205 @@
+<div class="card shadow">
+
+  <ng-container *ngIf="afficherPopupDetail; else modifier">
+      <div class="card-header text-center fw-bold bg-myprimary fs-5">
+          Détail
+      </div>
+
+      <div class="card-body">
+
+        <div class="container">
+
+            <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+              Unité Douanière
+            </div>
+
+            <div class="container px-3 py-2">
+                <form class="container px-3 py-2">
+
+                      <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Code unité </span>
+                            <div class="text-input"> {{ uniteDouaniere.codeUniteDouaniere }} </div>
+                        </div>
+
+
+                        <div class="col-7 mx-auto">
+                            <span class="fw-bold">Nom unité</span>
+                            <div class="text-input text-uppercase"> {{ uniteDouaniere.nomUniteDouaniere }} </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Type unité</span>
+                            <div class="text-input text-uppercase"> {{
+                                uniteDouaniere.codeTypeUniteDouaniere.libelleTypeUniteDouaniere }}
+                            </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Effectif unité</span>
+                            <div class="text-input text-uppercase"> {{ uniteDouaniere.effectifUniteDouaniere }}
+                            </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Nombre arme</span>
+                            <div class="text-input text-uppercase"> {{ uniteDouaniere.nombreArme }} </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Nombre automobile</span>
+                            <div class="text-input text-uppercase"> {{ uniteDouaniere.nombreAutomobile }} </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Nombre materiel</span>
+                            <div class="text-input text-uppercase"> {{ uniteDouaniere.nombreMateriel }} </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+          </div>
+
+
+            <div class="container px-3 py-2">
+              <div class="row">
+                  <div class="col-12 text-end">
+                      <button  (click)="supprimerUniteDouaniere(uniteDouaniere.codeUniteDouaniere)" type="button" class="btn btn-mybrown fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour supprimer">
+                          Supprimer
+                      </button>
+
+                      <button (click)="popupModifier()"  type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour modifier">
+                          Modifier
+                      </button>
+
+                      <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
+                          data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                          Retour
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </ng-container>
+
+  <ng-template #modifier>
+      <div class="card-header text-center fw-bold bg-myprimary fs-5">
+          Modifier Unité Douanière
+      </div>
+
+      <div class="card-body">
+
+          <div class="container px-3 py-2">
+              <form class="form" #UniteDouaniereForm="ngForm" (ngSubmit)="modifierUniteDouaniere(UniteDouaniereForm)">
+
+                  <div class="row g-4 mb-3">
+                      <div class="col-3 mx-auto form-group">
+
+                        <label for="codeUniteDouaniere" class="form-label fw-bold">Code unité douaniére</label>
+                        <input id="codeUniteDouaniere" type="text" name="codeUniteDouaniere" required [(ngModel)]="uniteDouaniere.codeUniteDouaniere" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+
+                      </div>
+
+                      <div class="col-7 mx-auto form-group">
+                          <label for="nomUniteDouaniere" class="form-label fw-bold">Nom unite douaniére</label>
+                          <input id="nomUniteDouaniere" type="text" name="nomUniteDouaniere" required [(ngModel)]="uniteDouaniere.nomUniteDouaniere" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                      </div>
+
+
+                  </div>
+
+
+                  <div class="row g-4 mb-3">
+
+
+                      <div class="col-3 mx-auto form-group">
+                        <label for="codeTypeUniteDouaniere" class="form-label fw-bold">Type unité </label>
+                        <select name="codeTypeUniteDouaniere" id="codeTypeUniteDouaniere" required [(ngModel)]="uniteDouaniere.codeTypeUniteDouaniere.libelleTypeUniteDouaniere"
+                            class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                            <option *ngFor="let typeUniteDouaniere of typeUniteDouanieres"
+                                [ngValue]="typeUniteDouaniere.libelleTypeUniteDouaniere">
+                                {{ typeUniteDouaniere.libelleTypeUniteDouaniere }}
+                            </option>
+                        </select>
+                      </div>
+
+
+
+                    <div class="col-3 mx-auto form-group">
+                        <label for="effectifUniteDouaniere" class="form-label fw-bold">Effectif unité Douaniére</label>
+                        <input id="effectifUniteDouaniere" type="text" name="effectifUniteDouaniere" required [(ngModel)]="uniteDouaniere.effectifUniteDouaniere" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                    </div>
+
+                    <div class="col-3 mx-auto form-group">
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="row g-4 mb-3">
+                  <div class="col-3 mx-auto form-group">
+
+                    <label for="nombreArme" class="form-label fw-bold">Nombre arme</label>
+                    <input id="nombreArme" type="text" name="nombreArme" required [(ngModel)]="uniteDouaniere.nombreArme" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+
+                  </div>
+
+                  <div class="col-3 mx-auto form-group">
+                      <label for="nombreAutomobile" class="form-label fw-bold">Nombre automobile</label>
+                      <input id="nombreAutomobile" type="text" name="nombreAutomobile" required [(ngModel)]="uniteDouaniere.nombreAutomobile" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                  </div>
+
+                  <div class="col-3 mx-auto form-group">
+
+                    <label for="nombreMateriel" class="form-label fw-bold">Nombre matériel</label>
+                    <input id="nombreMateriel" type="text" name="nombreMateriel" required [(ngModel)]="uniteDouaniere.nombreMateriel" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+
+                  </div>
+
+
+              </div>
+
+
+                  <div class="row">
+                      <div class="col-12 text-end">
+                          <button type="submit" id="unite-douaniere-form" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                              Valider
+                          </button>
+                      </div>
+                  </div>
+
+              </form>
+          </div>
+
+          <div class="container px-3 py-2">
+              <div class="row">
+                  <div class="col-12 text-end">
+                      <button (click)="submitForm()" type="button" [disabled]="UniteDouaniereForm.invalid" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour modifier">
+                          Valider
+                      </button>
+
+                      <button (click)="PopupDetail()" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                          Retour
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </ng-template>
+
+</div>
+
+
+
+
+

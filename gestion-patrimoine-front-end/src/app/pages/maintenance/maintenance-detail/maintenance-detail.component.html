@@ -1,0 +1,330 @@
+<div class="card shadow">
+
+    <div class="card-header text-center fw-bold bg-myprimary fs-5">
+        Détail
+    </div>
+
+    <div class="card-body">
+
+        <div class="container" style="height: 500px; overflow-y: auto;">
+
+
+            <!-- ------------------Véhicule-------------------------------------------------------- -->
+            <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                Véhicule
+            </div>
+
+            <div class="container px-3 py-2">
+                <form class="container px-3 py-2">
+
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">N° série</span>
+                            <div class="text-input"> {{ maintenance.numeroSerie.numeroSerie }} </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">N° immatriculation</span>
+                            <div class="text-input text-uppercase"> {{ maintenance.numeroSerie.numeroImmatriculation }}
+                            </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Modèle</span>
+                            <div class="text-input text-uppercase"> {{ maintenance.numeroSerie.modele }} </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Etat véhicule</span>
+                            <div class="text-input"> {{ maintenance.numeroSerie.libelleEtatVehicule }} </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-3">
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Type énergie</span>
+                            <div class="text-input text-uppercase"> {{
+                                maintenance.numeroSerie.codeTypeEnergie.libelleTypeEnergie }} </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Provenance</span>
+                            <div class="text-input text-uppercase"> {{ maintenance.numeroSerie.codePays.libellePays }}
+                            </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">N° carte grise</span>
+                            <div class="text-input"> {{ maintenance.numeroSerie.numeroCarteGrise }} </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Date mise en circulation</span>
+                            <div class="text-input text-uppercase">
+                                <!-- {{ vehicule.dateMiseEnCirculation }}  -->
+                                {{ myDateStringFormatter(maintenance.numeroSerie.dateMiseEnCirculation) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Type véhicule</span>
+                            <div class="text-input text-uppercase"> {{
+                                maintenance.numeroSerie.codeTypeVehicule.libelleTypeVehicule }} </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Marque</span>
+                            <div class="text-input text-uppercase"> {{
+                                maintenance.numeroSerie.codeMarque.libelleMarqueVH }} </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+
+            <!-- ------------------Maintenance-------------------------------------------------------- -->
+            <!-- <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                Maintenance
+            </div>
+
+
+            <div class="container px-3 py-2">
+                <form class="container px-3 py-2">
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Type maintenance</span>
+                            <div class="text-input text-uppercase"> {{ maintenance.typeMaintenance }} </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                        </div>
+                    </div>
+                </form>
+            </div> -->
+
+
+            <!-- ------------------Type Maintenance Controle-------------------------------------------------------- -->
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'controle'" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                Contrôle
+            </div>
+
+
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'controle'" class="container px-3 py-2">
+                <form class="container px-3 py-2">
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Date début</span>
+                            <div class="text-input text-uppercase">
+                                {{ myDateStringFormatter(maintenance.dateDebutMaintenance) }}
+                            </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Date fin</span>
+                            <div class="text-input text-uppercase">
+                                {{ maintenance.dateFinMaintenance ? myDateStringFormatter(maintenance.dateFinMaintenance) : '---'}}
+                            </div>
+                        </div>
+
+                        <div class="col-6 mx-auto">
+                            <span class="fw-bold">Observation</span>
+                            <div class="text-input text-uppercase"> {{ maintenance.observationMaintenance }} </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ------------------Type Maintenance Vidange-------------------------------------------------------- -->
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'vidange'" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                Vidange
+            </div>
+
+
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'vidange'" class="container px-3 py-2">
+                <form class="container px-3 py-2">
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Date début</span>
+                            <div class="text-input text-uppercase">
+                                {{ myDateStringFormatter(maintenance.dateDebutMaintenance) }}
+                            </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Date fin</span>
+                            <div class="text-input text-uppercase">
+                                {{ maintenance.dateFinMaintenance ? myDateStringFormatter(maintenance.dateFinMaintenance) : '---'}}
+                            </div>
+                        </div>
+
+                        <div class="col-6 mx-auto">
+                            <span class="fw-bold">Observation</span>
+                            <div class="text-input text-uppercase"> {{ maintenance.observationMaintenance }} </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'vidange'" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                Huile 
+            </div>
+
+
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'vidange'" class="container px-3 py-2">
+                <form class="container px-3 py-2">
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Libellé</span>
+                            <div class="text-input text-uppercase">
+                                {{ vidange.libelleHuile }}
+                            </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Quantité</span>
+                            <div class="text-input text-uppercase">
+                                {{ vidange.quantiteMiseVehicule }}
+                            </div>
+                        </div>
+
+                        <div class="col-6 mx-auto">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+            <!-- ------------------Type Maintenance Reparation-------------------------------------------------------- -->
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation'" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                Réparation
+            </div>
+
+
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation'" class="container px-3 py-2">
+                <form class="container px-3 py-2">
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Date début</span>
+                            <div class="text-input text-uppercase">
+                                {{ myDateStringFormatter(maintenance.dateDebutMaintenance) }}
+                            </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Date fin</span>
+                            <div class="text-input text-uppercase">
+                                {{ maintenance.dateFinMaintenance ? myDateStringFormatter(maintenance.dateFinMaintenance) : '---'}}
+                            </div>
+                        </div>
+
+                        <div class="col-6 mx-auto">
+                            <span class="fw-bold">Observation</span>
+                            <div class="text-input text-uppercase"> {{ maintenance.observationMaintenance }} </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation'" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                Pièces changées
+            </div>
+
+
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation'" class="container px-3 py-2">
+                <form class="container px-3 py-2">
+                    <div class="row g-4 mb-3">
+                        <div class="col mx-auto text-center">
+                            <div class="text-input text-uppercase">
+                                <span class="border border-2 border-mysecondary rounded-4 p-2 m-1" *ngFor="let changementPiece of changementPiecesByMaintenance" style="display: inline-block; white-space: nowrap;">
+                                    {{ changementPiece.referencePieces }} ({{ changementPiece.nombrePiecesRechangees }})
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation' && reparation.suiteAccident" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+                Accident
+            </div>
+
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation' && reparation.suiteAccident" class="container px-3 py-2">
+                <form class="container px-3 py-2">
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Lieu incident</span>
+                            <div class="text-input text-uppercase">
+                                {{ accident.lieuIncident }}
+                            </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">Date incident</span>
+                            <div class="text-input text-uppercase">
+                                {{ maintenance.dateFinMaintenance ? myDateStringFormatter(maintenance.dateFinMaintenance) : '---'}}
+                            </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">nombre bléssé</span>
+                            <div class="text-input text-uppercase"> {{ accident.nombreBlesse }} </div>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <span class="fw-bold">nombre décès</span>
+                            <div class="text-input text-uppercase"> {{ accident.nombreDeces }} </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-3">
+                        <div class="col-12 mx-auto">
+                            <span class="fw-bold">Commentaire incident</span>
+                            <div class="text-input text-uppercase"> {{ accident.commentaireIncident }} </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- -------------------------------------------------------------------------- -->
+        <div class="container px-3 py-2">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <button (click)="supprimerMaintenanceById(maintenance.identifiantMaintenance)" type="button"
+                        class="btn btn-mybrown fw-bold mx-2" data-bs-toggle="tooltip"
+                        title="cliquer ici pour supprimer">
+                        Supprimer
+                    </button>
+
+                    <button type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
+                        title="cliquer ici pour ajouter">
+                        Modifier
+                    </button>
+
+                    <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
+                        data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                        Retour
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

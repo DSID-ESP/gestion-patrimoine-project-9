@@ -1,0 +1,249 @@
+<div class="card shadow">
+
+  <div class="card-header text-center fw-bold bg-myprimary fs-5">
+      Ajouter
+  </div>
+
+  <div class="card-body">
+      <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+          Article
+      </div>
+
+      <div class="container px-3 py-2">
+          <form class="form" #ArticleBonEntreeForm="ngForm" (ngSubmit)="ajouterArticleBonEntree(ArticleBonEntreeForm)">
+
+              <div class="row g-4 mb-3">
+                  <div class="col-3 mx-auto form-group" *ngIf="typeObjets && typeObjets[1]; else emptyTypeObjet">
+                      <label for="codeTypeObjet" class="form-label fw-bold">Type objet</label>
+                      <select id="codeTypeObjet" name="codeTypeObjet" required [ngModel]="typeObjets[1]" class="form-select text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                          <option [ngValue]="typeObjets[1]">
+                              {{ typeObjets[1].libelleTypeObjet }}
+                          </option>
+                      </select>
+                  </div>
+
+                  <ng-template #emptyTypeObjet>
+                      <div class="col-3 mx-auto form-group">
+                          <label for="codeTypeObjet" class="form-label fw-bold">Type objet</label>
+                          <select id="codeTypeObjet" name="codeTypeObjet" required class="form-select text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                              <option value="">liste vide</option>
+                          </select>
+                      </div>
+                  </ng-template>
+
+
+                  <!-- <div class="col-3 mx-auto form-group">
+                      <label for="codeTypeObjet" class="form-label fw-bold">Type objet</label>
+                      <select (ngModelChange)="onCodeTypeObjetChange($event)" id="codeTypeObjet" name="codeTypeObjet" required [(ngModel)]="libelleTypeObjet" class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                          <option [ngValue]="typeObjets[1]" default>
+                              {{ typeObjets[1]!.libelleTypeObjet }}
+                          </option>
+                      </select>
+                  </div> -->
+
+                  <div class="col-3 mx-auto form-group">
+                    <label for="codeArticleBonEntree" class="form-label fw-bold">N° article</label>
+                    <input id="codeArticleBonEntree" hidden type="number" name="codeArticleBonEntree" disabled required [(ngModel)]="nombreArticle" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                    <input type="text" name="codeArticleBonEntree" disabled [placeholder]="'Article ' + nombreArticle" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                </div>
+
+                  <div class="col-3 mx-auto form-group">
+                      <label for="quantiteEntree" class="form-label fw-bold">Quantité entrée</label>
+                      <input id="quantiteEntree" type="number" name="quantiteEntree" disabled required ngModel="1" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                  </div>
+
+                  <div class="col-3 mx-auto form-group">
+                    <label for="codeLieuVH" class="form-label fw-bold">Lieu stockage vehicule</label>
+                    <select id="codeLieuVH" name="codeLieuVH" required ngModel
+                        class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        <option *ngFor="let lieuStockageVehicule of lieuStockageVehicules" [ngValue]="lieuStockageVehicule">
+                            {{ lieuStockageVehicule?.libellleLieuVH }}
+                        </option>
+                    </select>
+                </div>
+
+                  <!-- <div class="col-3 mx-auto form-group">
+                      <label for="libelleArticleBonEntree" class="form-label fw-bold">Libellé article</label>
+                      <input id="libelleArticleBonEntree" type="text" name="libelleArticleBonEntree" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                  </div> -->
+              </div>
+
+              <div class="row">
+                  <div class="col-12 text-end">
+                      <button type="submit" [disabled]="ArticleBonEntreeForm.invalid" id="article-bon-entree-form" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                          Valider
+                      </button>
+                  </div>
+              </div>
+
+          </form>
+      </div>
+
+      <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+          Véhicule
+      </div>
+
+      <div class="container px-3 py-2">
+          <form class="form" #VehiculeForm="ngForm" (ngSubmit)="ajouterVehicule(VehiculeForm)">
+
+              <div class="row g-4 mb-3">
+                  <div class="col-3 mx-auto form-group">
+                      <label for="numeroSerie" class="form-label fw-bold">N° série</label>
+                      <input id="numeroSerie" type="text" name="numeroSerie" required ngModel
+                          class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                  </div>
+
+                  <div class="col-3 mx-auto form-group">
+                      <label for="numeroImmatriculation" class="form-label fw-bold">N° immatriculation</label>
+                      <input id="numeroImmatriculation" type="text" name="numeroImmatriculation" required ngModel
+                          class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                  </div>
+
+                  <!-- <div class="col-3 mx-auto form-group">
+                      <label for="dateMiseEnCirculation" class="form-label fw-bold">Date mise en circulation</label>
+                      <input type="text" name="dateMiseEnCirculation" id="dateMiseEnCirculation" autocomplete="off" ngbDatepicker #dp1="ngbDatepicker" (click)="dp1.toggle()" required ngModel class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                  </div> -->
+
+                  <div class="col-3 mx-auto form-group">
+                      <label for="dateMiseEnCirculation" class="form-label fw-bold">Date mise en circulation</label>
+                      <input type="text" name="dateMiseEnCirculation" id="dateMiseEnCirculation"
+                        autocomplete="off"
+                        ngbDatepicker
+                        #dp1="ngbDatepicker"
+                        (click)="dp1.toggle()"
+                        required
+                        [(ngModel)]="modelDate" [value]="formatDate(modelDate)"
+                        class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase"
+                      >
+                    </div>
+
+                  <div class="col-3 mx-auto form-group">
+                      <label for="codeTypeVehicule" class="form-label fw-bold">Type véhicule</label>
+                      <select id="codeTypeVehicule" name="codeTypeVehicule" required ngModel
+                          class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                          <option *ngFor="let typeVehicule of typeVehicules" [ngValue]="typeVehicule">
+                              {{ typeVehicule?.libelleTypeVehicule }}
+                          </option>
+                      </select>
+                  </div>
+
+
+              </div>
+
+
+              <div class="row g-4 mb-3">
+                  <div class="col-3 mx-auto form-group">
+                      <label for="codeMarque" class="form-label fw-bold">Marque</label>
+                      <select id="codeMarque" name="codeMarque" required ngModel
+                          class="form-select text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                          <option *ngFor="let marqueVehicule of marqueVehicules" [ngValue]="marqueVehicule">
+                              {{ marqueVehicule?.libelleMarqueVH }}
+                          </option>
+                      </select>
+                  </div>
+
+                  <div class="col-3 mx-auto form-group">
+                      <label for="modele" class="form-label fw-bold">Modèle</label>
+                      <input id="modele" type="text" name="modele" required ngModel
+                          class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                  </div>
+
+                  <div class="col-3 mx-auto form-group">
+                      <label for="codeEtat" class="form-label fw-bold">Etat véhicule</label>
+                      <!-- <select id="codeEtat" name="codeEtat" required ngModel
+                          class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                          <option *ngFor="let etatVehicule of etatVehicules" [ngValue]="etatVehicule">
+                              {{ etatVehicule?.libelleEtat }}
+                          </option>
+                      </select> -->
+
+                      <select id="codeEtat" name="codeEtat" required ngModel name="codeEtat"
+                          class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                          <option ngValue="NEUF">
+                            NEUF
+                          </option>
+                          <option ngValue="USAGE">
+                            USAGE
+                          </option>
+                          <option ngValue="ACCIDENTE">
+                            ACCIDENTE
+                          </option>
+                      </select>
+
+                      <!-- <label for="libelleEtatVehicule" class="form-label fw-bold">Libellé état véhicule</label>
+                        <select required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                          <option value=""></option>
+                          <option value="Neuf">Neuf</option>
+                          <option value="Usagé">Usagé</option>
+                          <option value="Accidenté">Accidenté</option>
+
+                        </select> -->
+                  </div>
+
+                  <div class="col-3 mx-auto form-group">
+                      <label for="codeTypeEnergie" class="form-label fw-bold">Type énergie</label>
+                      <select id="codeTypeEnergie" name="codeTypeEnergie" required ngModel
+                          class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                          <option *ngFor="let typeEnergie of typeEnergies" [ngValue]="typeEnergie">
+                              {{ typeEnergie?.libelleTypeEnergie }}
+                          </option>
+                      </select>
+                  </div>
+              </div>
+
+
+              <div class="row g-4 mb-3">
+                  <div class="col-3 mx-auto form-group">
+                      <label for="codePays" class="form-label fw-bold">Provenance</label>
+                      <select id="codePays" name="codePays" required ngModel
+                          class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                          <option *ngFor="let LePays of pays" [ngValue]="LePays">
+                              {{ LePays?.libellePays}}
+                          </option>
+                      </select>
+                  </div>
+
+                  <div class="col-3 mx-auto form-group">
+                      <label for="numeroCarteGrise" class="form-label fw-bold">N° carte grise</label>
+                      <input id="numeroCarteGrise" type="text" name="numeroCarteGrise" required ngModel
+                          class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                  </div>
+
+
+                  <div class="col-3 mx-auto form-group">
+                  </div>
+
+                  <div class="col-3 mx-auto form-group">
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-12 text-end">
+                      <button type="submit" [disabled]="VehiculeForm.invalid" id="vehicule-form" hidden
+                          class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                          Valider
+                      </button>
+                  </div>
+              </div>
+
+          </form>
+      </div>
+
+      <div class="container px-3 py-2">
+          <div class="row">
+              <div class="col-12 text-end">
+                  <button (click)="submitFormVehicule()" [disabled]="ArticleBonEntreeForm.invalid || VehiculeForm.invalid" type="button" class="btn btn-mysecondary fw-bold mx-2"
+                      data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                      Valider
+                  </button>
+
+                  <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
+                      data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                      Retour
+                  </button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+</div>

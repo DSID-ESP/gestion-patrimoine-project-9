@@ -1,0 +1,514 @@
+CREATE TABLE "DLF_PATRIMOINE"."G2010R"."BORDEREAU_LIVRAISON" 
+
+BASE=DLF_PATRIMOINE
+SCHEMA=G2010R
+USER=bedisdv
+PASSWORD=bedis002
+PORT=5432
+ADRESSE=10.2.3.203
+
+#spring.datasource.url=jdbc:postgresql://10.2.3.203:5432/DLF_PATRIMOINE
+
+#spring.datasource.username=bedisdv
+#spring.datasource.password=bedis002
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+L'imbrication excessive de subscribe() dans votre code peut rendre la gestion des erreurs et le suivi des flux de données plus difficile à gérer. Pour simplifier cela, vous pouvez utiliser des opérateurs de transformation tels que switchMap, mergeMap, ou concatMap
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+ng serve --port 4500
+
+ou
+
+Setting Default Port in angular.json
+If you want a permanent change in the default port, you can modify the angular.json file in your project's root directory. This file contains configurations for your Angular project.
+
+To change the default port, locate the serve object within the architect object. Add a port option within the options object and set it to your desired port. Here's an example:
+
+"architect": {
+  "serve": {
+    "builder": "@angular-devkit/build-angular:dev-server",
+    "options": {
+      "browserTarget": "your-project-name:build",
+      "port": 4201
+    },
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+isActive: Cet attribut indique si le compte de l'utilisateur est actif ou non. Un compte utilisateur peut être désactivé pour diverses raisons, par exemple s'il a été suspendu ou s'il n'est plus autorisé à se connecter à l'application.
+
+isNotLocked: Cet attribut indique si le compte de l'utilisateur est verrouillé ou non. Un compte peut être verrouillé après un certain nombre de tentatives de connexion infructueuses, comme une mesure de sécurité pour protéger le compte contre les tentatives d'intrusion.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+netstat -ano | findstr :8081
+taskkill /PID 1234 /F
+
+
+netstat -tuln | grep ':8080'
+sudo kill -9 1234
+
+
+
+----------------------------------------------------------------------------------------------------------
+
+WIFIDGD
+D3800
+ndour2021
+
+1552 mame
+1514 kare
+1537 (bureau)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+http://localhost:8081/swagger-ui/index.html
+
+
+
+add-user.bat
+Pour démarrer WildFly en mode autonome, exécutez : 
+standalone.bat (pour Windows)
+standalone.sh (pour Linux/Unix)
+
+
+mvn spring-boot:run -Dspring.profiles.active=dev
+mvn clean install -DskipTests
+
+mvn clean install 
+mvn clean package
+gradle clean build
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------
+
+
+
+La base DLF_PATRIMOINE a été créée avec les paramètres de connexion suivants:
+
+
+BASE=DLF_PATRIMOINE
+SCHEMA=G2010R
+USER=bedisdv
+PASSWORD=bedis002
+PORT=5432
+ADRESSE=10.2.3.203
+
+Il faudra télécharger un explorateur e BD (squirrel, DBEaver, etc.)
+
+
+
+
+-----------------------------------------------------------------------
+
+https://jdbc.postgresql.org/download/
+
+
+spring.datasource.jndi-name=java:jboss/datasources/DLF_PATRIMOINE
+
+
+<module xmlns="urn:jboss:module:1.0" name="org.postgresql">
+    <resources>
+        <resource-root path="postgresql-42.3.7.jar"/>
+    </resources>
+
+    <dependencies>
+        <module name="javax.api"/>
+    </dependencies>
+</module>
+
+
+
+<datasource jndi-name="java:jboss/datasources/DLF_PATRIMOINE" pool-name="DLF_PATRIMOINE">
+    <connection-url>jdbc:postgresql://localhost:5433/DLF_PATRIMOINE</connection-url>
+    <driver>postgres</driver>
+    <security>
+        <user-name>postgres</user-name>
+        <password>postgres</password>
+    </security>
+</datasource>
+
+
+<driver name="postgres" module="org.postgresql">
+    <driver-class>org.postgresql.Driver</driver-class>
+</driver>
+
+
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <classifier>boot</classifier>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+
+
+
+
+
+
+
+
+
+
+<groupId>sn.douanes</groupId>
+    <artifactId>gestion-patrimoine-back-end</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>gestion-patrimoine-back-end</name>
+    <description>project for Spring Boot and Spring Security</description>
+    <packaging>war</packaging>
+
+
+<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-tomcat</artifactId>
+    <version>3.2.3</version>
+</dependency>
+
+
+
+
+
+
+
+<subsystem xmlns="urn:jboss:domain:undertow:12.0" default-server="default-server" default-virtual-host="default-host" default-servlet-container="default" default-security-domain="other" statistics-enabled="${wildfly.undertow.statistics-enabled:${wildfly.statistics-enabled:false}}">
+     <buffer-cache name="default"/>
+     <server name="default-server">
+         <http-listener name="default" socket-binding="http" redirect-socket="https" enable-http2="true"/>
+         <host name="default-host" alias="localhost">
+             <location name="/" handler="welcome-content"/>
+             <filter-ref name="server-header"/>
+             <filter-ref name="x-powered-by-header"/>
+             <filter-ref name="Access-Control-Allow-Origin"/>
+         </host>
+     </server>
+     <servlet-container name="default">
+         <jsp-config/>
+         <websockets/>
+     </servlet-container>
+     <handlers>
+         <file name="welcome-content" path="${jboss.home.dir}/welcome-content"/>
+     </handlers>
+     <filters>
+         <response-header name="server-header" header-name="Server" header-value="WildFly/10"/>
+         <response-header name="x-powered-by-header" header-name="X-Powered-By" header-value="Undertow/1"/>
+         <response-header name="Access-Control-Allow-Origin" header-name="Access-Control-Allow-Origin" header-value="http://localhost:4200"/>
+     </filters>
+ </subsystem>
+
+
+
+
+
+<socket-binding name="DLF_PATRIMOINE" port="8081"/>
+
+
+
+
+<subsystem xmlns="urn:jboss:domain:undertow:11.0" default-server="default-server" default-virtual-host="default-host" default-servlet-container="default" default-security-domain="other" statistics-enabled="${wildfly.undertow.statistics-enabled:${wildfly.statistics-enabled:false}}">
+    <buffer-cache name="default"/>
+    <server name="default-server">
+        <!-- Modifiez le port HTTP ici -->
+        <http-listener name="default" socket-binding="http" redirect-socket="https" enable-http2="true"/>
+        <!-- Modifiez le port HTTPS ici -->
+        <https-listener name="https" socket-binding="https" security-realm="ApplicationRealm" enable-http2="true"/>
+        <host name="default-host" alias="localhost">
+            <location name="/" handler="welcome-content"/>
+            <http-invoker security-realm="ApplicationRealm"/>
+            <!-- Ajoutez cette configuration pour permettre les requêtes CORS -->
+            <filter-ref name="cors-filter"/>
+        </host>
+    </server>
+    <servlet-container name="default">
+        <jsp-config/>
+        <websockets/>
+    </servlet-container>
+    <handlers>
+        <file name="welcome-content" path="${jboss.home.dir}/welcome-content"/>
+    </handlers>
+    <!-- Définition du filtre CORS -->
+    <filters>
+        <filter name="cors-filter" class-name="io.undertow.servlet.handlers.CorsHandler">
+            <param name="allowed-origins" value="http://localhost:4200"/>
+            <param name="allowed-methods" value="GET, POST, PUT, DELETE, OPTIONS"/>
+            <param name="allowed-headers" value="Origin, X-Requested-With, Content-Type, Accept"/>
+            <param name="allow-credentials" value="true"/>
+        </filter>
+    </filters>
+</subsystem>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package sn.douanes.services.impl;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import sn.douanes.entities.Authorities;
+import sn.douanes.exception.entities.*;
+import sn.douanes.entities.Agent;
+import sn.douanes.entities.Utilisateur;
+import sn.douanes.repositories.AgentRepository;
+import sn.douanes.repositories.AuthoritiesRepository;
+import sn.douanes.repositories.UtilisateurRepository;
+import sn.douanes.services.EmailService;
+import sn.douanes.services.UtilisateurService;
+
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Set;
+
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static sn.douanes.constants.UserImplConstant.*;
+
+@Service
+@Transactional
+@Qualifier("userDetailsService")
+public class UtilisateurServiceImpl implements UtilisateurService {
+
+//    private Logger LOGGER = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    private final UtilisateurRepository utilisateurRepository;
+
+
+    // private BCryptPasswordEncoder passwordEncoder;
+    // private LoginAttemptService loginAttemptService;
+    private final EmailService emailService;
+
+    private final AgentRepository agentRepository;
+
+    private final AuthoritiesRepository authoritiesRepository;
+
+    @Autowired
+    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, EmailService emailService, AuthoritiesRepository authoritiesRepository, AgentRepository agentRepository) {
+        this.utilisateurRepository = utilisateurRepository;
+        this.emailService = emailService;
+        this.authoritiesRepository = authoritiesRepository;
+        this.agentRepository = agentRepository;
+    }
+
+    @Override
+    public List<Utilisateur> getUsers() {
+        return utilisateurRepository.findAll();
+    }
+
+
+    @Override
+    public Utilisateur findByMatriculeAgent(String userName) {
+        return utilisateurRepository.findByUserName(userName);
+    }
+
+    @Override
+    @Transactional
+    public Utilisateur ajouterUserWithAuthorities(Utilisateur utilisateur, Set<Authorities> authorities) {
+        // Enregistrer l'utilisateur
+        Utilisateur savedUtilisateur = utilisateurRepository.save(utilisateur);
+
+        // Associer les autorités à l'utilisateur
+        for (Authorities authority : authorities) {
+            authority.setUtilisateurID(savedUtilisateur);
+            authoritiesRepository.save(authority);
+        }
+
+        // Mettre à jour l'utilisateur avec les autorités associées
+        savedUtilisateur.setAuthorities(authorities);
+
+        return savedUtilisateur;
+    }
+
+    @Override
+    public Utilisateur registerUser(Utilisateur utilisateur, Set<Authorities> authorities) throws UserNotFoundException, AgentExistException, IOException, NotAnImageFileException, MessagingException {
+
+        // Agent agent = agentRepository.findByMatriculeAgent(utilisateur.getMatriculeAgent());
+
+        validateNewEmail(EMPTY, utilisateur.getMatriculeAgent().getEmailAgent());
+
+        Utilisateur user = new Utilisateur();
+
+        String userName = utilisateur.getMatriculeAgent().getMatriculeAgent();
+        String clearPwd = utilisateur.getMatriculeAgent().getMatriculeAgent();
+
+        String hashPwd = passwordEncoder.encode(clearPwd);
+        user.setMotDePasse(hashPwd);
+
+        user.setJoinDate(new Timestamp(System.currentTimeMillis()));
+        user.setMatriculeAgent(utilisateur.getMatriculeAgent());
+
+        user.setUserName(userName);
+
+//        // user.setRole("ROLE_USER");
+//        user.setAuthorities(utilisateur.getAuthorities());
+//        // utilisateur.setAuthorities(Role.ROLE_USER.getAuthorities());
+
+        user.setActive(utilisateur.getActive());
+        user.setNotLocked(utilisateur.getNotLocked());
+
+
+        user.setActive(true);
+        user.setNotLocked(true);
+
+        // utilisateurRepository.save(user);
+
+        Utilisateur savedUtilisateur = this.ajouterUserWithAuthorities(user, authorities);
+
+        emailService.sendNewPasswordEmail(utilisateur.getMatriculeAgent().getPrenomAgent(), clearPwd, utilisateur.getMatriculeAgent().getEmailAgent());
+
+        return savedUtilisateur;
+    }
+
+    @Override
+    public Utilisateur addNewUser(Utilisateur utilisateur, Set<Authorities> authorities) throws UserNotFoundException, AgentExistException, IOException, NotAnImageFileException, MessagingException {
+
+        // Agent agent = agentRepository.findByMatriculeAgent(utilisateur.getMatriculeAgent());
+
+        validateNewEmail(EMPTY, utilisateur.getMatriculeAgent().getEmailAgent());
+
+        Utilisateur user = new Utilisateur();
+
+        String userName = utilisateur.getMatriculeAgent().getMatriculeAgent();
+        String clearPwd = utilisateur.getMatriculeAgent().getMatriculeAgent();
+
+
+        user.setJoinDate(new Timestamp(System.currentTimeMillis()));
+        user.setMatriculeAgent(utilisateur.getMatriculeAgent());
+
+        user.setUserName(userName);
+        
+        user.setActive(utilisateur.getActive());
+        user.setNotLocked(utilisateur.getNotLocked());
+
+
+        user.setActive(utilisateur.getActive());
+        user.setNotLocked(utilisateur.getNotLocked());
+
+        Utilisateur savedUtilisateur = this.ajouterUserWithAuthorities(user, authorities);
+
+        emailService.sendNewPasswordEmail(utilisateur.getMatriculeAgent().getPrenomAgent(), clearPwd, utilisateur.getMatriculeAgent().getEmailAgent());
+        return savedUtilisateur;
+    }
+
+    @Override
+    public Utilisateur updateUser(Utilisateur utilisateur) throws UserNotFoundException, EmailExistException, IOException, NotAnImageFileException {
+        return null;
+    }
+
+    @Override
+    public void deleteUserByUserName(String matriculeAgent) throws IOException {
+
+    }
+
+    @Override
+    public void resetPasswordByUserName(String userName) throws MessagingException, AgentNotFoundException {
+        Agent agent = agentRepository.findByMatriculeAgent(userName);
+        Utilisateur utilisateur = utilisateurRepository.findByUserName(agent.getMatriculeAgent());
+
+        if (utilisateur == null || utilisateur.getMatriculeAgent() == null) {
+            throw new AgentNotFoundException(NO_USER_FOUND_BY_AGENT);
+        }
+
+        String password = utilisateur.getMatriculeAgent().getMatriculeAgent();
+        utilisateur.setMotDePasse(encodePassword(password));
+        utilisateurRepository.save(utilisateur);
+        emailService.sendNewPasswordEmail(utilisateur.getMatriculeAgent().getPrenomAgent(), password, utilisateur.getMatriculeAgent().getEmailAgent());
+    }
+
+
+
+
+
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+
+    private String generatePassword() {
+        return RandomStringUtils.randomAlphanumeric(10);
+    }
+
+    private String generateUserId() {
+        return RandomStringUtils.randomNumeric(10);
+    }
+
+    private void validateNewEmail(String currentEmail, String newEmail) throws UserNotFoundException, AgentExistException {
+
+        Agent agent = agentRepository.findByEmailAgent(newEmail);
+        Utilisateur userByNewAgent = utilisateurRepository.findByUserName(agent.getMatriculeAgent());
+
+        if(StringUtils.isNotBlank(currentEmail)) {
+
+            Agent currentAgent = agentRepository.findByEmailAgent(currentEmail);
+            Utilisateur currentUser = utilisateurRepository.findByUserName(currentAgent.getMatriculeAgent());
+
+            if(currentUser == null) {
+                throw new UserNotFoundException(NO_USER_FOUND_BY_AGENT + agent.getPrenomAgent() + " " + agent.getNomAgent());
+            }
+            if(userByNewAgent != null && !currentUser.getUtilisateurID().equals(userByNewAgent.getUtilisateurID())) {
+                throw new AgentExistException(AGENT_ALREADY_EXISTS);
+            }
+
+        } else {
+
+            if(userByNewAgent != null) {
+                throw new AgentExistException(AGENT_ALREADY_EXISTS);
+            }
+
+        }
+    }
+}
+
+

@@ -1,0 +1,64 @@
+/* ----------------------------------------------------------------------------------------- */
+/* Stylisation du menu déroulant */
+.dropdown-menu1 {
+    width: 100%;
+    background-color: #ffffff; /* Couleur de fond */
+    border: 1px solid #e7e7e7; /* Bordure */
+    box-shadow: 0 4px 6px rgba(231, 231, 231, 1);
+    border-radius: 5px; /* Coins arrondis */
+    padding: 10px; /* Espacement interne */
+  }
+  
+  
+  /* Stylisation des éléments du menu */
+  .dropdown-item1 {
+    margin: 3px;
+    text-align: start;
+    border: none;
+    width: 100%;
+    background-color: #e7e7e7;
+    font-weight: bold; /* Texte en gras */
+    color: #000; /* Couleur du texte */
+  }
+  
+  /* Style au survol des éléments */
+  .dropdown-item1:hover {
+    background-color: #aedd71; /* Couleur de fond au survol */
+    color: #fff; /* Couleur du texte au survol */
+  }
+  
+  /* --------------------- */
+  
+  /* Stylisation du bouton */
+  .dropdown-button {
+    border: none;
+    outline: none; /* Supprimer la bordure d'accentuation lorsqu'il est en focus */
+    cursor: pointer; /* Curseur de type main pour indiquer que c'est cliquable */
+    transition: background-color 0.5s, color 0.5s; /* Animation de transition */
+  }
+  
+  /* Style par défaut */
+  .dropdown-button {
+    background-color: transparent; /* Fond transparent par défaut */
+    color: #000; /* Couleur du texte par défaut */
+  }
+  
+  /* Style au survol */
+  .dropdown-button:hover {
+    background-color: #fff; /* Couleur de fond au survol */
+    color: grey; /* Couleur du texte au survol */
+  }
+  
+  /* Style lorsque le bouton est actif (clic) */
+  .dropdown-button:active {
+    background-color: #aedd71; /* Couleur de fond lorsqu'il est actif (clic) */
+    color: #aedd71; /* Couleur du texte lorsqu'il est actif (clic) */
+  }
+  
+  /* Style lorsque le bouton est en focus (utilisation du clavier) */
+  .dropdown-button:focus {
+    box-shadow: 0 0 5px #aedd71; /* Ombre légère lorsqu'il est en focus */
+    background-color: #fff; /* Couleur de fond en focus */
+    color: #000; /* Couleur du texte en focus */
+  }
+  /* ----------------------------------------------------------------------------------------- */

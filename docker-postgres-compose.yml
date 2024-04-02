@@ -1,0 +1,26 @@
+
+# docker-compose -f docker-postgres-compose.yml up -d
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_container
+    ports:
+      - "5433:5432"  # Port local : Port PostgreSQL dans le conteneur
+    environment:
+      POSTGRES_DB: DLF_PATRIMOINE  # Nom de la base de données
+      POSTGRES_USER: postgres  # Nom d'utilisateur PostgreSQL
+      POSTGRES_PASSWORD: postgres  # Mot de passe PostgreSQL
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persiste les données de la base de données
+
+  adminer:
+    image: adminer
+    # restart: always
+    ports:
+      - 8888:8080
+
+volumes:
+  postgres_data:
+

@@ -1,0 +1,108 @@
+<div class="card shadow">
+
+    <div class="card-header text-center fw-bold bg-myprimary fs-5">
+        Ajouter utilisateur
+    </div>
+
+    <div class="card-body">
+
+        <div class="container px-3 py-2">
+            <form class="form" #UtilisateurForm="ngForm" (ngSubmit)="ajouterUtilisateur(UtilisateurForm)">
+
+                <div class="row g-4 mb-3">
+                    <!-- <div class="col-3 mx-auto form-group">
+                        <label for="userName" class="form-label fw-bold">N° matricule</label>
+                        <input id="userName" type="text" name="userName" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" autocomplete="off">
+                    </div> -->
+
+                    <!-- {{agent | json}} -->
+                    <div class="col-3 mx-auto form-group">
+                        <label for="userName" class="form-label fw-bold">N° matricule</label>
+                        <input type="text" [formControl]="control"
+                            [matAutocomplete]="auto" id="myInputSearch"
+                            class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+    
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+                            <mat-option *ngFor="let agent of (filteredAgents | async)?.slice(0, 5)"
+                                [value]="agent.matriculeAgent">
+                                {{ agent.matriculeAgent }}
+                            </mat-option>
+                        </mat-autocomplete>
+
+                    </div>
+
+                    <div class="col-3 mx-auto form-group">
+                        <ng-container *ngIf="agent.prenomAgent != ''">
+                            <span class="fw-bold">Prénom agent</span>
+                            <div class="text-input text-uppercase"> {{ agent.prenomAgent }} </div>
+                        </ng-container>
+                    </div>
+
+                    <div class="col-3 mx-auto form-group">
+                        <ng-container *ngIf="agent.nomAgent != ''">
+                            <span class="fw-bold">Nom agent</span>
+                            <div class="text-input text-uppercase"> {{ agent.nomAgent }} </div>
+                        </ng-container>
+                    </div>
+
+                    <!-- <div class="col-3 mx-auto form-check  d-flex justify-content-center align-items-end">
+                        <div class="custom-controls-stacked">
+                            <div class="custom-control custom-checkbox">
+                                <input name="notLocked" type="checkbox" [(ngModel)]="utilisateur!.isNotLocked" class="custom-control-input" id="notLocked">
+                                <label class="custom-control-label mx-1 fs-4" for="notLocked">Bloqué</label>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+
+
+                <div class="row g-4 mb-3">
+                    <div class="col-3 mx-auto form-group">
+                        <label for="codeFonction" class="form-label fw-bold">Fonction</label>
+                        <select name="codeFonction" id="codeFonction" required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" autocomplete="off">
+                            <option *ngFor="let codeFonction of fonctions" [ngValue]="codeFonction">
+                                {{ codeFonction.libelleFonction }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-3 mx-auto form-group">
+                        <label for="authorities" class="form-label fw-bold">Authorité</label>
+                        <select name="authorities" id="authorities" required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" autocomplete="off">
+                            <option *ngFor="let authority of authorities" [ngValue]="authority">
+                                {{ authority.nameAuthority }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-3 mx-auto form-group">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <button type="submit" id="utilisateur-form"  [disabled]="UtilisateurForm.invalid || (agent.matriculeAgent == '')" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                            Valider
+                        </button>
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="container px-3 py-2">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <button (click)="submitForm()" type="button" [disabled]="UtilisateurForm.invalid || (agent.matriculeAgent == '')" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                        Valider
+                    </button>
+
+                    <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                        Retour
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

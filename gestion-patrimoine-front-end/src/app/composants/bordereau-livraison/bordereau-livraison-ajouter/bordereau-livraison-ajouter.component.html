@@ -1,0 +1,65 @@
+<form class="form" #BordereauLivraisonForm="ngForm" (ngSubmit)="ajouterBordereauLivraison(BordereauLivraisonForm)">
+
+    <div class="row g-4 mb-3">
+        <div class="col-3 mx-auto form-group">
+            <label for="numeroBL" class="form-label fw-bold">N° bordereau</label>
+            <input id="numeroBL" type="text" name="numeroBL" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+        </div>
+
+        <!-- <div class="col-3 mx-auto form-group">
+            <label for="dateBL" class="form-label fw-bold">Date bordereau</label>
+            <input type="date" name="dateBL" id="dateBL" ngbDatepicker #dp1="ngbDatepicker" (click)="dp1.toggle()" required ngModel class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+        </div> -->
+
+        <div class="col-3 mx-auto form-group">
+            <label for="dateBL" class="form-label fw-bold">Date bordereau</label>
+            <input type="text" name="dateBL" id="dateBL" autocomplete="off" ngbDatepicker #dp1="ngbDatepicker" (click)="dp1.toggle()" required ngModel class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+            <label for="lieuDeLivraison" class="form-label fw-bold">Lieu de livraison</label>
+            <input type="text" name="lieuDeLivraison" id="lieuDeLivraison" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+        </div>
+    </div>
+
+    <div class="row g-4 mb-3">
+        <div class="col-3 mx-auto form-group d-none">
+            <label for="conformiteBL" class="form-label fw-bold">Conformite bordereau</label>
+            <select name="conformiteBL" id="conformiteBL" required [(ngModel)]="selectedValueConformiteBL" class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                <option value="OUI">OUI</option>
+                <option value="NON">NON</option>
+            </select>
+        </div>
+
+        <div class="col-3 mx-auto form-group">
+            <label for="nomLivreur" class="form-label fw-bold">Nom livreur</label>
+            <input type="text" name="nomLivreur" id="nomLivreur" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+        </div>
+
+        <div class="col-7 mx-auto form-group">
+            <label for="ninea" class="form-label fw-bold">Prestataire</label>
+            <select name="ninea" id="ninea" required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                <option *ngFor="let prestataire of prestataires" [ngValue]="prestataire">
+                    {{ prestataire.raisonSociale }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-11 mx-auto form-group">
+            <label for="descriptionBL" class="form-label fw-bold">Description bordereau</label>
+            <textarea name="descriptionBL" id="descriptionBL" rows="2" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12 text-end">
+            <button type="submit" [disabled]="BordereauLivraisonForm.invalid" id="bordereau-livraison-form" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour valider">
+                Valider
+            </button>
+        </div>
+    </div>
+
+</form>

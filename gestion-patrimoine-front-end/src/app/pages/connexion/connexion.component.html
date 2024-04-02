@@ -1,0 +1,45 @@
+<section class="arriere-plan d-flex justify-content-center align-items-center h-100">
+  <div class="container">
+      <div class="row">
+          <div class="col-5 mx-auto">
+              <div class="card shadow bg-white border-2 border-myprimary rounded">
+                  <div class="col-12 d-flex justify-content-center my-2">
+                      <img src="../../../assets/douanes.jpeg" alt="logo" height="80px" width="120px">
+                  </div>
+                  <div class="col-12 d-flex justify-content-center">
+                      <p class="fs-5 fw-bolder">GESTION DE PATRIMOINE</p>
+                  </div>
+                  <form (ngSubmit)="loginForm.valid && validateUser(loginForm)" #loginForm="ngForm" class="card-body p-4">
+                      <div class="row px-5">
+                          <div class="form-group d-grid gap-1 mb-4 col-12">
+                              <label class="form-label d-flex align-items-start" for="typeText">Matricule</label>
+                              <!-- <input type="email" name="email" id="email" id="typeText" class="form-control form-control-lg border border-myprimary" required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [(ngModel)]="model.email" #email="ngModel" /> -->
+                              <input type="userName" name="userName" id="userName" id="typeText" class="form-control form-control-lg border border-myprimary" required  minlength="7" [(ngModel)]="model.userName" #userName="ngModel" />
+                              <span class="focus-input100"></span>
+                              <span class="text-mybrown" *ngIf="(userName.touched || loginForm.submitted) && userName.errors?.['required']">Erreur : Matricule est obligatoire !</span>
+                              <span class="text-mybrown" *ngIf="(userName.touched || loginForm.submitted) && userName.errors?.['pattern']">Erreur : Renseignez une matricule valide !</span>
+                          </div>
+                          <div class="form-group d-grid gap-1 col-12">
+                              <label class="form-label d-flex align-items-start" for="typePassword">Mot de passe</label>
+                              <input type="password" name="motDePasse" id="motDePasse" id="typePassword" class="form-control form-control-lg border border-myprimary" required [(ngModel)]="model.motDePasse" #motDePasse="ngModel" minlength="7" />
+                              <span class="focus-input100"></span>
+                              <span class="text-mybrown" *ngIf="(motDePasse.touched || loginForm.submitted) && motDePasse.errors?.['required']">Erreur : Le mot de passe est obligatoire !</span>
+                              <span class="text-mybrown" *ngIf="(motDePasse.touched || loginForm.submitted) && motDePasse.errors?.['minlength']">Erreur : Le mot de passe doit faire 7 caractères minimum. !</span>
+                          </div>
+                      </div>
+                      <div class="row mt-4 px-5">
+                          <div class="col-12">
+                              <button class="btn btn-mysecondary btn-md fw-bold w-100" type="submit" [disabled]="!loginForm.valid">Se connecter</button>
+                          </div>
+                      </div>
+                      <div class="row mt-3 px-5">
+                          <div class="col-12  text-end">
+                              <button type="button" class="btn btn-outline-secondary text-dark"><u>Mot de passe oublié?</u></button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>

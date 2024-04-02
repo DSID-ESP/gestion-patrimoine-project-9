@@ -1,0 +1,52 @@
+
+<div class="card">
+
+  <div class="card-header text-center fw-bold bg-myprimary fs-5">
+      Sélectionnez des véhicules
+  </div>
+
+  <div class="card-body">
+      <form class="container px-3 py-2" >
+
+          <!-- {{ secteurActivites | json }} -->
+          <div class="row g-4 mb-3" style="height: 350px; overflow: auto;">
+              <div class="col-3" *ngFor="let vehicule of vehicules;">
+                  <label class="option_item bg-myprimary">
+                      <!-- <input type="checkbox" class="checkbox" [value]="secteurActivite" (change)="onCheckboxChange($event)"> -->
+                      <input type="checkbox" class="checkbox" [checked]="isChecked(vehicule, vehiculesSelect)" (change)="onCheckboxChange($event, vehicule)">
+
+                      <div class="option_inner fond">
+                          <div class="tickmark"></div>
+                          <!-- <div class="icon"><img [src]="'http://localhost:8080/Fichier/'+ theme.fichierDB.idfichierdb" alt=""></div> -->
+                          <!-- <div class="icon"><img src="../../../assets/douanes.jpeg" alt="" width="40px"></div> -->
+                          <div class="name">
+                              <p>{{ vehicule.codeArticleBonEntree.libelleArticleBonEntree }}</p>
+                          </div>
+                      </div>
+                  </label>
+              </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 text-end">
+                <button (click)="validerVehicule()" type="button"
+                    class="btn btn-myprimary fw-bold mx-2" data-bs-toggle="tooltip"
+                    title="cliquer ici pour valider">
+                    Valider
+                </button>
+
+                <button (click)="retourner()" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                    Retour
+                </button>
+            </div>
+        </div>
+
+
+
+      </form>
+
+
+
+  </div>
+
+</div>
