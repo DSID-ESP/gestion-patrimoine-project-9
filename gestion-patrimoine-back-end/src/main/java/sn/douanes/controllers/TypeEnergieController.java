@@ -22,26 +22,26 @@ public class TypeEnergieController {
     TypeEnergieService typeEnergieService;
 
     @GetMapping("/TypeEnergies")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<TypeEnergie>> getAllTypeEnergies() {
         List<TypeEnergie> typeEnergie = typeEnergieService.getAllTypeEnergies();
         return new ResponseEntity<>(typeEnergie, OK);
     }
 
     @PostMapping("/AjouterTypeEnergie")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public TypeEnergie AjouterTypeEnergie(@RequestBody TypeEnergie typeEnergie) {
         return typeEnergieService.saveTypeEnergie(typeEnergie);
     }
 
     @PutMapping("/ModifierTypeEnergie")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public TypeEnergie ModifierTypeEnergie(@RequestBody TypeEnergie t) {
         return typeEnergieService.updateTypeEnergie(t);
     }
 
     @DeleteMapping("SupprimerTypeEnergieById/{codeTypeEnergie}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerTypeEnergieById(@PathVariable("codeTypeEnergie") String codeTypeEnergie) {
         typeEnergieService.deleteTypeEnergieById(codeTypeEnergie);
     }

@@ -23,26 +23,26 @@ public class TypeVehiculeController {
 
 
     @GetMapping("/TypeVehicules")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<TypeVehicule>> getAllTypeVehicules() {
         List<TypeVehicule> typeVehicule = typeVehiculeService.getAllTypeVehicules();
         return new ResponseEntity<>(typeVehicule, OK);
     }
 
     @PostMapping("/AjouterTypeVehicule")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public TypeVehicule AjouterTypeVehicule(@RequestBody TypeVehicule typeVehicule) {
         return typeVehiculeService.saveTypeVehicule(typeVehicule);
     }
 
     @PutMapping("/ModifierTypeVehicule")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public TypeVehicule ModifierTypeVehicule(@RequestBody TypeVehicule t) {
         return typeVehiculeService.updateTypeVehicule(t);
     }
 
     @DeleteMapping("SupprimerTypeVehiculeById/{codeTypeVehicule}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerTypeVehiculeById(@PathVariable("codeTypeVehicule") String codeTypeVehicule) {
         typeVehiculeService.deleteTypeVehiculeById(codeTypeVehicule);
     }

@@ -101,14 +101,14 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
     "descriptionBonPour",
    // "numeroCourrielOrigine",
     "numeroArriveDLF",
-    //"dateArriveDLF",
+    "dateArriveDLF",
     "numeroArriveBLM",
     "numeroArriveSection",
     "dateArriveSection",
     "codeSection",
     "matriculeAgent",
     "dateArriveBLM",
-    "dateCourrielOrigine",
+    // "dateCourrielOrigine",
     "objectCourrielOrigine",
     "rowNombreArticleBonPour"
   ];
@@ -231,48 +231,48 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
   }
 
 
-  generatePDF(): void {
+  // generatePDF(): void {
 
-    const data: BonPour[] = this.dataSource.filteredData;
-    // console.log(data);
+  //   const data: BonPour[] = this.dataSource.filteredData;
+  //   // console.log(data);
 
 
-    const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
+  //   const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
 
-    const doc = new jsPDF();
+  //   const doc = new jsPDF();
 
-    // Créez un tableau de données pour autoTable
-    const tableData = data.map((item: BonPour) => [
-      item.numeroCourrielOrigine,
-      item.etatBonPour,
-      `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear() % 100}`,
-      item.objectCourrielOrigine
-    ]);
+  //   // Créez un tableau de données pour autoTable
+  //   const tableData = data.map((item: BonPour) => [
+  //     item.numeroCourrielOrigine,
+  //     item.etatBonPour,
+  //     `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear() % 100}`,
+  //     item.objectCourrielOrigine
+  //   ]);
 
-    // Configuration pour le PDF avec une taille de page personnalisée
+  //   // Configuration pour le PDF avec une taille de page personnalisée
 
-    const marginLeft = 10;
-    const marginTop = 10;
-    const marginRight = 10;
-    const marginBottom = 10;
+  //   const marginLeft = 10;
+  //   const marginTop = 10;
+  //   const marginRight = 10;
+  //   const marginBottom = 10;
 
-    // Générer le tableau dans le PDF avec des styles de texte personnalisés
-    autoTable(doc, {
-      head: [
-        [
-          { content: 'N° courriel origine', styles: { fontSize: 6 } },
-          { content: 'Date courriel origine', styles: { fontSize: 6 } },
-          { content: 'Etat bon pour', styles: { fontSize: 6 } },
-          { content: 'Object courriel origine', styles: { fontSize: 6 } }
-        ]
-      ],
-      body: tableData.map(row => row.map(cell => ({ content: cell.toString(), styles: { fontSize: 6 } }))),
-      margin: { top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft },
-      theme: 'plain'
-    });
+  //   // Générer le tableau dans le PDF avec des styles de texte personnalisés
+  //   autoTable(doc, {
+  //     head: [
+  //       [
+  //         { content: 'N° courriel origine', styles: { fontSize: 6 } },
+  //         { content: 'Date courriel origine', styles: { fontSize: 6 } },
+  //         { content: 'Etat bon pour', styles: { fontSize: 6 } },
+  //         { content: 'Object courriel origine', styles: { fontSize: 6 } }
+  //       ]
+  //     ],
+  //     body: tableData.map(row => row.map(cell => ({ content: cell.toString(), styles: { fontSize: 6 } }))),
+  //     margin: { top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft },
+  //     theme: 'plain'
+  //   });
 
-    doc.save('bon-pour-liste.pdf');
-  }
+  //   doc.save('bon-pour-liste.pdf');
+  // }
 
 
   search(term: string): void {
@@ -358,14 +358,17 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
       next: (response: BonPour[]) => {
         this.bonPours = response;
 
+        console.log(this.bonPours);
+
+
         this.dataSource = new MatTableDataSource<BonPour>(this.bonPours.map((item) => ({
           ...item,
           // raisonSociale: item.identifiantBL.ninea ? item.identifiantBL.ninea.raisonSociale : '---',
           // rowNombreArticleBonPour: this.nombreArticleBonEntree(item, this.articleBonPours),
-           rowNomUnite: item.codeUniteDouaniere.nomUniteDouaniere,
+           rowNomUnite: item.codeUniteDouaniere?.nomUniteDouaniere,
         })).sort((a, b) => a.numeroCourrielOrigine - b.numeroCourrielOrigine));
 
-        // console.log(this.dataSource.data);
+         console.log(this.dataSource);
         this.dataSource.paginator = this.paginator;
       },
       error: (errorResponse: HttpErrorResponse) => {
@@ -397,11 +400,11 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
 
   goToDetail(bonPour: BonPour): void {
     const id = bonPour.identifiantBonPour;
-    const encrypt = this.securiteService.encryptUsingAES256(id);
-    this.router.navigate(['/ajouter-bon-pour-detail', encrypt]);
+    if (id) {
+      const encrypt = this.securiteService.encryptUsingAES256(id);
+      this.router.navigate(['/ajouter-bon-pour-detail', encrypt]);
+    }
   }
-
-
 
 
   // filtreBonEntreeVehicule(vehicules: Vehicule[], articleBonEntrees: ArticleBonEntree[]): void {

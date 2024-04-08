@@ -19,9 +19,9 @@ INSERT INTO "sections" ("code_section", "libelle_section", "code_unite_douaniere
 INSERT INTO "agent" ("matricule_agent", "email_agent", "nom_agent", "code_agent", "numero_telephone_agent", "prenom_agent", "code_section", "code_unite_douaniere") VALUES
 ('613693H', 'IBRAHIMA@ESP.SN',  'SECK', 'D3485',    773456789,  'IBRAHIMA DIAGNE',  'SG',   '06K'),
 ('506234B', 'OUMOU@ESP.SN',  'DIALLO',   'D2273',    777654321,  'OUMOU HAWA',   'SG',   '06K'),
-('622545C', 'ADMIN1@ESP.SN', 'ADMIN1',    'D281T',    675555555,  'ADMINISTRATEUR1',   'SG',   '06K'),
+('622543E', 'ADMIN1@ESP.SN', 'ADMIN1',    'D281T',    675555555,  'ADMINISTRATEUR1',   'SG',   '06K'),
 ('622549D', 'ADMIN2@ESP.SN', 'ADMIN2',    'D281B',    975555555,  'ADMINISTRATEUR2',   'SG',   '06K'),
-('622543E', 'ADMIN3@ESP.SN', 'ADMIN3',    'D281A',    175555555,  'ADMINISTRATEUR3',   'SG',   '06K');
+('622545C', 'ADMIN3@ESP.SN', 'ADMIN3',    'D281A',    175555555,  'ADMINISTRATEUR3',   'SG',   '06K');
 
 
 
@@ -110,10 +110,11 @@ VALUES
     ('BSSG202311121243215', 2, 'Article BS4', 3, '2024-01-26', '506234B');
 
 
-INSERT INTO "fonctions" ("code_fonction", "libelle_fonction")
+INSERT INTO "fonction_agent" ("code_fonction_agent", "libelle_fonction_agent")
 VALUES ('ADMIN', 'ADMINISTRATEUR'), ('CSA', 'CHEF SECTION ARMEMENT'), ('ASA', 'AGENT SECTION ARMEMENT'),
        ('CSG', 'CHEF SECTION GARAGE'), ('ASG', 'AGENT SECTION GARAGE'), ('CSM', 'CHEF SECTION MATÉRIEL'),
-       ('ASM', 'AGENT SECTION MATÉRIEL'), ('BLM', 'CHEF BLM'), ('DLF', 'DIRECTEUR DLF');
+       ('ASM', 'AGENT SECTION MATÉRIEL'), ('BLM', 'CHEF BLM'), ('DLF', 'DIRECTEUR DLF'), 
+       ('BAF', 'BUREAU ADMINISTRATIF ET FINANCIER');
 
 
 INSERT INTO "marque_arme" ("code_marque_arme", "libelle_marque_arme") VALUES
@@ -483,24 +484,13 @@ INSERT INTO "controle" ("date_controle", "observation_controle", "numero_serie")
 ('2024-03-04 13:42:06.377043',  'OBSERVATION CONTROLE 3',   '789013');
 
 
-INSERT INTO "utilisateur" ("utilisateur_id", "is_active", "is_not_locked", "join_date", "last_login_date", "last_login_date_display", "mot_de_passe", "user_name", "code_fonction", "matricule_agent") VALUES
-(1,	't',	't',	'2024-03-02 13:45:32.901327',	'2024-03-02 13:45:32.901327',	'2024-03-02 13:45:32.901327',	'$2a$10$FWHTlMKYpU5OHsf5fv1f..oR.SHKk/4xp/T/7Sdx1HghBEPnrbWeK',	'613693H',	'ADMIN',	'613693H'),
+INSERT INTO "utilisateur" ("utilisateur_id", "is_active", "is_not_locked", "join_date", "last_login_date", "last_login_date_display", "pwd", "user_name", "code_fonction_agent", "matricule_agent") VALUES
+(1,	't',	't',	'2024-03-02 13:45:32.901327',	'2024-03-02 13:45:32.901327',	'2024-03-02 13:45:32.901327',	'$2a$10$FWHTlMKYpU5OHsf5fv1f..oR.SHKk/4xp/T/7Sdx1HghBEPnrbWeK',	'613693H',	'CSG',	'613693H'),
 (2,	't',	't',	'2024-03-03 13:45:32.901327',	'2024-03-03 13:45:32.901327',	'2024-03-03 13:45:32.901327',	'$2a$10$Z.esrVqyc3o.MUdOBln6YulZD2xQIlT1auSHlltmC/X7SJCo7aODS',	'506234B',	'ADMIN',	'506234B'),
 (3,	't',	't',	'2024-03-04 13:45:32.901327',	'2024-03-04 13:45:32.901327',	'2024-03-04 13:45:32.901327',	'$2a$10$4G6IGiPhj27OiNDE1Heufug9D31QZ/30OrsTPWs/YkP8fBx9PMy9G',	'622543E',	'ADMIN',	'622543E');
 
 
 
-
-INSERT INTO "authorities" ("code_authority", "name_authorities") VALUES
-(1, 'ADMINISTRATEUR'),
-(2, 'UTILISATEUR');
-
-
-
-INSERT INTO "utilisateur_authority" ("utilisateur_id", "code_authority") VALUES
-(1, 1),
-(2, 1),
-(3, 1);
 
 
 

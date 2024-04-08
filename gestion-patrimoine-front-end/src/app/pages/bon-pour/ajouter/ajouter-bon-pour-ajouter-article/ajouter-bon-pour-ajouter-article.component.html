@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="col-6 mx-auto form-group">
-                        <label for="codeTypeObjet" class="form-label fw-bold">Type objet</label>
+                        <label for="codeTypeObjet" class="form-label fw-bold">Nature</label>
                         <select name="codeTypeObjet" id="codeTypeObjet" required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
                             <option *ngFor="let typeObjet of typeObjets" [ngValue]="typeObjet">
                                 {{ typeObjet.libelleTypeObjet }}
@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="col-3 mx-auto form-group">
-                        <label for="quantiteDemandee" class="form-label fw-bold">Quantité demandée</label>
+                        <label for="quantiteDemandee" class="form-label fw-bold">Qte demandée</label>
                         <input type="number" name="quantiteDemandee" id="quantiteDemandee" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                 <div class="row g-4 mb-3">
 
                     <div class="col-12 mx-auto form-group">
-                        <label for="libelleArticleBonPour" class="form-label fw-bold">Libellé article bon pour</label>
+                        <label for="libelleArticleBonPour" class="form-label fw-bold">Description article bon pour</label>
                         <input id="libelleArticleBonPour" type="text" name="libelleArticleBonPour" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
                     </div>
                 </div>

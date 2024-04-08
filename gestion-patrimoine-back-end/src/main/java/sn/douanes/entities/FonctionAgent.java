@@ -10,22 +10,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-
 @Entity
-@Table(name = "FONCTIONS")
+@Table(name = "FONCTION_AGENT")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Fonctions {
+public class FonctionAgent {
 
     @Id
-    @Column(name = "CODE_FONCTION", length = 25)
-    private String codeFonction;
+    @Column(name = "CODE_FONCTION_AGENT", length = 10)
+    private String codeFonctionAgent;
     
 
-    @Column(name = "LIBELLE_FONCTION",length = 100)
-    private String libelleFonction;
+    @Column(name = "LIBELLE_FONCTION_AGENT",length = 100)
+    private String libelleFonctionAgent;
 
 
 }

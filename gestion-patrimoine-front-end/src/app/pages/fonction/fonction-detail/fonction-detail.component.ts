@@ -5,8 +5,8 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { Subscription } from 'rxjs';
 import { PopupConfirmationSupprimerComponent } from 'src/app/composants/supprimer/popup-confirmation-supprimer/popup-confirmation-supprimer.component';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
-import { Fonction } from 'src/app/model/fonction.model';
-import { FonctionService } from 'src/app/services/fonction.service';
+import { FonctionAgent } from 'src/app/model/fonction-agent.model';
+import { FonctionAgentService } from 'src/app/services/fonction-agent.service';
 import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
@@ -24,9 +24,9 @@ export class FonctionDetailComponent {
 
   constructor(
     public dialogRef: MatDialogRef<FonctionDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public fonction: Fonction,
+    @Inject(MAT_DIALOG_DATA) public fonctionAgent: FonctionAgent,
     private matDialog: MatDialog,
-    private fonctionService: FonctionService,
+    private fonctionAgentService: FonctionAgentService,
     private notificationService: NotificationService,
 
   ) {}
@@ -104,7 +104,7 @@ export class FonctionDetailComponent {
     this.clickButton('fonction-form')
   }
 
-  public modifierFonction(FonctionForm: NgForm): void {
+  public modifierFonctionAgent(FonctionAgentForm: NgForm): void {
 
     // -------------------------------------------------------------------------- METHODE 1
     // const formData = this.prestatairesService.createPrestatairesFormData(prestataireForm.value);
@@ -126,8 +126,8 @@ export class FonctionDetailComponent {
 
 
 
-    this.subscriptions.push(this.fonctionService.modifierFonction(FonctionForm.value).subscribe({
-        next: (response: Fonction) => {
+    this.subscriptions.push(this.fonctionAgentService.modifierFonctionAgent(FonctionAgentForm.value).subscribe({
+        next: (response: FonctionAgent) => {
           console.log(response);
           this.popupFermer();
           this.sendNotification(NotificationType.SUCCESS, `Modification réussie d'une fonction`);

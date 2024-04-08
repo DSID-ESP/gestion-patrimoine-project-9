@@ -23,14 +23,14 @@ public class ArticleBonEntreeController {
 
     
     @GetMapping("/ArticleBonEntrees")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<ArticleBonEntree>> getAllArticleBonEntrees() {
         List<ArticleBonEntree> articleBonEntree = articleBonEntreeService.getAllArticleBonEntrees();
         return new ResponseEntity<>(articleBonEntree, OK);
     }
 
     @PostMapping("/AjouterArticleBonEntree")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ArticleBonEntree AjouterArticleBonEntree(@RequestBody ArticleBonEntree articleBonEntree) {
         return articleBonEntreeService.ajouterArticleBonEntree(articleBonEntree.getCodeArticleBonEntree(),articleBonEntree.getIdentifiantBE(), articleBonEntree.getLibelleArticleBonEntree(),articleBonEntree.getCodeLieuVH(), articleBonEntree.getQuantiteEntree(), articleBonEntree.getCodeTypeObjet(), articleBonEntree.getMatriculeAgent());
     }
@@ -53,13 +53,13 @@ public class ArticleBonEntreeController {
 
 
     @PutMapping("/ModifierArticleBonEntree")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ArticleBonEntree ModifierArticleBonEntree(@RequestBody ArticleBonEntree a) {
         return articleBonEntreeService.updateArticleBonEntree(a);
     }
 
     @DeleteMapping("SupprimerArticleBonEntreeById/{codeArticleBonEntree}/{identifiantBE}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerArticleBonEntree(
             @PathVariable("codeArticleBonEntree") Integer codeArticleBonEntree,
             @PathVariable("identifiantBonEntree") String identifiantBonEntree
@@ -69,7 +69,7 @@ public class ArticleBonEntreeController {
 
 
     @GetMapping("RecupererArticleBonEntreeById/{codeArticleBonEntree}/{identifiantBonEntree}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ArticleBonEntree RecupererAgentById(
             @PathVariable("codeArticleBonEntree") Integer codeArticleBonEntree,
             @PathVariable("identifiantBonEntree") String identifiantBonEntree

@@ -46,18 +46,18 @@
                           <!-- {{ bonEntree | json }}  -->
                           <ng-container
                               *ngIf="isNumber(termeRechercheCodeFonctionLibelleFonction); else nonNumeric">
-                              <ng-container *ngIf="fonction?.codeFonction as codeFonction;">
-                                  <a (click)="FilterDoubleCodeFonctionLibelleFonction(codeFonction)"
+                              <ng-container *ngIf="fonctionAgent?.codeFonctionAgent as codeFonctionAgent;">
+                                  <a (click)="FilterDoubleCodeFonctionLibelleFonction(codeFonctionAgent)"
                                       style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
-                                      {{ codeFonction }}
+                                      {{ codeFonctionAgent }}
                                   </a>
                               </ng-container>
                           </ng-container>
                           <ng-template #nonNumeric>
-                              <ng-container *ngIf="fonction?.libelleFonction as libelleFonction;">
-                                  <a (click)="FilterDoubleCodeFonctionLibelleFonction(libelleFonction)"
+                              <ng-container *ngIf="fonctionAgent?.libelleFonctionAgent as libelleFonctionAgent;">
+                                  <a (click)="FilterDoubleCodeFonctionLibelleFonction(libelleFonctionAgent)"
                                       style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
-                                      {{ libelleFonction }}
+                                      {{ libelleFonctionAgent }}
                                   </a>
                               </ng-container>
                           </ng-template>

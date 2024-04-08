@@ -31,7 +31,7 @@ public class PrestatairesController {
 
 
     @GetMapping("/Prestataires")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<Prestataires>> getAllPrestataires() {
 
         // METHODE 1
@@ -61,7 +61,7 @@ public class PrestatairesController {
     }
 
     @PostMapping("/AjouterPrestataires")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<?> AjouterPrestataires(@RequestBody Prestataires prestataires) throws PrestatairesExistException {
         // Assurez-vous que SecteurActivite n'est pas null pour éviter la NullPointerException
 //        if (prestataires.getSecteurActivite() != null) {
@@ -131,7 +131,7 @@ public class PrestatairesController {
 
     @PutMapping("/ModifierPrestataires")
     // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
-    @PostAuthorize("hasAuthority('ADMINISTRATEUR')")
+    // @PostAuthorize("hasAuthority('ADMINISTRATEUR')")
     public ResponseEntity<Prestataires> ModifierPrestataires(@RequestBody Prestataires prestataires) throws PrestatairesNotFoundException {
 
         Prestataires updatePrestataires = prestatairesService.updatePrestataires(prestataires);
@@ -140,7 +140,7 @@ public class PrestatairesController {
     }
 
     @DeleteMapping("SupprimerPrestatairesById/{ninea}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<HttpResponse> SupprimerPrestatairesById(@PathVariable("ninea") String ninea) {
 
         prestatairesService.deletePrestatairesById(ninea);

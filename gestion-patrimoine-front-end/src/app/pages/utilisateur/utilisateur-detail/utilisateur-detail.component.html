@@ -105,12 +105,12 @@
                         <div class="row g-4 mb-3">
                             <div class="col-3 mx-auto form-group">
                                 <span class="fw-bold">Fonction</span>
-                                <div class="text-input text-uppercase"> {{ utilisateur.codeFonction.libelleFonction }} </div>
+                                <div class="text-input text-uppercase"> {{ utilisateur.codeFonctionAgent.libelleFonctionAgent }} </div>
                             </div>
                             
                             <div class="col-3 mx-auto form-group">
                                 <span class="fw-bold">Authorité</span>
-                                <div class="text-input text-uppercase"> {{ utilisateur.authorities[0].nameAuthority }} </div>
+                                <!-- <div class="text-input text-uppercase"> {{ utilisateur.authorities[0].nameAuthority }} </div> -->
                             </div>
 
                             <div class="col-3 mx-auto form-group">
@@ -242,20 +242,20 @@
                     <div class="row g-4 mb-3">
                         <div class="col-3 mx-auto form-group">
                             <label for="codeFonction" class="form-label fw-bold">Fonction</label>
-                            <select name="codeFonction" id="codeFonction" required [(ngModel)]="utilisateur!.codeFonction.libelleFonction" class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" autocomplete="off">
-                                <option *ngFor="let codeFonction of fonctions" [ngValue]="codeFonction.libelleFonction">
-                                    {{ codeFonction.libelleFonction }}
+                            <select name="codeFonction" id="codeFonction" required [(ngModel)]="utilisateur!.codeFonctionAgent.libelleFonctionAgent" class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" autocomplete="off">
+                                <option *ngFor="let codeFonctionAgent of fonctionAgents" [ngValue]="codeFonctionAgent.libelleFonctionAgent">
+                                    {{ codeFonctionAgent.libelleFonctionAgent }}
                                 </option>
                             </select>
                         </div>
     
                         <div class="col-3 mx-auto form-group"> 
                             <label for="authorities" class="form-label fw-bold">Authorité</label>
-                            <select name="authorities" id="authorities" required [(ngModel)]="utilisateur!.authorities[0].nameAuthority" class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" autocomplete="off">
+                            <!-- <select name="authorities" id="authorities" required [(ngModel)]="utilisateur!.authorities[0].nameAuthority" class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" autocomplete="off">
                                 <option *ngFor="let authority of authorities" [ngValue]="authority.nameAuthority">
                                     {{ authority.nameAuthority }}
                                 </option>
-                            </select>
+                            </select> -->
                         </div>
     
                         <div class="col-3 mx-auto form-group">

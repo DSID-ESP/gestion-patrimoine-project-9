@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { CustomHttpRespone } from 'src/app/model/custom-http-response.model';
 import { AgentService } from 'src/app/services/agent.service';
-import { FonctionService } from 'src/app/services/fonction.service';
+import { FonctionAgentService } from 'src/app/services/fonction-agent.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SecteurActiviteService } from 'src/app/services/secteur-activite.service';
 import { SectionsService } from 'src/app/services/sections.service';
@@ -30,7 +30,7 @@ export class PopupConfirmationSupprimerComponent implements OnInit, OnDestroy {
     private secteurActiviteService: SecteurActiviteService,
     private sectionsService: SectionsService,
     private uniteDouaniereService: UniteDouaniereService,
-    private fonctionService: FonctionService
+    private fonctionAgentService: FonctionAgentService
   ) { }
 
 
@@ -93,7 +93,7 @@ export class PopupConfirmationSupprimerComponent implements OnInit, OnDestroy {
 
         case "fonction":
           this.subscriptions.push(
-            this.fonctionService.supprimerFonctionById(id).subscribe({
+            this.fonctionAgentService.supprimerFonctionAgentById(id).subscribe({
               next: (response: CustomHttpRespone) => {
                 this.popupFermer();
                 this.sendNotification(NotificationType.SUCCESS, response.message);

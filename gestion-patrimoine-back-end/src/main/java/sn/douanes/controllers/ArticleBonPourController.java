@@ -31,27 +31,27 @@ public class ArticleBonPourController {
 
     
     @GetMapping("/ArticleBonPours")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<ArticleBonPour>> getAllArticleBonPours() {
         List<ArticleBonPour> articleBonPour = articleBonPourService.getAllArticleBonPours();
         return new ResponseEntity<>(articleBonPour, OK);
     }
 
     @PostMapping("/AjouterArticleBonPour")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ArticleBonPour AjouterArticleBonPour(@RequestBody ArticleBonPour articleBonPour) {
         return articleBonPourService.ajouterArticleBonPour(articleBonPour.getIdentifiantBonPour(), articleBonPour.getCodeArticleBonPour(), articleBonPour.getLibelleArticleBonPour(), articleBonPour.getQuantiteDemandee(), articleBonPour.getCodeTypeObjet(), articleBonPour.getMatriculeAgent());
     }
 
 
     @PutMapping("/ModifierArticleBonPour")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ArticleBonPour ModifierArticleBonPour(@RequestBody ArticleBonPour a) {
         return articleBonPourService.updateArticleBonPour(a);
     }
 
     @DeleteMapping("SupprimerArticleBonPourById/{codeArticleBonPour}/{identifiantBonPour}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerArticleBonPour(
             @PathVariable("codeArticleBonPour") Integer codeArticleBonPour,
             @PathVariable("identifiantBonPour") String identifiantBonPour
@@ -60,7 +60,7 @@ public class ArticleBonPourController {
     }
 
     @GetMapping("RecupererArticleBonPourById/{codeArticleBonPour}/{identifiantBonPour}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ArticleBonPour RecupererArticleBonPourById(
             @PathVariable("codeArticleBonPour") Integer codeArticleBonPour,
             @PathVariable("identifiantBonPour") String identifiantBonPour

@@ -22,7 +22,7 @@ public class BonPourController {
 
 
     @GetMapping("/BonPours")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<BonPour>> getAllBonPours() {
         List<BonPour> bonPour = bonPourService.getAllBonPours();
         return new ResponseEntity<>(bonPour, OK);
@@ -30,27 +30,27 @@ public class BonPourController {
 
 
     @PostMapping("/AjouterBonPour")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BonPour AjouterBonPour(@RequestBody BonPour bonPour) {
-        // return BonPourService.saveBonPour(BonPour);
+        // return bonPourService.saveBonPour(bonPour);
         return bonPourService.ajouterBonPour(bonPour.getDescriptionBonPour(), bonPour.getEtatBonPour(), bonPour.getCodeSection(), bonPour.getCodeUniteDouaniere(), bonPour.getNumeroCourrielOrigine(), bonPour.getDateCourrielOrigine(), bonPour.getObjectCourrielOrigine(), bonPour.getMatriculeAgent(), bonPour.getNumeroArriveBLM(), bonPour.getNumeroArriveDLF(), bonPour.getNumeroArriveSection(), bonPour.getDateArriveBLM(), bonPour.getDateArriveDLF(), bonPour.getDateArriveSection(), bonPour.getObservationBLM(), bonPour.getObservationDLF(), bonPour.getObservationSection());
     }
 
 
     @PutMapping("/ModifierBonPour")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BonPour ModifierBonPour(@RequestBody BonPour b) {
         return bonPourService.updateBonPour(b);
     }
 
     @DeleteMapping("SupprimerBonPourById/{identifiantBonPour}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerBonPourById(@PathVariable("identifiantBonPour") String identifiantBonPour) {
         bonPourService.deleteBonPourById(identifiantBonPour);
     }
 
     @GetMapping("RecupererBonPourById/{identifiantBonPour}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BonPour RecupererBonPourById(@PathVariable("identifiantBonPour") String identifiantBonPour) {
         return bonPourService.getBonPourById(identifiantBonPour);
     }

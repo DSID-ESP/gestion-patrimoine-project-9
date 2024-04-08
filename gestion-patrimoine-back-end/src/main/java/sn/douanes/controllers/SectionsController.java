@@ -26,28 +26,28 @@ public class SectionsController {
 
 
     @GetMapping("/Sections")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<Sections>> getAllSectionss() {
         List<Sections> sections = sectionsService.getAllSectionss();
         return new ResponseEntity<>(sections, OK);
     }
 
     @PostMapping("/AjouterSections")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Sections AjouterSections(@RequestBody Sections sections) {
         return sectionsService.saveSections(sections);
     }
 
 
     @PutMapping("/ModifierSections")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Sections ModifierSections(@RequestBody Sections t) {
 
         return sectionsService.updateSections(t);
     }
 
     @DeleteMapping("SupprimerSectionsById/{codeSection}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<HttpResponse> SupprimerSectionsById(@PathVariable("codeSection") String codeSection) {
 
         sectionsService.deleteSectionsById(codeSection);

@@ -22,27 +22,27 @@ public class TypeArmeController {
     TypeArmeService typeArmeService;
 
     @GetMapping("/TypeArmes")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<TypeArme>> getAllTypeArmes() {
         List<TypeArme> typeArme = typeArmeService.getAllTypeArmes();
         return new ResponseEntity<>(typeArme, OK);
     }
 
     @PostMapping("/AjouterTypeArme")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public TypeArme AjouterTypeArme(@RequestBody TypeArme t) {
         return typeArmeService.saveTypeArme(t);
     }
 
     @PutMapping("/ModifierTypeArme")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public TypeArme ModifierTypeArme(@RequestBody TypeArme t) {
 
         return typeArmeService.updateTypeArme(t);
     }
 
     @DeleteMapping("SupprimerTypeArmeById/{codeTypeArme}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerTypeArmeById(@PathVariable("codeTypeArme") String codeTypeArme) {
         typeArmeService.deleteTypeArmeById(codeTypeArme);
     }

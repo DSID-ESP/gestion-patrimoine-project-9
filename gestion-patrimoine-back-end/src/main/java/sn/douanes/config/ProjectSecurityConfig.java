@@ -53,11 +53,19 @@ public class ProjectSecurityConfig {
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(
                         (requests) -> requests
+
+                                // .requestMatchers("/Users").hasAuthority("ADMINISTRATEUR")
+                                // .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
+
                                 .requestMatchers("/actuator/").permitAll()
                                 .requestMatchers("/config/").permitAll()
                                 .requestMatchers("/v3/api-docs/").permitAll()
                                 .requestMatchers("/swagger-ui/").permitAll()
                                 .requestMatchers("/swagger-ui.html**").permitAll()
+
+                                // .requestMatchers(antMatcher("/user/**")).hasRole("USER")
+                                // .requestMatchers(antMatcher(HttpMethod.POST, "/user/**")).hasRole("ADMIN")
+
                                 .requestMatchers("/api/**").authenticated()
                                 // .anyRequest().authenticated()
 

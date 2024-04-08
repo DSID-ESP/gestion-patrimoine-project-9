@@ -1,6 +1,6 @@
 package sn.douanes.config;
 
-import sn.douanes.entities.Authorities;
+import sn.douanes.entities.FonctionAgent;
 import sn.douanes.entities.Utilisateur;
 import sn.douanes.repositories.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,8 +36,9 @@ public class GestionDesUtilisateursUsernamePwdAuthenticationProvider implements 
         Utilisateur utilisateur = utilisateurRepository.findByUserName(username);
 
         if (null != utilisateur) {
-            if (passwordEncoder.matches(pwd, utilisateur.getMotDePasse())) {
-                return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities(utilisateur.getAuthorities()));
+            if (passwordEncoder.matches(pwd, utilisateur.getPwd())) {
+                // return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities(utilisateur.getAuthorities()));
+                return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities(utilisateur.getCodeFonctionAgent()));
             } else {
                 throw new BadCredentialsException("Invalid password!");
             }
@@ -45,13 +47,21 @@ public class GestionDesUtilisateursUsernamePwdAuthenticationProvider implements 
         }
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(Set<Authorities> authorities) {
+
+    private List<GrantedAuthority> getGrantedAuthorities(FonctionAgent authority) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        for (Authorities authority : authorities) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getNameAuthority()));
-        }
+        grantedAuthorities.add(new SimpleGrantedAuthority(authority.getLibelleFonctionAgent()));
         return grantedAuthorities;
     }
+
+
+//    private List<GrantedAuthority> getGrantedAuthorities(Set<Authorities> authorities) {
+//        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+//        for (Authorities authority : authorities) {
+//            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getNameAuthority()));
+//        }
+//        return grantedAuthorities;
+//    }
 
     @Override
     public boolean supports(Class<?> authentication) {

@@ -25,35 +25,35 @@ public class AccidentController {
 
 
     @GetMapping("/Accidents")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR', 'CHEF SECTION ARMEMENT', 'AGENT SECTION ARMEMENT', 'CHEF SECTION GARAGE', 'AGENT SECTION GARAGE', 'CHEF SECTION MATÉRIEL', 'AGENT SECTION MATÉRIEL', 'CHEF BLM', 'DIRECTEUR DLF')")
     public ResponseEntity<List<Accident>> getAllAccidents() {
         List<Accident> accident = accidentService.getAllAccidents();
         return new ResponseEntity<>(accident, OK);
     }
 
     @PostMapping("/AjouterAccident")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR', 'CHEF SECTION ARMEMENT', 'AGENT SECTION ARMEMENT', 'CHEF SECTION GARAGE', 'AGENT SECTION GARAGE', 'CHEF SECTION MATÉRIEL', 'AGENT SECTION MATÉRIEL', 'CHEF BLM', 'DIRECTEUR DLF')")
     public Accident AjouterAccident(@RequestBody Accident accident) {
         return accidentService.ajouterAccident(accident.getIdentifiantMaintenance(), accident.getDateIncident(), accident.getLieuIncident(), accident.getCommentaireIncident(), accident.getNombreDeces(), accident.getNombreBlesse());
     }
 
 
     @PutMapping("/ModifierAccident")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR', 'CHEF SECTION ARMEMENT', 'AGENT SECTION ARMEMENT', 'CHEF SECTION GARAGE', 'AGENT SECTION GARAGE', 'CHEF SECTION MATÉRIEL', 'AGENT SECTION MATÉRIEL', 'CHEF BLM', 'DIRECTEUR DLF')")
     public Accident ModifierAccident(@RequestBody Accident a) {
         return accidentService.updateAccident(a);
     }
     
 
     @DeleteMapping("SupprimerAccidentById/{identifiantMaintenance}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR', 'CHEF SECTION ARMEMENT', 'AGENT SECTION ARMEMENT', 'CHEF SECTION GARAGE', 'AGENT SECTION GARAGE', 'CHEF SECTION MATÉRIEL', 'AGENT SECTION MATÉRIEL', 'CHEF BLM', 'DIRECTEUR DLF')")
     public void SupprimerAccidentById(@PathVariable("identifiantMaintenance") String identifiantMaintenance) {
         accidentService.deleteAccidentById(identifiantMaintenance);
     }
 
 
     @GetMapping("RecupererAccidentById/{identifiantMaintenance}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR', 'CHEF SECTION ARMEMENT', 'AGENT SECTION ARMEMENT', 'CHEF SECTION GARAGE', 'AGENT SECTION GARAGE', 'CHEF SECTION MATÉRIEL', 'AGENT SECTION MATÉRIEL', 'CHEF BLM', 'DIRECTEUR DLF')")
     public Accident RecupererAccidentById(@PathVariable("identifiantMaintenance") String identifiantMaintenance) {
         return accidentService.getAccidentById(identifiantMaintenance);
     }

@@ -5,8 +5,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
-import { Fonction } from 'src/app/model/fonction.model';
-import { FonctionService } from 'src/app/services/fonction.service';
+import { FonctionAgent } from 'src/app/model/fonction-agent.model';
+import { FonctionAgentService } from 'src/app/services/fonction-agent.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { SecuriteService } from 'src/app/services/securite.service';
 
@@ -20,8 +20,8 @@ import { SecuriteService } from 'src/app/services/securite.service';
 export class FonctionAjouterComponent implements OnInit, OnDestroy {
 
      // ----------------------------------------------------------------------------------
-     public fonctions: Fonction[] = [];
-     public fonction: Fonction = new Fonction();
+     public fonctionAgents: FonctionAgent[] = [];
+     public fonctionAgent: FonctionAgent = new FonctionAgent();
 
 
 
@@ -29,7 +29,7 @@ export class FonctionAjouterComponent implements OnInit, OnDestroy {
 
      constructor(
 
-       private fonctionService: FonctionService,
+       private fonctionAgentService: FonctionAgentService,
        private securiteService: SecuriteService,
        private router: Router,
        private matDialog: MatDialog,
@@ -76,14 +76,14 @@ export class FonctionAjouterComponent implements OnInit, OnDestroy {
        this.clickButton('fonction-form')
      }
 
-     public ajouterFonction(FonctionForm: NgForm): void {
+     public ajouterFonctionAgent(FonctionAgentForm: NgForm): void {
 
 
 
-       this.subscriptions.push(this.fonctionService.ajouterFonctions(FonctionForm.value).subscribe({
-           next: (response: Fonction) => {
-             this.fonction = response;
-             console.log(this.fonction);
+       this.subscriptions.push(this.fonctionAgentService.ajouterFonctionAgents(FonctionAgentForm.value).subscribe({
+           next: (response: FonctionAgent) => {
+             this.fonctionAgent = response;
+             console.log(this.fonctionAgent);
              this.popupFermer();
              // this.sendNotification(NotificationType.SUCCESS, `Ajout réussie de ${response.ninea}`);
              this.sendNotification(NotificationType.SUCCESS, `Ajout réussi d'une fonction `);

@@ -24,33 +24,33 @@ public class MaintenanceController {
 
 
     @GetMapping("/Maintenances")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<Maintenance>> getAllMaintenances() {
         List<Maintenance> maintenance = maintenanceService.getAllMaintenances();
         return new ResponseEntity<>(maintenance, OK);
     }
 
     @PostMapping("/AjouterMaintenance")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Maintenance AjouterMaintenance(@RequestBody Maintenance maintenance) {
         return maintenanceService.ajouterMaintenance(maintenance.getIdentifiantMaintenance(), maintenance.getNumeroSerie(), maintenance.getTypeMaintenance(), maintenance.getObservationMaintenance());
     }
 
     @PutMapping("/ModifierMaintenance")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Maintenance ModifierMaintenance(@RequestBody Maintenance m) {
         return maintenanceService.updateMaintenance(m);
     }
 
     @DeleteMapping("SupprimerMaintenanceById/{identifiantMaintenance}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerMaintenanceById(@PathVariable("identifiantMaintenance") String identifiantMaintenance) {
         maintenanceService.deleteMaintenanceById(identifiantMaintenance);
     }
 
 
     @GetMapping("RecupererMaintenanceById/{identifiantMaintenance}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Maintenance RecupererMaintenanceById(@PathVariable("identifiantMaintenance") String identifiantMaintenance) {
         return maintenanceService.getMaintenanceById(identifiantMaintenance);
     }

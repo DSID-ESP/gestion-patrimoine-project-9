@@ -24,20 +24,20 @@ public class ReparationController {
 
 
     @GetMapping("/Reparations")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<Reparation>> getAllReparations() {
         List<Reparation> reparation = reparationService.getAllReparations();
         return new ResponseEntity<>(reparation, OK);
     }
 
     @PostMapping("/AjouterReparation")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Reparation AjouterReparation(@RequestBody Reparation r) {
         return reparationService.saveReparation(r);
     }
 
     @PutMapping("/ModifierReparation")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Reparation ModifierReparation(@RequestBody Reparation r) {
         return reparationService.updateReparation(r);
     }
@@ -50,7 +50,7 @@ public class ReparationController {
 
 
     @GetMapping("RecupererReparationById/{identifiantMaintenance}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Reparation RecupererReparationById(@PathVariable("identifiantMaintenance") String identifiantMaintenance) {
         return reparationService.getReparationById(identifiantMaintenance);
     }

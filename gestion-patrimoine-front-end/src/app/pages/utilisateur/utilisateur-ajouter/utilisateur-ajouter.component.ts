@@ -1,12 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Authorities } from 'src/app/model/authorities.model';
 import { Utilisateur } from 'src/app/model/utilisateur.model';
 import { EMPTY, Observable, Subscription, catchError, map, startWith, switchMap, tap } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UtilisateurService } from 'src/app/services/utilisateur.service';
-import { AuthorityService } from 'src/app/services/authority.service';
 import { SectionsService } from 'src/app/services/sections.service';
 import { UniteDouaniere } from 'src/app/model/unite-douaniere.model';
 import { UniteDouaniereService } from 'src/app/services/unite-douaniere.service';
@@ -17,9 +15,9 @@ import { Section } from 'jspdf-autotable';
 import { Sections } from 'src/app/model/sections.model';
 import { AgentService } from 'src/app/services/agent.service';
 import { Agent } from 'src/app/model/agent.model';
-import { Fonction } from 'src/app/model/fonction.model';
-import { FonctionService } from 'src/app/services/fonction.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { FonctionAgent } from 'src/app/model/fonction-agent.model';
+import { FonctionAgentService } from 'src/app/services/fonction-agent.service';
 // import { CorpsAgentService } from 'src/app/services/corps-agent.service';
 
 @Component({
@@ -41,14 +39,14 @@ export class UtilisateurAjouterComponent implements OnInit, OnDestroy {
 
   public condition: Boolean = true;
 
-  public fonctions: Fonction[] = [];
-  public fonction: Fonction = new Fonction();
+  public fonctionAgents: FonctionAgent[] = [];
+  public fonctionAgent: FonctionAgent = new FonctionAgent();
 
   public agents: Agent[] = [];
   public agent: Agent = new Agent();
 
-  public authorities: Authorities[] = [];
-  public authority: Authorities = new Authorities();
+  // public authorities: Authorities[] = [];
+  // public authority: Authorities = new Authorities();
 
   public utilisateurs: Utilisateur[] = [];
   public utilisateur: Utilisateur = new Utilisateur();
@@ -57,9 +55,9 @@ export class UtilisateurAjouterComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<UtilisateurAjouterComponent>,
-    private fonctionService: FonctionService,
+    private fonctionAgentService: FonctionAgentService,
     private agentService: AgentService,
-    private authorityService: AuthorityService,
+    // private authorityService: AuthorityService,
     private utilisateurService: UtilisateurService,
     private notificationService: NotificationService,
   ) { }
@@ -73,9 +71,9 @@ export class UtilisateurAjouterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.listeFonctions();
+    this.listeFonctionAgents();
     this.listeAgents();
-    this.listeAuthorities();
+    // this.listeAuthorities();
     this.listeUtilisateurs();
 
     this.filteredAgents = this.control.valueChanges.pipe(
@@ -130,30 +128,11 @@ export class UtilisateurAjouterComponent implements OnInit, OnDestroy {
 
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
-  public listeFonctions(): void {
+  public listeFonctionAgents(): void {
 
-    const subscription = this.fonctionService.listeFonctions().subscribe({
-      next: (response: Fonction[]) => {
-        this.fonctions = response;
-      },
-      error: (errorResponse: HttpErrorResponse) => {
-        // console.log(errorResponse);
-      },
-    });
-
-    this.subscriptions.push(subscription);
-  }
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-
-
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-  public listeAuthorities(): void {
-
-    const subscription = this.authorityService.listeAuthorities().subscribe({
-      next: (response: Authorities[]) => {
-        this.authorities = response;
+    const subscription = this.fonctionAgentService.listeFonctionAgents().subscribe({
+      next: (response: FonctionAgent[]) => {
+        this.fonctionAgents = response;
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -249,14 +228,14 @@ export class UtilisateurAjouterComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.utilisateur.codeFonction = UtilisateurForm.value.codeFonction;
+    this.utilisateur.codeFonctionAgent = UtilisateurForm.value.codeFonctionAgent;
     this.utilisateur.userName = this.agent.matriculeAgent;
-    this.utilisateur.authorities = [UtilisateurForm.value.authorities];
+    // this.utilisateur.authorities = [UtilisateurForm.value.authorities];
     this.utilisateur.matriculeAgent = this.agent;
     this.utilisateur.joinDate = null;
     this.utilisateur.lastLoginDate = null;
     this.utilisateur.lastLoginDateDisplay = null;
-    this.utilisateur.motDePasse = null;
+    this.utilisateur.pwd = null;
 
     let utilisateur1: Utilisateur | null = this.utilisateurs.find(utilisateur => utilisateur.userName === this.utilisateur.userName) ?? null;
 

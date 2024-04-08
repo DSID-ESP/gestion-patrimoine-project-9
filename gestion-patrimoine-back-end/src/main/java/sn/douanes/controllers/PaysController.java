@@ -23,7 +23,7 @@ public class PaysController {
 
 
     @GetMapping("/Pays")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<Pays>> getAllPays() {
         List<Pays> pays = paysService.getAllPays();
         return new ResponseEntity<>(pays, OK);
@@ -31,7 +31,7 @@ public class PaysController {
 
 
     @PostMapping("/AjouterPays")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Pays AjouterPays(@RequestBody Pays pays) {
         return paysService.savePays(pays);
     }
@@ -39,13 +39,13 @@ public class PaysController {
 
 
     @PutMapping("/ModifierPays")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Pays ModifierPays(@RequestBody Pays p) {
         return paysService.updatePays(p);
     }
 
     @DeleteMapping("SupprimerPaysById/{codePays}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerPaysById(@PathVariable("codePays") String codePays) {
         paysService.deletePaysById(codePays);
     }

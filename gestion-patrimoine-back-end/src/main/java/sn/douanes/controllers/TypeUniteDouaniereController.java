@@ -23,28 +23,28 @@ public class TypeUniteDouaniereController {
 
 
     @GetMapping("/TypeUniteDouanieres")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<TypeUniteDouaniere>> getAllTypeUniteDouanieres() {
         List<TypeUniteDouaniere> typeUniteDouaniere = typeUniteDouaniereService.getAllTypeUniteDouanieres();
         return new ResponseEntity<>(typeUniteDouaniere, OK);
     }
 
     @PostMapping("/AjouterTypeUniteDouaniere")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public TypeUniteDouaniere AjouterTypeUniteDouaniere(@RequestBody TypeUniteDouaniere typeUniteDouaniere) {
         return typeUniteDouaniereService.saveTypeUniteDouaniere(typeUniteDouaniere);
     }
 
 
     @PutMapping("/ModifierTypeUniteDouaniere")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public TypeUniteDouaniere ModifierTypeUniteDouaniere(@RequestBody TypeUniteDouaniere t) {
 
         return typeUniteDouaniereService.updateTypeUniteDouaniere(t);
     }
 
     @DeleteMapping("SupprimerTypeUniteDouaniereById/{codeTypeUniteDouaniere}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerTypeUniteDouaniereById(@PathVariable("codeTypeUniteDouaniere") String codeTypeUniteDouaniere) {
         typeUniteDouaniereService.deleteTypeUniteDouaniereById(codeTypeUniteDouaniere);
     }

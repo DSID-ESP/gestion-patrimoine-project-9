@@ -24,33 +24,33 @@ public class AgentController {
 
 
     @GetMapping("/Agents")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<Agent>> getAllAgents() {
         List<Agent> agents = agentService.getAllAgents();
         return new ResponseEntity<>(agents, OK);
     }
 
     @PostMapping("/AjouterAgent")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Agent AjouterAgent(@RequestBody Agent agent) {
         return agentService.saveAgent(agent);
     }
 
     @PutMapping("/ModifierAgent")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Agent ModifierAgent(@RequestBody Agent a) {
         return agentService.updateAgent(a);
     }
 
     @DeleteMapping("SupprimerAgentById/{matriculeAgent}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<HttpResponse> SupprimerAgentById(@PathVariable("matriculeAgent") String matriculeAgent) {
         agentService.deleteAgentById(matriculeAgent);
         return response(OK, AGENT_DELETED_SUCCESSFULLY);
     }
 
     @GetMapping("RecupererAgentById/{matriculeAgent}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Agent RecupererAgentById(@PathVariable("matriculeAgent") String matriculeAgent) {
         return agentService.getAgentByMatriculeAgent(matriculeAgent);
     }

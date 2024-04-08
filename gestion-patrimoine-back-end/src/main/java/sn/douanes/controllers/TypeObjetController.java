@@ -24,28 +24,28 @@ public class TypeObjetController {
 
 
     @GetMapping("/TypeObjets")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<TypeObjet>> getAllTypeObjets() {
         List<TypeObjet> typeObjet = typeObjetService.getAllTypeObjets();
         return new ResponseEntity<>(typeObjet, OK);
     }
 
     @PostMapping("/AjouterTypeObjet")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public TypeObjet AjouterTypeObjet(@RequestBody TypeObjet typeObjet) {
         return typeObjetService.saveTypeObjet(typeObjet);
     }
 
 
     @PutMapping("/ModifierTypeObjet")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public TypeObjet ModifierTypeObjet(@RequestBody TypeObjet t) {
 
         return typeObjetService.updateTypeObjet(t);
     }
 
     @DeleteMapping("SupprimerTypeObjetById/{codeTypeObjet}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerTypeObjetById(@PathVariable("codeTypeObjet") String codeTypeObjet) {
         typeObjetService.deleteTypeObjetById(codeTypeObjet);
     }

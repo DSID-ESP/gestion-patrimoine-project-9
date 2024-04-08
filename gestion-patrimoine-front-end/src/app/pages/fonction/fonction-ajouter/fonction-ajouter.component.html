@@ -11,7 +11,7 @@
 
       <div class="container px-3 py-2">
           <!-- <app-bordereau-livraison-ajouter></app-bordereau-livraison-ajouter> -->
-          <form class="form" #FonctionForm="ngForm" (ngSubmit)="ajouterFonction(FonctionForm)">
+          <form class="form" #FonctionAgentForm="ngForm" (ngSubmit)="ajouterFonctionAgent(FonctionAgentForm)">
 
               <div class="row g-4 mb-3">
                   <div class="col-3 mx-auto form-group">
@@ -27,8 +27,8 @@
 
 
                   <div class="col-3 mx-auto form-group">
-                      <label for="libelleFonction" class="form-label fw-bold">Libellé fonction</label>
-                      <input type="text" name="libelleFonction" id="libelleFonction" required ngModel
+                      <label for="libelleFonctionAgent" class="form-label fw-bold">Libellé fonction</label>
+                      <input type="text" name="libelleFonctionAgent" id="libelleFonctionAgent" required ngModel
                           class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
                   </div>
 
@@ -44,7 +44,7 @@
 
               <div class="row">
                   <div class="col-12 text-end">
-                      <button type="submit" [disabled]="FonctionForm.invalid" id="fonction-form" hidden
+                      <button type="submit" [disabled]="FonctionAgentForm.invalid" id="fonction-form" hidden
                           class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
                           title="cliquer ici pour valider">
                           Valider
@@ -58,7 +58,7 @@
       <div class="container px-3 py-2">
           <div class="row">
               <div class="col-12 text-end">
-                  <button (click)="submitForm()" [disabled]="FonctionForm.invalid" type="button"
+                  <button (click)="submitForm()" [disabled]="FonctionAgentForm.invalid" type="button"
                       class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
                       title="cliquer ici pour ajouter">
                       Valider

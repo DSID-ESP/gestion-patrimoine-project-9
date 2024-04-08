@@ -1,9 +1,6 @@
 package sn.douanes.services;
 
-import org.springframework.transaction.annotation.Transactional;
-import sn.douanes.entities.Authorities;
 import sn.douanes.entities.SecteurActivite;
-import sn.douanes.entities.Utilisateur;
 import sn.douanes.exception.PrestatairesExistException;
 import sn.douanes.exception.PrestatairesNotFoundException;
 import sn.douanes.entities.Prestataires;

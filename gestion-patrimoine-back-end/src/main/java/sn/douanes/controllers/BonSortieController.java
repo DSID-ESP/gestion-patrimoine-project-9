@@ -22,7 +22,7 @@ public class BonSortieController {
     BonSortieService bonSortieService;
 
     @GetMapping("/BonSorties")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<BonSortie>> getAllBonDeSorties() {
         List<BonSortie> BonDeSortie = bonSortieService.getAllBonSorties();
         return new ResponseEntity<>(BonDeSortie, OK);
@@ -31,7 +31,7 @@ public class BonSortieController {
 
 
     @PostMapping("/AjouterBonSortie")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BonSortie AjouterBonSortie(@RequestBody BonSortie bonSortie) {
         // return BonDeSortieService.saveBonDeSortie(BonDeSortie);
         return bonSortieService.ajouterBonSortie(bonSortie.getNumeroBonSortie(), bonSortie.getDescriptionBonSortie(),bonSortie.getDateBonSortie(), bonSortie.getMatriculeAgent(), bonSortie.getIdentifiantBonPour());
@@ -39,19 +39,19 @@ public class BonSortieController {
 
 
     @PutMapping("/ModifierBonSortie")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BonSortie ModifierBonSortie(@RequestBody BonSortie b) {
         return bonSortieService.updateBonSortie(b);
     }
 
     @DeleteMapping("SupprimerBonSortieById/{identifiantBonSortie}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerBonSortieById(@PathVariable("identifiantBonSortie") String identifiantBonSortie) {
         bonSortieService.deleteBonSortieById(identifiantBonSortie);
     }
 
     @GetMapping("RecupererBonSortieById/{identifiantBonSortie}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BonSortie RecupererBonSortieById(@PathVariable("identifiantBonSortie") String identifiantBonSortie) {
         return bonSortieService.getBonSortieById(identifiantBonSortie);
     }

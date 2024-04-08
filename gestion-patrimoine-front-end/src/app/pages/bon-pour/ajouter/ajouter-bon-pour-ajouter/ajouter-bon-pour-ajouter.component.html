@@ -4,118 +4,177 @@
         Ajouter Bon pour
     </div>
 
-    <div class="card-body">
+    <div class="card-body" style="max-height: 600px; overflow-y: auto;">
 
         <div class="container px-3 py-2">
+
             <form class="form" #BonPourForm="ngForm" (ngSubmit)="ajouterBonPour(BonPourForm)">
 
-                <div class="row g-4 mb-3">
-                    <div class="col-3 mx-auto form-group">
-                        <label for="numeroCourrielOrigine" class="form-label fw-bold">N° courrier origine</label>
-                        <input type="number" name="numeroCourrielOrigine" id="numeroCourrielOrigine" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    </div>
+                <div class="row mb-3">
+                    <div class="col-12" *ngIf="bonPourAjouterInitial">
+                        <div class="row g-4 mb-3">
+                            <div class="col-3 mx-auto form-group">
+                                <label for="numeroCourrielOrigine" class="form-label fw-bold">N° courrier origine</label>
+                                <input type="number" name="numeroCourrielOrigine" id="numeroCourrielOrigine" required ngModel
+                                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                            </div>
+        
+                            <div class="col-3 mx-auto form-group">
+                                <label for="dateCourrielOrigine" class="form-label fw-bold">Date courrier origine</label>
+                                <input type="text" name="dateCourrielOrigine" id="dateCourrielOrigine" autocomplete="off"
+                                    ngbDatepicker #dp1="ngbDatepicker" (click)="dp1.toggle()" required [(ngModel)]="modelDate1"
+                                    [value]="formatDate(modelDate1)" class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                            </div>
+        
+                            <div class="col-3 mx-auto form-group">
+                                <!-- <label for="etatBonPour" class="form-label fw-bold">Etat bon pour</label> -->
+                                <input id="etatBonPour" type="text" name="etatBonPour" hidden required [(ngModel)]="etatBonPour"
+                                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                            </div>
+        
+                            <div class="col-3 mx-auto form-group">
+                            </div>
+                        </div>
+        
+                        <div class="row g-4 mb-3">
+                            <div class="col-6 mx-auto form-group">
+                                <label for="myInputSearch" class="form-label fw-bold">Unité douanière</label>
+                                <input type="text" [formControl]="control" [matAutocomplete]="auto"
+                                    class="form-select text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+        
+                                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+                                    <mat-option *ngFor="let uniteDouaniere of (filteredUniteDouanieres | async)?.slice(0, 5) "
+                                        [value]="uniteDouaniere.nomUniteDouaniere">
+                                        {{ uniteDouaniere.nomUniteDouaniere }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </div>
+        
+        
+                            <div class="col-3">
+                            </div>
+        
+                            <div class="col-3">
+                            </div>
+                        </div>
+        
+                        <div class="row g-4 mb-3">
+                            <div class="col-12 mx-auto form-group">
+                                <label for="objectCourrielOrigine" class="form-label fw-bold">Object Courrier origine</label>
+                                <textarea name="objectCourrielOrigine" id="objectCourrielOrigine" rows="2" required ngModel
+                                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
+                                    style="resize: none;"></textarea>
+                            </div>
+                        </div>
+        
+                        <div class="row g-4 ">
+                            <div class="col-12 mx-auto form-group">
+                                <label for="descriptionBonPour" class="form-label fw-bold">Description bon pour</label>
+                                <textarea name="descriptionBonPour" id="descriptionBonPour" rows="2" required ngModel
+                                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
+                                    style="resize: none;">
+                                </textarea>
+                            </div>
+                        </div>
 
-                    <div class="col-3 mx-auto form-group">
-                        <label for="dateCourrielOrigine" class="form-label fw-bold">Date courrier origine</label>
-                        <input type="text" name="dateCourrielOrigine" id="dateCourrielOrigine" autocomplete="off" ngbDatepicker #dp1="ngbDatepicker" (click)="dp1.toggle()" required [(ngModel)]="modelDate1" [value]="formatDate(modelDate1)" class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
-                    </div>
-
-                    <div class="col-3 mx-auto form-group">
-                        <label for="etatBonPour" class="form-label fw-bold">Etat bon pour</label>
-                        <input id="etatBonPour" type="text" name="etatBonPour" disabled required [(ngModel)]="etatBonPour" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    </div>
-
-                    <div class="col-3 mx-auto form-group">
-                    </div>
-                </div>
-
-                <div class="row g-4 mb-3">
-                    <div class="col-6 mx-auto form-group">
-                        <label for="codeUniteDouaniere" class="form-label fw-bold">Unité douanière</label>
-                        <select name="codeUniteDouaniere" id="codeUniteDouaniere" required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                            <option *ngFor="let uniteDouaniere of uniteDouanieres" [ngValue]="uniteDouaniere">
-                                {{ uniteDouaniere.nomUniteDouaniere }}
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="col-6 mx-auto form-group">
-                        <label for="objectCourrielOrigine" class="form-label fw-bold">Object Courrier origine</label>
-                        <textarea name="objectCourrielOrigine" id="objectCourrielOrigine" rows="1" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
-                    </div>
-                </div>
-
-                <div class="row g-4 mb-3">
-                    <div class="col-12 mx-auto form-group">
-                        <label for="descriptionBonPour" class="form-label fw-bold">Description bon pour</label>
-                        <textarea name="descriptionBonPour" id="descriptionBonPour" rows="1" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
-                    </div>
-                </div>
-
-                <div class="row g-4 mb-3">
-                    <div class="col-3 mx-auto form-group">
-                        <label for="numeroArriveDLF" class="form-label fw-bold">N° arrivée DLF</label>
-                        <input type="number" name="numeroArriveDLF" id="numeroArriveDLF" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    </div>
-
-                    <div class="col-3 mx-auto form-group">
-                        <label for="dateArriveDLF" class="form-label fw-bold">Date arrivée DLF</label>
-                        <input type="text" name="dateArriveDLF" id="dateArriveDLF" autocomplete="off" ngbDatepicker #dp2="ngbDatepicker" (click)="dp2.toggle()" required [(ngModel)]="modelDate2" [value]="formatDate(modelDate2)" class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
-                    </div>
-
-                    <div class="col-6 mx-auto form-group">
-                        <label for="observationDLF" class="form-label fw-bold">Observation DLF</label>
-                        <textarea name="observationDLF" id="observationDLF" rows="1" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
-                    </div>
-                </div>
-
-
-                <div class="row g-4 mb-3">
-                    <div class="col-3 mx-auto form-group">
-                        <label for="numeroArriveBLM" class="form-label fw-bold">N° arrivée BLM</label>
-                        <input type="number" name="numeroArriveBLM" id="numeroArriveBLM" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    </div>
-
-                    <div class="col-3 mx-auto form-group">
-                        <label for="dateArriveBLM" class="form-label fw-bold">Date arrivée BLM</label>
-                        <input type="text" name="dateArriveBLM" id="dateArriveBLM" autocomplete="off" ngbDatepicker #dp3="ngbDatepicker" (click)="dp3.toggle()" required [(ngModel)]="modelDate3" [value]="formatDate(modelDate3)" class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
-                    </div>
-
-                    <div class="col-6 mx-auto form-group">
-                        <label for="observationBLM" class="form-label fw-bold">Observation BLM</label>
-                        <textarea name="observationBLM" id="observationBLM" rows="1" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
                     </div>
                 </div>
 
+                <!-- --------------------------------------------------------------------------------- -->
+                <div *ngIf="bonPourAjouterDLF" class="row mb-3 text-center fw-bolder bg-myprimary mt-1 py-1" role="alert">
+                </div>
+                <!-- --------------------------------------------------------------------------------- -->
 
+                <div class="row g-5 mb-3">
+                    <div class="col-6" *ngIf="bonPourAjouterDLF">
+                        <div class="row p-2 border rounded-3 border-myprimary">
+                            <div class="col-6 mx-auto form-group">
+                                <label for="numeroArriveDLF" class="form-label fw-bold">N° arrivée DLF</label>
+                                <input type="number" name="numeroArriveDLF" id="numeroArriveDLF" required ngModel
+                                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                            </div>
+        
+                            <div class="col-6 mx-auto form-group">
+                                <label for="dateArriveDLF" class="form-label fw-bold">Date arrivée DLF</label>
+                                <input type="text" name="dateArriveDLF" id="dateArriveDLF" autocomplete="off" ngbDatepicker
+                                    #dp2="ngbDatepicker" (click)="dp2.toggle()" required [(ngModel)]="modelDate2"
+                                    [value]="formatDate(modelDate2)"
+                                    class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                            </div>
 
-                <div class="row g-4 mb-3">
-                    <div class="col-3 mx-auto form-group">
-                        <label for="numeroArriveSection" class="form-label fw-bold">N° arrivée section</label>
-                        <input type="number" name="numeroArriveSection" id="numeroArriveSection" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                            <div class="col-12 mx-auto form-group">
+                                <label for="observationDLF" class="form-label fw-bold">Observation DLF</label>
+                                <textarea name="observationDLF" id="observationDLF" rows="2" required ngModel
+                                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
+                                    style="resize: none;"></textarea>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="col-3 mx-auto form-group">
-                        <label for="dateArriveSection" class="form-label fw-bold">Date section</label>
-                        <input type="text" name="dateArriveSection" id="dateArriveSection" autocomplete="off" ngbDatepicker #dp4="ngbDatepicker" (click)="dp4.toggle()" required [(ngModel)]="modelDate4" [value]="formatDate(modelDate4)" class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                    <!-- -------------------------------------------------------------------------------- -->
+
+                    <div class="col-6" *ngIf="bonPourAjouterBLM">
+                        <div class="row p-2 border rounded-3 border-myprimary">
+                            <div class="col-6 mx-auto form-group">
+                                <label for="numeroArriveBLM" class="form-label fw-bold">N° arrivée BLM</label>
+                                <input type="number" name="numeroArriveBLM" id="numeroArriveBLM" required ngModel
+                                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                            </div>
+        
+                            <div class="col-6 mx-auto form-group">
+                                <label for="dateArriveBLM" class="form-label fw-bold">Date arrivée BLM</label>
+                                <input type="text" name="dateArriveBLM" id="dateArriveBLM" autocomplete="off" ngbDatepicker
+                                    #dp3="ngbDatepicker" (click)="dp3.toggle()" required [(ngModel)]="modelDate3"
+                                    [value]="formatDate(modelDate3)"
+                                    class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                            </div>
+
+                            <div class="col-12 mx-auto form-group">
+                                <label for="observationBLM" class="form-label fw-bold">Observation BLM</label>
+                                <textarea name="observationBLM" id="observationBLM" rows="2" required ngModel
+                                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
+                                    style="resize: none;"></textarea>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="col-6 mx-auto form-group">
-                      <label for="observationSection" class="form-label fw-bold">Observation Section</label>
-                      <textarea name="observationSection" id="observationSection" rows="1" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
-                   </div>
-
-                    <!-- <div class="col-6 mx-auto form-group">
-                        <label for="observationSection" class="form-label fw-bold">Observation section</label>
-                        <textarea name="observationSection" id="observationSection" rows="1" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea>
-                    </div> -->
                 </div>
 
+                <div class="row g-5">
+                    <div class="col-6" *ngIf="bonPourAjouterSection">
+                        <div class="row p-2 border rounded-3 border-myprimary">
+                            <div class="col-6 mx-auto form-group">
+                                <label for="numeroArriveSection" class="form-label fw-bold">N° arrivée section</label>
+                                <input type="number" name="numeroArriveSection" id="numeroArriveSection" required ngModel
+                                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                            </div>
+        
+                            <div class="col-6 mx-auto form-group">
+                                <label for="dateArriveSection" class="form-label fw-bold">Date section</label>
+                                <input type="text" name="dateArriveSection" id="dateArriveSection" autocomplete="off"
+                                    ngbDatepicker #dp4="ngbDatepicker" (click)="dp4.toggle()" required [(ngModel)]="modelDate4"
+                                    [value]="formatDate(modelDate4)"
+                                    class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+                            </div>
 
+                            <div class="col-12 mx-auto form-group">
+                                <label for="observationSection" class="form-label fw-bold">Observation Section</label>
+                                <textarea name="observationSection" id="observationSection" rows="2" required ngModel
+                                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
+                                    style="resize: none;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                    </div>
+                </div>
+
+                <!-- ---------------------------------------------------------------------------------- -->
 
                 <div class="row">
                     <div class="col-12 text-end">
-                        <button type="submit" id="bon-pour-form" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                        <button type="submit" id="bon-pour-form" hidden class="btn btn-mysecondary fw-bold mx-2"
+                            data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
                             Valider
                         </button>
                     </div>
@@ -124,19 +183,26 @@
             </form>
         </div>
 
-        <div class="container px-3 py-2">
+        
+    </div>
+
+    <div class="card-footer border border-myprimary">
+        <div class="container px-2 py-1" >
             <div class="row">
                 <div class="col-12 text-end">
-                    <button (click)="submitForm()" type="button" [disabled]="BonPourForm.invalid" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                    <button (click)="submitForm()" type="button" [disabled]="BonPourForm.invalid"
+                        class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
+                        title="cliquer ici pour ajouter">
                         Valider
                     </button>
 
-                    <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                    <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
+                        data-bs-toggle="tooltip" title="cliquer ici pour retourner">
                         Retour
                     </button>
                 </div>
             </div>
         </div>
-    </div>
+      </div>
 
 </div>

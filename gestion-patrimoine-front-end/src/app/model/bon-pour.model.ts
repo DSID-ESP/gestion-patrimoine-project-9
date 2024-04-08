@@ -5,25 +5,25 @@ import { UniteDouaniere } from "./unite-douaniere.model";
 
 export class BonPour {
 
-  identifiantBonPour: string;
+  identifiantBonPour: string | null;
   descriptionBonPour: string;
   etatBonPour: string;
   codeSection: Sections;
   codeUniteDouaniere: UniteDouaniere;
   numeroCourrielOrigine: number;
-  dateCourrielOrigine: MyDate;
+  dateCourrielOrigine: MyDate | string | null;
   objectCourrielOrigine: string;
   matriculeAgent: Agent;
-  dateEnregistrement: MyDate;
-  numeroArriveBLM: number;
-  numeroArriveDLF: number;
-  numeroArriveSection: number;
-  dateArriveBLM: MyDate;
-  dateArriveDLF: MyDate;
-  dateArriveSection: MyDate;
-  observationBLM: string;
-  observationDLF: string;
-  observationSection: string;
+  dateEnregistrement: MyDate | string | null;
+  numeroArriveBLM: number | null;
+  numeroArriveDLF: number | null;
+  numeroArriveSection: number | null;
+  dateArriveBLM: MyDate | string | null;
+  dateArriveDLF: MyDate | string | null;
+  dateArriveSection: MyDate | string | null;
+  observationBLM: string | null;
+  observationDLF: string | null;
+  observationSection: string | null;
 
 
 

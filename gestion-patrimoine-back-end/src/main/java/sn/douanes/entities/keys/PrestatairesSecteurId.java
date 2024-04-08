@@ -11,7 +11,6 @@ public class PrestatairesSecteurId implements Serializable {
     private Prestataires ninea;
     private SecteurActivite codeSecteurActivite;
 
-
     public PrestatairesSecteurId() {
     }
 

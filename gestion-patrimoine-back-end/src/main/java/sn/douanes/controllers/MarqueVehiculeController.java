@@ -23,27 +23,27 @@ public class MarqueVehiculeController {
 
 
     @GetMapping("/MarqueVehicules")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<MarqueVehicule>> getAllMarqueVehicules() {
         List<MarqueVehicule> marqueVehicule = marqueVehiculeService.getAllMarqueVehicules();
         return new ResponseEntity<>(marqueVehicule, OK);
     }
 
     @PostMapping("/AjouterMarqueVehicule")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public MarqueVehicule AjouterMarqueVehicule(@RequestBody MarqueVehicule marqueVehicule) {
         return marqueVehiculeService.saveMarqueVehicule(marqueVehicule);
     }
 
 
     @PutMapping("/ModifierMarqueVehicule")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public MarqueVehicule ModifierMarqueVehicule(@RequestBody MarqueVehicule t) {
         return marqueVehiculeService.updateMarqueVehicule(t);
     }
 
     @DeleteMapping("SupprimerMarqueVehiculeById/{codeMarqueVH}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerMarqueVehiculeById(@PathVariable("codeMarqueVH") String codeMarqueVH) {
         marqueVehiculeService.deleteMarqueVehiculeById(codeMarqueVH);
     }

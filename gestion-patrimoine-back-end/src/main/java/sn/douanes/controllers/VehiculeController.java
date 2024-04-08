@@ -25,7 +25,7 @@ public class VehiculeController {
     VehiculeService vehiculeService;
 
     @GetMapping("/Vehicules")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<Vehicule>> listeVehicules() {
         List<Vehicule> vehicules = vehiculeService.getAllVehicules();
         return new ResponseEntity<>(vehicules, OK);
@@ -33,7 +33,7 @@ public class VehiculeController {
 
 
     @PostMapping("/AjouterVehicule")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Vehicule AjouterVehicule(@RequestBody Vehicule vehicule) {
 
         return vehiculeService.ajouterVehicule(vehicule.getNumeroSerie(), vehicule.getNumeroImmatriculation(), vehicule.getCodeArticleBonEntree(), vehicule.getCodeMarque(), vehicule.getCodeTypeEnergie(), vehicule.getNumeroCarteGrise(), vehicule.getCodeTypeVehicule(), vehicule.getModele(), vehicule.getCodePays(), vehicule.getDateMiseEnCirculation());
@@ -43,7 +43,7 @@ public class VehiculeController {
 
 
     @PutMapping("/ModifierVehicule")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Vehicule ModifierVehicule(@RequestBody Vehicule v) {
         
         return vehiculeService.updateVehicule(v);
@@ -51,7 +51,7 @@ public class VehiculeController {
 
 
     @DeleteMapping("SupprimerVehiculeById/{numeroSerie}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<HttpResponse> SupprimerPrestatairesById(@PathVariable("numeroSerie") String numeroSerie) {
 
         vehiculeService.deleteVehiculeById(numeroSerie);

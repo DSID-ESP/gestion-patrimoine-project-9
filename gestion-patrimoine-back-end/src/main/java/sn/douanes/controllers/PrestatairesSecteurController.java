@@ -25,28 +25,28 @@ public class PrestatairesSecteurController {
 
 
     @GetMapping("/PrestatairesSecteurs")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<PrestatairesSecteur>> getAllPrestatairesSecteurs() {
         List<PrestatairesSecteur> prestatairesSecteur = prestatairesSecteurService.getAllPrestatairesSecteur();
         return new ResponseEntity<>(prestatairesSecteur, OK);
     }
 
     @PostMapping("/AjouterPrestatairesSecteurs")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public PrestatairesSecteur AjouterPrestatairesSecteur(@RequestBody PrestatairesSecteur prestatairesSecteur) {
         return prestatairesSecteurService.savePrestatairesSecteur(prestatairesSecteur);
     }
 
 
     @PutMapping("/ModifierPrestatairesSecteur")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public PrestatairesSecteur ModifierPrestatairesSecteur(@RequestBody PrestatairesSecteur p) {
 
         return prestatairesSecteurService.updatePrestatairesSecteur(p);
     }
 
     @DeleteMapping("SupprimerPrestatairesSecteurById/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerPrestatairesSecteurById(
             @PathVariable("ninea") Prestataires ninea,
             @PathVariable("codeSecteurActivite") SecteurActivite codeSecteurActivite

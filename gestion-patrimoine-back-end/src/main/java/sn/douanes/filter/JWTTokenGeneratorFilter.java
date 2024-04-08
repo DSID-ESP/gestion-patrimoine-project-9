@@ -32,7 +32,7 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
                     .claim("username", authentication.getName())
                     .claim("authorities", populateAuthorities(authentication.getAuthorities()))
                     .issuedAt(new Date())
-                    .expiration(new Date((new Date()).getTime() + 15000000))
+                    .expiration(new Date((new Date()).getTime() + 7200000 )) // 7200000 : 2h, 14400000 : 4h
                     .signWith(key).compact();
             response.setHeader(SecurityConstants.JWT_HEADER, jwt);
         }

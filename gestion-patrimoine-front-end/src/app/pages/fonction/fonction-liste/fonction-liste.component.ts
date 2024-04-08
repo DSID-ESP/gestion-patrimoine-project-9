@@ -1,7 +1,5 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subject, Subscription, debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';
-import { Authorities } from 'src/app/model/authorities.model';
-import { Fonction } from 'src/app/model/fonction.model';
 import { SecuriteService } from 'src/app/services/securite.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -10,9 +8,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FonctionDetailComponent } from '../fonction-detail/fonction-detail.component';
 import { FonctionAjouterComponent } from '../fonction-ajouter/fonction-ajouter.component';
-import { FonctionService } from 'src/app/services/fonction.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { FonctionAgent } from 'src/app/model/fonction-agent.model';
+import { FonctionAgentService } from 'src/app/services/fonction-agent.service';
 
 @Component({
   selector: 'app-fonction-liste',
@@ -24,8 +23,8 @@ import autoTable from 'jspdf-autotable';
 export class FonctionListeComponent implements OnInit, OnDestroy {
 
 
-  public fonctions: Fonction[] = [];
-  public fonction: Fonction  | undefined;
+  public fonctionAgents: FonctionAgent[] = [];
+  public fonctionAgent: FonctionAgent  | undefined;
 
 
 
@@ -60,11 +59,11 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
  @ViewChild('myInputSearch') myInputSearch!: ElementRef;
  // rechercher
  searchTerms = new Subject<string>();
- fonctions$: Observable<Fonction[]> = of();
+ fonctions$: Observable<FonctionAgent[]> = of();
  // recherche custom
  searchTermsFilterDoubleCodeFonctionLibelleFonction = new Subject<string>();
  termeRechercheCodeFonctionLibelleFonction: string = "";
- fonctionFilterDoubleCodeFonctionLibelleFonction$: Observable<Fonction[]> = of();
+ fonctionFilterDoubleCodeFonctionLibelleFonction$: Observable<FonctionAgent[]> = of();
  /* ----------------------------------------------------------------------------------------- */
 
 
@@ -78,11 +77,11 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
    // "nombreMateriel"
 
  ];
- dataSource = new MatTableDataSource<Fonction>();
+ dataSource = new MatTableDataSource<FonctionAgent>();
  @ViewChild(MatPaginator) paginator!: MatPaginator;
  displayedColumns: string[] = [
-   "codeFonction",
-   "libelleFonction"
+   "codeFonctionAgent",
+   "libelleFonctionAgent"
 
  ];
  displayedColumnsCustom: string[] = [
@@ -95,7 +94,7 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
  constructor(
    private router: Router,
    private securiteService: SecuriteService,
-   private fonctionService: FonctionService,
+   private fonctionAgentService: FonctionAgentService,
    private matDialog: MatDialog,
  ) { }
 
@@ -116,7 +115,7 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
      // {......"ab"...."ab"...."abc"......}
      distinctUntilChanged(),
      // {......"ab"..........."abc"......}
-     switchMap((term) => this.fonctionService.searchFonctionList(term, this.fonctions))
+     switchMap((term) => this.fonctionAgentService.searchFonctionAgentList(term, this.fonctionAgents))
      // {.....List(ab)............List(abc)......}
    );
    this.fonctionFilterDoubleCodeFonctionLibelleFonction$ = this.searchTermsFilterDoubleCodeFonctionLibelleFonction.pipe(
@@ -125,7 +124,7 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
      // {......"ab"...."ab"...."abc"......}
      distinctUntilChanged(),
      // {......"ab"..........."abc"......}
-     switchMap((term) => this.fonctionService.searchFonctionListFilterDouble(term, this.fonctions))
+     switchMap((term) => this.fonctionAgentService.searchFonctionAgentListFilterDouble(term, this.fonctionAgents))
      // {.....List(ab)............List(abc)......}
    );
    /* ----------------------------------------------------------------------------------------- */
@@ -134,7 +133,7 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
 
  generatePDF(): void {
 
-   const data: Fonction[] = this.dataSource.filteredData;
+   const data: FonctionAgent[] = this.dataSource.filteredData;
    // console.log(data);
 
   //  const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
@@ -142,9 +141,9 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
    const doc = new jsPDF();
 
    // Créez un tableau de données pour autoTable
-   const tableData = data.map((item: Fonction) => [
-     item.codeFonction,
-     item.libelleFonction,
+   const tableData = data.map((item: FonctionAgent) => [
+     item.codeFonctionAgent,
+     item.libelleFonctionAgent,
     //  `${new Date(item.dateBonEntree.toString()).getDate()} ${months[new Date(item.dateBonEntree.toString()).getMonth()]} ${new Date(item.dateBonEntree.toString()).getFullYear() % 100}`,
     //  item.observationBonEntree,
     //  item.rowNombreArticleBonEntree
@@ -204,11 +203,11 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
 
  public listeFonctions(): void {
 
-   const subscription = this.fonctionService.listeFonctions().subscribe({
-     next: (response: Fonction[]) => {
-       this.fonctions = response;
+   const subscription = this.fonctionAgentService.listeFonctionAgents().subscribe({
+     next: (response: FonctionAgent[]) => {
+       this.fonctionAgents = response;
 
-       this.dataSource = new MatTableDataSource<Fonction>(this.fonctions.map((item) => ({
+       this.dataSource = new MatTableDataSource<FonctionAgent>(this.fonctionAgents.map((item) => ({
          ...item
        })));
 
@@ -242,14 +241,14 @@ export class FonctionListeComponent implements OnInit, OnDestroy {
  }
 
 
- goToDetail(fonction: Fonction): void {
+ goToDetail(fonctionAgent: FonctionAgent): void {
    const dialogRef = this.matDialog.open(
     FonctionDetailComponent,
      {
        width: '80%',
        enterAnimationDuration: '100ms',
        exitAnimationDuration: '100ms',
-       data: fonction
+       data: fonctionAgent
      }
    );
 

@@ -16,6 +16,8 @@ import { MyDate } from 'src/app/model/my-date.model';
 import { AjouterBonPourAjouterArticleComponent } from '../ajouter-bon-pour-ajouter-article/ajouter-bon-pour-ajouter-article.component';
 import { AjouterBonPourModifierComponent } from '../ajouter-bon-pour-modifier/ajouter-bon-pour-modifier.component';
 import { AjouterBonPourDetailComponent } from '../ajouter-bon-pour-detail/ajouter-bon-pour-detail.component';
+import { Utilisateur } from 'src/app/model/utilisateur.model';
+import { FonctionUtilisateurService } from 'src/app/services/fonction-utilisateur.service';
 
 @Component({
   selector: 'app-ajouter-bon-pour-liste-detail',
@@ -26,6 +28,18 @@ import { AjouterBonPourDetailComponent } from '../ajouter-bon-pour-detail/ajoute
 })
 export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
 
+  tousPrivileges: boolean = false;
+  bonPourAjouterSection: boolean = false;
+  bonPourAjouterBLM: boolean = false;
+  bonPourAjouterDLF: boolean = false;
+  bonPourAjouterInitial: boolean = false;
+
+  // ----------------------------------------------------------------------------------
+
+  public utilisateurs: Utilisateur[] = [];
+  public utilisateur: Utilisateur | undefined;
+  
+  // ----------------------------------------------------------------------------------
 
   public bonPours: BonPour[] = [];
   public bonPour: BonPour | undefined;
@@ -56,16 +70,20 @@ export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     "rowNumber",
     // "codeArticleBonPour",
-    "libelleArticleBonPour",
     "quantiteDemandee",
-    "rowCodeTypeObjet"
+    "rowCodeTypeObjet",
+    "libelleArticleBonPour"
+
+
   ];
   displayedColumnsCustom: string[] = [
     "N°",
+    "Qte demandée",
+    "Nature",
     // "Code article",
-    "Libellé article",
-    "Quantité Demandée",
-    "Type objet"
+    "Description article bon pour",
+
+
   ];
   /* ----------------------------------------------------------------------------------------- */
 
@@ -77,7 +95,9 @@ export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private securiteService: SecuriteService,
-    private myDateService: MyDateService
+    private myDateService: MyDateService,
+    private fonctionUtilisateurService: FonctionUtilisateurService,
+
   ) { }
 
 
@@ -87,6 +107,14 @@ export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+
+    this.utilisateur = this.fonctionUtilisateurService.getUtilisateur;
+
+    this.tousPrivileges = this.fonctionUtilisateurService.tousPrivileges;
+    this.bonPourAjouterSection = this.fonctionUtilisateurService.bonPourAjouterSection;
+    this.bonPourAjouterBLM = this.fonctionUtilisateurService.bonPourAjouterBLM;
+    this.bonPourAjouterDLF = this.fonctionUtilisateurService.bonPourAjouterDLF;
+    this.bonPourAjouterInitial = this.fonctionUtilisateurService.bonPourAjouterInitial;
 
 
     // --------------------------------------------------------------------------------
@@ -234,7 +262,7 @@ export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
   }
 
 
-  myDateStringFormatter(date: MyDate | string | undefined): string {
+  myDateStringFormatter(date: MyDate | string | undefined | null): string {
     if (!date) {
       return '';
     }

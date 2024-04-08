@@ -23,14 +23,14 @@ public class UniteDouaniereController {
 
 
     @GetMapping("/UniteDouanieres")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<UniteDouaniere>> getAllUniteDouanieres() {
         List<UniteDouaniere> uniteDouaniere = uniteDouaniereService.getAllUniteDouanieres();
         return new ResponseEntity<>(uniteDouaniere, OK);
     }
 
     @PostMapping("/AjouterUniteDouaniere")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public UniteDouaniere AjouterUniteDouaniere(@RequestBody UniteDouaniere uniteDouaniere) {
         return uniteDouaniereService.saveUniteDouaniere(uniteDouaniere);
     }
@@ -38,20 +38,20 @@ public class UniteDouaniereController {
 
 
     @PutMapping("/ModifierUniteDouaniere")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public UniteDouaniere ModifierUniteDouaniere(@RequestBody UniteDouaniere u) {
 
         return uniteDouaniereService.updateUniteDouaniere(u);
     }
 
     @DeleteMapping("SupprimerUniteDouaniereById/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerUniteDouaniereById(@PathVariable("id") String codeUniteDouaniere) {
         uniteDouaniereService.deleteUniteDouaniereById(codeUniteDouaniere);
     }
 
     @GetMapping("RecupererUniteDouaniereById/{codeUniteDouaniere}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public UniteDouaniere RecupererUniteDouaniereById(@PathVariable("codeUniteDouaniere") String codeUniteDouaniere) {
         return uniteDouaniereService.getUniteDouaniereById(codeUniteDouaniere);
     }

@@ -11,10 +11,10 @@ import { UtilisateurService } from 'src/app/services/utilisateur.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AuthorityService } from 'src/app/services/authority.service';
-import { Authorities } from 'src/app/model/authorities.model';
 import { UtilisateurDetailComponent } from '../utilisateur-detail/utilisateur-detail.component';
 import { UtilisateurAjouterComponent } from '../utilisateur-ajouter/utilisateur-ajouter.component';
+import { FonctionAgent } from 'src/app/model/fonction-agent.model';
+import { FonctionAgentService } from 'src/app/services/fonction-agent.service';
 
 @Component({
   selector: 'app-utilisateur-liste',
@@ -28,8 +28,11 @@ export class UtilisateurListeComponent implements OnInit, OnDestroy {
   public utilisateur: Utilisateur = new Utilisateur();
   public utilisateurs: Utilisateur[] = [];
 
-  public authority: Authorities = new Authorities();
-  public authorities: Authorities[] = [];
+  // public authority: Authorities = new Authorities();
+  // public authorities: Authorities[] = [];
+
+  public fonctionAgents: FonctionAgent = new FonctionAgent();
+  public fonctionAgent: FonctionAgent[] = [];
 
   private subscriptions: Subscription[] = [];
 
@@ -130,8 +133,8 @@ export class UtilisateurListeComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private utilisateurService: UtilisateurService,
-    private authorityService: AuthorityService,
-    private securiteService: SecuriteService,
+    // private fonctionAgentService: FonctionAgentService,
+    // private securiteService: SecuriteService,
     private matDialog: MatDialog,
   ) { }
   
@@ -198,7 +201,7 @@ export class UtilisateurListeComponent implements OnInit, OnDestroy {
 
       item.active,
       item.notLocked,
-      item.codeFonction.libelleFonction,
+      item.codeFonctionAgent.libelleFonctionAgent,
     ]);
 
     // Configuration pour le PDF avec une taille de page personnalisée
@@ -287,7 +290,7 @@ export class UtilisateurListeComponent implements OnInit, OnDestroy {
           lastLoginDateDisplay: item.lastLoginDateDisplay,
           active: item.active,
           notLocked: item.notLocked,
-          rowLibelleFonction: item.codeFonction.libelleFonction,
+          rowLibelleFonction: item.codeFonctionAgent.libelleFonctionAgent,
 
 
           // raisonSociale: item.identifiantBL.ninea ? item.identifiantBL.ninea.raisonSociale : '---',

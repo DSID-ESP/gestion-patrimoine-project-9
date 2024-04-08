@@ -23,27 +23,27 @@ public class MarqueArmeController {
 
 
     @GetMapping("/MarqueArmes")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<MarqueArme>> getAllMarqueArmes() {
         List<MarqueArme> marqueArme = marqueArmeService.getAllMarqueArmes();
         return new ResponseEntity<>(marqueArme, OK);
     }
 
     @PostMapping("/AjouterMarqueArme")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public MarqueArme AjouterMarqueArme(@RequestBody MarqueArme m) {
         return marqueArmeService.saveMarqueArme(m);
     }
 
     @PutMapping("/ModifierMarqueArme")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public MarqueArme ModifierMarqueArme(@RequestBody MarqueArme m) {
 
         return marqueArmeService.updateMarqueArme(m);
     }
 
     @DeleteMapping("SupprimerMarqueArmeById/{codeMarqueArme}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerMarqueArmeById(@PathVariable("codeMarqueArme") String codeMarqueArme) {
         marqueArmeService.deleteMarqueArmeById(codeMarqueArme);
     }

@@ -14,7 +14,7 @@ import { Utilisateur } from 'src/app/model/utilisateur.model';
 })
 export class ConnexionComponent implements OnInit {
   authStatus: string = "";
-  model = new Utilisateur();
+  utilisateur = new Utilisateur();
 
   constructor(
     private loginService: LoginService, 
@@ -40,12 +40,12 @@ export class ConnexionComponent implements OnInit {
   // }
 
   validateUser(loginForm: NgForm) {
-    this.loginService.validateLoginDetails(this.model).subscribe(
+    this.loginService.validateLoginDetails(this.utilisateur).subscribe(
       responseData => {
         window.sessionStorage.setItem("Authorization", responseData.headers.get('Authorization')!);
-        this.model = <any> responseData.body;
-        this.model.authStatus = 'AUTH';
-        window.sessionStorage.setItem("userdetails", JSON.stringify(this.model));
+        this.utilisateur = <any> responseData.body;
+        this.utilisateur.authStatus = 'AUTH';
+        window.sessionStorage.setItem("userdetails", JSON.stringify(this.utilisateur));
         
 
         window.sessionStorage.setItem("XSRF-TOKEN", getCookie('XSRF-TOKEN')!);

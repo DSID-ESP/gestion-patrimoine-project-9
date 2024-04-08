@@ -24,33 +24,33 @@ public class VidangeController {
 
 
     @GetMapping("/Vidanges")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<Vidange>> getAllVidanges() {
         List<Vidange> vidange = vidangeService.getAllVidanges();
         return new ResponseEntity<>(vidange, OK);
     }
 
     @PostMapping("/AjouterVidange")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Vidange AjouterVidange(@RequestBody Vidange v) {
         return vidangeService.saveVidange(v);
     }
 
     @PutMapping("/ModifierVidange")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Vidange ModifierVidange(@RequestBody Vidange v) {
         return vidangeService.updateVidange(v);
     }
 
 
     @DeleteMapping("SupprimerVidangeById/{identifiantMaintenance}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerVidangeById(@PathVariable("identifiantMaintenance") String identifiantMaintenance) {
         vidangeService.deleteVidangeById(identifiantMaintenance);
     }
 
     @GetMapping("RecupererVidangeById/{identifiantMaintenance}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Vidange RecupererVidangeById(@PathVariable("identifiantMaintenance") String identifiantMaintenance) {
         return vidangeService.getVidangeById(identifiantMaintenance);
     }

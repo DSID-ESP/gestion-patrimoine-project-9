@@ -4,21 +4,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import sn.douanes.entities.Authorities;
 import sn.douanes.entities.Utilisateur;
-import sn.douanes.repositories.AgentRepository;
 import sn.douanes.repositories.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import sn.douanes.services.EmailService;
 import sn.douanes.services.UtilisateurService;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -37,7 +32,7 @@ public class UtilisateurController {
 
 
     @PostMapping("/inscription")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<String> registerUser(@RequestBody Utilisateur utilisateur) {
 
         Utilisateur savedUtilisateur = null;
@@ -63,7 +58,7 @@ public class UtilisateurController {
     }
 
     @RequestMapping("/connexion")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<Utilisateur> getUserDetailsAfterLogin(Authentication authentication) {
 
         Utilisateur utilisateur = utilisateurRepository.findByUserName(authentication.getName());
@@ -78,22 +73,22 @@ public class UtilisateurController {
 
 
     @GetMapping("/Users")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<Utilisateur>> getAllAjouterUsers() {
-        List<Utilisateur> authority = utilisateurRepository.findAll();
-        return new ResponseEntity<>(authority, OK);
+        List<Utilisateur> users = utilisateurRepository.findAll();
+        return new ResponseEntity<>(users, OK);
     }
 
 
     @GetMapping("RecupererUserByUserName/{userName}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Utilisateur RecupererUserByUserName(@PathVariable("userName") String userName) {
         return utilisateurService.getUserByUserName(userName);
     }
 
 
     @PostMapping("/AjouterUser")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Utilisateur ajouterUser(@RequestBody Utilisateur utilisateur) {
 
         Utilisateur savedUtilisateur = null;
@@ -142,7 +137,7 @@ public class UtilisateurController {
 
 
     @PutMapping("/ModifierUser")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Utilisateur modifierUser(@RequestBody Utilisateur utilisateur) {
 
         Utilisateur updateUtilisateur = null;

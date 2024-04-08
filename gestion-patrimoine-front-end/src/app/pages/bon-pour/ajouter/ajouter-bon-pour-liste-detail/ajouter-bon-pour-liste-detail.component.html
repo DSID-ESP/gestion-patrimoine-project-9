@@ -23,45 +23,62 @@
 
                     <form class="container px-3 py-2">
 
-                        <div class="row g-4 mb-3">
-                            <div class="col-3 mx-auto">
-                                <span class="fw-bold">N° courrier origine</span>
-                                <div class="text-input"> {{ bonPour?.numeroCourrielOrigine }} </div>
-                            </div>
-
-                            <div class="col-3 mx-auto">
-                                <span class="fw-bold">Date courrier origine</span>
-                                <div class="text-input text-uppercase">
-                                    {{ myDateStringFormatter(bonPour?.dateCourrielOrigine) }}
+                        <div class="row mb-3">
+                            <div class="col-12" *ngIf="bonPourAjouterInitial">
+                                <div class="row g-4 mb-3">
+                                    <div class="col-3 mx-auto">
+                                        <span class="fw-bold">N° courrier origine</span>
+                                        <div class="text-input"> {{ bonPour?.numeroCourrielOrigine }} </div>
+                                    </div>
+                
+                                    <div class="col-3 mx-auto">
+                                        <span class="fw-bold">Date courrier origine</span>
+                                        <div class="text-input text-uppercase">
+                                            {{ myDateStringFormatter(bonPour?.dateCourrielOrigine) }}
+                                        </div>
+                                    </div>
+                
+                                    <div class="col-3 mx-auto">
+                                        <span class="fw-bold">Etat bon pour</span>
+                                        <div class="text-input"> {{ bonPour?.etatBonPour }} </div>
+                                    </div>
+                
+                                    <div class="col-3 mx-auto form-group">
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="col-3 mx-auto">
-                                <span class="fw-bold">Etat bon pour</span>
-                                <div class="text-input"> {{ bonPour?.etatBonPour }} </div>
-                            </div>
-
-                            <div class="col-3 mx-auto">
+                
+                                <div class="row g-4 mb-3">
+                                    <div class="col-6 mx-auto form-group">
+                                        <span class="fw-bold">Unité douanière</span>
+                                        <div class="text-input"> {{ bonPour?.codeUniteDouaniere?.nomUniteDouaniere }} </div>
+                                    </div>
+                
+                
+                                    <div class="col-3">
+                                    </div>
+                
+                                    <div class="col-3">
+                                    </div>
+                                </div>
+                
+                                <div class="row g-4 mb-3">
+                                    <div class="col-12 mx-auto form-group">
+                                        <span class="fw-bold">Object Courrier origine</span>
+                                        <div class="text-input"> {{ bonPour?.objectCourrielOrigine }} </div>
+                                    </div>
+                                </div>
+                
+                                <div class="row g-4 ">
+                                    <div class="col-12 mx-auto form-group">
+                                        <span class="fw-bold">Description bon pour</span>
+                                        <div class="text-input"> {{ bonPour?.descriptionBonPour }} </div>
+                                    </div>
+                                </div>
+        
                             </div>
                         </div>
 
-                        <div class="row g-4 mb-3">
-                            <div class="col-6 mx-auto">
-                                <span class="fw-bold">Unité douanière</span>
-                                <div class="text-input"> {{ bonPour?.codeUniteDouaniere?.nomUniteDouaniere }} </div>
-                            </div>
-
-                            <div class="col-6 mx-auto">
-                                <span class="fw-bold">Object Courrier origine</span>
-                                <div class="text-input"> {{ bonPour?.objectCourrielOrigine }} </div>
-                            </div>
-                        </div>
-
-                        <div class="row g-4 mb-3">
-                            <div class="col-12 mx-auto">
-                                <span class="fw-bold">Description bon pour</span>
-                                <div class="text-input"> {{ bonPour?.descriptionBonPour }} </div>
-                            </div>
+                        <div class=" row g-4 mb-3 text-center fw-bolder bg-myprimary mt-1 py-1">
                         </div>
 
 
@@ -78,31 +95,31 @@
                                 </div>
                             </div>
 
-                            <div class="col-6 mx-auto">
-                                <span class="fw-bold">Observation DLF</span>
-                                <div class="text-input"> {{ bonPour?.observationDLF }} </div>
-                            </div>
+                            <div class="col-3 mx-auto">
+                              <span class="fw-bold">N° arrivée BLM</span>
+                              <div class="text-input"> {{ bonPour?.numeroArriveBLM }} </div>
+                          </div>
+
+                          <div class="col-3 mx-auto">
+                              <span class="fw-bold">Date arrivée BLM</span>
+                              <div class="text-input text-uppercase">
+                                  {{ myDateStringFormatter(bonPour?.dateArriveBLM) }}
+                              </div>
+                           </div>
+
+                           <div class="col-6 mx-auto">
+                              <span class="fw-bold">Observation DLF</span>
+                              <div class="text-input"> {{ bonPour?.observationDLF }} </div>
+                           </div>
+
+                           <div class="col-6 mx-auto">
+                              <span class="fw-bold">Observation BLM</span>
+                              <div class="text-input"> {{ bonPour?.observationBLM }} </div>
+                           </div>
                         </div>
 
-                        <div class="row g-4 mb-3">
-                            <div class="col-3 mx-auto">
-                                <span class="fw-bold">N° arrivée BLM</span>
-                                <div class="text-input"> {{ bonPour?.numeroArriveBLM }} </div>
-                            </div>
-
-                            <div class="col-3 mx-auto">
-                                <span class="fw-bold">Date arrivée BLM</span>
-                                <div class="text-input text-uppercase">
-                                    {{ myDateStringFormatter(bonPour?.dateArriveBLM) }}
-                                </div>
-                            </div>
-
-                            <div class="col-6 mx-auto">
-                                <span class="fw-bold">Observation BLM</span>
-                                <div class="text-input"> {{ bonPour?.observationBLM }} </div>
-                            </div>
+                        <div class=" row g-4 mb-3 text-center fw-bolder bg-myprimary mt-1 py-1" >
                         </div>
-
 
                         <div class="row g-4 mb-3">
                             <div class="col-3 mx-auto">
@@ -117,18 +134,25 @@
                                 </div>
                             </div>
 
-                            <div class="col-6 mx-auto">
-                              <span class="fw-bold">Observation section</span>
-                              <div class="text-input"> {{ bonPour?.observationSection }} </div>
+                            <div class="col-3 mx-auto">
                             </div>
 
-                            <!-- <div class="col-6 mx-auto">
-                                <span class="fw-bold">Observation Section</span>
-                                <div class="text-input"> {{ bonPour?.observationSection }} </div>
-                            </div> -->
+                            <div class="col-3 mx-auto">
+                            </div>
                         </div>
 
+                        <div class="row g-4 mb-3">
+                          <div class="col-6 mx-auto">
+                            <span class="fw-bold">Observation section</span>
+                            <div class="text-input"> {{ bonPour?.observationSection }} </div>
+                          </div>
 
+                          <div class="col-3 mx-auto">
+                          </div>
+
+                          <div class="col-3 mx-auto">
+                          </div>
+                        </div>
                     </form>
 
 
@@ -137,8 +161,14 @@
                             <div class="col-12 text-end">
                                 <button type="button" class="btn btn-mybrown me-2">Supprimer</button>
 
+                                <button type="button" class="btn btn-mysecondary fw-bold mx-2"
+                                  data-bs-toggle="tooltip" title="cliquer ici pour transmettre  l'article">
+                                  Transmettre
+                                </button>
+
+
                                 <button (click)="popupAjouterArticle(bonPour)" type="button" class="btn btn-mysecondary fw-bold mx-2"
-                                    data-bs-toggle="tooltip" title="cliquer ici pour ajouter artticle">
+                                    data-bs-toggle="tooltip" title="cliquer ici pour ajouter article">
                                     Ajouter article
                                 </button>
 

@@ -25,14 +25,14 @@ public class BordereauLivraisonController {
 
 
     @GetMapping("/BordereauLivraisons")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<BordereauLivraison>> getAllBordereauLivraisons() {
         List<BordereauLivraison> bordereauLivraisons = bordereauLivraisonService.getAllBordereauLivraisons();
         return new ResponseEntity<>(bordereauLivraisons, OK);
     }
 
     @PostMapping("/AjouterBordereauLivraison")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BordereauLivraison AjouterBordereauLivraison(@RequestBody BordereauLivraison bordereauLivraison) {
 
         // return bordereauLivraisonService.saveBordereauLivraison(bordereauLivraison);
@@ -41,13 +41,13 @@ public class BordereauLivraisonController {
 
 
     @PutMapping("/ModifierBordereauLivraison")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BordereauLivraison ModifierBordereauLivraison(@RequestBody BordereauLivraison b) {
         return bordereauLivraisonService.updateBordereauLivraison(b);
     }
 
     @DeleteMapping("SupprimerBordereauLivraisonById/{identifiantBordereauLivraison}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerBordereauLivraisonById(@PathVariable("identifiantBordereauLivraison") String identifiantBordereauLivraison) {
         bordereauLivraisonService.deleteBordereauLivraisonById(identifiantBordereauLivraison);
     }

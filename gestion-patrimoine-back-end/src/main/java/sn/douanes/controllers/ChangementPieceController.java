@@ -24,26 +24,26 @@ public class ChangementPieceController {
     ChangementPieceService changementPieceService;
 
     @GetMapping("/ChangementPieces")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<ChangementPiece>> getAllChangementPieces() {
         List<ChangementPiece> changementPiece = changementPieceService.getAllChangementPieces();
         return new ResponseEntity<>(changementPiece, OK);
     }
 
     @PostMapping("/AjouterChangementPiece")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ChangementPiece AjouterChangementPiece(@RequestBody ChangementPiece c) {
         return changementPieceService.saveChangementPiece(c);
     }
 
     @PutMapping("/ModifierChangementPiece")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ChangementPiece ModifierChangementPiece(@RequestBody ChangementPiece c) {
         return changementPieceService.updateChangementPiece(c);
     }
 
     @DeleteMapping("SupprimerChangementPieceById/{codeChangementPiece}/{identifiantChangementPiece}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerChangementPieceById(
             @PathVariable("codeChangementPiece") Integer codeChangementPiece,
             @PathVariable("identifiantMaintenance") String identifiantMaintenance
@@ -53,7 +53,7 @@ public class ChangementPieceController {
 
 
     @GetMapping("RecupererChangementPieceById/{codeChangementPiece}/{identifiantMaintenance}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ChangementPiece RecupererChangementPieceById(
             @PathVariable("codeChangementPiece") Integer codeChangementPiece,
             @PathVariable("identifiantMaintenance") String identifiantMaintenance
@@ -62,7 +62,7 @@ public class ChangementPieceController {
     }
 
     @GetMapping("recupererChangementPieceByIdentifiantMaintenance/{identifiantMaintenance}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public List<ChangementPiece> recupererChangementPieceByIdentifiantMaintenance(
             @PathVariable("identifiantMaintenance") String identifiantMaintenance
     ) {

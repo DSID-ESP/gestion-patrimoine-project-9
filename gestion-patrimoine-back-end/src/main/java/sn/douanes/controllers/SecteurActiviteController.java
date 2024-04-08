@@ -23,28 +23,28 @@ public class SecteurActiviteController {
 
 
     @GetMapping("/SecteurActivites")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<SecteurActivite>> getAllSecteurActivite() {
         List<SecteurActivite> secteurActivite = secteurActiviteService.getAllSecteurActivites();
         return new ResponseEntity<>(secteurActivite, OK);
     }
 
     @PostMapping("/AjouterSecteurActivite")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public SecteurActivite AjouterSecteurActivite(@RequestBody SecteurActivite secteurActivite) {
         return secteurActiviteService.saveSecteurActivite(secteurActivite);
     }
 
 
     @PutMapping("/ModifierSecteurActivite")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public SecteurActivite ModifierSecteurActivite(@RequestBody SecteurActivite p) {
 
         return secteurActiviteService.updateSecteurActivite(p);
     }
 
     @DeleteMapping("SupprimerSecteurActiviteById/{codeSecteurActivite}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerSecteurActiviteById(@PathVariable("codeSecteurActivite") String codeSecteurActivite) {
         secteurActiviteService.deleteSecteurActiviteById(codeSecteurActivite);
     }

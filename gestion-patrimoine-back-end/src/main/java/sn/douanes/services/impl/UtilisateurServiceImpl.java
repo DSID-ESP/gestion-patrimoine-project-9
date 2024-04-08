@@ -80,18 +80,19 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         String clearPwd = utilisateur.getMatriculeAgent().getMatriculeAgent();
         String hashPwd = passwordEncoder.encode(clearPwd);
-        user.setMotDePasse(hashPwd);
+        user.setPwd(hashPwd);
         user.setJoinDate(new Timestamp(System.currentTimeMillis()));
         user.setMatriculeAgent(utilisateur.getMatriculeAgent());
 
         user.setUserName(userName);
 
         // user.setRole("ROLE_USER");
-        user.setAuthorities(utilisateur.getAuthorities());
+        // user.setAuthorities(utilisateur.getAuthorities());
+        user.setCodeFonctionAgent(utilisateur.getCodeFonctionAgent());
         // utilisateur.setAuthorities(Role.ROLE_USER.getAuthorities());
 
-        user.setActive(utilisateur.getActive());
-        user.setNotLocked(utilisateur.getNotLocked());
+        user.setActive(utilisateur.isActive());
+        user.setNotLocked(utilisateur.isNotLocked());
 
 
         user.setActive(true);
@@ -114,7 +115,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         // String clearPwd = generatePassword();
         String clearPwd = utilisateur.getMatriculeAgent().getMatriculeAgent();
         String hashPwd = passwordEncoder.encode(clearPwd);
-        user.setMotDePasse(hashPwd);
+        user.setPwd(hashPwd);
         user.setJoinDate(new Timestamp(System.currentTimeMillis()));
         user.setMatriculeAgent(utilisateur.getMatriculeAgent());
 
@@ -122,8 +123,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         // user.setRole("ROLE_USER");
         // user.setRole(utilisateur.getRole());
-        user.setAuthorities(utilisateur.getAuthorities());
-        user.setCodeFonction(utilisateur.getCodeFonction());
+        // user.setAuthorities(utilisateur.getAuthorities());
+        user.setCodeFonctionAgent(utilisateur.getCodeFonctionAgent());
 
         user.setActive(true);
         user.setNotLocked(true);
@@ -140,16 +141,16 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         Utilisateur user = utilisateurRepository.findByUserName(utilisateur.getUserName());
 
-        if(utilisateur.getUserName() == null) {
+        if(user == null) {
             throw new UserNotFoundException(NO_USER_FOUND_BY_USERNAME + utilisateur.getUserName());
         }
 
         // user.setUtilisateurID(utilisateur.getUtilisateurID());
-        user.setAuthorities(utilisateur.getAuthorities());
-        user.setCodeFonction(utilisateur.getCodeFonction());
+        // user.setAuthorities(utilisateur.getAuthorities());
+        user.setCodeFonctionAgent(utilisateur.getCodeFonctionAgent());
 
-        user.setActive(utilisateur.getActive());
-        user.setNotLocked(utilisateur.getNotLocked());
+        user.setActive(utilisateur.isActive());
+        user.setNotLocked(utilisateur.isNotLocked());
 
         return utilisateurRepository.save(user);
     }
@@ -161,6 +162,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public void resetPasswordByMatriculeAgent(Agent agent) throws MessagingException, AgentNotFoundException {
+
         Utilisateur user = utilisateurRepository.findByMatriculeAgent(agent);
 
         if (user == null) {
@@ -169,7 +171,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         // String password = generatePassword();
         String password = agent.getMatriculeAgent();
-        user.setMotDePasse(encodePassword(password));
+        user.setPwd(encodePassword(password));
 
         utilisateurRepository.save(user);
         // LOGGER.info("New user password: " + password);

@@ -26,27 +26,27 @@ public class ControleController {
 
 
     @GetMapping("/Controles")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<Controle>> getAllControles() {
         List<Controle> controle = controleService.getAllControles();
         return new ResponseEntity<>(controle, OK);
     }
 
     @PostMapping("/AjouterControle")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Controle AjouterControle(@RequestBody Controle c) {
         return controleService.saveControle(c);
     }
 
     @PutMapping("/ModifierControle")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Controle ModifierControle(@RequestBody Controle c) {
         return controleService.updateControle(c);
     }
 
 
     @DeleteMapping("SupprimerControleById/{numeroSerie}/{dateControle}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerArticleBonEntree(
             @PathVariable("numeroSerie") String numeroSerie,
             @PathVariable("dateControle") Timestamp dateControle

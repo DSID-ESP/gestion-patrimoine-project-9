@@ -22,27 +22,27 @@ public class LieuStockageVehiculeController {
     LieuStockageVehiculeService lieuStockageVehiculeService;
 
     @GetMapping("/LieuStockageVehicules")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<LieuStockageVehicule>> getAllTypeEnergies() {
         List<LieuStockageVehicule> lieuStockageVehicule = lieuStockageVehiculeService.getAllLieuStockageVehicules();
         return new ResponseEntity<>(lieuStockageVehicule, OK);
     }
 
     @PostMapping("/AjouterLieuStockageVehicule")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public LieuStockageVehicule AjouterLieuStockageVehicule(@RequestBody LieuStockageVehicule lieuStockageVehicule) {
         return lieuStockageVehiculeService.saveLieuStockageVehicule(lieuStockageVehicule);
     }
 
 
     @PutMapping("/ModifierLieuStockageVehicule")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public LieuStockageVehicule ModifierLieuStockageVehicule(@RequestBody LieuStockageVehicule l) {
         return lieuStockageVehiculeService.updateLieuStockageVehicule(l);
     }
 
     @DeleteMapping("SupprimerLieuStockageVehiculeById/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerLieuStockageVehiculeById(@PathVariable("id") String codeLieuVH) {
         lieuStockageVehiculeService.deleteLieuStockageVehiculeById(codeLieuVH);
     }

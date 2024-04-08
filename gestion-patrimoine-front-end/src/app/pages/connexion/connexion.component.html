@@ -14,14 +14,14 @@
                           <div class="form-group d-grid gap-1 mb-4 col-12">
                               <label class="form-label d-flex align-items-start" for="typeText">Matricule</label>
                               <!-- <input type="email" name="email" id="email" id="typeText" class="form-control form-control-lg border border-myprimary" required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [(ngModel)]="model.email" #email="ngModel" /> -->
-                              <input type="userName" name="userName" id="userName" id="typeText" class="form-control form-control-lg border border-myprimary" required  minlength="7" [(ngModel)]="model.userName" #userName="ngModel" />
+                              <input type="userName" name="userName" id="userName" id="typeText" class="form-control form-control-lg border border-myprimary" required  minlength="7" [(ngModel)]="utilisateur.userName" #userName="ngModel" />
                               <span class="focus-input100"></span>
                               <span class="text-mybrown" *ngIf="(userName.touched || loginForm.submitted) && userName.errors?.['required']">Erreur : Matricule est obligatoire !</span>
                               <span class="text-mybrown" *ngIf="(userName.touched || loginForm.submitted) && userName.errors?.['pattern']">Erreur : Renseignez une matricule valide !</span>
                           </div>
                           <div class="form-group d-grid gap-1 col-12">
                               <label class="form-label d-flex align-items-start" for="typePassword">Mot de passe</label>
-                              <input type="password" name="motDePasse" id="motDePasse" id="typePassword" class="form-control form-control-lg border border-myprimary" required [(ngModel)]="model.motDePasse" #motDePasse="ngModel" minlength="7" />
+                              <input type="password" name="motDePasse" id="motDePasse" id="typePassword" class="form-control form-control-lg border border-myprimary" required [(ngModel)]="utilisateur.pwd" #motDePasse="ngModel" minlength="7" />
                               <span class="focus-input100"></span>
                               <span class="text-mybrown" *ngIf="(motDePasse.touched || loginForm.submitted) && motDePasse.errors?.['required']">Erreur : Le mot de passe est obligatoire !</span>
                               <span class="text-mybrown" *ngIf="(motDePasse.touched || loginForm.submitted) && motDePasse.errors?.['minlength']">Erreur : Le mot de passe doit faire 7 caractères minimum. !</span>

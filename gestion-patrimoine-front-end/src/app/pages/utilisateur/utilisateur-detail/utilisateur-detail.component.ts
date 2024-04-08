@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Utilisateur } from 'src/app/model/utilisateur.model';
-import { Authorities } from 'src/app/model/authorities.model';
-import { AuthorityService } from 'src/app/services/authority.service';
 import { UtilisateurService } from 'src/app/services/utilisateur.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
@@ -13,8 +11,8 @@ import { NgForm } from '@angular/forms';
 import { PopupConfirmationSupprimerComponent } from 'src/app/composants/supprimer/popup-confirmation-supprimer/popup-confirmation-supprimer.component';
 import { MyDate } from 'src/app/model/my-date.model';
 import { MyDateService } from 'src/app/services/my-date.service';
-import { Fonction } from 'src/app/model/fonction.model';
-import { FonctionService } from 'src/app/services/fonction.service';
+import { FonctionAgent } from 'src/app/model/fonction-agent.model';
+import { FonctionAgentService } from 'src/app/services/fonction-agent.service';
 
 @Component({
   selector: 'app-utilisateur-detail',
@@ -27,11 +25,11 @@ export class UtilisateurDetailComponent implements OnInit, OnDestroy  {
 
   afficherPopupDetail: boolean = true;
 
-  public fonctions: Fonction[] = [];
-  public fonction: Fonction = new Fonction();
+  public fonctionAgents: FonctionAgent[] = [];
+  public fonctionAgent: FonctionAgent = new FonctionAgent();
 
-  public authorities: Authorities[] = [];
-  public authority: Authorities = new Authorities();
+  // public authorities: Authorities[] = [];
+  // public authority: Authorities = new Authorities();
   
 
   private subscriptions: Subscription[] = [];
@@ -40,9 +38,9 @@ export class UtilisateurDetailComponent implements OnInit, OnDestroy  {
     public dialogRef: MatDialogRef<UtilisateurDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public utilisateur: Utilisateur,
     private matDialog: MatDialog,
-    private fonctionService: FonctionService,
+    private fonctionAgentService: FonctionAgentService,
     private utilisateurService: UtilisateurService,
-    private authorityService: AuthorityService,
+    // private authorityService: AuthorityService,
     private notificationService: NotificationService,
     private myDateService: MyDateService
   ) {}
@@ -56,37 +54,17 @@ export class UtilisateurDetailComponent implements OnInit, OnDestroy  {
   }
 
   ngOnInit(): void {
-    this.listeFonctions();
-    this.listeAuthorities();
+    this.listeFonctionAgents();
   }
   
 
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
-  public listeFonctions(): void {
+  public listeFonctionAgents(): void {
 
-    const subscription = this.fonctionService.listeFonctions().subscribe({
-      next: (response: Fonction[]) => {
-        this.fonctions = response;
-      },
-      error: (errorResponse: HttpErrorResponse) => {
-        // console.log(errorResponse);
-      },
-    });
-
-    this.subscriptions.push(subscription);
-  }
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-
-
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-  public listeAuthorities(): void {
-
-    const subscription = this.authorityService.listeAuthorities().subscribe({
-      next: (response: Authorities[]) => {
-        this.authorities = response;
+    const subscription = this.fonctionAgentService.listeFonctionAgents().subscribe({
+      next: (response: FonctionAgent[]) => {
+        this.fonctionAgents = response;
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -174,8 +152,8 @@ export class UtilisateurDetailComponent implements OnInit, OnDestroy  {
 
     let utilisateur1: Utilisateur = new Utilisateur();
 
-    utilisateur1.codeFonction = this.fonctions.find(fonction => fonction.libelleFonction === UtilisateurForm.value.codeFonction) ?? new Fonction();
-    utilisateur1.authorities = [this.authorities.find(authority => authority.nameAuthority === UtilisateurForm.value.authorities) ?? new Authorities()];
+    utilisateur1.codeFonctionAgent = this.fonctionAgents.find(fonctionAgent => fonctionAgent.libelleFonctionAgent === UtilisateurForm.value.codeFonctionAgent) ?? new FonctionAgent();
+    // utilisateur1.authorities = [this.authorities.find(authority => authority.nameAuthority === UtilisateurForm.value.authorities) ?? new Authorities()];
     utilisateur1.userName = this.utilisateur.userName;
     utilisateur1.matriculeAgent = this.utilisateur.matriculeAgent;
 

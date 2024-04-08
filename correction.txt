@@ -54,5 +54,16 @@ unite pour la liste d'agent
 
 
 
+dateEnregistrement: MyDate | string | null;
 
+myDateStringFormatter(date: MyDate | string | undefined | null): string {
+    if (!date) {
+      return '';
+    }
 
+    if (typeof date === 'string') {
+      return this.myDateService.formatterMyDateFromString(date);
+    } else {
+      return this.myDateService.formatterMyDate(date);
+    }
+  }

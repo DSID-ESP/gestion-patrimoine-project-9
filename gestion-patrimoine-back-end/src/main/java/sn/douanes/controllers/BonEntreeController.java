@@ -28,7 +28,7 @@ public class BonEntreeController {
 
 
     @GetMapping("/BonEntrees")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<BonEntree>> getAllBonEntrees() {
         List<BonEntree> bonEntree = bonEntreeService.getAllBonEntrees();
         return new ResponseEntity<>(bonEntree, OK);
@@ -36,7 +36,7 @@ public class BonEntreeController {
 
 
     @PostMapping("/AjouterBonEntree")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BonEntree AjouterBonEntree(@RequestBody BonEntree bonEntree) {
         // return bonEntreeService.saveBonEntree(bonEntree);
         return bonEntreeService.ajouterBonEntree(bonEntree.getNumeroBE(), bonEntree.getDateBonEntree(), bonEntree.getIdentifiantBL(), bonEntree.getLibelleBonEntree(), bonEntree.getObservationBonEntree());
@@ -59,19 +59,19 @@ public class BonEntreeController {
 
 
     @PutMapping("/ModifierBonEntree")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BonEntree ModifierBonEntree(@RequestBody BonEntree b) {
         return bonEntreeService.updateBonEntree(b);
     }
 
     @DeleteMapping("SupprimerBonEntreeById/{identifiantBonEntree}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerBonEntreeById(@PathVariable("identifiantBonEntree") String identifiantBonEntree) {
         bonEntreeService.deleteBonEntreeById(identifiantBonEntree);
     }
 
     @GetMapping("RecupererBonEntreeById/{identifiantBonEntree}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BonEntree RecupererBonEntreeById(@PathVariable("identifiantBonEntree") String identifiantBonEntree) {
         return bonEntreeService.getBonEntreeById(identifiantBonEntree);
     }

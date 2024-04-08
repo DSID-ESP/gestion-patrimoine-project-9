@@ -22,7 +22,7 @@ public class DotationVehiculeController {
 
 
     @GetMapping("/DotationVehicules")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<DotationVehicule>> getAllDotationVehicules() {
         List<DotationVehicule> dotationVehicule = dotationVehiculeService.getAllDotationVehicules();
         return new ResponseEntity<>(dotationVehicule, OK);
@@ -30,20 +30,20 @@ public class DotationVehiculeController {
 
 
     @PostMapping("/AjouterDotationVehicule")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public DotationVehicule AjouterDotationVehicule(@RequestBody DotationVehicule dotationVehicule) {
         return dotationVehiculeService.ajouterDotationVehicule(dotationVehicule.getIdentifiantDV(), dotationVehicule.getNumeroSerie(), dotationVehicule.getDateDotation(), dotationVehicule.getMatriculeAgent(), dotationVehicule.getCodeArticleBonSortie());
     }
 
 
     @PutMapping("/ModifierDotationVehicule")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public DotationVehicule ModifierDotationVehicule(@RequestBody DotationVehicule d) {
         return dotationVehiculeService.updateDotationVehicule(d);
     }
 
     @DeleteMapping("SupprimerDotationVehiculeById/{identifiantDV}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerDotationVehiculeById(@PathVariable("identifiantDV") String identifiantDV) {
 
         dotationVehiculeService.deleteDotationVehiculeById(identifiantDV);
@@ -52,7 +52,7 @@ public class DotationVehiculeController {
 
 
     @GetMapping("RecupererDotationVehiculeById/{identifiantDV}")
-    @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public DotationVehicule RecupererDotationVehiculeById(
             @PathVariable("identifiantDV") String identifiantDV
     ) {
