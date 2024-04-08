@@ -22,10 +22,6 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { ReparationService } from 'src/app/services/reparation.service';
 import { VehiculeService } from 'src/app/services/vehicule.service';
 import { VidangeService } from 'src/app/services/vidange.service';
-import { DotationVehicule } from 'src/app/model/dotation-vehicule.model';
-import { DotationVehiculeService } from 'src/app/services/dotation-vehicule.service';
-import { BonSortieService } from 'src/app/services/bon-sortie.service';
-import { BonSortie } from 'src/app/model/bon-sortie.model';
 
 @Component({
   selector: 'app-maintenance-ajouter',
@@ -43,9 +39,22 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   // -----------------------------------------------------------------------------------
   // nombreChangementPieceByIdentifiantMaintenance: number = 0;
 
-  selectedAccident: boolean | undefined;
+  suiteAccident: string = 'SUITE ACCIDENT';
+  reparationSimple: string = 'REPARETION SIMPLE';
+
+
+ // selectedAccident: boolean | undefined;
+  selectedNatureReparation: string = this.reparationSimple;
   selectedTypeMaintenance: string = '';
+
   currentDateFormatted: string = '';
+
+
+
+
+  nombreBlesse: number = 0;
+  nombreDeces: number = 0;
+
   // modelDate1: NgbDateStruct | null = null;
 
 
@@ -69,7 +78,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   // ----------------------------------------------------------------
   // selectedMatricule: string = "";
   control = new FormControl('');
-  filteredDotationVehicules: Observable<DotationVehicule[]> | undefined;
+  filteredVehicules: Observable<Vehicule[]> | undefined;
 
   // -----------------------------------------------------------------------
 
@@ -87,14 +96,11 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   public changementPieces: ChangementPiece[] = [];
   public changementPiece: ChangementPiece = new ChangementPiece();
 
-  public dotationVehicules: DotationVehicule[] = [];
-  public dotationVehicule: DotationVehicule = new DotationVehicule();
+  public vehicules: Vehicule[] = [];
+  public vehicule: Vehicule = new Vehicule();
 
   public maintenances: Maintenance[] = [];
   public maintenance: Maintenance = new Maintenance();
-
-  public bonSorties: BonSortie[] = [];
-  public bonSortie: BonSortie = new BonSortie();
 
   private subscriptions: Subscription[] = [];
 
@@ -104,10 +110,9 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     private reparationService: ReparationService,
     private accidentService: AccidentService,
     private vidangeService: VidangeService,
-    private dotationVehiculeService: DotationVehiculeService,
+    private vehiculeService: VehiculeService,
     private maintenanceService: MaintenanceService,
     private changementPieceService: ChangementPieceService,
-    private bonSortieService: BonSortieService,
     private notificationService: NotificationService,
     private myDateService: MyDateService,
   ) { }
@@ -127,40 +132,40 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
     this.currentDateFormatted = this.myDateStringFormatter(new Date().toString());
 
-    this.listeDotationVehicules();
+    this.listeVehicules();
     this.listeChangementPieces();
-    
 
-    this.filteredDotationVehicules = this.control.valueChanges.pipe(
+    this.filteredVehicules = this.control.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
     );
+
+
   }
 
   // -------------------------------------------------------------------------------------------
   // -------------------------------------------------------------------------------------------
-  private _filter(value: string): DotationVehicule[] {
+  private _filter(value: string): Vehicule[] {
 
     if (value == "") {
-      this.dotationVehicule = new DotationVehicule();
+      this.vehicule = new Vehicule();
     }
 
     // Trouver le vehicule ayant exactement le même numeroSerie que la valeur donnée
-    let dotationVehiculeTrouve = this.dotationVehicules.find(dotationVehicule => this._normalizeValue(dotationVehicule.numeroSerie.numeroSerie) === value.toLocaleLowerCase());
-    if (dotationVehiculeTrouve) {
-      this.dotationVehicule = dotationVehiculeTrouve;
-      this.recupererBonsortieById(this.dotationVehicule.codeArticleBonSortie.identifiantBonSortie)
+    let vehiculeTrouve = this.vehicules.find(vehicule => this._normalizeValue(vehicule.numeroSerie) === value.toLocaleLowerCase());
+    if (vehiculeTrouve) {
+      this.vehicule = vehiculeTrouve;
     } else {
-      this.dotationVehicule = new DotationVehicule();
+      this.vehicule = new Vehicule();
     }
 
     // la liste des vehicules trouvé ou vehicule trouvé en fonction du mot a rechercher
-    let listeDotationVehicules = this.dotationVehicules.filter(dotationVehicule => this._normalizeValue(dotationVehicule.numeroSerie.numeroSerie).includes(value.toLocaleLowerCase()));
-    // Trouver l'agent automatique au premier indice sans avoir saisie le matricule au complet 
+    let listeVehicules = this.vehicules.filter(vehicule => this._normalizeValue(vehicule.numeroSerie).includes(value.toLocaleLowerCase()));
+    // Trouver l'agent automatique au premier indice sans avoir saisie le matricule au complet
     // if (listeAgents.length == 1) {
     //   this.agent = this.agents.find(agent => agent.matriculeAgent === listeAgents[0].matriculeAgent) ?? new Agent();
     // }
-    return listeDotationVehicules;
+    return listeVehicules;
   }
 
   private _normalizeValue(value: string): string {
@@ -170,7 +175,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   onOptionSelected(event: MatAutocompleteSelectedEvent) {
     const selectedNumeroSerie = event.option.value;
-    this.dotationVehicule = this.dotationVehicules.find(dotationVehicule => dotationVehicule.numeroSerie.numeroSerie === selectedNumeroSerie) ?? new DotationVehicule();
+    this.vehicule = this.vehicules.find(vehicule => vehicule.numeroSerie === selectedNumeroSerie) ?? new Vehicule();
   }
 
   // -------------------------------------------------------------------------------------------
@@ -179,11 +184,11 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   // Fonction déclenchée lorsqu'une nouvelle option est sélectionnée
   onTypeMaintenanceChange(value: string) {
-
-    // reinitialiser les options 
-    this.selectedAccident = undefined;
-
     this.selectedTypeMaintenance = value;
+  }
+
+  onTypeReparationChange(value: string) {
+    this.selectedNatureReparation = value;
   }
 
   // onTypeAccident(event: any) {
@@ -206,33 +211,13 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
-  public recupererBonsortieById(idIdentifiantBonSortie: string): void {
+  public listeVehicules(): void {
 
-    this.subscriptions.push(this.bonSortieService.recupererBonSortieById(idIdentifiantBonSortie).subscribe({
-      next: (response: BonSortie) => {
-        this.bonSortie = response;
-      },
-      error: (errorResponse: HttpErrorResponse) => {
-
-      }
-    }));
-
-  }
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-
-
-
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-  public listeDotationVehicules(): void {
-
-    const subscription = this.dotationVehiculeService.listeDotationVehicules().subscribe({
-      next: (response: DotationVehicule[]) => {
-        this.dotationVehicules = response;
+    const subscription = this.vehiculeService.listeVehicules().subscribe({
+      next: (response: Vehicule[]) => {
+        this.vehicules = response;
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -301,7 +286,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   public ajouterReparation(ReparationForm: NgForm): void {
     this.reparation.identifiantMaintenance = ''; // à compléter
     this.reparation.natureReparation = ReparationForm.value.natureReparation;
-    this.reparation.suiteAccident = ReparationForm.value.suiteAccident;
+   // this.reparation.suiteAccident = ReparationForm.value.suiteAccident;
   }
 
 
@@ -329,13 +314,13 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     // this.condition = true;
     this.maintenance = new Maintenance();
 
-    if (this.dotationVehicule.numeroSerie.numeroSerie == '') {
+    if (this.vehicule.numeroSerie == '') {
       // this.condition = false;
       this.sendNotification(NotificationType.ERROR, `Ce vehicule n'existe pas`);
       return;
     }
 
-    this.maintenance.numeroSerie = this.dotationVehicule.numeroSerie;
+    this.maintenance.numeroSerie = this.vehicule;
     this.maintenance.dateDebutMaintenance = null;
     this.maintenance.dateFinMaintenance = null;
     this.maintenance.observationMaintenance = MaintenanceForm.value.observationMaintenance;
@@ -419,7 +404,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(this.maintenanceService.ajouterMaintenance(maintenance).subscribe({
       next: (response: Maintenance) => {
-        this.maintenance = response;        
+        this.maintenance = response;
 
         this.validerReparation(this.reparation, this.maintenance);
       },
@@ -457,7 +442,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.changementPieceService.ajouterChangementPiece(changementPiece).subscribe({
       next: () => {
 
-        if (reparation.suiteAccident) {
+        if (reparation.natureReparation === "suiteAccident") {
           this.validerAccident(this.accident, maintenance);
         } else {
           this.popupFermer();

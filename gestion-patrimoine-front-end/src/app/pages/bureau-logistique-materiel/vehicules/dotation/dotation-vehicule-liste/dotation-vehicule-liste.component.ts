@@ -312,7 +312,7 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
 
            // this.vehicules = response.sort((a, b) => new Date(b.dateModification).getTime() - new Date(a.dateModification).getTime());
 
-          rowNomUnite: item.codeUniteDouaniere.nomUniteDouaniere,
+          rowNomUnite: item.codeUniteDouaniere?.nomUniteDouaniere,
 
         })));
 
@@ -357,11 +357,8 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
     // console.log(bonPour);
 
      const id = bonPour.identifiantBonPour;
-     if (id) {
-      const encrypt = this.securiteService.encryptUsingAES256(id);
-      this.router.navigate(['/dotation-vehicule-detail', encrypt]);
-     }
-     
+     const encrypt = this.securiteService.encryptUsingAES256(id);
+    this.router.navigate(['/dotation-vehicule-detail', encrypt]);
   }
 
 

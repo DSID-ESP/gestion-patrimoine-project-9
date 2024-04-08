@@ -119,10 +119,10 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
   displayedColumnsCustom: string[] = [
     "N°",
     // "Code article",
-    "Libellé article",
-    "Quantité Demandée",
-    "Quantité Accordée",
-    "Type objet"
+    "Description article bon pour",
+    "Qte Demandée",
+    "Qte Accordée",
+    "Nature"
 
 
   ];
@@ -407,7 +407,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
 
 
-  myDateStringFormatter(date: MyDate | string | undefined | null): string {
+  myDateStringFormatter(date: MyDate | string | undefined): string {
     if (!date) {
       return '';
     }

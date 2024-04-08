@@ -53,10 +53,10 @@ INSERT INTO "bon_entree" ("identifiant_b_e", "date_bon_entree", "libelle_bon_ent
 
 
 INSERT INTO "lieu_stockage_vehicule" ("code_lieu_vh", "libellle_lieu_vh", "nombre_limite_stockage_vh") VALUES
-('PKN',	'pikine',	50),
-('CLB',	'colobane',	100),
-('LB6',	'liberté 6',	200),
-('HGY',	'hlm grand yoff',	40);
+('PKN',	'PIKINE',	50),
+('CLB',	'COLOBANE',	100),
+('LB6', 'LIBERTÉ 6',    200),
+('HGY', 'HLM GRAND YOFF',	40);
 
 
 

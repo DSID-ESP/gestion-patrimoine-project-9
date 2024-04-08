@@ -129,7 +129,7 @@
                 <form class="container px-3 py-2">
                     <div class="row g-4 mb-3">
                         <div class="col-3 mx-auto">
-                            <span class="fw-bold">Date début</span>
+                            <span class="fw-bold">Date prise en charge</span>
                             <div class="text-input text-uppercase">
                                 {{ myDateStringFormatter(maintenance.dateDebutMaintenance) }}
                             </div>
@@ -160,7 +160,7 @@
                 <form class="container px-3 py-2">
                     <div class="row g-4 mb-3">
                         <div class="col-3 mx-auto">
-                            <span class="fw-bold">Date début</span>
+                            <span class="fw-bold">Date prise en charge</span>
                             <div class="text-input text-uppercase">
                                 {{ myDateStringFormatter(maintenance.dateDebutMaintenance) }}
                             </div>
@@ -182,7 +182,7 @@
             </div>
 
             <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'vidange'" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
-                Huile 
+                Huile
             </div>
 
 
@@ -220,7 +220,7 @@
                 <form class="container px-3 py-2">
                     <div class="row g-4 mb-3">
                         <div class="col-3 mx-auto">
-                            <span class="fw-bold">Date début</span>
+                            <span class="fw-bold">Date prise en charge</span>
                             <div class="text-input text-uppercase">
                                 {{ myDateStringFormatter(maintenance.dateDebutMaintenance) }}
                             </div>
@@ -260,11 +260,11 @@
                 </form>
             </div>
 
-            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation' && reparation.suiteAccident" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation' && reparation.natureReparation" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
                 Accident
             </div>
 
-            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation' && reparation.suiteAccident" class="container px-3 py-2">
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation' && reparation.natureReparation" class="container px-3 py-2">
                 <form class="container px-3 py-2">
                     <div class="row g-4 mb-3">
                         <div class="col-3 mx-auto">

@@ -1,460 +1,468 @@
 <div class="card shadow">
 
-    <div class="card-header text-center fw-bold bg-myprimary fs-5">
-        Ajouter maintenance
+  <div class="card-header text-center fw-bold bg-myprimary fs-5">
+    Ajouter maintenance
+  </div>
+
+  <div class="card-body" style="max-height: 650px; overflow-y: auto;">
+
+    <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+      Véhicule
     </div>
 
-    <div class="card-body" style="max-height: 650px; overflow-y: auto;">
+    <div class="container px-3 py-2">
+      <form class="form">
+        <div class="row g-4 mb-3">
+          <div class="col-3 mx-auto form-group">
+            <label for="myInputSearch" class="form-label fw-bold">N° série</label>
+            <input type="text" [formControl]="control" [matAutocomplete]="auto" id="myInputSearch"
+              class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
 
-        <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
-            Véhicule
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+              <mat-option *ngFor="let vehicule of (filteredVehicules | async)?.slice(0, 5)"
+                [value]="vehicule.numeroSerie">
+                {{ vehicule.numeroSerie }}
+              </mat-option>
+            </mat-autocomplete>
+          </div>
+
+          <div class="col-3 mx-auto">
+            <ng-container *ngIf="vehicule.numeroCarteGrise != ''">
+              <span class="fw-bold">N° immatriculation</span>
+              <div class="text-input text-uppercase"> {{ vehicule.numeroImmatriculation }} </div>
+            </ng-container>
+          </div>
+
+          <div class="col-3 mx-auto">
+            <ng-container *ngIf="vehicule.modele != ''">
+              <span class="fw-bold">Modèle</span>
+              <div class="text-input text-uppercase"> {{ vehicule.modele }} </div>
+            </ng-container>
+          </div>
+
+          <div class="col-3 mx-auto">
+            <ng-container *ngIf="vehicule.libelleEtatVehicule != ''">
+              <span class="fw-bold">Etat véhicule</span>
+              <div class="text-input text-uppercase"> {{ vehicule.libelleEtatVehicule }} </div>
+            </ng-container>
+          </div>
         </div>
 
-        <div class="container px-3 py-2">
-            <form class="form">
-                <div class="row g-4 mb-3">
-                    <div class="col-3 mx-auto form-group">
-                        <label for="myInputSearch" class="form-label fw-bold">N° série</label>
-                        <input type="text" [formControl]="control" [matAutocomplete]="auto" id="myInputSearch"
-                            class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+        <div class="row g-4 mb-3">
+          <div class="col-3 mx-auto">
+            <ng-container *ngIf="vehicule.codeTypeEnergie.libelleTypeEnergie != ''">
+              <span class="fw-bold">Type énergie</span>
+              <div class="text-input text-uppercase"> {{ vehicule.codeTypeEnergie.libelleTypeEnergie }}
+              </div>
+            </ng-container>
+          </div>
 
-                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
-                            <mat-option *ngFor="let dotationVehicule of (filteredDotationVehicules | async)?.slice(0, 5)"
-                                [value]="dotationVehicule.numeroSerie.numeroSerie">
-                                {{ dotationVehicule.numeroSerie.numeroSerie }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </div>
+          <div class="col-3 mx-auto">
+            <ng-container *ngIf="vehicule.codePays.libellePays != ''">
+              <span class="fw-bold">Provenance</span>
+              <div class="text-input text-uppercase"> {{ vehicule.codePays.libellePays }} </div>
+            </ng-container>
+          </div>
 
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.numeroCarteGrise != ''">
-                            <span class="fw-bold">N° immatriculation</span>
-                            <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.numeroImmatriculation }} </div>
-                        </ng-container>
-                    </div>
+          <div class="col-3 mx-auto">
+            <ng-container *ngIf="vehicule.numeroCarteGrise != ''">
+              <span class="fw-bold">N° carte grise</span>
+              <div class="text-input text-uppercase"> {{ vehicule.numeroCarteGrise }} </div>
+            </ng-container>
+          </div>
 
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.modele != ''">
-                            <span class="fw-bold">Modèle</span>
-                            <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.modele }} </div>
-                        </ng-container>
-                    </div>
-
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.libelleEtatVehicule != ''">
-                            <span class="fw-bold">Etat véhicule</span>
-                            <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.libelleEtatVehicule }} </div>
-                        </ng-container>
-                    </div>
-                </div>
-
-                <div class="row g-4 mb-3">
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.codeTypeEnergie.libelleTypeEnergie != ''">
-                            <span class="fw-bold">Type énergie</span>
-                            <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.codeTypeEnergie.libelleTypeEnergie }}
-                            </div>
-                        </ng-container>
-                    </div>
-
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.codePays.libellePays != ''">
-                            <span class="fw-bold">Provenance</span>
-                            <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.codePays.libellePays }} </div>
-                        </ng-container>
-                    </div>
-
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.numeroCarteGrise != ''">
-                            <span class="fw-bold">N° carte grise</span>
-                            <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.numeroCarteGrise }} </div>
-                        </ng-container>
-                    </div>
-
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.numeroCarteGrise != ''">
-                            <span class="fw-bold">Etat véhicule</span>
-                            <div class="text-input text-uppercase"> {{
-                                myDateStringFormatter(dotationVehicule.numeroSerie.dateMiseEnCirculation) }} </div>
-                        </ng-container>
-                    </div>
-                </div>
+          <div class="col-3 mx-auto">
+            <ng-container *ngIf="vehicule.numeroCarteGrise != ''">
+              <span class="fw-bold">Etat véhicule</span>
+              <div class="text-input text-uppercase"> {{
+                myDateStringFormatter(vehicule.dateMiseEnCirculation) }} </div>
+            </ng-container>
+          </div>
+        </div>
 
 
-                <div class="row g-4 mb-3">
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.codeTypeVehicule.libelleTypeVehicule != ''">
-                            <span class="fw-bold">Type véhicule</span>
-                            <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.codeTypeVehicule.libelleTypeVehicule }}
-                            </div>
-                        </ng-container>
-                    </div>
+        <div class="row g-4 mb-3">
+          <div class="col-3 mx-auto">
+            <ng-container *ngIf="vehicule.codeTypeVehicule.libelleTypeVehicule != ''">
+              <span class="fw-bold">Type véhicule</span>
+              <div class="text-input text-uppercase"> {{ vehicule.codeTypeVehicule.libelleTypeVehicule }}
+              </div>
+            </ng-container>
+          </div>
 
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.codeMarque.libelleMarqueVH != ''">
-                            <span class="fw-bold">Marque</span>
-                            <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.codeMarque.libelleMarqueVH }} </div>
-                        </ng-container>
-                    </div>
+          <div class="col-3 mx-auto">
+            <ng-container *ngIf="vehicule.codeMarque.libelleMarqueVH != ''">
+              <span class="fw-bold">Marque</span>
+              <div class="text-input text-uppercase"> {{ vehicule.codeMarque.libelleMarqueVH }} </div>
+            </ng-container>
+          </div>
 
-                    <div class="col-3 mx-auto">
-                    </div>
+          <div class="col-3 mx-auto">
+          </div>
 
-                    <div class="col-3 mx-auto">
-                    </div>
-                </div>
+          <div class="col-3 mx-auto">
+          </div>
+        </div>
 
 
-                <!-- <div class="row">
+        <!-- <div class="row">
                     <div class="col-12 text-end">
                         <button type="submit" id="maintenance-form"  [disabled]="MaintenanceForm.invalid || (vehicule.numeroSerie == '')" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
                             Valider
                         </button>
-                        
+
                     </div>
                 </div> -->
-            </form>
-        </div>
+      </form>
+    </div>
 
-        <div *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
-            Unité Douanière
-        </div>
+    <!-- -----------------------------------MAINTENANCE------------------------------------------- -->
+    <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+      {{ (selectedTypeMaintenance == '') ? 'Maintenance' : selectedTypeMaintenance }}
+    </div>
 
-        <div *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''" class="container px-3 py-2">
-            <form class="form">
-                <div class="row g-4 mb-3">
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
-                            <span class="fw-bold">Code unité</span>
-                            <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.codeUniteDouaniere }} </div>
-                        </ng-container>
-                    </div>
+    <div class="container px-3 py-2">
+      <form class="form" #MaintenanceForm="ngForm" (ngSubmit)="ajouterMaintenance(MaintenanceForm)">
+        <div class="row g-4 mb-3">
+          <div class="col-3 mx-auto form-group">
+            <label for="typeMaintenance" class="form-label fw-bold">Type maintenance</label>
+            <select name="typeMaintenance" id="typeMaintenance" required [(ngModel)]="selectedTypeMaintenance"
+              (ngModelChange)="onTypeMaintenanceChange($event)"
+              class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
+              autocomplete="off">
+              <option value="Controle">CONTROLE</option>
+              <option value="Vidange">VIDANGE</option>
+              <option value="Reparation">RÉPARATION</option>
+            </select>
+          </div>
 
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
-                            <span class="fw-bold">Type unité</span>
-                            <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.codeTypeUniteDouaniere.libelleTypeUniteDouaniere }} </div>
-                        </ng-container>
-                    </div>
-
-                    <div class="col-6 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
-                            <span class="fw-bold">Nom unité</span>
-                            <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.nomUniteDouaniere }} </div>
-                        </ng-container>
-                    </div>
-                    
-                </div>
-
-                <div class="row g-4 mb-3">
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
-                            <span class="fw-bold">Effectif unité</span>
-                            <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.effectifUniteDouaniere }} </div>
-                        </ng-container>
-                    </div>
-
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
-                            <span class="fw-bold">Nombre arme</span>
-                            <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.nombreArme }} </div>
-                        </ng-container>
-                    </div>
-
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
-                            <span class="fw-bold">Nombre véhicule</span>
-                            <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.nombreAutomobile }} </div>
-                        </ng-container>
-                    </div>
-
-                    <div class="col-3 mx-auto">
-                        <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
-                            <span class="fw-bold">Nombre matériel</span>
-                            <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.nombreMateriel }} </div>
-                        </ng-container>
-                    </div>
-                </div>
-
-            </form>
-        </div>
-
-        <!-- -----------------------------------MAINTENANCE------------------------------------------- -->
-        <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
-            {{ (selectedTypeMaintenance == '') ? 'Maintenance' : selectedTypeMaintenance }}
-        </div>
-
-        <div class="container px-3 py-2">
-            <form class="form" #MaintenanceForm="ngForm" (ngSubmit)="ajouterMaintenance(MaintenanceForm)">
-                <div class="row g-4 mb-3">
-                    <div class="col-3 mx-auto form-group">
-                        <label for="typeMaintenance" class="form-label fw-bold">Type maintenance</label>
-                        <select name="typeMaintenance" id="typeMaintenance" required
-                            [(ngModel)]="selectedTypeMaintenance" (ngModelChange)="onTypeMaintenanceChange($event)"
-                            class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
-                            autocomplete="off">
-                            <option value="Controle">Controle</option>
-                            <option value="Vidange">Vidange</option>
-                            <option value="Reparation">Reparation</option>
-                        </select>
-                    </div>
-
-                    <div class="col-3 mx-auto form-group">
-                        <ng-container *ngIf="selectedTypeMaintenance != ''">
-                            <!-- <span class="fw-bold">Date début</span>
+          <div class="col-3 mx-auto form-group">
+            <ng-container *ngIf="selectedTypeMaintenance != ''">
+              <!-- <span class="fw-bold">Date début</span>
                             <div class="text-input text-uppercase"> {{ currentDateFormatted }} </div> -->
-                            <!-- {{currentDateFormatted}} -->
-                            <label for="dateDebutMaintenance" class="form-label fw-bold">Date début</label>
-                            <input type="text" name="dateDebutMaintenance" id="dateDebutMaintenance" autocomplete="off"
-                                disabled [placeholder]="currentDateFormatted"
-                                class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
-                        </ng-container>
-                    </div>
+              <!-- {{currentDateFormatted}} -->
+              <label for="dateDebutMaintenance" class="form-label fw-bold">Date prise en charge</label>
+              <input type="text" name="dateDebutMaintenance" id="dateDebutMaintenance" autocomplete="off" disabled
+                [placeholder]="currentDateFormatted"
+                class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+            </ng-container>
+          </div>
 
-                    <div class="col-6 mx-auto form-group">
-                        <ng-container *ngIf="selectedTypeMaintenance != ''">
-                            <label for="observationMaintenance" class="form-label fw-bold">Observation</label>
-                            <!-- <textarea name="observationMaintenance" id="observationMaintenance" rows="1" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" style="resize: none;"></textarea> -->
-                            <input id="observationMaintenance" type="text" name="observationMaintenance" required
-                                ngModel
-                                class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                        </ng-container>
-                    </div>
-                </div>
+          <div class="col-3 mx-auto">
 
-                <div class="row">
-                    <div class="col-12 text-end">
-                        <button type="submit" id="maintenance-form"
-                            [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')" hidden
-                            class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
-                            title="cliquer ici pour ajouter">
-                            Valider
-                        </button>
-                    </div>
-                </div>
-            </form>
+          </div>
+
+          <div class="col-3 mx-auto">
+
+          </div>
+
+
+
+        </div>
+
+        <div class="row">
+
+          <div class="col-6 mx-auto form-group">
+            <ng-container *ngIf="selectedTypeMaintenance != ''">
+              <label for="observationMaintenance" class="form-label fw-bold">Observation</label>
+              <textarea name="observationMaintenance" id="observationMaintenance" rows="2" required ngModel
+                class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
+                style="resize: none;"></textarea>
+              <!-- <input id="observationMaintenance" type="text" name="observationMaintenance" required
+                            ngModel
+                            class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"> -->
+            </ng-container>
+          </div>
+
+          <div class="col-3 mx-auto">
+
+          </div>
+
+          <div class="col-3 mx-auto">
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 text-end">
+            <button type="submit" id="maintenance-form"
+              [disabled]="MaintenanceForm.invalid || (vehicule.numeroSerie == '')" hidden
+              class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+              Valider
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+    <!-- -----------------------------------VIDANGE------------------------------------------- -->
+    <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'vidange'" class="text-center fw-bolder bg-myprimary mt-1 "
+      role="alert">
+      Huile de vidange
+    </div>
+
+    <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'vidange'" class="container px-3 py-2">
+      <form class="form" #VidangeForm="ngForm" (ngSubmit)="ajouterVidange(VidangeForm)">
+        <div class="row g-4 mb-3">
+          <div class="col-3 mx-auto form-group">
+            <label for="libelleHuile" class="form-label fw-bold">Libellé huile</label>
+            <input id="libelleHuile" type="text" name="libelleHuile" required ngModel
+              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+          </div>
+
+          <div class="col-3 mx-auto">
+            <label for="quantiteMiseVehicule" class="form-label fw-bold">Quantité huile</label>
+            <input id="quantiteMiseVehicule" type="number" name="quantiteMiseVehicule" required ngModel
+              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+          </div>
+
+          <div class="col-6 mx-auto">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 text-end">
+            <button type="submit" id="vidange-form" [disabled]="VidangeForm.invalid || (vehicule.numeroSerie == '')"
+              hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+              Valider
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- -----------------------------------REPARATION------------------------------------------- -->
+    <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'">
+    </div>
+
+    <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'" class="container px-3 py-2">
+      <form class="form" #ReparationForm="ngForm" (ngSubmit)="ajouterReparation(ReparationForm)">
+        <div class="row g-4 mb-3">
+          <div class="col-3 mx-auto form-group">
+            <label for="natureReparation" class="form-label fw-bold">Nature réparation</label>
+            <select name="natureReparation" id="natureReparation" required [(ngModel)]="selectedNatureReparation"
+            (ngModelChange)="onTypeReparationChange($event)"
+              class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
+              autocomplete="off">
+
+              <option [ngValue]="reparationSimple"> {{reparationSimple}} </option>
+              <option [ngValue]="suiteAccident">  {{suiteAccident}}  </option>
+            </select>
+
+          </div>
+
+          <div class="col-9 mx-auto">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 text-end">
+            <button type="submit" id="reparation-form"
+              [disabled]="ReparationForm.invalid || (vehicule.numeroSerie == '')" hidden
+              class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+              Valider
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div *ngIf="selectedNatureReparation === suiteAccident" class="container px-3 py-2">
+
+      <div *ngIf="selectedNatureReparation" class="text-center fw-bolder bg-myprimary mt-1 py-1" role="alert">
+      </div>
+      <form class="form" #AccidentForm="ngForm" (ngSubmit)="ajouterAccident(AccidentForm)">
+        <div class="row g-4 mb-3">
+          <div class="col-3 mx-auto form-group">
+            <label for="lieuIncident" class="form-label fw-bold">Lieu incident</label>
+            <input id="lieuIncident" type="text" name="lieuIncident" required ngModel
+              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+          </div>
+
+          <div class="col-3 mx-auto form-group">
+            <label for="dateIncident" class="form-label fw-bold">Date incident</label>
+            <input type="text" name="dateIncident" id="dateIncident" autocomplete="off" ngbDatepicker
+              #dp1="ngbDatepicker" (click)="dp1.toggle()" required [(ngModel)]="modelDate1"
+              [value]="formatDate(modelDate1)"
+              class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+          </div>
+
+          <div class="col-3 mx-auto form-group">
+            <label for="nombreBlesse" class="form-label fw-bold">Nombre blessés</label>
+            <input id="nombreBlesse" type="number" name="nombreBlesse" required [(ngModel)]="nombreBlesse"
+              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+          </div>
+
+          <div class="col-3 mx-auto form-group">
+            <label for="nombreDeces" class="form-label fw-bold">Nombre décès</label>
+            <input id="nombreDeces" type="number" name="nombreDeces" required [(ngModel)]="nombreDeces"
+              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+          </div>
+        </div>
+
+        <div class="row g-4 mb-3">
+          <div class="col-12 mx-auto form-group">
+            <label for="commentaireIncident" class="form-label fw-bold">Commentaire incident</label>
+            <textarea name="commentaireIncident" id="commentaireIncident" rows="2" required ngModel
+              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
+              style="resize: none;"></textarea>
+          </div>
         </div>
 
 
-        <!-- -----------------------------------VIDANGE------------------------------------------- -->
-        <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'vidange'"
-            class="text-center fw-bolder bg-myprimary mt-1 py-1" role="alert">
-            <!-- Huile de vidange -->
+        <div class="row">
+          <div class="col-12 text-end">
+            <button type="submit" id="accident-form" [disabled]="AccidentForm.invalid || (vehicule.numeroSerie == '')"
+              hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+              Valider
+            </button>
+          </div>
         </div>
+      </form>
+    </div>
 
-        <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'vidange'" class="container px-3 py-2">
-            <form class="form" #VidangeForm="ngForm" (ngSubmit)="ajouterVidange(VidangeForm)">
-                <div class="row g-4 mb-3">
-                    <div class="col-3 mx-auto form-group">
-                        <label for="libelleHuile" class="form-label fw-bold">Libellé huile</label>
-                        <input id="libelleHuile" type="text" name="libelleHuile" required ngModel
-                            class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    </div>
 
-                    <div class="col-3 mx-auto">
-                        <label for="quantiteMiseVehicule" class="form-label fw-bold">Quantité huile</label>
-                        <input id="quantiteMiseVehicule" type="number" name="quantiteMiseVehicule" required ngModel
-                            class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    </div>
 
-                    <div class="col-6 mx-auto">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 text-end">
-                        <button type="submit" id="vidange-form"
-                            [disabled]="VidangeForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')" hidden
-                            class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
-                            title="cliquer ici pour ajouter">
-                            Valider
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <!-- -----------------------------------REPARATION------------------------------------------- -->
+    <!--
         <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'"
-            class="text-center fw-bolder bg-myprimary mt-1 py-1" role="alert">
-        </div>
+            class="text-center fw-bolder bg-myprimary mt-1" role="alert">Changement piéce
+        </div> -->
 
-        <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'" class="container px-3 py-2">
-            <form class="form" #ReparationForm="ngForm" (ngSubmit)="ajouterReparation(ReparationForm)">
-                <div class="row g-4 mb-3">
-                    <div class="col-3 mx-auto form-group">
-                        <label for="natureReparation" class="form-label fw-bold">Nature réparation</label>
-                        <input id="natureReparation" type="text" name="natureReparation" required ngModel
-                            class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    </div>
+    <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation' " class="container px-3 py-2">
 
-                    <div class="col-3 mx-auto form-group">
-                        <!-- <label for="suiteAccident" class="form-label fw-bold">Accident</label>
-                        <select name="suiteAccident" id="suiteAccident" required [(ngModel)]="selectedAccident" (ngModelChange)="onTypeAccident($event)" class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase" autocomplete="off">
-                            <option [ngValue]="true">OUI</option>   
-                            <option [ngValue]="false">NON</option>
-                        </select> -->
+      <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'" class="text-center fw-bolder bg-myprimary mt-1"
+        role="alert">Changement piéce
+      </div>
+      <form class="form" #ChangementPieceForm="ngForm" (ngSubmit)="ajouterChangementPiece(ChangementPieceForm)">
+        <div class="row g-4 mb-3">
 
-                        <label for="suiteAccident" class="form-label fw-bold">Accident</label>
-                        <select name="suiteAccident" id="suiteAccident" required [(ngModel)]="selectedAccident"
-                            class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
-                            autocomplete="off">
-                            <option [ngValue]="true">OUI</option>
-                            <option [ngValue]="false">NON</option>
-                        </select>
-                    </div>
-
-                    <div class="col-6 mx-auto">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 text-end">
-                        <button type="submit" id="reparation-form"
-                            [disabled]="ReparationForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')" hidden
-                            class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
-                            title="cliquer ici pour ajouter">
-                            Valider
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'"
-            class="text-center fw-bolder bg-myprimary mt-1 py-1" role="alert">
-        </div>
-
-        <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'" class="container px-3 py-2">
-            <form class="form" #ChangementPieceForm="ngForm" (ngSubmit)="ajouterChangementPiece(ChangementPieceForm)">
-                <div class="row g-4 mb-3">
-
-                    <!-- <div class="col-3 mx-auto">
+          <!-- <div class="col-3 mx-auto">
                         <label for="codeChangementPiece" class="form-label fw-bold">Code changement</label>
                         <input id="codeChangementPiece" type="number" name="codeChangementPiece" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    
+
                         <input id="codeChangementPiece" hidden type="number" name="codeChangementPiece" disabled required [(ngModel)]="nombrePiece" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
                         <input   [placeholder]="'Code ' + nombrePiece" type="text" disabled   class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
                     </div> -->
 
-                    <div class="col-3 mx-auto form-group">
-                        <label for="nombrePiecesRechangees" class="form-label fw-bold">Nombre pièces</label>
-                        <input id="nombrePiecesRechangees" type="number" name="nombrePiecesRechangees" required ngModel
-                            class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    </div>
+          <div class="col-3 mx-auto form-group">
+            <label for="nombrePiecesRechangees" class="form-label fw-bold">Nombre pièces</label>
+            <input id="nombrePiecesRechangees" type="number" name="nombrePiecesRechangees" required ngModel
+              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+          </div>
 
-                    <div class="col-3 mx-auto form-group">
-                        <label for="referencePieces" class="form-label fw-bold">Référence pièces</label>
-                        <input id="referencePieces" type="text" name="referencePieces" required ngModel
-                            class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    </div>
+          <div class="col-3 mx-auto form-group">
+            <label for="referencePieces" class="form-label fw-bold">Référence pièces</label>
+            <input id="referencePieces" type="text" name="referencePieces" required ngModel
+              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+          </div>
 
-                    <div class="col-6 mx-auto">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 text-end">
-                        <button type="submit" id="changement-piece-form"
-                            [disabled]="ChangementPieceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')" hidden
-                            class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
-                            title="cliquer ici pour ajouter">
-                            Valider
-                        </button>
-                    </div>
-                </div>
-            </form>
+          <div class="col-6 mx-auto">
+          </div>
         </div>
 
-
-        <div *ngIf="selectedAccident" class="text-center fw-bolder bg-myprimary mt-1 py-1" role="alert">
+        <div class="row">
+          <div class="col-12 text-end">
+            <button type="submit" id="changement-piece-form"
+              [disabled]="ChangementPieceForm.invalid || (vehicule.numeroSerie == '')" hidden
+              class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+              Valider
+            </button>
+          </div>
         </div>
-
-        <div *ngIf="selectedAccident" class="container px-3 py-2">
-            <form class="form" #AccidentForm="ngForm" (ngSubmit)="ajouterAccident(AccidentForm)">
-                <div class="row g-4 mb-3">
-                    <div class="col-3 mx-auto form-group">
-                        <label for="lieuIncident" class="form-label fw-bold">Lieu incident</label>
-                        <input id="lieuIncident" type="text" name="lieuIncident" required ngModel
-                            class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    </div>
-
-                    <div class="col-3 mx-auto form-group">
-                        <label for="dateIncident" class="form-label fw-bold">Date incident</label>
-                        <input type="text" name="dateIncident" id="dateIncident" autocomplete="off" ngbDatepicker
-                            #dp1="ngbDatepicker" (click)="dp1.toggle()" required [(ngModel)]="modelDate1"
-                            [value]="formatDate(modelDate1)"
-                            class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
-                    </div>
-
-                    <div class="col-3 mx-auto form-group">
-                        <label for="nombreBlesse" class="form-label fw-bold">Nombre blessés</label>
-                        <input id="nombreBlesse" type="number" name="nombreBlesse" required ngModel
-                            class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    </div>
-
-                    <div class="col-3 mx-auto form-group">
-                        <label for="nombreDeces" class="form-label fw-bold">Nombre décès</label>
-                        <input id="nombreDeces" type="number" name="nombreDeces" required ngModel
-                            class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    </div>
-                </div>
-
-                <div class="row g-4 mb-3">
-                    <div class="col-12 mx-auto form-group">
-                        <label for="commentaireIncident" class="form-label fw-bold">Commentaire incident</label>
-                        <textarea name="commentaireIncident" id="commentaireIncident" rows="2" required ngModel
-                            class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
-                            style="resize: none;"></textarea>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-12 text-end">
-                        <button type="submit" id="accident-form"
-                            [disabled]="AccidentForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')" hidden
-                            class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
-                            title="cliquer ici pour ajouter">
-                            Valider
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <div class="container px-3 py-2">
-            <div class="row">
-                <div class="col-12 text-end">
-                    <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'controle' || selectedTypeMaintenance == ''"
-                        (click)="submitForm()" type="button"
-                        [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')"
-                        class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
-                        title="cliquer ici pour ajouter">
-                        Valider
-                    </button>
-
-                    <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'vidange'" (click)="submitForm()"
-                        type="button" [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')"
-                        class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
-                        title="cliquer ici pour ajouter">
-                        Valider
-                    </button>
-
-                    <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'" (click)="submitForm()"
-                        type="button" [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')"
-                        class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
-                        title="cliquer ici pour ajouter">
-                        Valider
-                    </button>
-
-                    <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
-                        data-bs-toggle="tooltip" title="cliquer ici pour retourner">
-                        Retour
-                    </button>
-                </div>
-            </div>
-        </div>
+      </form>
     </div>
+
+
+
+
+    <!-- <div *ngIf="selectedNatureReparation === suiteAccident" class="container px-3 py-2">
+
+      <div *ngIf="selectedNatureReparation" class="text-center fw-bolder bg-myprimary mt-1 py-1" role="alert">
+      </div>
+      <form class="form" #AccidentForm="ngForm" (ngSubmit)="ajouterAccident(AccidentForm)">
+        <div class="row g-4 mb-3">
+          <div class="col-3 mx-auto form-group">
+            <label for="lieuIncident" class="form-label fw-bold">Lieu incident</label>
+            <input id="lieuIncident" type="text" name="lieuIncident" required ngModel
+              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+          </div>
+
+          <div class="col-3 mx-auto form-group">
+            <label for="dateIncident" class="form-label fw-bold">Date incident</label>
+            <input type="text" name="dateIncident" id="dateIncident" autocomplete="off" ngbDatepicker
+              #dp1="ngbDatepicker" (click)="dp1.toggle()" required [(ngModel)]="modelDate1"
+              [value]="formatDate(modelDate1)"
+              class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
+          </div>
+
+          <div class="col-3 mx-auto form-group">
+            <label for="nombreBlesse" class="form-label fw-bold">Nombre blessés</label>
+            <input id="nombreBlesse" type="number" name="nombreBlesse" required [(ngModel)]="nombreBlesse"
+              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+          </div>
+
+          <div class="col-3 mx-auto form-group">
+            <label for="nombreDeces" class="form-label fw-bold">Nombre décès</label>
+            <input id="nombreDeces" type="number" name="nombreDeces" required [(ngModel)]="nombreDeces"
+              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+          </div>
+        </div>
+
+        <div class="row g-4 mb-3">
+          <div class="col-12 mx-auto form-group">
+            <label for="commentaireIncident" class="form-label fw-bold">Commentaire incident</label>
+            <textarea name="commentaireIncident" id="commentaireIncident" rows="2" required ngModel
+              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
+              style="resize: none;"></textarea>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-12 text-end">
+            <button type="submit" id="accident-form" [disabled]="AccidentForm.invalid || (vehicule.numeroSerie == '')"
+              hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+              Valider
+            </button>
+          </div>
+        </div>
+      </form>
+    </div> -->
+
+
+
+
+
+
+    <div class="container px-3 py-2">
+      <div class="row">
+        <div class="col-12 text-end">
+          <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'controle' || selectedTypeMaintenance == ''"
+            (click)="submitForm()" type="button" [disabled]="MaintenanceForm.invalid || (vehicule.numeroSerie == '')"
+            class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+            Valider
+          </button>
+
+          <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'vidange'" (click)="submitForm()" type="button"
+            [disabled]="MaintenanceForm.invalid || (vehicule.numeroSerie == '')"
+            class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+            Valider
+          </button>
+
+          <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'" (click)="submitForm()" type="button"
+            [disabled]="MaintenanceForm.invalid || (vehicule.numeroSerie == '')"
+            class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+            Valider
+          </button>
+
+          <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
+            data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+            Retour
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>

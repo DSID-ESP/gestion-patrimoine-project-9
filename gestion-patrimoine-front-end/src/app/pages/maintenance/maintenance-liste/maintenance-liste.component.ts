@@ -100,14 +100,14 @@ export class MaintenanceListeComponent implements OnInit, OnDestroy {
   displayedColumnsCustom: string[] = [
     // "identifiantMaintenance",
     "N° série",
-    "Date début",
+    "Date prise en charge",
     "Date fin",
     "Type maintenance",
     "Observation"
   ];
   /* ----------------------------------------------------------------------------------------- */
 
-  
+
 
   constructor(
     private router: Router,
