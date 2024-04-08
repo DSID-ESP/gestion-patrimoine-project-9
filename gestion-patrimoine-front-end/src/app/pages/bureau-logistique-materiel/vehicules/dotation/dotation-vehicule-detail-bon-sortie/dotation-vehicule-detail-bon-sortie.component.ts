@@ -124,7 +124,7 @@ export class DotationVehiculeDetailBonSortieComponent implements OnInit, OnDestr
 
 
 
-   myDateStringFormatter(date: MyDate | string | undefined): string {
+   myDateStringFormatter(date: MyDate | string | undefined | null): string {
     if (!date) {
       return '';
     }

@@ -357,8 +357,11 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
     // console.log(bonPour);
 
      const id = bonPour.identifiantBonPour;
-     const encrypt = this.securiteService.encryptUsingAES256(id);
-    this.router.navigate(['/dotation-vehicule-detail', encrypt]);
+     if (id) {
+      const encrypt = this.securiteService.encryptUsingAES256(id);
+      this.router.navigate(['/dotation-vehicule-detail', encrypt]);
+     }
+     
   }
 
 

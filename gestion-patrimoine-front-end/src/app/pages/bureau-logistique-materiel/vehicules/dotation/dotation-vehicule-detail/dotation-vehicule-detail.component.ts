@@ -407,7 +407,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
 
 
-  myDateStringFormatter(date: MyDate | string | undefined): string {
+  myDateStringFormatter(date: MyDate | string | undefined | null): string {
     if (!date) {
       return '';
     }

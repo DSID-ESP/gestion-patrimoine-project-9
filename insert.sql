@@ -19,9 +19,10 @@ INSERT INTO "sections" ("code_section", "libelle_section", "code_unite_douaniere
 INSERT INTO "agent" ("matricule_agent", "email_agent", "nom_agent", "code_agent", "numero_telephone_agent", "prenom_agent", "code_section", "code_unite_douaniere") VALUES
 ('613693H', 'IBRAHIMA@ESP.SN',  'SECK', 'D3485',    773456789,  'IBRAHIMA DIAGNE',  'SG',   '06K'),
 ('506234B', 'OUMOU@ESP.SN',  'DIALLO',   'D2273',    777654321,  'OUMOU HAWA',   'SG',   '06K'),
-('622543E', 'ADMIN1@ESP.SN', 'ADMIN1',    'D281T',    675555555,  'ADMINISTRATEUR1',   'SG',   '06K'),
-('622549D', 'ADMIN2@ESP.SN', 'ADMIN2',    'D281B',    975555555,  'ADMINISTRATEUR2',   'SG',   '06K'),
-('622545C', 'ADMIN3@ESP.SN', 'ADMIN3',    'D281A',    175555555,  'ADMINISTRATEUR3',   'SG',   '06K');
+('123456A', 'ADMIN1@ESP.SN', 'ADMIN1',    'D123A',    675555555,  'ADMINISTRATEUR1',   'SG',   '06K'),
+('123456B', 'ADMIN2@ESP.SN', 'ADMIN2',    'D123B',    975555555,  'ADMINISTRATEUR2',   'SG',   '06K'),
+('123456C', 'ADMIN3@ESP.SN', 'ADMIN3',    'D123C',    335555555,  'ADMINISTRATEUR3',   'SG',   '06K'),
+('123456D', 'ADMIN4@ESP.SN', 'ADMIN4',    'D123D',    885555555,  'ADMINISTRATEUR4',   'SG',   '06K');
 
 
 
@@ -35,8 +36,8 @@ INSERT INTO "prestataires" ("ninea", "adresse", "adresse_email", "numero_telepho
 INSERT INTO "bordereau_livraison" ("identifiant_b_l", "conformite_b_l", "date_b_l", "date_enregistrement", "description_b_l", "lieu_de_livraison", "numero_b_l", "representant_prestataire", "code_section", "matricule_agent", "ninea") VALUES
 ('BLSA202312011043210', 'OUI',  '2023-12-01',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 1', 'LIEU 1',   '001',  'LIVREUR 1',    'SA',   '613693H',  '005177614'),
 ('BLSM202312021143211', 'OUI',  '2023-12-02',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 2', 'LIEU 2',   '002',  'LIVREUR 2',    'SM',   '506234B',  '005174222'),
-('BLSG202312031243213', 'NON',  '2023-12-03',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 3', 'LIEU 3',   '003',  'LIVREUR 3',    'SG',   '622543E',  '005192373'),
-('BLSG202312031243214', 'OUI',  '2023-12-04',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 4', 'LIEU 4',   '004',  'LIVREUR 4',    'SG',   '622543E',  '005192373');
+('BLSG202312031243213', 'NON',  '2023-12-03',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 3', 'LIEU 3',   '003',  'LIVREUR 3',    'SG',   '123456A',  '005192373'),
+('BLSG202312031243214', 'OUI',  '2023-12-04',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 4', 'LIEU 4',   '004',  'LIVREUR 4',    'SG',   '123456A',  '005192373');
 
 
 
@@ -72,10 +73,10 @@ INSERT INTO "article_bon_entree" ("code_article_bon_entree", "date_enregistremen
 (1, '2024-03-04 12:37:34.514509',   'TOYOTA-CAMRY-123456',  1,  'BESA202312011043210',  'PKN',  'ARMES',    '613693H'),
 (1, '2024-03-04 12:37:34.51451',    'FORD-MUSTANG-789012',  1,  'BESM202312021143211',  'CLB',  'VEHIC',    '506234B'),
 (2, '2024-03-04 12:37:34.514511',   'FORD-ESCAPE-789013',   1,  'BESM202312021143211',  'LB6',  'VEHIC',    '506234B'),
-(1, '2024-03-04 12:37:34.514513',   'BMW-X5-345678',    1,  'BESG202312031243213',  'HGY',  'VEHIC',    '622543E'),
-(1, '2024-03-04 12:37:34.514513',   'BMW-M1-145679',    1,  'BESG202312031243214',  'HGY',  'VEHIC',    '622543E'),
-(2, '2024-03-04 12:37:34.514513',   'BMW-M3-245679',    1,  'BESG202312031243214',  'HGY',  'VEHIC',    '622543E'),
-(3, '2024-03-04 12:37:34.514513',   'BMW-M4-445679',    1,  'BESG202312031243214',  'HGY',  'VEHIC',    '622543E');
+(1, '2024-03-04 12:37:34.514513',   'BMW-X5-345678',    1,  'BESG202312031243213',  'HGY',  'VEHIC',    '123456A'),
+(1, '2024-03-04 12:37:34.514513',   'BMW-M1-145679',    1,  'BESG202312031243214',  'HGY',  'VEHIC',    '123456A'),
+(2, '2024-03-04 12:37:34.514513',   'BMW-M3-245679',    1,  'BESG202312031243214',  'HGY',  'VEHIC',    '123456A'),
+(3, '2024-03-04 12:37:34.514513',   'BMW-M4-445679',    1,  'BESG202312031243214',  'HGY',  'VEHIC',    '123456A');
 
 
 
@@ -83,14 +84,14 @@ INSERT INTO bon_pour (identifiant_bon_pour, description_bon_pour, numero_courrie
 VALUES 
     ('BPSG202311121243214', 'DESCRIPTION 1', 123, '2024-01-24', 'INITIAL', 'OBJET 1', 456, '2024-01-25', 'OBSERVATION 1', 789, '2024-01-26', 'OBSERVATION 1', 101, '2024-01-27', 'OBSERVATION 1', '06Z', 'SG', CURRENT_TIMESTAMP, '613693H'),
     ('BPSG202311121243215', 'DESCRIPTION 2', 124, '2024-01-25', 'INITIAL', 'OBJET 2', 457, '2024-01-26', 'OBSERVATION 1', 790, '2024-01-27', 'OBSERVATION 1', 102, '2024-01-28', 'OBSERVATION 1', '06Z', 'SG', CURRENT_TIMESTAMP, '506234B'),
-    ('BPSG202311121243216', 'DESCRIPTION 3', 125, '2024-01-26', 'INITIAL', 'OBJET 3', 458, '2024-01-27', 'OBSERVATION 1', 791, '2024-01-28', 'OBSERVATION 1', 103, '2024-01-29', 'OBSERVATION 1', '06K', 'SG', CURRENT_TIMESTAMP, '622543E');
+    ('BPSG202311121243216', 'DESCRIPTION 3', 125, '2024-01-26', 'INITIAL', 'OBJET 3', 458, '2024-01-27', 'OBSERVATION 1', 791, '2024-01-28', 'OBSERVATION 1', 103, '2024-01-29', 'OBSERVATION 1', '06K', 'SG', CURRENT_TIMESTAMP, '123456A');
 
 
 INSERT INTO article_bon_pour (identifiant_bon_pour, code_article_bon_pour, libelle_article_bon_pour, quantite_demandee, code_type_objet, matricule_agent) 
 VALUES 
     ('BPSG202311121243214', 1, 'LIBELLE ARTICLE 1', 10, 'VEHIC', '613693H'),
     ('BPSG202311121243215', 1, 'LIBELLE ARTICLE 1', 20, 'VEHIC', '506234B'),
-    ('BPSG202311121243216', 1, 'LIBELLE ARTICLE 1', 30, 'VEHIC', '622543E');
+    ('BPSG202311121243216', 1, 'LIBELLE ARTICLE 1', 30, 'VEHIC', '123456A');
 
 
 
@@ -98,7 +99,7 @@ INSERT INTO "bon_sortie" ("identifiant_bon_sorie", "date_bon_sortie", "descripti
 VALUES
 ('BSSG202311121243214', '2024-01-24',   'Description BS1',  'BS001',    'BPSG202311121243214',  '613693H'),
 ('BSSG202311121243215', '2024-01-25',   'Description BS2',  'BS002',    'BPSG202311121243215',  '506234B'),
-('BSSG202311121243216', '2024-01-26',   'Description BS3',  'BS003',    'BPSG202311121243216',  '622543E');
+('BSSG202311121243216', '2024-01-26',   'Description BS3',  'BS003',    'BPSG202311121243216',  '123456A');
 
 
 
@@ -106,7 +107,7 @@ INSERT INTO article_bon_sortie (identifiant_bon_sortie, code_article_bon_sortie,
 VALUES 
     ('BSSG202311121243214', 1, 'Article BS1', 5, '2024-01-24', '613693H'),
     ('BSSG202311121243215', 1, 'Article BS2', 10, '2024-01-25', '506234B'),
-    ('BSSG202311121243216', 1, 'Article BS3', 15, '2024-01-26', '622543E'),
+    ('BSSG202311121243216', 1, 'Article BS3', 15, '2024-01-26', '123456A'),
     ('BSSG202311121243215', 2, 'Article BS4', 3, '2024-01-26', '506234B');
 
 
@@ -473,7 +474,7 @@ INSERT INTO "vehicule" ("numero_serie", "date_mise_en_circulation", "libelle_eta
 
 INSERT INTO "dotation_vehicule" ("identifiant_d_v", "date_dotation", "code_article_bon_sortie", "identifiant_bon_sortie", "matricule_agent", "numero_serie") VALUES
 ('DVSG202311121243214',	'2024-01-24',	1,	'BSSG202311121243214',	'613693H',	'123456'),
-('DVSG202311121243216',	'2024-01-22',	1,	'BSSG202311121243216',	'622543E',	'789012'),
+('DVSG202311121243216',	'2024-01-22',	1,	'BSSG202311121243216',	'123456A',	'789012'),
 ('DVSG202311121243215', '2024-01-23',   1,  'BSSG202311121243215',  '506234B',  '345678'),
 ('DVSG202311121243213', '2024-01-23',   2,  'BSSG202311121243215',  '506234B',  '789013');
 
@@ -487,7 +488,10 @@ INSERT INTO "controle" ("date_controle", "observation_controle", "numero_serie")
 INSERT INTO "utilisateur" ("utilisateur_id", "is_active", "is_not_locked", "join_date", "last_login_date", "last_login_date_display", "pwd", "user_name", "code_fonction_agent", "matricule_agent") VALUES
 (1,	't',	't',	'2024-03-02 13:45:32.901327',	'2024-03-02 13:45:32.901327',	'2024-03-02 13:45:32.901327',	'$2a$10$FWHTlMKYpU5OHsf5fv1f..oR.SHKk/4xp/T/7Sdx1HghBEPnrbWeK',	'613693H',	'CSG',	'613693H'),
 (2,	't',	't',	'2024-03-03 13:45:32.901327',	'2024-03-03 13:45:32.901327',	'2024-03-03 13:45:32.901327',	'$2a$10$Z.esrVqyc3o.MUdOBln6YulZD2xQIlT1auSHlltmC/X7SJCo7aODS',	'506234B',	'ADMIN',	'506234B'),
-(3,	't',	't',	'2024-03-04 13:45:32.901327',	'2024-03-04 13:45:32.901327',	'2024-03-04 13:45:32.901327',	'$2a$10$4G6IGiPhj27OiNDE1Heufug9D31QZ/30OrsTPWs/YkP8fBx9PMy9G',	'622543E',	'ADMIN',	'622543E');
+(3, 't',    't',    '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '$2a$10$FWHTlMKYpU5OHsf5fv1f..oR.SHKk/4xp/T/7Sdx1HghBEPnrbWeK', '123456A',  'BAF',  '123456A'), 
+(4, 't',    't',    '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '$2a$10$FWHTlMKYpU5OHsf5fv1f..oR.SHKk/4xp/T/7Sdx1HghBEPnrbWeK', '123456B',  'DLF',  '123456B'), 
+(5, 't',    't',    '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '$2a$10$FWHTlMKYpU5OHsf5fv1f..oR.SHKk/4xp/T/7Sdx1HghBEPnrbWeK', '123456C',  'BLM',  '123456C'),
+(6, 't',    't',    '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '$2a$10$FWHTlMKYpU5OHsf5fv1f..oR.SHKk/4xp/T/7Sdx1HghBEPnrbWeK', '123456D',  'CSG',  '123456D'); 
 
 
 
