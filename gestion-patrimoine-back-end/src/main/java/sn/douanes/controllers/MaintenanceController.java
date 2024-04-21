@@ -30,11 +30,18 @@ public class MaintenanceController {
         return new ResponseEntity<>(maintenance, OK);
     }
 
+//    @PostMapping("/AjouterMaintenance")
+//    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+//    public Maintenance AjouterMaintenance(@RequestBody Maintenance maintenance) {
+//        return maintenanceService.ajouterMaintenance(maintenance.getIdentifiantMaintenance(), maintenance.getNumeroSerie(), maintenance.getTypeMaintenance(), maintenance.getObservationMaintenance());
+//    }
+
     @PostMapping("/AjouterMaintenance")
     // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public Maintenance AjouterMaintenance(@RequestBody Maintenance maintenance) {
-        return maintenanceService.ajouterMaintenance(maintenance.getIdentifiantMaintenance(), maintenance.getNumeroSerie(), maintenance.getTypeMaintenance(), maintenance.getObservationMaintenance());
+        return maintenanceService.ajouterMaintenance(maintenance.getIdentifiantMaintenance(), maintenance.getNumeroSerie(),maintenance.getEtatMaintenance(), maintenance.getTypeMaintenance(), maintenance.getObservationMaintenance());
     }
+    
 
     @PutMapping("/ModifierMaintenance")
     // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")

@@ -217,33 +217,16 @@ export class DotationVehiculeAjouterComponent {
 
   public ajouterBonSortie(BonSortieForm: NgForm): void {
 
-    //  AGENT
-    BonSortieForm.value.numeroBonSortie = 'BS005';
-    BonSortieForm.value.matriculeAgent = this.agents[0];
-    // BonSortieForm.value.identifiantBonPour = this.articleBonPour.identifiantBonPour;
-    BonSortieForm.value.identifiantBonPour = this.bonPours.find(bonPour => bonPour.identifiantBonPour === this.articleBonPour.identifiantBonPour);
+    this.bonSortie.numeroBonSortie = 'BS005';
+    this.bonSortie.matriculeAgent = this.agents[0];
+    this.bonSortie.identifiantBonPour = this.bonPours.find(bonPour => bonPour.identifiantBonPour === this.articleBonPour.identifiantBonPour) ?? new BonPour;
+    this.bonSortie.descriptionBonSortie = BonSortieForm.value.descriptionBonSortie;
+
+    this.clickButton('article-bon-sortie-form');
 
 
-    // CONFORMITE BORDEREAU LIVRAISON
-    // BordereauLivraisonForm.value.conformiteBL = 'oui';
-
-    console.log(BonSortieForm.value);
-
-
-    this.subscriptions.push(this.bonSortieService.ajouterBonSortie(BonSortieForm.value).subscribe({
-      next: (response: BonSortie) => {
-        this.bonSortie = response;
-        console.log(this.bonSortie);
-
-      },
-      error: (errorResponse: HttpErrorResponse) => {
-
-      }
-    })
-    );
 
   }
-
 
 
 
@@ -272,9 +255,9 @@ export class DotationVehiculeAjouterComponent {
 
 
 
-    // this.submitForm();
+     this.submitForm();
 
-    this.clickButton('article-bon-sortie-form');
+    // this.clickButton('article-bon-sortie-form');
 
 
   }
@@ -319,7 +302,7 @@ export class DotationVehiculeAjouterComponent {
 
     this.articleBonSortie.quantiteAccordee= quantiteAccordee;
     this.articleBonSortie.libelleArticleBonSortie= "LIBELLE " + quantiteAccordee + " BS";
-    this.articleBonSortie.identifiantBonSortie= this.bonSortie.identifiantBonSortie;
+    //this.articleBonSortie.identifiantBonSortie= this.bonSortie.identifiantBonSortie;
     this.articleBonSortie.codeArticleBonSortie= this.nombreArticle;
     this.articleBonSortie.dateArticleBonSortie = null;
     this.articleBonSortie.matriculeAgent= this.agents[0];
@@ -329,12 +312,12 @@ export class DotationVehiculeAjouterComponent {
 
 
 
-    this.popupVehicule( this.articleBonPour, this.articleBonSortie);
+    this.popupVehicule( this.articleBonPour, this.articleBonSortie,this.bonSortie);
 
 
   }
 
-  popupVehicule( articleBonPour: ArticleBonPour, articleBonSortie: ArticleBonSortie): void {
+  popupVehicule( articleBonPour: ArticleBonPour, articleBonSortie: ArticleBonSortie, bonSortie: BonSortie): void {
     const dialogRef = this.matDialog.open(
       VehiculeAjouterDotationComponent,
       {
@@ -344,7 +327,8 @@ export class DotationVehiculeAjouterComponent {
         exitAnimationDuration: '100ms',
         data:  {
           articleBonPour: articleBonPour,
-          articleBonSortie: articleBonSortie
+          articleBonSortie: articleBonSortie,
+          bonSortie: bonSortie
 
         }
       }

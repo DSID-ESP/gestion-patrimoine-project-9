@@ -56,7 +56,7 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
 
 
   public bonSorties: BonSortie[] = [];
-  public bonDeSortie: BonSortie = new BonSortie();
+  public bonSortie: BonSortie = new BonSortie();
 
 
   public agents: Agent[] = [];
@@ -67,7 +67,7 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<VehiculeAjouterDotationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { articleBonPour: ArticleBonPour, articleBonSortie: ArticleBonSortie },
+    @Inject(MAT_DIALOG_DATA) public data: { articleBonPour: ArticleBonPour, articleBonSortie: ArticleBonSortie, bonSortie: BonSortie },
     private matDialog: MatDialog,
     private fb: FormBuilder,
     private bonSortieService: BonSortieService,
@@ -79,10 +79,6 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
 
   ) { }
-
-
-
-
 
 
 
@@ -100,6 +96,7 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
 
     this.articleBonPour = this.data.articleBonPour;
     this.articleBonSortie = this.data.articleBonSortie;
+    this.bonSortie = this.data.bonSortie;
     // this.vehiculesSelectedBefore = this.vehiculesSelected = this.data.vehiculesSelected;
     // console.log(this.vehiculesSelectBefore);
     this.listeAgents();
@@ -250,6 +247,33 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
   // );
 
   // }
+
+
+  public validerBonSortie(bonSortie: BonSortie): void {
+
+
+    this.subscriptions.push(this.bonSortieService.ajouterBonSortie(bonSortie).subscribe({
+      next: (response: BonSortie) => {
+        this.bonSortie = response;
+        console.log(this.bonSortie);
+
+        this.articleBonSortie.identifiantBonSortie= this.bonSortie.identifiantBonSortie;
+
+        this.ajouterArticleBonSortie(this.articleBonSortie, this.vehiculesSelect)
+
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+
+      }
+    })
+    );
+
+
+
+
+
+  }
+
 
 
 

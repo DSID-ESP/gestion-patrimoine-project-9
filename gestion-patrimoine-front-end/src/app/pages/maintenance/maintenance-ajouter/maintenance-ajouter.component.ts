@@ -49,6 +49,8 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   currentDateFormatted: string = '';
 
+  etatMaintenance: string = 'EN COURS';
+
 
 
 
@@ -320,11 +322,18 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
       return;
     }
 
+
+
+
     this.maintenance.numeroSerie = this.vehicule;
+    //this.maintenance.etatMaintenance = 'EN COURS';
+    this.maintenance.etatMaintenance = this.etatMaintenance;
     this.maintenance.dateDebutMaintenance = null;
     this.maintenance.dateFinMaintenance = null;
     this.maintenance.observationMaintenance = MaintenanceForm.value.observationMaintenance;
     this.maintenance.typeMaintenance = MaintenanceForm.value.typeMaintenance;
+
+    console.log(this.maintenance);
 
 
 
@@ -439,10 +448,16 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     changementPiece.identifiantMaintenance = maintenance.identifiantMaintenance;
     changementPiece.codeChangementPiece = nombreChangementPiece + 1;
 
+    // console.log(this.accident);
+    // console.log(this.maintenance);
+
+    // console.log(reparation.natureReparation);
+
+
     this.subscriptions.push(this.changementPieceService.ajouterChangementPiece(changementPiece).subscribe({
       next: () => {
 
-        if (reparation.natureReparation === "suiteAccident") {
+        if (reparation.natureReparation === "SUITE ACCIDENT") {
           this.validerAccident(this.accident, maintenance);
         } else {
           this.popupFermer();
@@ -465,6 +480,9 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     if (formattedDate) {
       accident.dateIncident = formattedDate;
     }
+
+    console.log(accident);
+
 
     this.subscriptions.push(this.accidentService.ajouterAccident(accident).subscribe({
       next: () => {

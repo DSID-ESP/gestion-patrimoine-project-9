@@ -19,7 +19,10 @@ public interface MaintenanceService {
 
 
     Maintenance terminerMaintenance(Maintenance m);
-    Maintenance ajouterMaintenance(String identifiantMaintenance, Vehicule numeroSerie, String typeMaintenance, String observationMaintenance);
+//    Maintenance ajouterMaintenance(String identifiantMaintenance, Vehicule numeroSerie, String typeMaintenance, String observationMaintenance);
+
+    Maintenance ajouterMaintenance(String identifiantMaintenance, Vehicule numeroSerie, String etatMaintenance, String typeMaintenance, String observationMaintenance);
+
 
 
 }

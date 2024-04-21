@@ -15,6 +15,8 @@ import { MaintenanceService } from 'src/app/services/maintenance.service';
 import { MyDateService } from 'src/app/services/my-date.service';
 import { ReparationService } from 'src/app/services/reparation.service';
 import { VidangeService } from 'src/app/services/vidange.service';
+import { NotificationType } from 'src/app/enum/notification-type.enum';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-maintenance-detail',
@@ -42,6 +44,8 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
   public changementPiece: ChangementPiece | undefined;
   public changementPiecesByMaintenance: ChangementPiece[] = [];
 
+  etatMaintenance: string = 'TERMINER';
+
 
   private subscriptions: Subscription[] = [];
 
@@ -54,20 +58,31 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
     private reparationService: ReparationService,
     private accidentService: AccidentService,
     private changementPieceService: ChangementPieceService,
+    private maintenancesService: MaintenanceService,
+    private notificationService: NotificationService,
+
     // private maintenanceService: MaintenanceService,
     @Inject(MAT_DIALOG_DATA) public maintenance: Maintenance,
   ) {}
 
   ngOnInit(): void {
     // console.log(this.maintenance);
-    
+
     this.listeChangementPieces(this.maintenance);
     this.recupererVidangeById(this.maintenance.identifiantMaintenance);
     this.recupererReparationById(this.maintenance.identifiantMaintenance);
     this.recupererAccidentById(this.maintenance.identifiantMaintenance);
-    
+
   }
-  
+
+  private sendNotification(type: NotificationType, message: string, titre?: string): void {
+    if (message) {
+      this.notificationService.showAlert(type, message, titre);
+    } else {
+      this.notificationService.showAlert(type, 'Une erreur s\'est produite. Veuillez réessayer.', titre);
+    }
+  }
+
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -96,8 +111,8 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
   // ---------------------------------------------------------------------------------------------------------------------
 
 
-  
-  
+
+
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
   public recupererVidangeById(identifiantMaintenance: string): void {
@@ -115,7 +130,7 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
 
-  
+
 
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
@@ -143,10 +158,10 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
       next: (response: Accident) => {
         this.accident = response;
         // console.log(response);
-        
+
       },
       error: (errorResponse: HttpErrorResponse) => {
-        
+
       }
     }));
 
@@ -185,7 +200,7 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
 
 
 
-  supprimerMaintenanceById(identifiantMaintenance: String): void {  
+  supprimerMaintenanceById(identifiantMaintenance: String): void {
 
     const dialogRef = this.matDialog.open(
       PopupConfirmationSupprimerComponent,
@@ -206,6 +221,26 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
     });
   }
 
+  public terminerMaintenance(maintenance: Maintenance): void {
+
+
+    maintenance.dateFinMaintenance = null;
+    maintenance.etatMaintenance = this.etatMaintenance;
+
+
+
+    this.subscriptions.push(this.maintenancesService.terminerMaintenance(maintenance).subscribe({
+      next: (response: Maintenance) => {
+        this.maintenance = response;
+        // this.popupFermer();
+        this.sendNotification(NotificationType.SUCCESS, `Maintenance véhicule terminé`);
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        // Gérer les erreurs ici
+      }
+    }));
+  }
+
   popupFermer(): void {
     this.dialogRef.close();
   }
@@ -214,7 +249,7 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
     if (!date) {
       return '';
     }
-  
+
     if (typeof date === 'string') {
       return this.myDateService.formatterMyDateFromString(date);
     } else {

@@ -143,9 +143,15 @@
                         </div>
 
                         <div class="col-6 mx-auto">
-                            <span class="fw-bold">Observation</span>
-                            <div class="text-input text-uppercase"> {{ maintenance.observationMaintenance }} </div>
+
                         </div>
+                    </div>
+
+                    <div class="row g-4 mb-3">
+                        <div class="col-12 mx-auto">
+                          <span class="fw-bold">Observation</span>
+                          <div class="text-input text-uppercase"> {{ maintenance.observationMaintenance }} </div>
+                      </div>
                     </div>
                 </form>
             </div>
@@ -174,9 +180,15 @@
                         </div>
 
                         <div class="col-6 mx-auto">
-                            <span class="fw-bold">Observation</span>
-                            <div class="text-input text-uppercase"> {{ maintenance.observationMaintenance }} </div>
+
                         </div>
+                    </div>
+
+                     <div class="row g-4 mb-3">
+                        <div class="col-12 mx-auto">
+                          <span class="fw-bold">Observation</span>
+                          <div class="text-input text-uppercase"> {{ maintenance.observationMaintenance }} </div>
+                      </div>
                     </div>
                 </form>
             </div>
@@ -234,31 +246,20 @@
                         </div>
 
                         <div class="col-6 mx-auto">
-                            <span class="fw-bold">Observation</span>
-                            <div class="text-input text-uppercase"> {{ maintenance.observationMaintenance }} </div>
+
                         </div>
                     </div>
-                </form>
-            </div>
 
-            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation'" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
-                Pièces changées
-            </div>
-
-
-            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation'" class="container px-3 py-2">
-                <form class="container px-3 py-2">
                     <div class="row g-4 mb-3">
-                        <div class="col mx-auto text-center">
-                            <div class="text-input text-uppercase">
-                                <span class="border border-2 border-mysecondary rounded-4 p-2 m-1" *ngFor="let changementPiece of changementPiecesByMaintenance" style="display: inline-block; white-space: nowrap;">
-                                    {{ changementPiece.referencePieces }} ({{ changementPiece.nombrePiecesRechangees }})
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                      <div class="col-12 mx-auto">
+                        <span class="fw-bold">Observation</span>
+                        <div class="text-input text-uppercase"> {{ maintenance.observationMaintenance }} </div>
+                      </div>
+                  </div>
                 </form>
             </div>
+
+
 
             <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation' && reparation.natureReparation" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
                 Accident
@@ -277,7 +278,7 @@
                         <div class="col-3 mx-auto">
                             <span class="fw-bold">Date incident</span>
                             <div class="text-input text-uppercase">
-                                {{ maintenance.dateFinMaintenance ? myDateStringFormatter(maintenance.dateFinMaintenance) : '---'}}
+                                {{ accident.dateIncident ? myDateStringFormatter(accident.dateIncident) : '---'}}
                             </div>
                         </div>
 
@@ -300,31 +301,57 @@
                     </div>
                 </form>
             </div>
+
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation'" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+              Pièces changées
+          </div>
+
+
+          <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation'" class="container px-3 py-2">
+              <form class="container px-3 py-2">
+                  <div class="row g-4 mb-3">
+                      <div class="col mx-auto text-center">
+                          <div class="text-input text-uppercase">
+                              <span class="border border-2 border-mysecondary rounded-4 p-2 m-1" *ngFor="let changementPiece of changementPiecesByMaintenance" style="display: inline-block; white-space: nowrap;">
+                                  {{ changementPiece.referencePieces }} ({{ changementPiece.nombrePiecesRechangees }})
+                              </span>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+          </div>
         </div>
 
 
         <!-- -------------------------------------------------------------------------- -->
         <div class="container px-3 py-2">
-            <div class="row">
-                <div class="col-12 text-end">
-                    <button (click)="supprimerMaintenanceById(maintenance.identifiantMaintenance)" type="button"
-                        class="btn btn-mybrown fw-bold mx-2" data-bs-toggle="tooltip"
-                        title="cliquer ici pour supprimer">
-                        Supprimer
-                    </button>
+          <div class="row">
+              <div class="col-12 text-end">
+                  <button (click)="supprimerMaintenanceById(maintenance.identifiantMaintenance)" type="button"
+                      class="btn btn-mybrown fw-bold mx-2" data-bs-toggle="tooltip"
+                      title="cliquer ici pour supprimer">
+                      Supprimer
+                  </button>
 
-                    <button type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
-                        title="cliquer ici pour ajouter">
-                        Modifier
-                    </button>
+                  <!-- Condition pour afficher ou masquer le bouton "Terminer" -->
+                  <button (click)="terminerMaintenance(maintenance)"  *ngIf="!maintenance.dateFinMaintenance" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
+                      title="cliquer ici pour terminer la maintenance">
+                      Terminer
+                  </button>
 
-                    <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
-                        data-bs-toggle="tooltip" title="cliquer ici pour retourner">
-                        Retour
-                    </button>
-                </div>
-            </div>
-        </div>
+                  <button type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
+                      title="cliquer ici pour ajouter">
+                      Modifier
+                  </button>
+
+                  <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
+                      data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                      Retour
+                  </button>
+              </div>
+          </div>
+      </div>
+
     </div>
 
 </div>

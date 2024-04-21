@@ -24,6 +24,8 @@ public class Maintenance {
     @JoinColumn(name = "NUMERO_SERIE")
     private Vehicule numeroSerie;
 
+    @Column(name = "ETAT_MAINTENANCE")
+    private String etatMaintenance;
 
     @Column(name = "DATE_DEBUT_MAINTENANCE")
     private Timestamp dateDebutMaintenance;

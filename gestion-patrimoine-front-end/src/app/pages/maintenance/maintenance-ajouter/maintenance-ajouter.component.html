@@ -148,9 +148,11 @@
             </ng-container>
           </div>
 
-          <div class="col-3 mx-auto">
+          <div class="col-3 mx-auto form-group">
 
-          </div>
+            <!-- <input id="etatMaintenance" type="text" name="etatMaintenance" hidden required [(ngModel)]="etatMaintenance"
+                class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"> -->
+        </div>
 
           <div class="col-3 mx-auto">
 
@@ -162,7 +164,7 @@
 
         <div class="row">
 
-          <div class="col-6 mx-auto form-group">
+          <div class="col-12 mx-auto form-group">
             <ng-container *ngIf="selectedTypeMaintenance != ''">
               <label for="observationMaintenance" class="form-label fw-bold">Observation</label>
               <textarea name="observationMaintenance" id="observationMaintenance" rows="2" required ngModel
@@ -174,13 +176,7 @@
             </ng-container>
           </div>
 
-          <div class="col-3 mx-auto">
 
-          </div>
-
-          <div class="col-3 mx-auto">
-
-          </div>
         </div>
 
         <div class="row">
@@ -268,11 +264,11 @@
       </form>
     </div>
 
-    <div *ngIf="selectedNatureReparation === suiteAccident" class="container px-3 py-2">
+    <div *ngIf="selectedNatureReparation === suiteAccident">
 
       <div *ngIf="selectedNatureReparation" class="text-center fw-bolder bg-myprimary mt-1 py-1" role="alert">
       </div>
-      <form class="form" #AccidentForm="ngForm" (ngSubmit)="ajouterAccident(AccidentForm)">
+      <form class="form" #AccidentForm="ngForm" (ngSubmit)="ajouterAccident(AccidentForm)" class="container px-3 py-2">
         <div class="row g-4 mb-3">
           <div class="col-3 mx-auto form-group">
             <label for="lieuIncident" class="form-label fw-bold">Lieu incident</label>
@@ -329,12 +325,12 @@
             class="text-center fw-bolder bg-myprimary mt-1" role="alert">Changement piéce
         </div> -->
 
-    <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation' " class="container px-3 py-2">
+    <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation' " >
 
       <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'" class="text-center fw-bolder bg-myprimary mt-1"
         role="alert">Changement piéce
       </div>
-      <form class="form" #ChangementPieceForm="ngForm" (ngSubmit)="ajouterChangementPiece(ChangementPieceForm)">
+      <form class="form" #ChangementPieceForm="ngForm" (ngSubmit)="ajouterChangementPiece(ChangementPieceForm)" class="container px-3 py-2">
         <div class="row g-4 mb-3">
 
           <!-- <div class="col-3 mx-auto">

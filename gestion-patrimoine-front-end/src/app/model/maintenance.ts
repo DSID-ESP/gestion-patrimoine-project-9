@@ -5,6 +5,7 @@ export class Maintenance {
 
   public identifiantMaintenance: string;
   public numeroSerie: Vehicule;
+  public etatMaintenance: string;
   public dateDebutMaintenance: MyDate | null;
   public dateFinMaintenance: MyDate | null;
   public typeMaintenance: string;
@@ -14,6 +15,7 @@ export class Maintenance {
   constructor(
     identifiantMaintenance = '',
     numeroSerie = new Vehicule(),
+    etatMaintenance = '',
     dateDebutMaintenance = new MyDate() || null,
     dateFinMaintenance = new MyDate() || null,
     typeMaintenance = '',
@@ -21,6 +23,7 @@ export class Maintenance {
   ) {
     this.identifiantMaintenance = identifiantMaintenance;
     this.numeroSerie = numeroSerie;
+    this.etatMaintenance = etatMaintenance;
     this.dateDebutMaintenance = dateDebutMaintenance;
     this.dateFinMaintenance = dateFinMaintenance;
     this.typeMaintenance = typeMaintenance;

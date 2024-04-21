@@ -80,7 +80,7 @@ export class MaintenanceListeComponent implements OnInit, OnDestroy {
   // tableau
   columnsDateFormat: string[] = [
     "dateDebutMaintenance",
-    "dateFinMaintenance"
+    //"dateFinMaintenance"
   ];
   columnsToHide: string[] = [
     // "nombreArme",
@@ -93,17 +93,17 @@ export class MaintenanceListeComponent implements OnInit, OnDestroy {
     // "identifiantMaintenance",
     "rowNumeroSerie",
     "dateDebutMaintenance",
-    "dateFinMaintenance",
+    "etatMaintenance",
     "typeMaintenance",
-    "observationMaintenance"
+    //"observationMaintenance"
   ];
   displayedColumnsCustom: string[] = [
     // "identifiantMaintenance",
     "N° série",
     "Date prise en charge",
-    "Date fin",
+    "Etat maintenance",
     "Type maintenance",
-    "Observation"
+   // "Observation"
   ];
   /* ----------------------------------------------------------------------------------------- */
 
@@ -220,6 +220,15 @@ export class MaintenanceListeComponent implements OnInit, OnDestroy {
 
   isNumber(termeRechercheNumeroBELibelleBonEntree: string): boolean {
     return !isNaN(Number(termeRechercheNumeroBELibelleBonEntree))
+  }
+
+  filtrerParTypeMaintenance(event: any) {
+    const value: string = event.target.value;
+    if (value) {
+      this.dataSource.filter = value.trim().toLowerCase();
+    } else {
+      this.dataSource.filter = '';
+    }
   }
 
 
