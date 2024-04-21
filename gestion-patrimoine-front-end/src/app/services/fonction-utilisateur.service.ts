@@ -46,6 +46,23 @@ export class FonctionUtilisateurService {
           this.getFonctionUtilisateur() === FonctionUtilisateur.BAF;
   }
 
+  public get estBAF(): boolean {
+    return this.getFonctionUtilisateur() === FonctionUtilisateur.BAF;
+  }
+
+
+  public get estDLF(): boolean {
+    return this.getFonctionUtilisateur() === FonctionUtilisateur.DLF;
+  }
+
+  public get estBLM(): boolean {
+    return this.getFonctionUtilisateur() === FonctionUtilisateur.BLM;
+  }
+
+  public get estSection(): boolean {
+    return this.getFonctionUtilisateur() === FonctionUtilisateur.CSG || this.getFonctionUtilisateur() === FonctionUtilisateur.ASG;
+  }
+
   public get bonPourAjouterInitial(): boolean {
     return this.bonPourAjouterDLF || this.getFonctionUtilisateur() === FonctionUtilisateur.BAF;
   }

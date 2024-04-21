@@ -22,9 +22,8 @@
                     </div>
 
                     <form class="container px-3 py-2">
-
                         <div class="row mb-3">
-                            <div class="col-12" *ngIf="bonPourAjouterInitial">
+                            <div class="col-12" *ngIf="tousPrivileges">
                                 <div class="row g-4 mb-3">
                                     <div class="col-3 mx-auto">
                                         <span class="fw-bold">N° courrier origine</span>
@@ -68,91 +67,104 @@
                                     </div>
                                 </div>
                 
-                                <div class="row g-4 ">
+                                <div class="row g-4 mb-3">
                                     <div class="col-12 mx-auto form-group">
                                         <span class="fw-bold">Description bon pour</span>
                                         <div class="text-input"> {{ bonPour?.descriptionBonPour }} </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class=" row g-4 mb-3 text-center fw-bolder bg-myprimary mt-1 py-1">
+                        </div> -->
+                        <!-- --------------------------------------------------------------------------------- -->
+                        <div *ngIf="tousPrivileges && !(bonPour?.numeroArriveDLF == null)" class="row mb-3 text-center fw-bolder bg-myprimary mt-1 py-1" role="alert">
+                        </div>
+                        <!-- --------------------------------------------------------------------------------- -->
+
+
+                        <div class="row g-5 mb-3">
+                            <div class="col-6" *ngIf="tousPrivileges && !(bonPour?.numeroArriveDLF == null)">
+                                <div class="row p-2 border rounded-3 border-myprimary">
+                                    <div class="col-12 fs-5 fw-bold border-bottom border-solid border-1 border-myprimary mb-2" *ngIf="tousPrivileges && !(bonPour?.numeroArriveDLF == null)">
+                                        PARTIE DLF
+                                    </div>
+                                    <div class="col-6 mx-auto form-group">
+                                        <span class="fw-bold">N° arrivée DLF</span>
+                                        <div class="text-input"> {{ bonPour?.numeroArriveDLF }} </div>
+                                    </div>
+                
+                                    <div class="col-6 mx-auto form-group">
+                                        <span class="fw-bold">Date arrivée DLF</span>
+                                        <div class="text-input text-uppercase">
+                                            {{ myDateStringFormatter(bonPour?.dateArriveDLF) }}
+                                        </div>
+                                    </div>
         
-                            </div>
-                        </div>
-
-                        <div class=" row g-4 mb-3 text-center fw-bolder bg-myprimary mt-1 py-1">
-                        </div>
-
-
-                        <div class="row g-4 mb-3">
-                            <div class="col-3 mx-auto">
-                                <span class="fw-bold">N° arrivée DLF</span>
-                                <div class="text-input"> {{ bonPour?.numeroArriveDLF }} </div>
-                            </div>
-
-                            <div class="col-3 mx-auto">
-                                <span class="fw-bold">Date arrivée DLF</span>
-                                <div class="text-input text-uppercase">
-                                    {{ myDateStringFormatter(bonPour?.dateArriveDLF) }}
+                                    <div class="col-12 mx-auto form-group">
+                                        <span class="fw-bold">Observation DLF</span>
+                                        <div class="text-input"> {{ bonPour?.observationDLF }} </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="col-3 mx-auto">
-                              <span class="fw-bold">N° arrivée BLM</span>
-                              <div class="text-input"> {{ bonPour?.numeroArriveBLM }} </div>
-                          </div>
-
-                          <div class="col-3 mx-auto">
-                              <span class="fw-bold">Date arrivée BLM</span>
-                              <div class="text-input text-uppercase">
-                                  {{ myDateStringFormatter(bonPour?.dateArriveBLM) }}
-                              </div>
-                           </div>
-
-                           <div class="col-6 mx-auto">
-                              <span class="fw-bold">Observation DLF</span>
-                              <div class="text-input"> {{ bonPour?.observationDLF }} </div>
-                           </div>
-
-                           <div class="col-6 mx-auto">
-                              <span class="fw-bold">Observation BLM</span>
-                              <div class="text-input"> {{ bonPour?.observationBLM }} </div>
-                           </div>
-                        </div>
-
-                        <div class=" row g-4 mb-3 text-center fw-bolder bg-myprimary mt-1 py-1" >
-                        </div>
-
-                        <div class="row g-4 mb-3">
-                            <div class="col-3 mx-auto">
-                                <span class="fw-bold">N° arrivée section</span>
-                                <div class="text-input"> {{ bonPour?.numeroArriveSection }} </div>
-                            </div>
-
-                            <div class="col-3 mx-auto">
-                                <span class="fw-bold">Date arrivée section</span>
-                                <div class="text-input text-uppercase">
-                                    {{ myDateStringFormatter(bonPour?.dateArriveSection) }}
+        
+                            <!-- -------------------------------------------------------------------------------- -->
+        
+                            <div class="col-6" *ngIf="tousPrivileges && !(bonPour?.numeroArriveBLM == null)">
+                                <div class="row p-2 border rounded-3 border-myprimary">
+                                    <div class="col-12 fs-5 fw-bold border-bottom border-solid border-1 border-myprimary mb-2" *ngIf="tousPrivileges && !(bonPour?.numeroArriveBLM == null)">
+                                        PARTIE BLM
+                                    </div>
+                                    <div class="col-6 mx-auto form-group">
+                                        <span class="fw-bold">N° arrivée BLM</span>
+                                        <div class="text-input"> {{ bonPour?.numeroArriveBLM }} </div>
+                                    </div>
+                
+                                    <div class="col-6 mx-auto form-group">
+                                        <span class="fw-bold">Date arrivée BLM</span>
+                                        <div class="text-input text-uppercase">
+                                            {{ myDateStringFormatter(bonPour?.dateArriveBLM) }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="col-12 mx-auto form-group">
+                                        <span class="fw-bold">Observation BLM</span>
+                                        <div class="text-input"> {{ bonPour?.observationBLM }} </div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="col-3 mx-auto">
+                        <div class="row g-5">
+                            <div class="col-6" *ngIf="tousPrivileges && !(bonPour?.numeroArriveSection == null)">
+                                <div class="row p-2 border rounded-3 border-myprimary">
+                                    <div class="col-12 fs-5 fw-bold border-bottom border-solid border-1 border-myprimary mb-2" *ngIf="tousPrivileges && !(bonPour?.numeroArriveSection == null)">
+                                        PARTIE SECTION
+                                    </div>
+                                    <div class="col-6 mx-auto form-group">
+                                        <span class="fw-bold">N° arrivée section</span>
+                                        <div class="text-input"> {{ bonPour?.numeroArriveSection }} </div>
+                                    </div>
+                
+                                    <div class="col-6 mx-auto form-group">
+                                        <span class="fw-bold">Date arrivée section</span>
+                                        <div class="text-input text-uppercase">
+                                            {{ myDateStringFormatter(bonPour?.dateArriveSection) }}
+                                        </div>
+                                    </div>
+        
+                                    <div class="col-12 mx-auto form-group">
+                                        <span class="fw-bold">Observation section</span>
+                                        <div class="text-input"> {{ bonPour?.observationSection }} </div>
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="col-3 mx-auto">
+        
+                            <div class="col-6">
                             </div>
                         </div>
 
-                        <div class="row g-4 mb-3">
-                          <div class="col-6 mx-auto">
-                            <span class="fw-bold">Observation section</span>
-                            <div class="text-input"> {{ bonPour?.observationSection }} </div>
-                          </div>
-
-                          <div class="col-3 mx-auto">
-                          </div>
-
-                          <div class="col-3 mx-auto">
-                          </div>
-                        </div>
                     </form>
 
 

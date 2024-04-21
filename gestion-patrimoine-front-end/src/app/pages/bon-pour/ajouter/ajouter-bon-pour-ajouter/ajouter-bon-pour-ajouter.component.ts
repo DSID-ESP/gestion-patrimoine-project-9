@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { BonPour } from 'src/app/model/bon-pour.model';
 import { ArticleBonPour } from 'src/app/model/article-bon-pour.model';
@@ -7,7 +7,7 @@ import { Sections } from 'src/app/model/sections.model';
 import { Agent } from 'src/app/model/agent.model';
 import { Observable, Subscription, map, startWith } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SecuriteService } from 'src/app/services/securite.service';
 import { AgentService } from 'src/app/services/agent.service';
 import { SectionsService } from 'src/app/services/sections.service';
@@ -24,6 +24,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { FonctionUtilisateurService } from 'src/app/services/fonction-utilisateur.service';
 import { EtatBonPour } from 'src/app/enum/etat-bon-pour.enum';
 import { Utilisateur } from 'src/app/model/utilisateur.model';
+import { MyDateService } from 'src/app/services/my-date.service';
 
 @Component({
   selector: 'app-ajouter-bon-pour-ajouter',
@@ -40,31 +41,38 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
   bonPourAjouterDLF: boolean = false;
   bonPourAjouterInitial: boolean = false;
 
+  // estBAF: boolean = false;
+  // estDLF: boolean = false;
+
   // ----------------------------------------------------------------------------------
+  etatsBonPourArray = Object.values(EtatBonPour);
+  etatBonPour: EtatBonPour = EtatBonPour.INITIAL;
 
-  etatBonPour: string = EtatBonPour.INITIAL;
-
+  INITIAL: EtatBonPour = EtatBonPour.INITIAL;
+  ALLERDLF: EtatBonPour = EtatBonPour.ALLERDLF;
+  ALLERBLM: EtatBonPour = EtatBonPour.ALLERBLM;
+  ALLERSECTION: EtatBonPour = EtatBonPour.ALLERSECTION;
   // ----------------------------------------------------------------------------------
   modelDate1: NgbDateStruct | null = null;
   modelDate2: NgbDateStruct | null = null;
   modelDate3: NgbDateStruct | null = null;
   modelDate4: NgbDateStruct | null = null;
+  
+  dateCourrielOrigine: string = "";
+  dateArriveBLM: string = "";
+  dateArriveDLF: string = "";
 
-  formatDate(date: NgbDateStruct | null): string {
-    if (!date) {
-      return '';
-    }
+  formatDateModelNgbDateStruct(date: NgbDateStruct | MyDate | string | null): string {
+    return this.myDateService.formatDateModelNgbDateStruct(date);
+  }
 
-    // Crée un objet JavaScript Date à partir de NgbDateStruct
-    const jsDate = new Date(date.year, date.month - 1, date.day);
-
-    // Utilise DatePipe pour formater la date avec le mois complet
-    return this.datePipe.transform(jsDate, 'dd MMMM yyyy') || '';
+  formatterStringToNgbDateStruct(date: string): NgbDateStruct {
+    return this.myDateService.formatterStringToNgbDateStruct(date);
   }
   // ----------------------------------------------------------------------------------
 
-  public bonPours: BonPour[] = [];
-  public bonPour: BonPour | undefined;
+  // public bonPours: BonPour[] = [];
+  // public bonPour: BonPour | undefined;
 
   public articleBonPours: ArticleBonPour[] = [];
   public articleBonPour: ArticleBonPour | undefined;
@@ -82,6 +90,7 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
   public utilisateur: Utilisateur | undefined;
 
   control = new FormControl('');
+  
   filteredUniteDouanieres: Observable<UniteDouaniere[]> | undefined;
 
   private subscriptions: Subscription[] = [];
@@ -95,10 +104,11 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
     private uniteDouaniereService: UniteDouaniereService,
     private sectionsService: SectionsService,
     private agentService: AgentService,
-    private securiteService: SecuriteService,
-    private matDialog: MatDialog,
     private fonctionUtilisateurService: FonctionUtilisateurService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private myDateService: MyDateService,
+    @Inject(MAT_DIALOG_DATA) public bonPour: BonPour
+
   ) {}
 
   private sendNotification(type: NotificationType, message: string, titre?: string): void {
@@ -110,9 +120,29 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    const dateCourrielOrigine = this.bonPour?.dateCourrielOrigine?.toString();
+    const dateArriveDLF = this.bonPour?.dateArriveDLF?.toString();
+    const dateArriveBLM = this.bonPour?.dateArriveBLM?.toString();
+
+    if (dateCourrielOrigine) {
+      this.dateCourrielOrigine = this.formatDateModelNgbDateStruct(dateCourrielOrigine);      
+    }
+
+    if (dateArriveDLF) {
+      this.dateArriveDLF = this.formatDateModelNgbDateStruct(dateArriveDLF);      
+    }
+
+    if (dateArriveBLM) {
+      this.dateArriveBLM = this.formatDateModelNgbDateStruct(dateArriveBLM);      
+    }
+
     this.listeUniteDouanieres();
     this.listeSections();
     this.listeAgents();
+
+    // console.log(this.bonPour);
+    
 
     this.utilisateur = this.fonctionUtilisateurService.getUtilisateur;
 
@@ -121,6 +151,9 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
     this.bonPourAjouterBLM = this.fonctionUtilisateurService.bonPourAjouterBLM;
     this.bonPourAjouterDLF = this.fonctionUtilisateurService.bonPourAjouterDLF;
     this.bonPourAjouterInitial = this.fonctionUtilisateurService.bonPourAjouterInitial;
+    // ----------------------------------------------
+    // this.estBAF = this.fonctionUtilisateurService.estBAF;
+    // this.estDLF = this.fonctionUtilisateurService.estDLF;
 
     // console.log('bonPourAjouterSection', this.bonPourAjouterSection);
     // console.log('bonPourAjouterBLM', this.bonPourAjouterBLM);
@@ -128,7 +161,6 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
     // console.log('bonPourAjouterInitial', this.bonPourAjouterInitial);
 
     // console.log(this.utilisateur);
-    
 
     this.filteredUniteDouanieres = this.control.valueChanges.pipe(
       startWith(''),
@@ -136,6 +168,11 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
     );
   }
 
+  etatSuivant(etatBonPour: EtatBonPour): EtatBonPour {
+    const currentIndex = this.etatsBonPourArray.indexOf(etatBonPour);
+    const nextIndex = (currentIndex + 1) % this.etatsBonPourArray.length;
+    return this.etatsBonPourArray[nextIndex];
+  }
 
   // -------------------------------------------------------------------------------------------
   // -------------------------------------------------------------------------------------------
@@ -269,17 +306,18 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
 
   public ajouterBonPour(BonPourForm: NgForm): void {
 
-    if (!this.uniteDouaniere!.codeUniteDouaniere) {
+    if (this.uniteDouaniere?.codeUniteDouaniere == "") {
       // this.condition = false;
       this.sendNotification(NotificationType.ERROR, `Veuillez sélectionnez une unité!`);
       return;
     }
 
     const bp: BonPour = new BonPour();
+    
 
     bp.identifiantBonPour = null;
     bp.descriptionBonPour = BonPourForm.value.descriptionBonPour;
-    bp.etatBonPour = EtatBonPour.INITIAL;
+    bp.etatBonPour = this.etatSuivant(BonPourForm.value.etatBonPour);
     bp.codeSection = this.utilisateur?.matriculeAgent.codeSection ?? new Sections();
     bp.codeUniteDouaniere = this.uniteDouaniere ?? new UniteDouaniere();
     bp.numeroCourrielOrigine = BonPourForm.value.numeroCourrielOrigine;
@@ -294,22 +332,110 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
 
     bp.objectCourrielOrigine = BonPourForm.value.objectCourrielOrigine;
     bp.matriculeAgent = this.utilisateur?.matriculeAgent ?? new Agent();
-
     bp.dateEnregistrement = null;
-    
-    bp.numeroArriveBLM = null;
-    bp.numeroArriveDLF = null;
-    bp.numeroArriveSection = null;
-    bp.dateArriveBLM = null;
+    // ---------------------------------------------------
+    bp.numeroArriveDLF = null;    
     bp.dateArriveDLF = null;
-    bp.dateArriveSection = null;
-    bp.observationBLM = null;
     bp.observationDLF = null;
+
+    if (this.bonPourAjouterDLF) {
+      bp.identifiantBonPour = this.bonPour.identifiantBonPour;
+      bp.descriptionBonPour = this.bonPour.descriptionBonPour;
+      bp.etatBonPour = this.etatSuivant(EtatBonPour.ALLERDLF); // this.bonPour.etatBonPour
+      bp.codeSection = this.bonPour.codeSection;
+      bp.codeUniteDouaniere = this.bonPour.codeUniteDouaniere;
+      bp.numeroCourrielOrigine = this.bonPour.numeroCourrielOrigine;
+      bp.dateCourrielOrigine = this.bonPour.dateCourrielOrigine;
+   
+
+      bp.objectCourrielOrigine = this.bonPour.objectCourrielOrigine;
+      bp.matriculeAgent = this.bonPour.matriculeAgent;
+      bp.dateEnregistrement = this.bonPour.dateEnregistrement;
+
+      bp.numeroArriveDLF = BonPourForm.value.numeroArriveDLF;
+      const dateArriveDLF: MyDate = BonPourForm.value.dateArriveDLF;
+      const formattedDateDLF = this.bonPourService.formatterMyDate(dateArriveDLF);
+      if (formattedDateDLF) {
+        bp.dateArriveDLF = formattedDateDLF;
+      } else {
+        console.log("erreur date courriel origine");
+      }
+      bp.observationDLF = BonPourForm.value.observationDLF;
+    }
+    // ---------------------------------------------------
+    bp.numeroArriveBLM = null;    
+    bp.dateArriveBLM = null;
+    bp.observationBLM = null;
+
+    if (this.bonPourAjouterBLM) {
+      bp.identifiantBonPour = this.bonPour.identifiantBonPour;
+      bp.descriptionBonPour = this.bonPour.descriptionBonPour;
+      bp.etatBonPour = this.etatSuivant(EtatBonPour.ALLERBLM); // this.bonPour.etatBonPour
+      bp.codeSection = this.bonPour.codeSection;
+      bp.codeUniteDouaniere = this.bonPour.codeUniteDouaniere;
+      bp.numeroCourrielOrigine = this.bonPour.numeroCourrielOrigine;
+      bp.dateCourrielOrigine = this.bonPour.dateCourrielOrigine;
+   
+
+      bp.objectCourrielOrigine = this.bonPour.objectCourrielOrigine;
+      bp.matriculeAgent = this.bonPour.matriculeAgent;
+      bp.dateEnregistrement = this.bonPour.dateEnregistrement;
+
+      bp.numeroArriveDLF = this.bonPour.numeroArriveDLF;
+      bp.dateArriveDLF = this.bonPour.dateArriveDLF;
+      bp.observationDLF = this.bonPour.observationDLF;
+
+      bp.numeroArriveBLM = BonPourForm.value.numeroArriveBLM;
+      const dateArriveBLM: MyDate = BonPourForm.value.dateArriveBLM;
+      const formattedDateBLM = this.bonPourService.formatterMyDate(dateArriveBLM);
+      if (formattedDateBLM) {
+        bp.dateArriveBLM = formattedDateBLM;
+      } else {
+        console.log("erreur date courriel origine");
+      }
+      bp.observationBLM = BonPourForm.value.observationBLM;
+    }
+    // ---------------------------------------------------
+    bp.numeroArriveSection = null;
+    bp.dateArriveSection = null;    
     bp.observationSection = null;
 
-    console.log(bp);
-    
+    if (this.bonPourAjouterSection) {
+      bp.identifiantBonPour = this.bonPour.identifiantBonPour;
+      bp.descriptionBonPour = this.bonPour.descriptionBonPour;
+      bp.etatBonPour = this.etatSuivant(EtatBonPour.ALLERSECTION); // this.bonPour.etatBonPour
+      bp.codeSection = this.bonPour.codeSection;
+      bp.codeUniteDouaniere = this.bonPour.codeUniteDouaniere;
+      bp.numeroCourrielOrigine = this.bonPour.numeroCourrielOrigine;
+      bp.dateCourrielOrigine = this.bonPour.dateCourrielOrigine;
+   
 
+      bp.objectCourrielOrigine = this.bonPour.objectCourrielOrigine;
+      bp.matriculeAgent = this.bonPour.matriculeAgent;
+      bp.dateEnregistrement = this.bonPour.dateEnregistrement;
+
+      bp.numeroArriveDLF = this.bonPour.numeroArriveDLF;
+      bp.dateArriveDLF = this.bonPour.dateArriveDLF;
+      bp.observationDLF = this.bonPour.observationDLF;
+
+      bp.numeroArriveBLM = this.bonPour.numeroArriveBLM;
+      bp.dateArriveBLM = this.bonPour.dateArriveBLM;
+      bp.observationBLM = this.bonPour.observationBLM;
+
+      bp.numeroArriveSection = BonPourForm.value.numeroArriveSection;
+      const dateArriveSection: MyDate = BonPourForm.value.dateArriveSection;
+      const formattedDateSection = this.bonPourService.formatterMyDate(dateArriveSection);
+      if (formattedDateSection) {
+        bp.dateArriveSection = formattedDateSection;
+      } else {
+        console.log("erreur date courriel origine");
+      }
+      bp.observationSection = BonPourForm.value.observationSection;
+    }
+    // ---------------------------------------------------
+    console.log(bp);
+    console.log(BonPourForm.value);
+    
     this.subscriptions.push(this.bonPourService.ajouterBonPour(bp).subscribe({
         next: (response: BonPour) => {
           console.log(response);

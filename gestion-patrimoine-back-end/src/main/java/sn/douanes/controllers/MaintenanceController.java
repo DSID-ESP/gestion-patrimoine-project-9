@@ -42,6 +42,12 @@ public class MaintenanceController {
         return maintenanceService.updateMaintenance(m);
     }
 
+    @PutMapping("/TerminerMaintenance")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    public Maintenance TerminerMaintenance(@RequestBody Maintenance m) {
+        return maintenanceService.terminerMaintenance(m);
+    }
+
     @DeleteMapping("SupprimerMaintenanceById/{identifiantMaintenance}")
     // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public void SupprimerMaintenanceById(@PathVariable("identifiantMaintenance") String identifiantMaintenance) {

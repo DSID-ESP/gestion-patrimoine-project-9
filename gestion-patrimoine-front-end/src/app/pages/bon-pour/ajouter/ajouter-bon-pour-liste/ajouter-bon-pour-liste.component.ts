@@ -21,6 +21,9 @@ import { AjouterBonPourAjouterComponent } from '../ajouter-bon-pour-ajouter/ajou
 import { ArticleBonPour } from 'src/app/model/article-bon-pour.model';
 import { ArticleBonPourService } from 'src/app/services/article-bon-pour.service';
 import { FormControl } from '@angular/forms';
+import { Utilisateur } from 'src/app/model/utilisateur.model';
+import { FonctionUtilisateurService } from 'src/app/services/fonction-utilisateur.service';
+import { EtatBonPour } from 'src/app/enum/etat-bon-pour.enum';
 
 @Component({
   selector: 'app-ajouter-bon-pour-liste',
@@ -30,6 +33,23 @@ import { FormControl } from '@angular/forms';
   styleUrl: './ajouter-bon-pour-liste.component.css'
 })
 export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
+
+  tousPrivileges: boolean = false;
+  bonPourAjouterSection: boolean = false;
+  bonPourAjouterBLM: boolean = false;
+  bonPourAjouterDLF: boolean = false;
+  bonPourAjouterInitial: boolean = false;
+  estBAF: boolean = false;
+  estDLF: boolean = false;
+  estBLM: boolean = false;
+  estSection: boolean = false;
+
+  // ----------------------------------------------------------------------------------
+
+  public utilisateurs: Utilisateur[] = [];
+  public utilisateur: Utilisateur | undefined;
+  
+  // ----------------------------------------------------------------------------------
 
   public bonPours: BonPour[] = [];
   public bonPour: BonPour | undefined;
@@ -159,6 +179,7 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
     private agentService: AgentService,
     private securiteService: SecuriteService,
     private matDialog: MatDialog,
+    private fonctionUtilisateurService: FonctionUtilisateurService,
   ) { }
 
   ngOnDestroy(): void {
@@ -166,6 +187,21 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.utilisateur = this.fonctionUtilisateurService.getUtilisateur;
+
+    this.tousPrivileges = this.fonctionUtilisateurService.tousPrivileges;
+    this.bonPourAjouterSection = this.fonctionUtilisateurService.bonPourAjouterSection;
+    this.bonPourAjouterBLM = this.fonctionUtilisateurService.bonPourAjouterBLM;
+    this.bonPourAjouterDLF = this.fonctionUtilisateurService.bonPourAjouterDLF;
+    this.bonPourAjouterInitial = this.fonctionUtilisateurService.bonPourAjouterInitial;
+    // ----------------------------------------------------------------------------
+    this.estBAF = this.fonctionUtilisateurService.estBAF;
+    this.estDLF = this.fonctionUtilisateurService.estDLF;
+    this.estBLM = this.fonctionUtilisateurService.estBLM;
+    this.estSection = this.fonctionUtilisateurService.estSection;
+
+    // ----------------------------------------------------------------------------
 
     this.filteredUniteDouanieres = this.control.valueChanges.pipe(
       startWith(''),
@@ -382,13 +418,14 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
   // ---------------------------------------------------------------------------------------------------------------------
 
 
-  popupAjouterBonPourArticleBonPour(): void {
+  popupAjouterBonPourArticleBonPour(bonPour: BonPour | undefined): void {
     const dialogRef = this.matDialog.open(
       AjouterBonPourAjouterComponent,
       {
         width: '80%',
         enterAnimationDuration: '100ms',
-        exitAnimationDuration: '100ms'
+        exitAnimationDuration: '100ms',
+        data: bonPour
       }
     );
 
@@ -399,10 +436,21 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
 
 
   goToDetail(bonPour: BonPour): void {
-    const id = bonPour.identifiantBonPour;
-    if (id) {
-      const encrypt = this.securiteService.encryptUsingAES256(id);
-      this.router.navigate(['/ajouter-bon-pour-detail', encrypt]);
+
+    // console.log(this.estDLF);
+    
+    if (this.estDLF && (bonPour.etatBonPour == EtatBonPour.ALLERDLF)) {
+      this.popupAjouterBonPourArticleBonPour(bonPour);
+    } else if (this.estBLM && (bonPour.etatBonPour == EtatBonPour.ALLERBLM)) {
+      this.popupAjouterBonPourArticleBonPour(bonPour);
+    } else if (this.estSection && (bonPour.etatBonPour == EtatBonPour.ALLERSECTION)) {
+      this.popupAjouterBonPourArticleBonPour(bonPour);
+    } else {
+      const id = bonPour.identifiantBonPour;
+      if (id) {
+        const encrypt = this.securiteService.encryptUsingAES256(id);
+        this.router.navigate(['/ajouter-bon-pour-detail', encrypt]);
+      }
     }
   }
 

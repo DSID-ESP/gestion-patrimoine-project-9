@@ -88,6 +88,10 @@ export class MaintenanceService {
     return this.httpClient.put<Maintenance>(`${this.urlServeur}/ModifierMaintenance`, maintenance, { withCredentials: true });
   }
 
+  public terminerMaintenance(maintenance: Maintenance): Observable<Maintenance> {
+    return this.httpClient.put<Maintenance>(`${this.urlServeur}/TerminerMaintenance`, maintenance, { withCredentials: true });
+  }
+
   public supprimerMaintenanceById(identifiantMaintenance: string): Observable<CustomHttpRespone> {
     return this.httpClient.delete<CustomHttpRespone>(`${this.urlServeur}/SupprimerMaintenanceById/${identifiantMaintenance}`, { withCredentials: true });
   }

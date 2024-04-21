@@ -17,6 +17,8 @@ public interface MaintenanceService {
     Maintenance getMaintenanceById(String id);
     List<Maintenance> getAllMaintenances();
 
+
+    Maintenance terminerMaintenance(Maintenance m);
     Maintenance ajouterMaintenance(String identifiantMaintenance, Vehicule numeroSerie, String typeMaintenance, String observationMaintenance);
 
 

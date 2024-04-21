@@ -54,6 +54,7 @@ public class BonPourServiceImpl implements BonPourService {
 
     @Override
     public BonPour ajouterBonPour(
+            String identifiantBonPour,
             String descriptionBonPour,
             String etatBonPour,
             Sections codeSection,
@@ -76,7 +77,12 @@ public class BonPourServiceImpl implements BonPourService {
 
         BonPour bonPour = new BonPour();
         bonPour.setDateEnregistrement(new Timestamp(System.currentTimeMillis()));
-        bonPour.setIdentifiantBonPour(genererIdentifiantBonPour(codeSection.getCodeSection(), genererDateEnregistrement(bonPour.getDateEnregistrement())));
+
+        if (identifiantBonPour == null) {
+            bonPour.setIdentifiantBonPour(genererIdentifiantBonPour(codeSection.getCodeSection(), genererDateEnregistrement(bonPour.getDateEnregistrement())));
+        } else {
+            bonPour.setIdentifiantBonPour(identifiantBonPour);
+        }
 
         bonPour.setDescriptionBonPour(descriptionBonPour);
         bonPour.setEtatBonPour(etatBonPour);

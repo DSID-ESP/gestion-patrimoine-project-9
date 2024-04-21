@@ -13,6 +13,23 @@ export class MyDateService {
 
   constructor(private datePipe: DatePipe) { }
 
+  formatDateModelNgbDateStruct(date: NgbDateStruct | MyDate | string | null): string {
+    if (!date) {
+      return '';
+    }
+
+    if (typeof date === 'string') {
+      return this.formatterMyDateFromString(date);
+    }
+  
+
+    // Crée un objet JavaScript Date à partir de NgbDateStruct
+    const jsDate = new Date(date.year, date.month - 1, date.day);
+
+    // Utilise DatePipe pour formater la date avec le mois complet
+    return this.datePipe.transform(jsDate, 'dd MMMM yyyy') || '';
+  }
+
   public formatterMyDate(myDate: MyDate): string {
     if (!myDate || !myDate.year || !myDate.month || !myDate.day) {
       return '';
@@ -54,16 +71,5 @@ export class MyDateService {
   }
 
 
-  formatterNgbDateStructToString(date: NgbDateStruct | null): string {
-    if (!date) {
-      return '';
-    }
-
-    // Crée un objet JavaScript Date à partir de NgbDateStruct
-    const jsDate = new Date(date.year, date.month - 1, date.day);
-
-    // Utilise DatePipe pour formater la date avec le mois complet
-    return this.datePipe.transform(jsDate, 'dd MMMM yyyy') || '';
-  }
 
 }

@@ -47,6 +47,13 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         return maintenanceRepository.findAll();
     }
 
+
+    @Override
+    public Maintenance terminerMaintenance(Maintenance m) {
+        m.setDateFinMaintenance(new Timestamp(System.currentTimeMillis()));
+        return maintenanceRepository.save(m);
+    }
+
     @Override
     public Maintenance ajouterMaintenance(String identifiantMaintenance, Vehicule numeroSerie, String typeMaintenance, String observationMaintenance) {
 
@@ -62,6 +69,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
         return maintenanceRepository.save(maintenance);
     }
+
+
 
 
     private String genererIdentifiantMaintenance(String dateDotation) {

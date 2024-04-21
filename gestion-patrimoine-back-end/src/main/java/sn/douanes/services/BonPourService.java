@@ -18,7 +18,7 @@ public interface BonPourService {
     BonPour getBonPourById(String id);
     List<BonPour> getAllBonPours();
 
-    BonPour ajouterBonPour(String descriptionBonPour, String etatBonPour,Sections codeSection,UniteDouaniere codeUniteDouaniere, Integer numeroCourrielOrigine, Date dateCourrielOrigine, String objectCourrielOrigine,Agent matriculeAgent,Integer numeroArriveBLM, Integer numeroArriveDLF, Integer numeroArriveSection,Date dateArriveBLM, Date dateArriveDLF,Date dateArriveSection,String observationBLM, String observationDLF, String observationSection);
+    BonPour ajouterBonPour(String identifiantBonPour, String descriptionBonPour, String etatBonPour,Sections codeSection,UniteDouaniere codeUniteDouaniere, Integer numeroCourrielOrigine, Date dateCourrielOrigine, String objectCourrielOrigine,Agent matriculeAgent,Integer numeroArriveBLM, Integer numeroArriveDLF, Integer numeroArriveSection,Date dateArriveBLM, Date dateArriveDLF,Date dateArriveSection,String observationBLM, String observationDLF, String observationSection);
 
 
 }

@@ -41,8 +41,8 @@ export class ReceptionVehiculeModifierBonEntreeComponent implements OnInit, OnDe
   modelDate1: NgbDateStruct | null = null;
   modelDate2: NgbDateStruct | null = null;
 
-  formatterNgbDateStructToString(date: NgbDateStruct | null): string {
-    return this.myDateService.formatterNgbDateStructToString(date);
+  formatDateModelNgbDateStruct(date: NgbDateStruct | null): string {
+    return this.myDateService.formatDateModelNgbDateStruct(date);
   }
 
   formatterStringToNgbDateStruct(date: string): NgbDateStruct {
@@ -55,8 +55,8 @@ export class ReceptionVehiculeModifierBonEntreeComponent implements OnInit, OnDe
   // }
   // ----------------------------------------------------------------------------------
 
-  public BonEntrees: BonEntree[] = [];
-  public BonEntree: BonEntree = new BonEntree();
+  // public BonEntrees: BonEntree[] = [];
+  // public BonEntree: BonEntree = new BonEntree();
 
   public prestataires: Prestataires[] = [];
   public prestataire: Prestataires = new Prestataires();

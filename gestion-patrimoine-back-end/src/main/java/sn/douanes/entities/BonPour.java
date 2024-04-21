@@ -30,7 +30,7 @@ public class BonPour {
     @Column(name = "DESCRIPTION_BON_POUR")
     private String descriptionBonPour;
 
-    @Column(name = "ETAT_Bon_Pour", length = 10)
+    @Column(name = "ETAT_Bon_Pour", length = 25)
     private String etatBonPour;
 
     @ManyToOne

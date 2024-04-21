@@ -20,7 +20,6 @@ public class BonPourController {
     @Autowired
     BonPourService bonPourService;
 
-
     @GetMapping("/BonPours")
     // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<BonPour>> getAllBonPours() {
@@ -33,7 +32,7 @@ public class BonPourController {
     // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BonPour AjouterBonPour(@RequestBody BonPour bonPour) {
         // return bonPourService.saveBonPour(bonPour);
-        return bonPourService.ajouterBonPour(bonPour.getDescriptionBonPour(), bonPour.getEtatBonPour(), bonPour.getCodeSection(), bonPour.getCodeUniteDouaniere(), bonPour.getNumeroCourrielOrigine(), bonPour.getDateCourrielOrigine(), bonPour.getObjectCourrielOrigine(), bonPour.getMatriculeAgent(), bonPour.getNumeroArriveBLM(), bonPour.getNumeroArriveDLF(), bonPour.getNumeroArriveSection(), bonPour.getDateArriveBLM(), bonPour.getDateArriveDLF(), bonPour.getDateArriveSection(), bonPour.getObservationBLM(), bonPour.getObservationDLF(), bonPour.getObservationSection());
+        return bonPourService.ajouterBonPour(bonPour.getIdentifiantBonPour(), bonPour.getDescriptionBonPour(), bonPour.getEtatBonPour(), bonPour.getCodeSection(), bonPour.getCodeUniteDouaniere(), bonPour.getNumeroCourrielOrigine(), bonPour.getDateCourrielOrigine(), bonPour.getObjectCourrielOrigine(), bonPour.getMatriculeAgent(), bonPour.getNumeroArriveBLM(), bonPour.getNumeroArriveDLF(), bonPour.getNumeroArriveSection(), bonPour.getDateArriveBLM(), bonPour.getDateArriveDLF(), bonPour.getDateArriveSection(), bonPour.getObservationBLM(), bonPour.getObservationDLF(), bonPour.getObservationSection());
     }
 
 
