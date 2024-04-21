@@ -7,7 +7,7 @@ export class BonSortie {
   public identifiantBonSortie: string;
   public numeroBonSortie: string;
   public descriptionBonSortie: string;
-  public dateBonSortie: MyDate;
+  public dateBonSortie: MyDate | null;
   public matriculeAgent: Agent;
   public identifiantBonPour: BonPour;
 

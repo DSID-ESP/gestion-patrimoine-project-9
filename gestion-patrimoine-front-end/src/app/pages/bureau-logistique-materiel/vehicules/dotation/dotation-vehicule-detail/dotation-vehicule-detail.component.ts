@@ -335,7 +335,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
 
       this.quantiteAccordeeTotal = articleBonSorties.reduce((total, articleBonSortie) => {
-        return total + (articleBonSortie ? articleBonSortie.quantiteAccordee : 0);
+        return total + (articleBonSortie ? articleBonSortie.quantiteAccordeeSection : 0);
       }, 0);
       return this.quantiteAccordeeTotal;
 

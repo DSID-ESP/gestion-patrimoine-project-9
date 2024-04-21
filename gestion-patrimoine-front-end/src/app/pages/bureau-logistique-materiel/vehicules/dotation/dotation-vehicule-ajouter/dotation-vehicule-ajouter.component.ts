@@ -218,6 +218,7 @@ export class DotationVehiculeAjouterComponent {
   public ajouterBonSortie(BonSortieForm: NgForm): void {
 
     this.bonSortie.numeroBonSortie = 'BS005';
+    this.bonSortie.dateBonSortie = null;
     this.bonSortie.matriculeAgent = this.agents[0];
     this.bonSortie.identifiantBonPour = this.bonPours.find(bonPour => bonPour.identifiantBonPour === this.articleBonPour.identifiantBonPour) ?? new BonPour;
     this.bonSortie.descriptionBonSortie = BonSortieForm.value.descriptionBonSortie;
@@ -263,12 +264,22 @@ export class DotationVehiculeAjouterComponent {
   }
 
 
-  nombreArticleBonSortie(bonSortie: BonSortie, articleBonSorties: ArticleBonSortie[]): number {
-    const matchingArticles = articleBonSorties.filter(articleBonSortie => bonSortie && articleBonSortie.codeArticleBonSortie && bonSortie.identifiantBonSortie === articleBonSortie.identifiantBonSortie);
-    return matchingArticles.length + 1;
+//   nombreArticleBonSortie(bonSortie: BonSortie, articleBonSorties: ArticleBonSortie[]): number {
+//     const matchingArticles = articleBonSorties.filter(articleBonSortie => bonSortie && articleBonSortie.codeArticleBonSortie && bonSortie.identifiantBonSortie === articleBonSortie.identifiantBonSortie);
+//     return matchingArticles.length + 1;
+// }
+
+nombreArticleBonSortie(bonSortie: BonSortie, articleBonSorties: ArticleBonSortie[]): number {
+  const matchingArticles = articleBonSorties.filter(articleBonSortie => bonSortie && articleBonSortie.codeArticleBonSortie && bonSortie.identifiantBonSortie === articleBonSortie.identifiantBonSortie);
+  return matchingArticles.length + 1;
 }
 
-
+//  incrementerNombreArticles(bonSorties: BonSortie[], nouvelleBonSortie: BonSortie, articleBonSorties: ArticleBonSortie[]): void {
+//   // On incrémente le nombre d'articles pour la nouvelle bon de sortie
+//   nouvelleBonSortie.nombreArticle = nombreArticleBonSortie(nouvelleBonSortie, articleBonSorties);
+//   // On ajoute la nouvelle bon de sortie à la liste
+//   bonSorties.push(nouvelleBonSortie);
+// }
 
 
 
@@ -285,11 +296,11 @@ export class DotationVehiculeAjouterComponent {
 
 
 
-    let quantiteAccordee: number = ArticleBonSortieForm.value.quantiteAccordee;
+    let quantiteAccordeeSection: number = ArticleBonSortieForm.value.quantiteAccordeeSection;
 
     let quantitePermise: number = this.articleBonPour.quantiteDemandee - this.quantiteAccordeeTotal;
 
-    if (quantitePermise <  quantiteAccordee ) {
+    if (quantitePermise <  quantiteAccordeeSection ) {
 
 
       this.sendNotification(NotificationType.ERROR, `Vous avez dépassé la limite de quantité permise (${quantitePermise}) véhicule(s)`);
@@ -300,8 +311,8 @@ export class DotationVehiculeAjouterComponent {
 
     }
 
-    this.articleBonSortie.quantiteAccordee= quantiteAccordee;
-    this.articleBonSortie.libelleArticleBonSortie= "LIBELLE " + quantiteAccordee + " BS";
+    this.articleBonSortie.quantiteAccordeeSection= quantiteAccordeeSection;
+    this.articleBonSortie.libelleArticleBonSortie= "LIBELLE " + quantiteAccordeeSection + " BS";
     //this.articleBonSortie.identifiantBonSortie= this.bonSortie.identifiantBonSortie;
     this.articleBonSortie.codeArticleBonSortie= this.nombreArticle;
     this.articleBonSortie.dateArticleBonSortie = null;

@@ -38,8 +38,19 @@ public class ArticleBonSortie {
     @Column(name = "DATE_ARTICLE_BON_SORTIE")
     private Date dateArticleBonSortie;
 
-    @Column(name = "QUANTITE_ACCORDEE")
-    private Integer quantiteAccordee;
+    @Column(name = "QUANTITE_ACCORDEE_SECTION")
+    private Integer quantiteAccordeeSection;
+
+    @Column(name = "QUANTITE_ACCORDEE_BLM")
+    private Integer quantiteAccordeeBLM;
+
+
+    @Column(name = "QUANTITE_ACCORDEE_DLF")
+    private Integer quantiteAccordeeDLF;
+
+
+    @Column(name = "QUANTITE_ACCORDEE_DEFINITIVE")
+    private Integer quantiteAccordeeDefinitive;
 
 
     @ManyToOne

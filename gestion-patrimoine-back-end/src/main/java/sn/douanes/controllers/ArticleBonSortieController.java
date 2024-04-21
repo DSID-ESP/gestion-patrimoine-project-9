@@ -37,7 +37,7 @@ public class ArticleBonSortieController {
     // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ArticleBonSortie  AjouterArticleBonEntree(@RequestBody ArticleBonSortie articleBonSortie) {
 
-        return articleBonSortieService.ajouterArticleBonSortie(articleBonSortie.getIdentifiantBonSortie(), articleBonSortie.getCodeArticleBonSortie(), articleBonSortie.getLibelleArticleBonSortie(), articleBonSortie.getQuantiteAccordee(),  articleBonSortie.getMatriculeAgent());
+        return articleBonSortieService.ajouterArticleBonSortie(articleBonSortie.getIdentifiantBonSortie(), articleBonSortie.getCodeArticleBonSortie(), articleBonSortie.getLibelleArticleBonSortie(), articleBonSortie.getQuantiteAccordeeSection(), articleBonSortie.getQuantiteAccordeeBLM(), articleBonSortie.getQuantiteAccordeeDLF(), articleBonSortie.getQuantiteAccordeeDefinitive(),  articleBonSortie.getMatriculeAgent());
     }
 
 

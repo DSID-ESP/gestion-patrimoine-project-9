@@ -103,12 +103,12 @@ VALUES
 
 
 
-INSERT INTO article_bon_sortie (identifiant_bon_sortie, code_article_bon_sortie, libelle_article_bon_sortie, quantite_accordee, date_article_bon_sortie, matricule_agent) 
+INSERT INTO article_bon_sortie (identifiant_bon_sortie, code_article_bon_sortie, libelle_article_bon_sortie, quantite_accordee_section, quantite_accordee_blm, quantite_accordee_dlf, quantite_accordee_definitive, date_article_bon_sortie, matricule_agent) 
 VALUES 
-    ('BSSG202311121243214', 1, 'Article BS1', 5, '2024-01-24', '613693H'),
-    ('BSSG202311121243215', 1, 'Article BS2', 10, '2024-01-25', '506234B'),
-    ('BSSG202311121243216', 1, 'Article BS3', 15, '2024-01-26', '123456A'),
-    ('BSSG202311121243215', 2, 'Article BS4', 3, '2024-01-26', '506234B');
+    ('BSSG202311121243214', 1, 'Article BS1', 5, 4, 3, 3, '2024-01-24', '613693H'),
+    ('BSSG202311121243215', 1, 'Article BS2', 10, 9, 8, 8, '2024-01-25', '506234B'),
+    ('BSSG202311121243216', 1, 'Article BS3', 15, 13, 12, 12, '2024-01-26', '123456A'),
+    ('BSSG202311121243215', 2, 'Article BS4', 3, 3, 3, 3, '2024-01-26', '506234B');
 
 
 INSERT INTO "fonction_agent" ("code_fonction_agent", "libelle_fonction_agent")

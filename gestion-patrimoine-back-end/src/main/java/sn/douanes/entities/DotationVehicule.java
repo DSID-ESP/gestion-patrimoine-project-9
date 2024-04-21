@@ -41,7 +41,7 @@ public class DotationVehicule {
     private Agent matriculeAgent;
 
 
-    @ManyToOne
+    @OneToOne
     @JoinColumns({
             @JoinColumn(name = "IDENTIFIANT_BON_SORTIE", referencedColumnName = "IDENTIFIANT_BON_SORTIE"),
             @JoinColumn(name = "CODE_ARTICLE_BON_SORTIE", referencedColumnName = "CODE_ARTICLE_BON_SORTIE")

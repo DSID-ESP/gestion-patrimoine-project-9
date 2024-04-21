@@ -323,10 +323,7 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
   public ajouterArticleBonSortie(articleBonSortie: ArticleBonSortie, vehiculesSelect: Vehicule[]): void {
 
 
-
-    if (vehiculesSelect.length == articleBonSortie.quantiteAccordee ) {
-
-
+    if (vehiculesSelect.length == articleBonSortie.quantiteAccordeeSection ) {
 
       this.subscriptions.push(this.articleBonSortieService.ajouterArticleBonSortie(articleBonSortie).subscribe({
         next: (response: ArticleBonSortie) => {
@@ -350,7 +347,7 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
 
     else {
 
-      this.sendNotification(NotificationType.ERROR, `Veillez sélectionner une quantité de ${articleBonSortie.quantiteAccordee} véhicule(s)`);
+      this.sendNotification(NotificationType.ERROR, `Veillez sélectionner une quantité de ${articleBonSortie.quantiteAccordeeSection} véhicule(s)`);
 
     }
 

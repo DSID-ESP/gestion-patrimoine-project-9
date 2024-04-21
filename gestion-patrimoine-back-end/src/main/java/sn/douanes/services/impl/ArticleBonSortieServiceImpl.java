@@ -56,7 +56,10 @@ public class ArticleBonSortieServiceImpl implements ArticleBonSortieService {
             String identifiantBonSortie,
             Integer codeArticleBonSortie,
             String libelleArticleBonSortie,
-            Integer quantiteAccordee,
+            Integer quantiteAccordeeSection,
+            Integer quantiteAccordeeBLM,
+            Integer quantiteAccordeeDLF,
+            Integer quantiteAccordeeDefinitive,
             Agent matriculeAgent
     ) {
 
@@ -65,7 +68,10 @@ public class ArticleBonSortieServiceImpl implements ArticleBonSortieService {
         articleBonSortie.setIdentifiantBonSortie(identifiantBonSortie);
         articleBonSortie.setCodeArticleBonSortie(codeArticleBonSortie);
         articleBonSortie.setLibelleArticleBonSortie(libelleArticleBonSortie);
-        articleBonSortie.setQuantiteAccordee(quantiteAccordee);
+        articleBonSortie.setQuantiteAccordeeSection(quantiteAccordeeSection);
+        articleBonSortie.setQuantiteAccordeeBLM(quantiteAccordeeBLM);
+        articleBonSortie.setQuantiteAccordeeDLF(quantiteAccordeeDLF);
+        articleBonSortie.setQuantiteAccordeeDefinitive(quantiteAccordeeDefinitive);
         articleBonSortie.setDateArticleBonSortie(new Date(System.currentTimeMillis()));
 
         articleBonSortie.setMatriculeAgent(matriculeAgent);
