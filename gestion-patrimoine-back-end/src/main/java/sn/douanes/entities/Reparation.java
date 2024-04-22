@@ -20,8 +20,8 @@ public class Reparation {
     @Column(name = "NATURE_REPARATION", length = 512)
     private String natureReparation;
 
-    @Column(name = "SUITE_ACCIDENT")
-    private Boolean suiteAccident;
+//    @Column(name = "SUITE_ACCIDENT")
+//    private Boolean suiteAccident;
 
 
 }

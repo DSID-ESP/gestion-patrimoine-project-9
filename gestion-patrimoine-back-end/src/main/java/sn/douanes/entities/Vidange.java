@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "VIDANGE")
@@ -20,10 +17,11 @@ public class Vidange {
     @Column(name = "IDENTIFIANT_MAINTENANCE", length = 25, nullable = false)
     private String identifiantMaintenance;
 
-    @Column(name = "LIBELLE_HUILE", length = 512)
-    private String libelleHuile;
+    @ManyToOne
+    @JoinColumn(name = "IDENTIFIANT_HUILE")
+    private Huile identifiantHuile;
 
-    @Column(name = "QUANTITE_MISE_VEHICULE")
-    private int quantiteMiseVehicule;
+    @Column(name = "QUANTITE")
+    private int quantite;
 
 }

@@ -117,9 +117,9 @@ export class DotationVehiculeAjouterComponent {
         //  this.listeBonDeSorties
 
 
-        this.nombreArticle = this.nombreArticleBonSortie(this.bonSortie, this.articleBonSorties);
+        // this.nombreArticle = this.nombreArticleBonSortie(this.articleBonPour, this.bonSorties);
 
-        console.log(this.nombreArticle);
+        //console.log(this.nombreArticle);
 
         //this.codeArticleBonEntree =  this.nombreArticle;
       },
@@ -146,6 +146,9 @@ export class DotationVehiculeAjouterComponent {
         // console.log(this.bonPour);
 
         this.listeArticleBonSorties();
+
+        this.nombreArticle = this.nombreArticleBonSortie(this.articleBonPour, this.bonSorties);
+
 
 
       },
@@ -269,8 +272,8 @@ export class DotationVehiculeAjouterComponent {
 //     return matchingArticles.length + 1;
 // }
 
-nombreArticleBonSortie(bonSortie: BonSortie, articleBonSorties: ArticleBonSortie[]): number {
-  const matchingArticles = articleBonSorties.filter(articleBonSortie => bonSortie && articleBonSortie.codeArticleBonSortie && bonSortie.identifiantBonSortie === articleBonSortie.identifiantBonSortie);
+nombreArticleBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[]): number {
+  const matchingArticles = bonSorties.filter(bonSortie => bonSortie && bonSortie.identifiantBonPour && articleBonPour.identifiantBonPour === bonSortie.identifiantBonPour.identifiantBonPour);
   return matchingArticles.length + 1;
 }
 
@@ -296,11 +299,11 @@ nombreArticleBonSortie(bonSortie: BonSortie, articleBonSorties: ArticleBonSortie
 
 
 
-    let quantiteAccordeeSection: number = ArticleBonSortieForm.value.quantiteAccordeeSection;
+    let quantiteAccordee: number = ArticleBonSortieForm.value.quantiteAccordee;
 
     let quantitePermise: number = this.articleBonPour.quantiteDemandee - this.quantiteAccordeeTotal;
 
-    if (quantitePermise <  quantiteAccordeeSection ) {
+    if (quantitePermise <  quantiteAccordee ) {
 
 
       this.sendNotification(NotificationType.ERROR, `Vous avez dépassé la limite de quantité permise (${quantitePermise}) véhicule(s)`);
@@ -311,8 +314,8 @@ nombreArticleBonSortie(bonSortie: BonSortie, articleBonSorties: ArticleBonSortie
 
     }
 
-    this.articleBonSortie.quantiteAccordeeSection= quantiteAccordeeSection;
-    this.articleBonSortie.libelleArticleBonSortie= "LIBELLE " + quantiteAccordeeSection + " BS";
+    this.articleBonSortie.quantiteAccordeeDefinitive= quantiteAccordee;
+    this.articleBonSortie.libelleArticleBonSortie= "LIBELLE " + quantiteAccordee + " BS";
     //this.articleBonSortie.identifiantBonSortie= this.bonSortie.identifiantBonSortie;
     this.articleBonSortie.codeArticleBonSortie= this.nombreArticle;
     this.articleBonSortie.dateArticleBonSortie = null;
@@ -353,7 +356,7 @@ nombreArticleBonSortie(bonSortie: BonSortie, articleBonSorties: ArticleBonSortie
         // console.log(this.secteurActivitesSelect);
      // }
       // ----------------------------------
-      this.popupFermer();
+      // this.popupFermer();
     });
   }
 

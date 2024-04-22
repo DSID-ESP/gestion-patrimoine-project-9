@@ -80,14 +80,14 @@ INSERT INTO "article_bon_entree" ("code_article_bon_entree", "date_enregistremen
 
 
 
-INSERT INTO bon_pour (identifiant_bon_pour, description_bon_pour, numero_courriel_origine, date_courriel_origine, etat_bon_pour, object_courriel_origine, numero_arrive_d_l_f, date_arrive_d_l_f, observation_d_l_f, numero_arrive_b_l_m, date_arrive_b_l_m, observation_b_l_m, numero_arrive_section, date_arrive_section, observation_section, code_unite_douaniere, code_section, date_enregistrement, matricule_agent) 
+INSERT INTO "bon_pour" ("identifiant_bon_pour", "description_bon_pour", "numero_courriel_origine", "date_courriel_origine", "etat_bon_pour", "object_courriel_origine", "numero_arrive_d_l_f", "date_arrive_d_l_f", "observation_d_l_f", "numero_arrive_b_l_m", "date_arrive_b_l_m", "observation_b_l_m", "numero_arrive_section", "date_arrive_section", "observation_section", "code_unite_douaniere", "code_section", "date_enregistrement", "matricule_agent") 
 VALUES 
     ('BPSG202311121243214', 'DESCRIPTION 1', 123, '2024-01-24', 'RETRANSMIS A LA SECTION', 'OBJET 1', 456, '2024-01-25', 'OBSERVATION 1', 789, '2024-01-26', 'OBSERVATION 1', 101, '2024-01-27', 'OBSERVATION 1', '06Z', 'SG', CURRENT_TIMESTAMP, '613693H'),
     ('BPSG202311121243215', 'DESCRIPTION 2', 124, '2024-01-25', 'RETRANSMIS A LA SECTION', 'OBJET 2', 457, '2024-01-26', 'OBSERVATION 1', 790, '2024-01-27', 'OBSERVATION 1', 102, '2024-01-28', 'OBSERVATION 1', '06Z', 'SG', CURRENT_TIMESTAMP, '506234B'),
     ('BPSG202311121243216', 'DESCRIPTION 3', 125, '2024-01-26', 'RETRANSMIS A LA SECTION', 'OBJET 3', 458, '2024-01-27', 'OBSERVATION 1', 791, '2024-01-28', 'OBSERVATION 1', 103, '2024-01-29', 'OBSERVATION 1', '06K', 'SG', CURRENT_TIMESTAMP, '123456A');
 
 
-INSERT INTO article_bon_pour (identifiant_bon_pour, code_article_bon_pour, libelle_article_bon_pour, quantite_demandee, code_type_objet, matricule_agent) 
+INSERT INTO "article_bon_pour" ("identifiant_bon_pour", "code_article_bon_pour", "libelle_article_bon_pour", "quantite_demandee", "code_type_objet", "matricule_agent") 
 VALUES 
     ('BPSG202311121243214', 1, 'LIBELLE ARTICLE 1', 10, 'VEHIC', '613693H'),
     ('BPSG202311121243215', 1, 'LIBELLE ARTICLE 1', 20, 'VEHIC', '506234B'),
@@ -125,7 +125,7 @@ INSERT INTO "type_arme" ("code_type_arme", "libelle_type_arme") VALUES
 ('ARME1',   'LIBELLE TYPE ARME 1');
 
 
-INSERT INTO marque_vehicule (code_marque_vh, libelle_marque_vh)
+INSERT INTO "marque_vehicule" ("code_marque_vh", "libelle_marque_vh")
 VALUES 
     ('ALF', 'ALFA ROMEO'),
     ('AST', 'ASTON MARTIN'),
@@ -163,7 +163,7 @@ VALUES
 
 
 
-INSERT INTO pays (code_pays, libelle_pays)
+INSERT INTO "pays" ("code_pays", "libelle_pays")
 VALUES 
 ('AF', 'AFGHANISTAN'),
 ('ZA', 'AFRIQUE DU SUD'),
@@ -425,7 +425,7 @@ VALUES
 ('ZW', 'ZIMBABWE');
 
 
-INSERT INTO secteur_activite (code_secteur_activite, libelle_secteur_activite)
+INSERT INTO "secteur_activite" ("code_secteur_activite", "libelle_secteur_activite")
 VALUES 
     ('IT', 'TECHNOLOGIES DE L''INFORMATION'),
     ('FINANCE', 'SERVICES FINANCIERS'),
@@ -437,21 +437,21 @@ VALUES
     ('MENUISIER', 'MENUISIER');
 
 
-INSERT INTO prestataires_secteur (ninea, code_secteur_activite)
+INSERT INTO "prestataires_secteur" ("ninea", "code_secteur_activite")
 VALUES 
     ('005177614', 'IT'),
     ('005174222', 'FINANCE'),
     ('005192373', 'SANTE');
 
 
-INSERT INTO type_energie (code_type_energie, libelle_type_energie)
+INSERT INTO "type_energie" ("code_type_energie", "libelle_type_energie")
 VALUES ('ESSENCE', 'ESSENCE'),
        ('GASOIL', 'GASOIL'),
        ('ELECTRIQUE', 'ELECTRIQUE'),
        ('HYBRIDE', 'HYBRIDE');
 
 
-INSERT INTO type_vehicule (code_type_vehicule, libelle_type_vehicule)
+INSERT INTO "type_vehicule" ("code_type_vehicule", "libelle_type_vehicule")
 VALUES ('TV1', 'VP'),
        ('TV2', 'PICK-UP'),
        ('TV3', 'BUS'),
@@ -479,11 +479,6 @@ INSERT INTO "dotation_vehicule" ("identifiant_d_v", "date_dotation", "code_artic
 ('DVSG202311121243213', '2024-01-23',   2,  'BSSG202311121243215',  '506234B',  '789013');
 
 
-INSERT INTO "controle" ("date_controle", "observation_controle", "numero_serie") VALUES
-('2024-03-02 13:42:06.377043',  'OBSERVATION CONTROLE 1',   '123456'),
-('2024-03-03 13:42:06.377043',  'OBSERVATION CONTROLE 2',   '789012'),
-('2024-03-04 13:42:06.377043',  'OBSERVATION CONTROLE 3',   '789013');
-
 
 INSERT INTO "utilisateur" ("utilisateur_id", "is_active", "is_not_locked", "join_date", "last_login_date", "last_login_date_display", "pwd", "user_name", "code_fonction_agent", "matricule_agent") VALUES
 (1,	't',	't',	'2024-03-02 13:45:32.901327',	'2024-03-02 13:45:32.901327',	'2024-03-02 13:45:32.901327',	'$2a$10$FWHTlMKYpU5OHsf5fv1f..oR.SHKk/4xp/T/7Sdx1HghBEPnrbWeK',	'613693H',	'CSG',	'613693H'),
@@ -496,7 +491,6 @@ INSERT INTO "utilisateur" ("utilisateur_id", "is_active", "is_not_locked", "join
 
 
 
-
 INSERT INTO "maintenance" ("identifiant_maintenance", "date_debut_maintenance", "date_fin_maintenance", "observation_maintenance", "type_maintenance", "numero_serie", "etat_maintenance") 
 VALUES
     ('MSG202311121243214',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 1',    'Vidange', '123456', 'TERMINER'),
@@ -504,15 +498,30 @@ VALUES
     ('MSG202311121243216',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 3',    'Controle', '789013', 'TERMINER');
 
 
-INSERT INTO "vidange" ("identifiant_maintenance", "libelle_huile", "quantite_mise_vehicule") 
+INSERT INTO "huile" ("identifiant_huile", "libelle_huile")
+VALUES 
+    ('huile0', 'Huiles moteur Shell Helix (10 l)'),
+    ('huile1', 'Huile de moteur standard (10 l)'),
+    ('huile2', 'Huile synthétique 5W-30 (5 l)'),
+    ('huile3', 'Huile minérale pour engrenages (10 l)'),
+    ('huile4', 'Huile semi-synthétique 10W-40 (5 l)'),
+    ('huile5', 'Huile pour boîte de vitesses automatique (10 l)'),
+    ('huile6', 'Huile pour moteurs diesel (10 l)'),
+    ('huile7', 'Huile de transmission universelle (5 l)'),
+    ('huile8', 'Huile pour systèmes hydrauliques (10 l)'),
+    ('huile9', 'Huile pour moteurs à essence (10 l)'),
+    ('huile10', 'Huile de lubrification industrielle (10 l)');
+
+
+INSERT INTO "vidange" ("identifiant_maintenance", "identifiant_huile", "quantite") 
 VALUES
-    ('MSG202311121243214',  'Huiles moteur Shell Helix ',   5);
+    ('MSG202311121243214',  'huile2',   2);
 
 
 
-INSERT INTO "reparation" ("identifiant_maintenance", "nature_reparation", "suite_accident") 
+INSERT INTO "reparation" ("identifiant_maintenance", "nature_reparation") 
 VALUES
-    ('MSG202311121243215',  'la nature de la reparation 1', true);
+    ('MSG202311121243215',  'SUITE ACCIDENT');
 
 
 
@@ -521,10 +530,23 @@ VALUES
     ('MSG202311121243215',  'commentaire incident 1',   '2024-03-25 16:32:01.746919',   'PIKINE',   1,  0);
 
 
+INSERT INTO "piece" ("identifiant_piece", "reference_piece")
+VALUES 
+    ('bougie1', 'Bougie d''allumage NGK BKR5E'),
+    ('relais1', 'Relais de démarreur Denso 056700-5260'),
+    ('phare1', 'Phare avant droit Hella 1EL 247 011-111'),
+    ('filtre1', 'Filtre à huile Mann-Filter HU 711/51 x'),
+    ('pompe1', 'Pompe à eau GMB 125-1010'),
+    ('disque1', 'Disque de frein Brembo 09.7885.11'),
+    ('plaquette1', 'Plaquettes de frein Ferodo FDB754'),
+    ('alternateur1', 'Alternateur Valeo A13VI238'),
+    ('pneu1', 'Pneu Michelin Pilot Sport 4'),
+    ('amortisseur1', 'Amortisseur Monroe 71516');
 
-INSERT INTO "changement_piece" ("code_changement_piece", "identifiant_maintenance", "nombre_pieces_rechangees", "reference_pieces") 
+
+INSERT INTO "changement_piece" ("code_changement_piece", "identifiant_maintenance", "identifiant_piece", "nombre_pieces") 
 VALUES
-    (1, 'MSG202311121243215',  1,  'Bougie d''allumage'),
-    (2, 'MSG202311121243215',  1,  'Relais'),
-    (3, 'MSG202311121243215',  2,  'Contrôle clignotant');
+    (1, 'MSG202311121243215',  'bougie1',  1),
+    (2, 'MSG202311121243215',  'relais1',  1),
+    (3, 'MSG202311121243215',  'pneu1',  4);
 

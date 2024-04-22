@@ -121,7 +121,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
     // "Code article",
     "Description article bon pour",
     "Qte Demandée",
-    "Qte Accordée",
+    "Qte Accordée Définitive",
     "Nature"
 
 
@@ -312,39 +312,108 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
 
 
+  // quantiteAccordeeByIdentifiantBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[], articleBonSorties: ArticleBonSortie[]): number {
+
+
+  //   const bonsSortiesAssocies = bonSorties.filter(bonSortie => articleBonPour.identifiantBonPour === bonSortie.identifiantBonPour.identifiantBonPour);
+
+  //    console.log(bonSortie);
+  //   console.log(articleBonPour);
+
+
+  //   bonsSortiesAssocies.forEach(bonSortie => {
+  //     // Filtrer les articles bon sortie associés à ce bon de sortie
+  //     const articleBonSortie = articleBonSorties.filter(articleBonSortie => articleBonSortie.identifiantBonSortie === bonSortie.identifiantBonSortie);
+
+  //     // Calculer la quantité totale accordée pour ces articles et l'ajouter à la quantité totale
+
+  //     this.quantiteAccordeeTotal = articleBonSorties.reduce((total, articleBonSorties) => {
+  //       return total + (articleBonSortie ? articleBonSortie.quantiteAccordeeDefinitive : 0);
+  //     }, 0);
+  //     return this.quantiteAccordeeTotal;
+  // });
+
+
+
+  //     this.quantiteAccordeeTotal = articleBonSorties.reduce((total, articleBonSortie) => {
+  //       return total + (articleBonSortie ? articleBonSortie.quantiteAccordeeDefinitive : 0);
+  //     }, 0);
+  //     return this.quantiteAccordeeTotal;
+
+  //   } else {
+  //     return 0;
+  //   }
+
+  // }
+
+
+
+  // quantiteAccordeeByIdentifiantBonSortie(articleBonPour: ArticleBonPour,articleBonSorties: ArticleBonSortie[]): number {
+
+
+
+  //   // console.log(bonSortie);
+  //   // console.log(articleBonPour);
+
+
+  //   if (articleBonPour) {
+
+  //     // console.log(articleBonSorties[0]?.identifiantBonSortie);
+  //     // console.log(bonSortie.identifiantBonSortie);
+
+  //     articleBonSorties = articleBonSorties.filter(articleBonSortie => articleBonSortie.identifiantBonSortie === articleBonPour.identifiantBonPour);
+
+
+
+  //     // console.log(articleBonSorties);
+
+
+
+  //     this.quantiteAccordeeTotal = articleBonSorties.reduce((total, articleBonSortie) => {
+  //       return total + (articleBonSortie ? articleBonSortie.quantiteAccordeeDefinitive : 0);
+  //     }, 0);
+  //     return this.quantiteAccordeeTotal;
+
+  //   } else {
+  //     return 0;
+  //   }
+
+  // }
+
+
   quantiteAccordeeByIdentifiantBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[], articleBonSorties: ArticleBonSortie[]): number {
+    // Filtrer les bons de sortie correspondant à l'identifiant de l'articleBonPour
+    const bonsSortiesAssocies = bonSorties.filter(bonSortie => bonSortie.identifiantBonPour.identifiantBonPour === articleBonPour.identifiantBonPour);
+
+    // Initialiser la quantité totale à 0
+    this.quantiteAccordeeTotal = 0;
+
+    // Parcourir les bons de sortie associés
+    bonsSortiesAssocies.forEach(bonSortie => {
+        // Filtrer les articles bon sortie associés à ce bon de sortie
+        const articleBonSortieAssocies = articleBonSorties.filter(article => article.identifiantBonSortie === bonSortie.identifiantBonSortie);
+
+        // Calculer la quantité totale accordée pour ces articles et l'ajouter à la quantité totale
+        const quantitePourCeBonSortie = articleBonSortieAssocies.reduce((total, article) => {
+            return total + (article ? article.quantiteAccordeeDefinitive : 0);
+        }, 0);
+
+        this.quantiteAccordeeTotal += quantitePourCeBonSortie;
+    });
+
+    return this.quantiteAccordeeTotal;
+}
 
 
-    const bonSortie = bonSorties.find(bonSortie => articleBonPour.identifiantBonPour === bonSortie.identifiantBonPour.identifiantBonPour);
 
-    // console.log(bonSortie);
-    // console.log(articleBonPour);
-
-
-    if (bonSortie) {
-
-      // console.log(articleBonSorties[0]?.identifiantBonSortie);
-      // console.log(bonSortie.identifiantBonSortie);
-
-      articleBonSorties = articleBonSorties.filter(articleBonSortie => articleBonSortie.identifiantBonSortie === bonSortie.identifiantBonSortie);
-
-
-
-      // console.log(articleBonSorties);
-
-
-
-      this.quantiteAccordeeTotal = articleBonSorties.reduce((total, articleBonSortie) => {
-        return total + (articleBonSortie ? articleBonSortie.quantiteAccordeeSection : 0);
-      }, 0);
-      return this.quantiteAccordeeTotal;
-
-    } else {
-      return 0;
-    }
-
+  nombreArticleBonEntree(bonPour: BonPour, articleBonPours: ArticleBonPour[]): number {
+    return articleBonPours.reduce((count, article) => {
+      if (bonPour && article.identifiantBonPour && bonPour.identifiantBonPour === article.identifiantBonPour) {
+        return count + 1;
+      }
+      return count;
+    }, 1);
   }
-
 
 
 

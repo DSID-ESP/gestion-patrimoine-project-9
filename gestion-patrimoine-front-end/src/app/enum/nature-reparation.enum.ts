@@ -1,0 +1,7 @@
+export enum NatureReparation {
+
+  SUITEACCIDENT = 'SUITE ACCIDENT',
+  REPARETIONSIMPLE = 'REPARETION SIMPLE'
+  
+  
+}

@@ -49,5 +49,4 @@ public class DotationVehicule {
     private ArticleBonSortie codeArticleBonSortie;
 
 
-
 }

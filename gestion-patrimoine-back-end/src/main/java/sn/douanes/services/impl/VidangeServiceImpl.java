@@ -2,6 +2,7 @@ package sn.douanes.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sn.douanes.entities.Huile;
 import sn.douanes.entities.Vidange;
 import sn.douanes.repositories.VidangeRepository;
 import sn.douanes.services.VidangeService;
@@ -47,18 +48,17 @@ public class VidangeServiceImpl implements VidangeService {
     @Override
     public Vidange ajouterVidange(
             String identifiantMaintenance,
-            String libelleHuile,
-            int quantiteMiseVehicule
+            Huile identifiantHuile,
+            int quantite
     ) {
 
         Vidange Vidange = new Vidange();
 
         Vidange.setIdentifiantMaintenance(identifiantMaintenance);
-        Vidange.setLibelleHuile(libelleHuile);
-        Vidange.setQuantiteMiseVehicule(quantiteMiseVehicule);
+        Vidange.setIdentifiantHuile(identifiantHuile);
+        Vidange.setQuantite(quantite);
 
         return vidangeRepository.save(Vidange);
     }
-
 
 }

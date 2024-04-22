@@ -12,109 +12,172 @@
 
     <div class="container px-3 py-2">
       <form class="form">
-        <div class="row g-4 mb-3">
-          <div class="col-3 mx-auto form-group">
-            <label for="myInputSearch" class="form-label fw-bold">N° série</label>
-            <input type="text" [formControl]="control" [matAutocomplete]="auto" id="myInputSearch"
-              class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+          <div class="row g-4 mb-3">
+              <div class="col-3 mx-auto form-group">
+                  <label for="myInputSearch" class="form-label fw-bold">N° série</label>
+                  <input type="text" [formControl]="control" [matAutocomplete]="auto" id="myInputSearch"
+                      class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
 
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
-              <mat-option *ngFor="let vehicule of (filteredVehicules | async)?.slice(0, 5)"
-                [value]="vehicule.numeroSerie">
-                {{ vehicule.numeroSerie }}
-              </mat-option>
-            </mat-autocomplete>
-          </div>
-
-          <div class="col-3 mx-auto">
-            <ng-container *ngIf="vehicule.numeroCarteGrise != ''">
-              <span class="fw-bold">N° immatriculation</span>
-              <div class="text-input text-uppercase"> {{ vehicule.numeroImmatriculation }} </div>
-            </ng-container>
-          </div>
-
-          <div class="col-3 mx-auto">
-            <ng-container *ngIf="vehicule.modele != ''">
-              <span class="fw-bold">Modèle</span>
-              <div class="text-input text-uppercase"> {{ vehicule.modele }} </div>
-            </ng-container>
-          </div>
-
-          <div class="col-3 mx-auto">
-            <ng-container *ngIf="vehicule.libelleEtatVehicule != ''">
-              <span class="fw-bold">Etat véhicule</span>
-              <div class="text-input text-uppercase"> {{ vehicule.libelleEtatVehicule }} </div>
-            </ng-container>
-          </div>
-        </div>
-
-        <div class="row g-4 mb-3">
-          <div class="col-3 mx-auto">
-            <ng-container *ngIf="vehicule.codeTypeEnergie.libelleTypeEnergie != ''">
-              <span class="fw-bold">Type énergie</span>
-              <div class="text-input text-uppercase"> {{ vehicule.codeTypeEnergie.libelleTypeEnergie }}
+                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+                      <mat-option *ngFor="let dotationVehicule of (filteredDotationVehicules | async)?.slice(0, 5)"
+                          [value]="dotationVehicule.numeroSerie.numeroSerie">
+                          {{ dotationVehicule.numeroSerie.numeroSerie }}
+                      </mat-option>
+                  </mat-autocomplete>
               </div>
-            </ng-container>
-          </div>
 
-          <div class="col-3 mx-auto">
-            <ng-container *ngIf="vehicule.codePays.libellePays != ''">
-              <span class="fw-bold">Provenance</span>
-              <div class="text-input text-uppercase"> {{ vehicule.codePays.libellePays }} </div>
-            </ng-container>
-          </div>
-
-          <div class="col-3 mx-auto">
-            <ng-container *ngIf="vehicule.numeroCarteGrise != ''">
-              <span class="fw-bold">N° carte grise</span>
-              <div class="text-input text-uppercase"> {{ vehicule.numeroCarteGrise }} </div>
-            </ng-container>
-          </div>
-
-          <div class="col-3 mx-auto">
-            <ng-container *ngIf="vehicule.numeroCarteGrise != ''">
-              <span class="fw-bold">Etat véhicule</span>
-              <div class="text-input text-uppercase"> {{
-                myDateStringFormatter(vehicule.dateMiseEnCirculation) }} </div>
-            </ng-container>
-          </div>
-        </div>
-
-
-        <div class="row g-4 mb-3">
-          <div class="col-3 mx-auto">
-            <ng-container *ngIf="vehicule.codeTypeVehicule.libelleTypeVehicule != ''">
-              <span class="fw-bold">Type véhicule</span>
-              <div class="text-input text-uppercase"> {{ vehicule.codeTypeVehicule.libelleTypeVehicule }}
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.numeroCarteGrise != ''">
+                      <span class="fw-bold">N° immatriculation</span>
+                      <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.numeroImmatriculation }} </div>
+                  </ng-container>
               </div>
-            </ng-container>
+
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.modele != ''">
+                      <span class="fw-bold">Modèle</span>
+                      <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.modele }} </div>
+                  </ng-container>
+              </div>
+
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.libelleEtatVehicule != ''">
+                      <span class="fw-bold">Etat véhicule</span>
+                      <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.libelleEtatVehicule }} </div>
+                  </ng-container>
+              </div>
           </div>
 
-          <div class="col-3 mx-auto">
-            <ng-container *ngIf="vehicule.codeMarque.libelleMarqueVH != ''">
-              <span class="fw-bold">Marque</span>
-              <div class="text-input text-uppercase"> {{ vehicule.codeMarque.libelleMarqueVH }} </div>
-            </ng-container>
+          <div class="row g-4 mb-3">
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.codeTypeEnergie.libelleTypeEnergie != ''">
+                      <span class="fw-bold">Type énergie</span>
+                      <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.codeTypeEnergie.libelleTypeEnergie }}
+                      </div>
+                  </ng-container>
+              </div>
+
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.codePays.libellePays != ''">
+                      <span class="fw-bold">Provenance</span>
+                      <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.codePays.libellePays }} </div>
+                  </ng-container>
+              </div>
+
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.numeroCarteGrise != ''">
+                      <span class="fw-bold">N° carte grise</span>
+                      <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.numeroCarteGrise }} </div>
+                  </ng-container>
+              </div>
+
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.numeroCarteGrise != ''">
+                      <span class="fw-bold">Etat véhicule</span>
+                      <div class="text-input text-uppercase"> {{
+                          myDateStringFormatter(dotationVehicule.numeroSerie.dateMiseEnCirculation) }} </div>
+                  </ng-container>
+              </div>
           </div>
 
-          <div class="col-3 mx-auto">
+
+          <div class="row g-4 mb-3">
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.codeTypeVehicule.libelleTypeVehicule != ''">
+                      <span class="fw-bold">Type véhicule</span>
+                      <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.codeTypeVehicule.libelleTypeVehicule }}
+                      </div>
+                  </ng-container>
+              </div>
+
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.codeMarque.libelleMarqueVH != ''">
+                      <span class="fw-bold">Marque</span>
+                      <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.codeMarque.libelleMarqueVH }} </div>
+                  </ng-container>
+              </div>
+
+              <div class="col-3 mx-auto">
+              </div>
+
+              <div class="col-3 mx-auto">
+              </div>
           </div>
 
-          <div class="col-3 mx-auto">
-          </div>
-        </div>
 
-
-        <!-- <div class="row">
-                    <div class="col-12 text-end">
-                        <button type="submit" id="maintenance-form"  [disabled]="MaintenanceForm.invalid || (vehicule.numeroSerie == '')" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
-                            Valider
-                        </button>
-
-                    </div>
-                </div> -->
+          <!-- <div class="row">
+              <div class="col-12 text-end">
+                  <button type="submit" id="maintenance-form"  [disabled]="MaintenanceForm.invalid || (vehicule.numeroSerie == '')" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                      Valider
+                  </button>
+                  
+              </div>
+          </div> -->
       </form>
-    </div>
+  </div>
+
+  <div *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+      Unité Douanière
+  </div>
+
+  <div *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''" class="container px-3 py-2">
+      <form class="form">
+          <div class="row g-4 mb-3">
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                      <span class="fw-bold">Code unité</span>
+                      <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.codeUniteDouaniere }} </div>
+                  </ng-container>
+              </div>
+
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                      <span class="fw-bold">Type unité</span>
+                      <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.codeTypeUniteDouaniere.libelleTypeUniteDouaniere }} </div>
+                  </ng-container>
+              </div>
+
+              <div class="col-6 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                      <span class="fw-bold">Nom unité</span>
+                      <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.nomUniteDouaniere }} </div>
+                  </ng-container>
+              </div>
+              
+          </div>
+
+          <div class="row g-4 mb-3">
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                      <span class="fw-bold">Effectif unité</span>
+                      <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.effectifUniteDouaniere }} </div>
+                  </ng-container>
+              </div>
+
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                      <span class="fw-bold">Nombre arme</span>
+                      <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.nombreArme }} </div>
+                  </ng-container>
+              </div>
+
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                      <span class="fw-bold">Nombre véhicule</span>
+                      <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.nombreAutomobile }} </div>
+                  </ng-container>
+              </div>
+
+              <div class="col-3 mx-auto">
+                  <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                      <span class="fw-bold">Nombre matériel</span>
+                      <div class="text-input text-uppercase"> {{ bonSortie.identifiantBonPour.codeUniteDouaniere.nombreMateriel }} </div>
+                  </ng-container>
+              </div>
+          </div>
+
+      </form>
+  </div>
 
     <!-- -----------------------------------MAINTENANCE------------------------------------------- -->
     <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
@@ -182,7 +245,7 @@
         <div class="row">
           <div class="col-12 text-end">
             <button type="submit" id="maintenance-form"
-              [disabled]="MaintenanceForm.invalid || (vehicule.numeroSerie == '')" hidden
+              [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')" hidden
               class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
               Valider
             </button>
@@ -208,8 +271,8 @@
           </div>
 
           <div class="col-3 mx-auto">
-            <label for="quantiteMiseVehicule" class="form-label fw-bold">Quantité huile</label>
-            <input id="quantiteMiseVehicule" type="number" name="quantiteMiseVehicule" required ngModel
+            <label for="quantite" class="form-label fw-bold">Quantité huile</label>
+            <input id="quantite" type="number" name="quantite" required ngModel
               class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
           </div>
 
@@ -219,7 +282,7 @@
 
         <div class="row">
           <div class="col-12 text-end">
-            <button type="submit" id="vidange-form" [disabled]="VidangeForm.invalid || (vehicule.numeroSerie == '')"
+            <button type="submit" id="vidange-form" [disabled]="VidangeForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')"
               hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
               Valider
             </button>
@@ -255,7 +318,7 @@
         <div class="row">
           <div class="col-12 text-end">
             <button type="submit" id="reparation-form"
-              [disabled]="ReparationForm.invalid || (vehicule.numeroSerie == '')" hidden
+              [disabled]="ReparationForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')" hidden
               class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
               Valider
             </button>
@@ -280,7 +343,7 @@
             <label for="dateIncident" class="form-label fw-bold">Date incident</label>
             <input type="text" name="dateIncident" id="dateIncident" autocomplete="off" ngbDatepicker
               #dp1="ngbDatepicker" (click)="dp1.toggle()" required [(ngModel)]="modelDate1"
-              [value]="formatDate(modelDate1)"
+              [value]="formatDateModelNgbDateStruct(modelDate1)"
               class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
           </div>
 
@@ -309,7 +372,7 @@
 
         <div class="row">
           <div class="col-12 text-end">
-            <button type="submit" id="accident-form" [disabled]="AccidentForm.invalid || (vehicule.numeroSerie == '')"
+            <button type="submit" id="accident-form" [disabled]="AccidentForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')"
               hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
               Valider
             </button>
@@ -342,14 +405,14 @@
                     </div> -->
 
           <div class="col-3 mx-auto form-group">
-            <label for="nombrePiecesRechangees" class="form-label fw-bold">Nombre pièces</label>
-            <input id="nombrePiecesRechangees" type="number" name="nombrePiecesRechangees" required ngModel
+            <label for="nombrePieces" class="form-label fw-bold">Nombre pièces</label>
+            <input id="nombrePieces" type="number" name="nombrePieces" required ngModel
               class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
           </div>
 
           <div class="col-3 mx-auto form-group">
-            <label for="referencePieces" class="form-label fw-bold">Référence pièces</label>
-            <input id="referencePieces" type="text" name="referencePieces" required ngModel
+            <label for="referencePiece" class="form-label fw-bold">Référence pièces</label>
+            <input id="referencePiece" type="text" name="referencePiece" required ngModel
               class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
           </div>
 
@@ -360,7 +423,7 @@
         <div class="row">
           <div class="col-12 text-end">
             <button type="submit" id="changement-piece-form"
-              [disabled]="ChangementPieceForm.invalid || (vehicule.numeroSerie == '')" hidden
+              [disabled]="ChangementPieceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')" hidden
               class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
               Valider
             </button>
@@ -435,19 +498,19 @@
       <div class="row">
         <div class="col-12 text-end">
           <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'controle' || selectedTypeMaintenance == ''"
-            (click)="submitForm()" type="button" [disabled]="MaintenanceForm.invalid || (vehicule.numeroSerie == '')"
+            (click)="submitForm()" type="button" [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')"
             class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
             Valider
           </button>
 
           <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'vidange'" (click)="submitForm()" type="button"
-            [disabled]="MaintenanceForm.invalid || (vehicule.numeroSerie == '')"
+            [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')"
             class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
             Valider
           </button>
 
           <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'" (click)="submitForm()" type="button"
-            [disabled]="MaintenanceForm.invalid || (vehicule.numeroSerie == '')"
+            [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')"
             class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
             Valider
           </button>

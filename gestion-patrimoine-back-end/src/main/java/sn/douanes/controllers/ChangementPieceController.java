@@ -3,12 +3,9 @@ package sn.douanes.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import sn.douanes.entities.Accident;
 import sn.douanes.entities.HttpResponse;
 import sn.douanes.entities.ChangementPiece;
-import sn.douanes.entities.keys.ChangementPieceId;
 import sn.douanes.services.ChangementPieceService;
 
 import java.util.List;

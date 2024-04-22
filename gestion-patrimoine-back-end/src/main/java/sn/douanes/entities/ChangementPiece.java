@@ -23,12 +23,12 @@ public class ChangementPiece {
     @Column(name = "IDENTIFIANT_MAINTENANCE", length = 25, nullable = false)
     private String identifiantMaintenance;
 
+    @ManyToOne
+    @JoinColumn(name = "IDENTIFIANT_PIECE")
+    private Piece identifiantPiece;
 
-    @Column(name = "NOMBRE_PIECES_RECHANGEES")
-    private int nombrePiecesRechangees;
+    @Column(name = "NOMBRE_PIECES")
+    private int nombrePieces;
 
-
-    @Column(name = "REFERENCE_PIECES", length = 512)
-    private String referencePieces;
 
 }

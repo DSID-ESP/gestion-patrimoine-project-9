@@ -16,7 +16,7 @@ public interface ReparationService {
     List<Reparation> getAllReparations();
 
 
-    Reparation ajouterReparation(String identifiantMaintenance, String motifReparation, Boolean suiteAccident);
+    Reparation ajouterReparation(String identifiantMaintenance, String motifReparation);
 
 
 }

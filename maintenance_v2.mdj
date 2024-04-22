@@ -1060,7 +1060,7 @@
 											"top": 420,
 											"width": 250.58349609375,
 											"height": 13,
-											"text": "+QUANTITE_HUILE",
+											"text": "+QUANTITE",
 											"horizontalAlignment": 0
 										}
 									],
@@ -4641,7 +4641,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGOZFqOa7Oquzs="
 							},
-							"name": "QUANTITE_HUILE"
+							"name": "QUANTITE"
 						}
 					]
 				},

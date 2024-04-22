@@ -17,6 +17,7 @@ import { ReparationService } from 'src/app/services/reparation.service';
 import { VidangeService } from 'src/app/services/vidange.service';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { NotificationService } from 'src/app/services/notification.service';
+import { EtatMaintenance } from 'src/app/enum/etat-maintenance.enum';
 
 @Component({
   selector: 'app-maintenance-detail',
@@ -43,8 +44,6 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
   public changementPieces: ChangementPiece[] = [];
   public changementPiece: ChangementPiece | undefined;
   public changementPiecesByMaintenance: ChangementPiece[] = [];
-
-  etatMaintenance: string = 'TERMINER';
 
 
   private subscriptions: Subscription[] = [];
@@ -225,8 +224,7 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
 
 
     maintenance.dateFinMaintenance = null;
-    maintenance.etatMaintenance = this.etatMaintenance;
-
+    maintenance.etatMaintenance = EtatMaintenance.TERMINER;
 
 
     this.subscriptions.push(this.maintenancesService.terminerMaintenance(maintenance).subscribe({
@@ -257,11 +255,11 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
     }
   }
 
-  numberToString(terme: string | number): string {
-    if (typeof terme === 'number') {
-        return terme.toString().toLowerCase();
-    }
-    return terme.toLowerCase(); // assuming terme is already a string
-  }
+  // numberToString(terme: string | number): string {
+  //   if (typeof terme === 'number') {
+  //       return terme.toString().toLowerCase();
+  //   }
+  //   return terme.toLowerCase(); // assuming terme is already a string
+  // }
 
 }

@@ -47,15 +47,13 @@ public class ReparationServiceImpl implements ReparationService {
     @Override
     public Reparation ajouterReparation(
             String identifiantMaintenance,
-            String natureReparation,
-            Boolean suiteAccident
+            String natureReparation
     ) {
 
         Reparation reparation = new Reparation();
 
         reparation.setIdentifiantMaintenance(identifiantMaintenance);
         reparation.setNatureReparation(natureReparation);
-        reparation.setSuiteAccident(suiteAccident);
 
         return reparationRepository.save(reparation);
     }

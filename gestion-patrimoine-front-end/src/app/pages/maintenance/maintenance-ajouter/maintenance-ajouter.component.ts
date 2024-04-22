@@ -22,6 +22,12 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { ReparationService } from 'src/app/services/reparation.service';
 import { VehiculeService } from 'src/app/services/vehicule.service';
 import { VidangeService } from 'src/app/services/vidange.service';
+import { NatureReparation } from 'src/app/enum/nature-reparation.enum';
+import { EtatMaintenance } from 'src/app/enum/etat-maintenance.enum';
+import { DotationVehicule } from 'src/app/model/dotation-vehicule.model';
+import { DotationVehiculeService } from 'src/app/services/dotation-vehicule.service';
+import { BonSortieService } from 'src/app/services/bon-sortie.service';
+import { BonSortie } from 'src/app/model/bon-sortie.model';
 
 @Component({
   selector: 'app-maintenance-ajouter',
@@ -33,55 +39,38 @@ import { VidangeService } from 'src/app/services/vidange.service';
 export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
 
-  // isVidangeFormInvalid: boolean = false;
-  // @ViewChild('VidangeForm') vidangeForm!: NgForm;
-
   // -----------------------------------------------------------------------------------
-  // nombreChangementPieceByIdentifiantMaintenance: number = 0;
-
-  suiteAccident: string = 'SUITE ACCIDENT';
-  reparationSimple: string = 'REPARETION SIMPLE';
+  suiteAccident: string = NatureReparation.SUITEACCIDENT;
+  reparationSimple: string = NatureReparation.REPARETIONSIMPLE;
 
 
- // selectedAccident: boolean | undefined;
-  selectedNatureReparation: string = this.reparationSimple;
+  // selectedAccident: boolean | undefined;
+  selectedNatureReparation: string = NatureReparation.REPARETIONSIMPLE;
   selectedTypeMaintenance: string = '';
 
   currentDateFormatted: string = '';
-
-  etatMaintenance: string = 'EN COURS';
-
-
 
 
   nombreBlesse: number = 0;
   nombreDeces: number = 0;
 
-  // modelDate1: NgbDateStruct | null = null;
-
 
   // ----------------------------------------------------------------------------------
   modelDate1: NgbDateStruct | null = null;
-  // modelDate2: NgbDateStruct | null = null;
 
-  formatDate(date: NgbDateStruct | null): string {
-    if (!date) {
-      return '';
-    }
+  formatDateModelNgbDateStruct(date: NgbDateStruct | MyDate | string | null): string {
+    return this.myDateService.formatDateModelNgbDateStruct(date);
+  }
 
-    // Crée un objet JavaScript Date à partir de NgbDateStruct
-    const jsDate = new Date(date.year, date.month - 1, date.day);
-
-    // Utilise DatePipe pour formater la date avec le mois complet
-    return this.datePipe.transform(jsDate, 'dd MMMM yyyy') || '';
+  formatterStringToNgbDateStruct(date: string): NgbDateStruct {
+    return this.myDateService.formatterStringToNgbDateStruct(date);
   }
   // ----------------------------------------------------------------------------------
 
   // ----------------------------------------------------------------
   // selectedMatricule: string = "";
   control = new FormControl('');
-  filteredVehicules: Observable<Vehicule[]> | undefined;
-
+  filteredDotationVehicules: Observable<DotationVehicule[]> | undefined;
   // -----------------------------------------------------------------------
 
   // public condition: Boolean = true;
@@ -98,8 +87,14 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   public changementPieces: ChangementPiece[] = [];
   public changementPiece: ChangementPiece = new ChangementPiece();
 
-  public vehicules: Vehicule[] = [];
-  public vehicule: Vehicule = new Vehicule();
+  // public vehicules: Vehicule[] = [];
+  // public vehicule: Vehicule = new Vehicule();
+
+  public dotationVehicules: DotationVehicule[] = [];
+  public dotationVehicule: DotationVehicule = new DotationVehicule();
+
+  public bonSorties: BonSortie[] = [];
+  public bonSortie: BonSortie = new BonSortie();
 
   public maintenances: Maintenance[] = [];
   public maintenance: Maintenance = new Maintenance();
@@ -107,12 +102,12 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private datePipe: DatePipe,
     public dialogRef: MatDialogRef<MaintenanceAjouterComponent>,
     private reparationService: ReparationService,
     private accidentService: AccidentService,
     private vidangeService: VidangeService,
-    private vehiculeService: VehiculeService,
+    private dotationVehiculeService: DotationVehiculeService,
+    private bonSortieService: BonSortieService,
     private maintenanceService: MaintenanceService,
     private changementPieceService: ChangementPieceService,
     private notificationService: NotificationService,
@@ -134,10 +129,10 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
     this.currentDateFormatted = this.myDateStringFormatter(new Date().toString());
 
-    this.listeVehicules();
+    this.listeDotationVehicules();
     this.listeChangementPieces();
 
-    this.filteredVehicules = this.control.valueChanges.pipe(
+    this.filteredDotationVehicules = this.control.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
     );
@@ -147,27 +142,28 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   // -------------------------------------------------------------------------------------------
   // -------------------------------------------------------------------------------------------
-  private _filter(value: string): Vehicule[] {
+  private _filter(value: string): DotationVehicule[] {
 
     if (value == "") {
-      this.vehicule = new Vehicule();
+      this.dotationVehicule = new DotationVehicule();
     }
 
     // Trouver le vehicule ayant exactement le même numeroSerie que la valeur donnée
-    let vehiculeTrouve = this.vehicules.find(vehicule => this._normalizeValue(vehicule.numeroSerie) === value.toLocaleLowerCase());
-    if (vehiculeTrouve) {
-      this.vehicule = vehiculeTrouve;
+    let dotationVehiculeTrouve = this.dotationVehicules.find(dotationVehicule => this._normalizeValue(dotationVehicule.numeroSerie.numeroSerie) === value.toLocaleLowerCase());
+    if (dotationVehiculeTrouve) {
+      this.dotationVehicule = dotationVehiculeTrouve;
+      this.recupererBonsortieById(this.dotationVehicule.codeArticleBonSortie.identifiantBonSortie)
     } else {
-      this.vehicule = new Vehicule();
+      this.dotationVehicule = new DotationVehicule();
     }
 
     // la liste des vehicules trouvé ou vehicule trouvé en fonction du mot a rechercher
-    let listeVehicules = this.vehicules.filter(vehicule => this._normalizeValue(vehicule.numeroSerie).includes(value.toLocaleLowerCase()));
+    let listeDotationVehicules = this.dotationVehicules.filter(dotationVehicule => this._normalizeValue(dotationVehicule.numeroSerie.numeroSerie).includes(value.toLocaleLowerCase()));
     // Trouver l'agent automatique au premier indice sans avoir saisie le matricule au complet
     // if (listeAgents.length == 1) {
     //   this.agent = this.agents.find(agent => agent.matriculeAgent === listeAgents[0].matriculeAgent) ?? new Agent();
     // }
-    return listeVehicules;
+    return listeDotationVehicules;
   }
 
   private _normalizeValue(value: string): string {
@@ -177,7 +173,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   onOptionSelected(event: MatAutocompleteSelectedEvent) {
     const selectedNumeroSerie = event.option.value;
-    this.vehicule = this.vehicules.find(vehicule => vehicule.numeroSerie === selectedNumeroSerie) ?? new Vehicule();
+    this.dotationVehicule = this.dotationVehicules.find(dotationVehicule => dotationVehicule.numeroSerie.numeroSerie === selectedNumeroSerie) ?? new DotationVehicule();
   }
 
   // -------------------------------------------------------------------------------------------
@@ -215,11 +211,29 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
-  public listeVehicules(): void {
+  public recupererBonsortieById(idIdentifiantBonSortie: string): void {
 
-    const subscription = this.vehiculeService.listeVehicules().subscribe({
-      next: (response: Vehicule[]) => {
-        this.vehicules = response;
+    this.subscriptions.push(this.bonSortieService.recupererBonSortieById(idIdentifiantBonSortie).subscribe({
+      next: (response: BonSortie) => {
+        this.bonSortie = response;
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+
+      }
+    }));
+
+  }
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+  public listeDotationVehicules(): void {
+
+    const subscription = this.dotationVehiculeService.listeDotationVehicules().subscribe({
+      next: (response: DotationVehicule[]) => {
+        this.dotationVehicules = response;
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -281,22 +295,22 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   public ajouterVidange(VidangeForm: NgForm): void {
     this.vidange.identifiantMaintenance = ''; // à compléter
-    this.vidange.libelleHuile = VidangeForm.value.libelleHuile;
-    this.vidange.quantiteMiseVehicule = VidangeForm.value.quantiteMiseVehicule;
+    this.vidange.identifiantHuile.libelleHuile = VidangeForm.value.libelleHuile;
+    this.vidange.quantite = VidangeForm.value.quantite;
   }
 
   public ajouterReparation(ReparationForm: NgForm): void {
     this.reparation.identifiantMaintenance = ''; // à compléter
     this.reparation.natureReparation = ReparationForm.value.natureReparation;
-   // this.reparation.suiteAccident = ReparationForm.value.suiteAccident;
+    // this.reparation.suiteAccident = ReparationForm.value.suiteAccident;
   }
 
 
   public ajouterChangementPiece(ChangementPieceForm: NgForm): void {
     this.changementPiece.identifiantMaintenance = ''; // à compléter
     this.changementPiece.codeChangementPiece = 0; // à compléter
-    this.changementPiece.nombrePiecesRechangees = ChangementPieceForm.value.nombrePiecesRechangees;
-    this.changementPiece.referencePieces = ChangementPieceForm.value.referencePieces;
+    this.changementPiece.nombrePieces = ChangementPieceForm.value.nombrePieces;
+    this.changementPiece.identifiantPiece.referencePiece = ChangementPieceForm.value.referencePiece;
   }
 
 
@@ -316,7 +330,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     // this.condition = true;
     this.maintenance = new Maintenance();
 
-    if (this.vehicule.numeroSerie == '') {
+    if (this.dotationVehicule.numeroSerie.numeroSerie == '') {
       // this.condition = false;
       this.sendNotification(NotificationType.ERROR, `Ce vehicule n'existe pas`);
       return;
@@ -324,10 +338,8 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
 
 
-
-    this.maintenance.numeroSerie = this.vehicule;
-    //this.maintenance.etatMaintenance = 'EN COURS';
-    this.maintenance.etatMaintenance = this.etatMaintenance;
+    this.maintenance.numeroSerie = this.dotationVehicule.numeroSerie;
+    this.maintenance.etatMaintenance = EtatMaintenance.ENCOURS;
     this.maintenance.dateDebutMaintenance = null;
     this.maintenance.dateFinMaintenance = null;
     this.maintenance.observationMaintenance = MaintenanceForm.value.observationMaintenance;

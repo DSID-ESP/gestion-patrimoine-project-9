@@ -3,6 +3,7 @@ package sn.douanes.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sn.douanes.entities.ChangementPiece;
+import sn.douanes.entities.Piece;
 import sn.douanes.entities.keys.ChangementPieceId;
 import sn.douanes.repositories.ChangementPieceRepository;
 import sn.douanes.services.ChangementPieceService;
@@ -54,16 +55,16 @@ public class ChangementPieceServiceImpl implements ChangementPieceService {
     public ChangementPiece ajouterChangementPiece(
             Integer codeChangementPiece,
             String identifiantMaintenance,
-            int nombrePiecesRechangees,
-            String referencePieces
+            Piece identifiantPiece,
+            int nombrePieces
     ) {
 
         ChangementPiece ChangementPiece = new ChangementPiece();
 
         ChangementPiece.setCodeChangementPiece(codeChangementPiece);
         ChangementPiece.setIdentifiantMaintenance(identifiantMaintenance);
-        ChangementPiece.setNombrePiecesRechangees(nombrePiecesRechangees);
-        ChangementPiece.setReferencePieces(referencePieces);
+        ChangementPiece.setIdentifiantPiece(identifiantPiece);
+        ChangementPiece.setNombrePieces(nombrePieces);
 
         return changementPieceRepository.save(ChangementPiece);
     }

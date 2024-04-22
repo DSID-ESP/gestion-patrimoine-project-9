@@ -1,6 +1,7 @@
 package sn.douanes.services;
 
 import sn.douanes.entities.ChangementPiece;
+import sn.douanes.entities.Piece;
 
 import java.util.List;
 
@@ -15,7 +16,8 @@ public interface ChangementPieceService {
 
 
     List<ChangementPiece> getAllChangementPiecesByIdentifiantMaintenance(String identifiantMaintenance);
-    ChangementPiece ajouterChangementPiece(Integer codeChangementPiece, String identifiantMaintenance, int nombrePiecesRechangees, String referencePieces);
+
+    ChangementPiece ajouterChangementPiece(Integer codeChangementPiece, String identifiantMaintenance, Piece identifiantPiece, int nombrePieces);
 
 
 }
