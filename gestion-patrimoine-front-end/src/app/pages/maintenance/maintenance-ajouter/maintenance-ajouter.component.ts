@@ -28,6 +28,10 @@ import { DotationVehicule } from 'src/app/model/dotation-vehicule.model';
 import { DotationVehiculeService } from 'src/app/services/dotation-vehicule.service';
 import { BonSortieService } from 'src/app/services/bon-sortie.service';
 import { BonSortie } from 'src/app/model/bon-sortie.model';
+import { Huile } from 'src/app/model/huile';
+import { Piece } from 'src/app/model/piece';
+import { HuileService } from 'src/app/services/huile.service';
+import { PieceService } from 'src/app/services/piece.service';
 
 @Component({
   selector: 'app-maintenance-ajouter',
@@ -69,8 +73,13 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------
   // selectedMatricule: string = "";
-  control = new FormControl('');
+  controlDotationVehicule = new FormControl('');
+  controlHuile = new FormControl('');
+  controlPiece = new FormControl('');
+
   filteredDotationVehicules: Observable<DotationVehicule[]> | undefined;
+  filteredHuiles: Observable<Huile[]> | undefined;
+  filteredPieces: Observable<Piece[]> | undefined;
   // -----------------------------------------------------------------------
 
   // public condition: Boolean = true;
@@ -80,6 +89,12 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   public vidanges: Vidange[] = [];
   public vidange: Vidange = new Vidange();
+
+  public huiles: Huile[] = [];
+  public huile: Huile = new Huile();
+
+  public pieces: Piece[] = [];
+  public piece: Piece = new Piece();
 
   public reparations: Reparation[] = [];
   public reparation: Reparation = new Reparation();
@@ -109,6 +124,8 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     private dotationVehiculeService: DotationVehiculeService,
     private bonSortieService: BonSortieService,
     private maintenanceService: MaintenanceService,
+    private huileService: HuileService,
+    private pieceService: PieceService,
     private changementPieceService: ChangementPieceService,
     private notificationService: NotificationService,
     private myDateService: MyDateService,
@@ -131,10 +148,22 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
     this.listeDotationVehicules();
     this.listeChangementPieces();
+    this.listePieces();
+    this.listeHuiles();
 
-    this.filteredDotationVehicules = this.control.valueChanges.pipe(
+    this.filteredDotationVehicules = this.controlDotationVehicule.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
+    );
+
+    this.filteredHuiles = this.controlHuile.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterHuile(value || '')),
+    );
+
+    this.filteredPieces = this.controlPiece.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterPiece(value || '')),
     );
 
 
@@ -166,6 +195,54 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     return listeDotationVehicules;
   }
 
+  private _filterHuile(value: string): Huile[] {
+
+    if (value == "") {
+      this.huile = new Huile();
+    }
+
+    // Trouver le vehicule ayant exactement le même numeroSerie que la valeur donnée
+    let huileTrouve = this.huiles.find(huile => this._normalizeValue(huile.libelleHuile) === value.toLocaleLowerCase());
+    if (huileTrouve) {
+      this.huile = huileTrouve;
+      // this.recupererBonsortieById(this.dotationVehicule.codeArticleBonSortie.identifiantBonSortie)
+    } else {
+      this.huile = new Huile();
+    }
+
+    // la liste des vehicules trouvé ou vehicule trouvé en fonction du mot a rechercher
+    let listeHuiles = this.huiles.filter(huile => this._normalizeValue(huile.libelleHuile).includes(value.toLocaleLowerCase()));
+    // Trouver l'agent automatique au premier indice sans avoir saisie le matricule au complet
+    // if (listeAgents.length == 1) {
+    //   this.agent = this.agents.find(agent => agent.matriculeAgent === listeAgents[0].matriculeAgent) ?? new Agent();
+    // }
+    return listeHuiles;
+  }
+
+  private _filterPiece(value: string): Piece[] {
+
+    if (value == "") {
+      this.piece = new Piece();
+    }
+
+    // Trouver le vehicule ayant exactement le même numeroSerie que la valeur donnée
+    let pieceTrouve = this.pieces.find(piece => this._normalizeValue(piece.referencePiece) === value.toLocaleLowerCase());
+    if (pieceTrouve) {
+      this.piece = pieceTrouve;
+      // this.recupererBonsortieById(this.dotationVehicule.codeArticleBonSortie.identifiantBonSortie)
+    } else {
+      this.piece = new Piece();
+    }
+
+    // la liste des vehicules trouvé ou vehicule trouvé en fonction du mot a rechercher
+    let listePieces = this.pieces.filter(piece => this._normalizeValue(piece.referencePiece).includes(value.toLocaleLowerCase()));
+    // Trouver l'agent automatique au premier indice sans avoir saisie le matricule au complet
+    // if (listeAgents.length == 1) {
+    //   this.agent = this.agents.find(agent => agent.matriculeAgent === listeAgents[0].matriculeAgent) ?? new Agent();
+    // }
+    return listePieces;
+  }
+
   private _normalizeValue(value: string): string {
     return value.toLocaleLowerCase().replace(/\s/g, '');
   }
@@ -175,6 +252,17 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     const selectedNumeroSerie = event.option.value;
     this.dotationVehicule = this.dotationVehicules.find(dotationVehicule => dotationVehicule.numeroSerie.numeroSerie === selectedNumeroSerie) ?? new DotationVehicule();
   }
+
+  onOptionSelectedHuile(event: MatAutocompleteSelectedEvent) {
+    const selectedLibelleHuile = event.option.value;
+    this.huile = this.huiles.find(huile => huile.libelleHuile== selectedLibelleHuile) ?? new Huile();
+  }
+
+  onOptionSelectedPiece(event: MatAutocompleteSelectedEvent) {
+    const selectedReferencePiece = event.option.value;
+    this.piece = this.pieces.find(piece => piece.referencePiece == selectedReferencePiece) ?? new Piece();
+  }
+
 
   // -------------------------------------------------------------------------------------------
   // -------------------------------------------------------------------------------------------
@@ -263,6 +351,42 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
 
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+  public listePieces(): void {
+
+    const subscription = this.pieceService.listePieces().subscribe({
+      next: (response: Piece[]) => {
+        this.pieces = response;
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        // console.log(errorResponse);
+      },
+    });
+
+    this.subscriptions.push(subscription);
+  }
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+  public listeHuiles(): void {
+
+    const subscription = this.huileService.listeHuiles().subscribe({
+      next: (response: Huile[]) => {
+        this.huiles = response;
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        // console.log(errorResponse);
+      },
+    });
+
+    this.subscriptions.push(subscription);
+  }
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+
 
   // nombreChangementPiece(bonPour: BonPour, articleBonPours: ArticleBonPour[]): number {
   //   return articleBonPours.reduce((count, article) => {
@@ -295,8 +419,14 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   public ajouterVidange(VidangeForm: NgForm): void {
     this.vidange.identifiantMaintenance = ''; // à compléter
-    this.vidange.identifiantHuile.libelleHuile = VidangeForm.value.libelleHuile;
+    // if (this.huile) {
+      
+    // }
+    // this.vidange.identifiantHuile.libelleHuile = VidangeForm.value.libelleHuile;
+    this.vidange.identifiantHuile = this.huile;
     this.vidange.quantite = VidangeForm.value.quantite;
+    console.log(this.vidange);
+    
   }
 
   public ajouterReparation(ReparationForm: NgForm): void {
@@ -310,7 +440,11 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     this.changementPiece.identifiantMaintenance = ''; // à compléter
     this.changementPiece.codeChangementPiece = 0; // à compléter
     this.changementPiece.nombrePieces = ChangementPieceForm.value.nombrePieces;
-    this.changementPiece.identifiantPiece.referencePiece = ChangementPieceForm.value.referencePiece;
+    // if (this.piece) {
+      
+    // }
+    // this.changementPiece.identifiantPiece.referencePiece = ChangementPieceForm.value.referencePiece;
+    this.changementPiece.identifiantPiece = this.piece;
   }
 
 

@@ -21,7 +21,7 @@ public class HuileController {
     HuileService huileService;
 
 
-    @GetMapping("/Huile")
+    @GetMapping("/Huiles")
     // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<Huile>> getAllHuile() {
         List<Huile> huile = huileService.getAllHuile();

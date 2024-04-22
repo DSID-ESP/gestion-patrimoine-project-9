@@ -1,3 +1,4 @@
+-- Adminer 4.8.1 PostgreSQL 16.2 (Debian 16.2-1.pgdg120+2) dump
 
 CREATE TABLE "DLF_PATRIMOINE"."G2010R"."accident" (
     "identifiant_maintenance" character varying(25) NOT NULL,
@@ -53,7 +54,10 @@ CREATE TABLE "DLF_PATRIMOINE"."G2010R"."article_bon_sortie" (
     "identifiant_bon_sortie" character varying(255) NOT NULL,
     "libelle_article_bon_sortie" character varying(100),
     "date_article_bon_sortie" date,
-    "quantite_accordee" integer,
+    "quantite_accordee_blm" integer,
+    "quantite_accordee_dlf" integer,
+    "quantite_accordee_definitive" integer,
+    "quantite_accordee_section" integer,
     "matricule_agent" character varying(7),
     CONSTRAINT "article_bon_sortie_pkey" PRIMARY KEY ("code_article_bon_sortie", "identifiant_bon_sortie")
 );
@@ -79,7 +83,7 @@ CREATE TABLE "DLF_PATRIMOINE"."G2010R"."bon_pour" (
     "date_courriel_origine" date,
     "date_enregistrement" timestamp,
     "description_bon_pour" character varying(255),
-    "etat_bon_pour" character varying(10),
+    "etat_bon_pour" character varying(25),
     "numero_arrive_b_l_m" integer,
     "numero_arrive_d_l_f" integer,
     "numero_arrive_section" integer,
@@ -126,8 +130,8 @@ CREATE TABLE "DLF_PATRIMOINE"."G2010R"."bordereau_livraison" (
 CREATE TABLE "DLF_PATRIMOINE"."G2010R"."changement_piece" (
     "code_changement_piece" integer NOT NULL,
     "identifiant_maintenance" character varying(25) NOT NULL,
-    "nombre_pieces_rechangees" integer,
-    "reference_pieces" character varying(512),
+    "nombre_pieces" integer,
+    "identifiant_piece" character varying(25),
     CONSTRAINT "changement_piece_pkey" PRIMARY KEY ("code_changement_piece", "identifiant_maintenance")
 );
 
@@ -158,6 +162,13 @@ CREATE TABLE "DLF_PATRIMOINE"."G2010R"."fonction_agent" (
 );
 
 
+CREATE TABLE "DLF_PATRIMOINE"."G2010R"."huile" (
+    "identifiant_huile" character varying(25) NOT NULL,
+    "libelle_huile" character varying(512),
+    CONSTRAINT "huile_pkey" PRIMARY KEY ("identifiant_huile")
+);
+
+
 CREATE TABLE "DLF_PATRIMOINE"."G2010R"."lieu_stockage_vehicule" (
     "code_lieu_vh" character varying(3) NOT NULL,
     "libellle_lieu_vh" character varying(100),
@@ -170,6 +181,7 @@ CREATE TABLE "DLF_PATRIMOINE"."G2010R"."maintenance" (
     "identifiant_maintenance" character varying(25) NOT NULL,
     "date_debut_maintenance" timestamp,
     "date_fin_maintenance" timestamp,
+    "etat_maintenance" character varying(255),
     "observation_maintenance" character varying(512),
     "type_maintenance" character varying(15),
     "numero_serie" character varying(30),
@@ -198,6 +210,13 @@ CREATE TABLE "DLF_PATRIMOINE"."G2010R"."pays" (
 );
 
 
+CREATE TABLE "DLF_PATRIMOINE"."G2010R"."piece" (
+    "identifiant_piece" character varying(25) NOT NULL,
+    "reference_piece" character varying(512),
+    CONSTRAINT "piece_pkey" PRIMARY KEY ("identifiant_piece")
+);
+
+
 CREATE TABLE "DLF_PATRIMOINE"."G2010R"."prestataires" (
     "ninea" character varying(20) NOT NULL,
     "adresse" character varying(512),
@@ -218,7 +237,6 @@ CREATE TABLE "DLF_PATRIMOINE"."G2010R"."prestataires_secteur" (
 CREATE TABLE "DLF_PATRIMOINE"."G2010R"."reparation" (
     "identifiant_maintenance" character varying(25) NOT NULL,
     "nature_reparation" character varying(512),
-    "suite_accident" boolean,
     CONSTRAINT "reparation_pkey" PRIMARY KEY ("identifiant_maintenance")
 );
 
@@ -322,8 +340,8 @@ CREATE TABLE "DLF_PATRIMOINE"."G2010R"."vehicule" (
 
 CREATE TABLE "DLF_PATRIMOINE"."G2010R"."vidange" (
     "identifiant_maintenance" character varying(25) NOT NULL,
-    "libelle_huile" character varying(512),
-    "quantite_mise_vehicule" integer,
+    "quantite" integer,
+    "identifiant_huile" character varying(25),
     CONSTRAINT "vidange_pkey" PRIMARY KEY ("identifiant_maintenance")
 );
 
@@ -353,6 +371,8 @@ ALTER TABLE ONLY "DLF_PATRIMOINE"."G2010R"."bordereau_livraison" ADD CONSTRAINT 
 ALTER TABLE ONLY "DLF_PATRIMOINE"."G2010R"."bordereau_livraison" ADD CONSTRAINT "fkllyex0gchkfeo1kny1wfiat2i" FOREIGN KEY (ninea) REFERENCES prestataires(ninea) NOT DEFERRABLE;
 ALTER TABLE ONLY "DLF_PATRIMOINE"."G2010R"."bordereau_livraison" ADD CONSTRAINT "fkmkyijg5tdm42o6emet2cj3cls" FOREIGN KEY (code_section) REFERENCES sections(code_section) NOT DEFERRABLE;
 
+ALTER TABLE ONLY "DLF_PATRIMOINE"."G2010R"."changement_piece" ADD CONSTRAINT "fkakl3h9ctuqu8e84rg47kdgglv" FOREIGN KEY (identifiant_piece) REFERENCES piece(identifiant_piece) NOT DEFERRABLE;
+
 ALTER TABLE ONLY "DLF_PATRIMOINE"."G2010R"."dotation_vehicule" ADD CONSTRAINT "fk369d727jgd997p8whn8yqv2ds" FOREIGN KEY (code_article_bon_sortie, identifiant_bon_sortie) REFERENCES article_bon_sortie(code_article_bon_sortie, identifiant_bon_sortie) NOT DEFERRABLE;
 ALTER TABLE ONLY "DLF_PATRIMOINE"."G2010R"."dotation_vehicule" ADD CONSTRAINT "fk78p66iohicuby5m74tvsmiskb" FOREIGN KEY (matricule_agent) REFERENCES agent(matricule_agent) NOT DEFERRABLE;
 ALTER TABLE ONLY "DLF_PATRIMOINE"."G2010R"."dotation_vehicule" ADD CONSTRAINT "fkg4b8pqxcjanpcurf0avf3hft4" FOREIGN KEY (numero_serie) REFERENCES vehicule(numero_serie) NOT DEFERRABLE;
@@ -376,3 +396,7 @@ ALTER TABLE ONLY "DLF_PATRIMOINE"."G2010R"."vehicule" ADD CONSTRAINT "fk9ew0gb55
 ALTER TABLE ONLY "DLF_PATRIMOINE"."G2010R"."vehicule" ADD CONSTRAINT "fkipaic0o0eppetwttr3i51t542" FOREIGN KEY (code_type_energie) REFERENCES type_energie(code_type_energie) NOT DEFERRABLE;
 ALTER TABLE ONLY "DLF_PATRIMOINE"."G2010R"."vehicule" ADD CONSTRAINT "fkit3tsr2xvg9lsx8a2wpbl9pj" FOREIGN KEY (code_type_vehicule) REFERENCES type_vehicule(code_type_vehicule) NOT DEFERRABLE;
 ALTER TABLE ONLY "DLF_PATRIMOINE"."G2010R"."vehicule" ADD CONSTRAINT "fkkyvs90njn6tl5nwgpbi867iej" FOREIGN KEY (code_pays) REFERENCES pays(code_pays) NOT DEFERRABLE;
+
+ALTER TABLE ONLY "DLF_PATRIMOINE"."G2010R"."vidange" ADD CONSTRAINT "fk6alt3f818n0uucpdejali35wp" FOREIGN KEY (identifiant_huile) REFERENCES huile(identifiant_huile) NOT DEFERRABLE;
+
+-- 2024-04-22 23:03:22.371325+00

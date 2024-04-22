@@ -323,7 +323,7 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
   public ajouterArticleBonSortie(articleBonSortie: ArticleBonSortie, vehiculesSelect: Vehicule[]): void {
 
 
-    if (vehiculesSelect.length == articleBonSortie.quantiteAccordeeSection ) {
+    if (vehiculesSelect.length == articleBonSortie.quantiteAccordeeDefinitive ) {
 
       this.subscriptions.push(this.articleBonSortieService.ajouterArticleBonSortie(articleBonSortie).subscribe({
         next: (response: ArticleBonSortie) => {

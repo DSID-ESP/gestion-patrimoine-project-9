@@ -82,9 +82,9 @@ INSERT INTO "article_bon_entree" ("code_article_bon_entree", "date_enregistremen
 
 INSERT INTO "bon_pour" ("identifiant_bon_pour", "description_bon_pour", "numero_courriel_origine", "date_courriel_origine", "etat_bon_pour", "object_courriel_origine", "numero_arrive_d_l_f", "date_arrive_d_l_f", "observation_d_l_f", "numero_arrive_b_l_m", "date_arrive_b_l_m", "observation_b_l_m", "numero_arrive_section", "date_arrive_section", "observation_section", "code_unite_douaniere", "code_section", "date_enregistrement", "matricule_agent") 
 VALUES 
-    ('BPSG202311121243214', 'DESCRIPTION 1', 123, '2024-01-24', 'RETRANSMIS A LA SECTION', 'OBJET 1', 456, '2024-01-25', 'OBSERVATION 1', 789, '2024-01-26', 'OBSERVATION 1', 101, '2024-01-27', 'OBSERVATION 1', '06Z', 'SG', CURRENT_TIMESTAMP, '613693H'),
-    ('BPSG202311121243215', 'DESCRIPTION 2', 124, '2024-01-25', 'RETRANSMIS A LA SECTION', 'OBJET 2', 457, '2024-01-26', 'OBSERVATION 1', 790, '2024-01-27', 'OBSERVATION 1', 102, '2024-01-28', 'OBSERVATION 1', '06Z', 'SG', CURRENT_TIMESTAMP, '506234B'),
-    ('BPSG202311121243216', 'DESCRIPTION 3', 125, '2024-01-26', 'RETRANSMIS A LA SECTION', 'OBJET 3', 458, '2024-01-27', 'OBSERVATION 1', 791, '2024-01-28', 'OBSERVATION 1', 103, '2024-01-29', 'OBSERVATION 1', '06K', 'SG', CURRENT_TIMESTAMP, '123456A');
+    ('BPSG202311121243214', 'DESCRIPTION 1', 123, '2024-01-24', 'EN COURS DE TRAITEMENT', 'OBJET 1', 456, '2024-01-25', 'OBSERVATION 1', 789, '2024-01-26', 'OBSERVATION 1', 101, '2024-01-27', 'OBSERVATION 1', '06Z', 'SG', CURRENT_TIMESTAMP, '613693H'),
+    ('BPSG202311121243215', 'DESCRIPTION 2', 124, '2024-01-25', 'EN COURS DE TRAITEMENT', 'OBJET 2', 457, '2024-01-26', 'OBSERVATION 1', 790, '2024-01-27', 'OBSERVATION 1', 102, '2024-01-28', 'OBSERVATION 1', '06Z', 'SG', CURRENT_TIMESTAMP, '506234B'),
+    ('BPSG202311121243216', 'DESCRIPTION 3', 125, '2024-01-26', 'EN COURS DE TRAITEMENT', 'OBJET 3', 458, '2024-01-27', 'OBSERVATION 1', 791, '2024-01-28', 'OBSERVATION 1', 103, '2024-01-29', 'OBSERVATION 1', '06K', 'SG', CURRENT_TIMESTAMP, '123456A');
 
 
 INSERT INTO "article_bon_pour" ("identifiant_bon_pour", "code_article_bon_pour", "libelle_article_bon_pour", "quantite_demandee", "code_type_objet", "matricule_agent") 
@@ -493,9 +493,9 @@ INSERT INTO "utilisateur" ("utilisateur_id", "is_active", "is_not_locked", "join
 
 INSERT INTO "maintenance" ("identifiant_maintenance", "date_debut_maintenance", "date_fin_maintenance", "observation_maintenance", "type_maintenance", "numero_serie", "etat_maintenance") 
 VALUES
-    ('MSG202311121243214',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 1',    'Vidange', '123456', 'TERMINER'),
-    ('MSG202311121243215',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 2',    'Reparation', '789012', 'TERMINER'),
-    ('MSG202311121243216',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 3',    'Controle', '789013', 'TERMINER');
+    ('MSG202311121243214',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 1',    'Vidange', '123456', 'TERMINÉ'),
+    ('MSG202311121243215',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 2',    'Reparation', '789012', 'TERMINÉ'),
+    ('MSG202311121243216',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 3',    'Controle', '789013', 'TERMINÉ');
 
 
 INSERT INTO "huile" ("identifiant_huile", "libelle_huile")

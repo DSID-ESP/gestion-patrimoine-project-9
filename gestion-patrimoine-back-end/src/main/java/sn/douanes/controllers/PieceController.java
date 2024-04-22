@@ -21,7 +21,7 @@ public class PieceController {
     PieceService pieceService;
 
 
-    @GetMapping("/Piece")
+    @GetMapping("/Pieces")
     // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public ResponseEntity<List<Piece>> getAllPiece() {
         List<Piece> piece = pieceService.getAllPiece();
