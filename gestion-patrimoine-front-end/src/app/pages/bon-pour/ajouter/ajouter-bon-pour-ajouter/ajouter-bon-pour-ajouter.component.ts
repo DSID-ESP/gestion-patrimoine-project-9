@@ -160,7 +160,10 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
     // console.log('bonPourAjouterDLF', this.bonPourAjouterDLF);
     // console.log('bonPourAjouterInitial', this.bonPourAjouterInitial);
 
-    // console.log(this.utilisateur);
+    // console.log(this.bonPourAjouterSection);
+
+
+
 
     this.filteredUniteDouanieres = this.control.valueChanges.pipe(
       startWith(''),
@@ -339,6 +342,7 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
     bp.observationDLF = null;
 
     if (this.bonPourAjouterDLF) {
+      // ------------------------BAF----------------------------------------
       bp.identifiantBonPour = this.bonPour.identifiantBonPour;
       bp.descriptionBonPour = this.bonPour.descriptionBonPour;
       bp.etatBonPour = this.etatSuivant(EtatBonPour.ALLERDLF); // this.bonPour.etatBonPour
@@ -352,6 +356,7 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
       bp.matriculeAgent = this.bonPour.matriculeAgent;
       bp.dateEnregistrement = this.bonPour.dateEnregistrement;
 
+      // ------------------------DLF----------------------------------------
       bp.numeroArriveDLF = BonPourForm.value.numeroArriveDLF;
       const dateArriveDLF: MyDate = BonPourForm.value.dateArriveDLF;
       const formattedDateDLF = this.bonPourService.formatterMyDate(dateArriveDLF);
@@ -368,6 +373,7 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
     bp.observationBLM = null;
 
     if (this.bonPourAjouterBLM) {
+      // ------------------------BAF----------------------------------------
       bp.identifiantBonPour = this.bonPour.identifiantBonPour;
       bp.descriptionBonPour = this.bonPour.descriptionBonPour;
       bp.etatBonPour = this.etatSuivant(EtatBonPour.ALLERBLM); // this.bonPour.etatBonPour
@@ -381,10 +387,12 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
       bp.matriculeAgent = this.bonPour.matriculeAgent;
       bp.dateEnregistrement = this.bonPour.dateEnregistrement;
 
+      // ------------------------DLF----------------------------------------
       bp.numeroArriveDLF = this.bonPour.numeroArriveDLF;
       bp.dateArriveDLF = this.bonPour.dateArriveDLF;
       bp.observationDLF = this.bonPour.observationDLF;
 
+      // ------------------------BLM----------------------------------------
       bp.numeroArriveBLM = BonPourForm.value.numeroArriveBLM;
       const dateArriveBLM: MyDate = BonPourForm.value.dateArriveBLM;
       const formattedDateBLM = this.bonPourService.formatterMyDate(dateArriveBLM);
@@ -401,6 +409,7 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
     bp.observationSection = null;
 
     if (this.bonPourAjouterSection) {
+      // ------------------------BAF----------------------------------------
       bp.identifiantBonPour = this.bonPour.identifiantBonPour;
       bp.descriptionBonPour = this.bonPour.descriptionBonPour;
       bp.etatBonPour = this.etatSuivant(EtatBonPour.ALLERSECTION); // this.bonPour.etatBonPour
@@ -414,14 +423,17 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
       bp.matriculeAgent = this.bonPour.matriculeAgent;
       bp.dateEnregistrement = this.bonPour.dateEnregistrement;
 
+      // ------------------------DLF----------------------------------------
       bp.numeroArriveDLF = this.bonPour.numeroArriveDLF;
       bp.dateArriveDLF = this.bonPour.dateArriveDLF;
       bp.observationDLF = this.bonPour.observationDLF;
 
+      // ------------------------BLM----------------------------------------
       bp.numeroArriveBLM = this.bonPour.numeroArriveBLM;
       bp.dateArriveBLM = this.bonPour.dateArriveBLM;
       bp.observationBLM = this.bonPour.observationBLM;
 
+      // ------------------------SECTION----------------------------------------
       bp.numeroArriveSection = BonPourForm.value.numeroArriveSection;
       const dateArriveSection: MyDate = BonPourForm.value.dateArriveSection;
       const formattedDateSection = this.bonPourService.formatterMyDate(dateArriveSection);
@@ -432,9 +444,7 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
       }
       bp.observationSection = BonPourForm.value.observationSection;
     }
-    // ---------------------------------------------------
-    console.log(bp);
-    console.log(BonPourForm.value);
+    // -----------------------------------------------------------------------------
     
     this.subscriptions.push(this.bonPourService.ajouterBonPour(bp).subscribe({
         next: (response: BonPour) => {
