@@ -17,6 +17,7 @@ import { ArticleBonPourService } from 'src/app/services/article-bon-pour.service
 import { BonPourService } from 'src/app/services/bon-pour.service';
 import { DotationVehiculeAjouterComponent } from '../dotation-vehicule-ajouter/dotation-vehicule-ajouter.component';
 import { FormControl } from '@angular/forms';
+import { EtatBonPour } from 'src/app/enum/etat-bon-pour.enum';
 
 @Component({
   selector: 'app-dotation-vehicule-liste',
@@ -28,6 +29,34 @@ import { FormControl } from '@angular/forms';
 export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
 
 
+  // ---------------------------------------------------
+
+  // tousPrivileges: boolean = false;
+  // bonPourAjouterSection: boolean = false;
+  // bonPourAjouterBLM: boolean = false;
+  // bonPourAjouterDLF: boolean = false;
+  // bonPourAjouterInitial: boolean = false;
+
+  estBAF: boolean = false;
+  // estDLF: boolean = false;
+  // estBLM: boolean = false;
+  // estSection: boolean = false;
+
+  // ----------------------------------------------------------------------------------
+  // etatsBonPourArray = Object.values(EtatBonPour);
+  // etatBonPour: EtatBonPour = EtatBonPour.INITIAL;
+
+  // INITIAL: EtatBonPour = EtatBonPour.INITIAL;
+  // BAF: EtatBonPour = EtatBonPour.BAF;
+  // ALLERDLF: EtatBonPour = EtatBonPour.ALLERDLF;
+  // ALLERBLM: EtatBonPour = EtatBonPour.ALLERBLM;
+  // ALLERSECTION: EtatBonPour = EtatBonPour.ALLERSECTION;
+  RETOURSECTION: EtatBonPour = EtatBonPour.RETOURSECTION;
+  RETOURBLM: EtatBonPour = EtatBonPour.RETOURBLM;
+  RETOURDLF: EtatBonPour = EtatBonPour.RETOURDLF;
+  TERMINER: EtatBonPour = EtatBonPour.TERMINER;
+
+  // ----------------------------------------------------------------------------------
 
   public articleBonPours: ArticleBonPour[] = [];
   public articleBonPour: ArticleBonPour | undefined;
@@ -156,21 +185,6 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
     /* ----------------------------------------------------------------------------------------- */
   }
 
-  public listeUniteDouanieres(): void {
-
-    const subscription = this.uniteDouaniereService.listeUniteDouanieres().subscribe({
-      next: (response: UniteDouaniere[]) => {
-        this.uniteDouanieres = response;
-        // console.log(this.secteurActivites);
-
-      },
-      error: (errorResponse: HttpErrorResponse) => {
-        // console.log(errorResponse);
-      },
-    });
-
-    this.subscriptions.push(subscription);
-  }
 
 
   // generatePDF(): void {
@@ -260,58 +274,43 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
 
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
-  // public listeVehicules(): void {
+  public listeUniteDouanieres(): void {
 
-  //   const subscription = this.vehiculeService.listeVehicules().subscribe({
-  //     next: (response: Vehicule[]) => {
+    const subscription = this.uniteDouaniereService.listeUniteDouanieres().subscribe({
+      next: (response: UniteDouaniere[]) => {
+        this.uniteDouanieres = response;
+        // console.log(this.secteurActivites);
 
-  //       this.vehicules = response;
-  //       // this.vehicules = response.sort((a, b) => parseInt(a.numeroImmatriculation) - parseInt(b.numeroImmatriculation));
-  //       // this.vehicules = response.sort((a, b) => Number(a.numeroImmatriculation) - Number(b.numeroImmatriculation));
-  //       // this.vehicules = response.sort((a, b) => a.numeroImmatriculation.localeCompare(b.numeroImmatriculation));
-  //       // this.vehicules = response.sort((a, b) => a.numeroChassis - b.numeroChassis);
-  //       // this.vehicules = response.sort((a, b) => new Date(b.dateModification).getTime() - new Date(a.dateModification).getTime());
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        // console.log(errorResponse);
+      },
+    });
 
-  //       // recuperer la liste des bon entrees qui se trouvent dans la liste de vehicules
-  //       this.filtreBonEntreeVehicule(this.vehicules, this.articleBonEntrees);
-
-  //     },
-  //     error: (errorResponse: HttpErrorResponse) => {
-  //       // console.log(errorResponse);
-  //     },
-  //   });
-
-  //   this.subscriptions.push(subscription);
-  // }
+    this.subscriptions.push(subscription);
+  }
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
 
 
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
-
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-
-
-
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-
-
-
-
   public listeBonPours(): void {
 
     const subscription = this.bonPourService.listeBonPours().subscribe({
       next: (response: BonPour[]) => {
         this.bonPours = response;
+        
+        // this.vehicules = response.sort((a, b) => new Date(b.dateModification).getTime() - new Date(a.dateModification).getTime());
 
-        this.dataSource = new MatTableDataSource<BonPour>(this.bonPours.map((item) => ({
+        this.dataSource = new MatTableDataSource<BonPour>(this.bonPours
+          .filter(
+            bonPour => bonPour.etatBonPour !== EtatBonPour.BAF &&
+            bonPour.etatBonPour !== EtatBonPour.ALLERDLF &&
+            bonPour.etatBonPour !== EtatBonPour.ALLERBLM &&
+            bonPour.etatBonPour !== EtatBonPour.ALLERSECTION
+          ).map((item) => ({
           ...item,
-
-           // this.vehicules = response.sort((a, b) => new Date(b.dateModification).getTime() - new Date(a.dateModification).getTime());
-
           rowNomUnite: item.codeUniteDouaniere?.nomUniteDouaniere,
 
         })));
@@ -330,31 +329,23 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
   // ---------------------------------------------------------------------------------------------------------------------
 
 
-  popupAjouterDotation(): void {
-    // this.router.navigate(['/dotation-vehicule-detail', '', '']);
+  filtrerParEtatBonPour(event: any) {
+    const value: string = event.target.value;
+    if (value) {
+      this.dataSource.filter = value.trim().toLowerCase();
+    } else {
+      this.dataSource.filter = '';
+    }
   }
 
-
-
-
-  // goToDetail(articleBonPour: ArticleBonPour): void {
-  //   const identifiantBP = articleBonPour.identifiantBP.identifiantBP;
-  //   const codeArticleBonPour = articleBonPour.codeArticleBonPour;
-
-  //   const encrypt1 = this.securiteService.encryptUsingAES256(identifiantBP);
-  //   const encrypt2 = this.securiteService.encryptUsingAES256(codeArticleBonPour);
-
-  //   this.router.navigate(['/dotation-vehicule-detail', encrypt1, encrypt2]);
+  // popupAjouterDotation(): void {
+  //   // this.router.navigate(['/dotation-vehicule-detail', '', '']);
   // }
 
-  // goToDetail(bonEntree: BonEntree): void {
-  //   const id = bonEntree.identifiantBE;
-  //   const encrypt = this.securiteService.encryptUsingAES256(id);
-  //   this.router.navigate(['/reception-vehicule-detail', encrypt]);
-  // }
+
+
 
   goToDetail(bonPour: BonPour): void {
-    // console.log(bonPour);
 
      const id = bonPour.identifiantBonPour;
      if (id) {

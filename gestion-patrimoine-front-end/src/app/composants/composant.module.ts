@@ -27,6 +27,7 @@ import { ArticleBonEntreeAjouterComponent } from './article-bon-entree/article-b
 import { BonEntreeDetailComponent } from './bon-entree/bon-entree-detail/bon-entree-detail.component';
 import { BonEntreeAjouterComponent } from './bon-entree/bon-entree-ajouter/bon-entree-ajouter.component';
 import { VehiculeAjouterDotationComponent } from './vehicule/vehicule-ajouter-dotation/vehicule-ajouter-dotation.component';
+import { ValidationComponent } from './validation/validation.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { VehiculeAjouterDotationComponent } from './vehicule/vehicule-ajouter-do
     EnteteComponent,
     MenuComponent,
     PopupConfirmationSupprimerComponent,
+    ValidationComponent,
 
     BonEntreeAjouterComponent,
     BonEntreeDetailComponent,
@@ -79,6 +81,7 @@ import { VehiculeAjouterDotationComponent } from './vehicule/vehicule-ajouter-do
     EnteteComponent,
     MenuComponent,
     PopupConfirmationSupprimerComponent,
+    ValidationComponent,
 
     BonEntreeAjouterComponent,
     BonEntreeDetailComponent,

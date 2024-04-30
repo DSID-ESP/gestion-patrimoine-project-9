@@ -88,6 +88,10 @@ export class ArticleBonPourService {
     return this.httpClient.get<ArticleBonPour>(`${this.urlServeur}/RecupererArticleBonPourById/${codeArticleBonPour}/${identifiantBonPour}`, { withCredentials: true });
   }
 
+  public recupererTousArticleBonPourById(identifiantBonPour: string): Observable<ArticleBonPour[]> {
+    return this.httpClient.get<ArticleBonPour[]>(`${this.urlServeur}/recupererTousArticleBonPourById/${identifiantBonPour}`, { withCredentials: true });
+  }
+
 
   public formatterMyDate(myDate: MyDate): string {
 

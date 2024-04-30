@@ -26,7 +26,6 @@ export class BonPour {
   observationSection: string | null;
 
 
-
   constructor(
     identifiantBonPour = '',
     descriptionBonPour = '',

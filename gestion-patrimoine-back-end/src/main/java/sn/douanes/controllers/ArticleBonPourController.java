@@ -68,6 +68,14 @@ public class ArticleBonPourController {
         return articleBonPourService.getArticleBonPourById(codeArticleBonPour, identifiantBonPour);
     }
 
+    @GetMapping("RecupererTousArticleBonPourById/{identifiantBonPour}")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    public List<ArticleBonPour> RecupererTousArticleBonPourById(
+            @PathVariable("identifiantBonPour") String identifiantBonPour
+    ) {
+        return articleBonPourService.getAllArticleBonSortieById(identifiantBonPour);
+    }
+
 
     private ResponseEntity<HttpResponse> response(HttpStatus httpStatus, String message) {
         return new ResponseEntity<>(

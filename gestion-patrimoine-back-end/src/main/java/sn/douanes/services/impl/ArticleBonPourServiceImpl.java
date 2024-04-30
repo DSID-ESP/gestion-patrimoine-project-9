@@ -53,6 +53,12 @@ public class ArticleBonPourServiceImpl implements ArticleBonPourService {
 
 
     @Override
+    public List<ArticleBonPour> getAllArticleBonSortieById(String identifiantBonSortie) {
+        return articleBonPourRepository.findAllByIdentifiantBonPour(identifiantBonSortie);
+    }
+
+
+    @Override
     public ArticleBonPour ajouterArticleBonPour(
             String identifiantBonPour,
             Integer codeArticleBonPour,

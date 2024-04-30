@@ -22,7 +22,7 @@
         <div class="container py-4" style="text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
             <div class="row">
 
-                <div #monDiv (click)="divClique()" class="col-4">
+                <div #monDiv (click)="divClique()" class="col-3">
                     <div class="input-group" style=" width: 100%; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
                         <div class="input-group-prepend">
                             <span class="input-group-text h-100"
@@ -40,12 +40,10 @@
 
                     <div *ngIf="focusOnInput" style="position: absolute; background-color: #e7e7e7;">
 
-                        <ng-container
-                            *ngFor="let bonPour of bonPourFilterDoubleDateArriveBLMEtatBP$ | async;"
+                        <ng-container *ngFor="let bonPour of bonPourFilterDoubleDateArriveBLMEtatBP$ | async;"
                             style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
                             <!-- {{ bonEntree | json }}  -->
-                            <ng-container
-                                *ngIf="isNumber(termeRechercheDateArriveBLMEtatBP); else nonNumeric">
+                            <ng-container *ngIf="isNumber(termeRechercheDateArriveBLMEtatBP); else nonNumeric">
                                 <ng-container *ngIf="bonPour?.dateArriveBLM as dateArriveBLM;">
                                     <a (click)="FilterDoubleDateArriveBLMEtatBP(dateArriveBLM.toString())"
                                         style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
@@ -69,25 +67,33 @@
                 </div>
 
                 <div class="col-3 text-center">
-                  <input type="text" placeholder="Rechercher une unité" [formControl]="control"
-                      [matAutocomplete]="auto" id="codeUniteDouaniere" #codeUniteDouaniere #searchBoxCodeUniteDouaniere
-                      (input)="search(searchBoxCodeUniteDouaniere.value)" name="codeUniteDouaniere"
-                      class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                    <input type="text" placeholder="Rechercher une unité" [formControl]="control"
+                        [matAutocomplete]="auto" id="codeUniteDouaniere" #codeUniteDouaniere
+                        #searchBoxCodeUniteDouaniere (input)="search(searchBoxCodeUniteDouaniere.value)"
+                        name="codeUniteDouaniere"
+                        class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
 
-                  <mat-autocomplete #auto="matAutocomplete" style="width: 500px;">
-                      <mat-option *ngFor="let uniteDouaniere of (filteredUniteDouanieres | async)?.slice(0, 5)"
-                          [value]="uniteDouaniere.nomUniteDouaniere">
-                          <span style="font-size: 12px;">{{ uniteDouaniere.nomUniteDouaniere }}</span>
-                      </mat-option>
-                  </mat-autocomplete>
+                    <mat-autocomplete #auto="matAutocomplete" style="width: 500px;">
+                        <mat-option *ngFor="let uniteDouaniere of (filteredUniteDouanieres | async)?.slice(0, 5)"
+                            [value]="uniteDouaniere.nomUniteDouaniere">
+                            <span style="font-size: 12px;">{{ uniteDouaniere.nomUniteDouaniere }}</span>
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
 
-
-
-              </div>
-
-              <div class="col-2 text-center">
-
-              </div>
+                <div class="col-3 text-center">
+                    <select (change)="filtrerParEtatBonPour($event)" name="etatBonPour"
+                        id="etatBonPour" required ngModel
+                        class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        <option value="" class="text-mygrey">RECHERCHER UN ÉTAT</option>
+                        <!-- <option [value]="BAF" [hidden]="!estBAF">{{BAF}}</option> -->
+                        <option [value]="RETOURSECTION">{{RETOURSECTION}}</option>
+                        <option [value]="RETOURBLM">{{RETOURBLM}}</option>
+                        <option [value]="RETOURDLF">{{RETOURDLF}}</option>
+                        <option [value]="TERMINER">{{TERMINER}}</option>
+                    </select>
+                </div>
+       
 
                 <!-- <div class="col-3 d-flex justify-content-end">
 

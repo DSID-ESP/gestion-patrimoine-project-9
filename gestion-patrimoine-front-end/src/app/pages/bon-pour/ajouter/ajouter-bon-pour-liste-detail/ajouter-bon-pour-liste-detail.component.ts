@@ -18,6 +18,10 @@ import { AjouterBonPourModifierComponent } from '../ajouter-bon-pour-modifier/aj
 import { AjouterBonPourDetailComponent } from '../ajouter-bon-pour-detail/ajouter-bon-pour-detail.component';
 import { Utilisateur } from 'src/app/model/utilisateur.model';
 import { FonctionUtilisateurService } from 'src/app/services/fonction-utilisateur.service';
+import { EtatBonPour } from 'src/app/enum/etat-bon-pour.enum';
+import { NotificationType } from 'src/app/enum/notification-type.enum';
+import { NotificationService } from 'src/app/services/notification.service';
+import { ValidationComponent } from 'src/app/composants/validation/validation.component';
 
 @Component({
   selector: 'app-ajouter-bon-pour-liste-detail',
@@ -28,12 +32,31 @@ import { FonctionUtilisateurService } from 'src/app/services/fonction-utilisateu
 })
 export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
 
-  tousPrivileges: boolean = false;
-  bonPourAjouterSection: boolean = false;
-  bonPourAjouterBLM: boolean = false;
-  bonPourAjouterDLF: boolean = false;
-  bonPourAjouterInitial: boolean = false;
+  reponseValidation: boolean = false;
 
+  // ---------------------------------------------------
+
+  tousPrivileges: boolean = false;
+  // bonPourAjouterSection: boolean = false;
+  // bonPourAjouterBLM: boolean = false;
+  // bonPourAjouterDLF: boolean = false;
+  // bonPourAjouterInitial: boolean = false;
+
+  estBAF: boolean = false;
+  // estDLF: boolean = false;
+  // estBLM: boolean = false;
+  // estSection: boolean = false;
+
+  // ----------------------------------------------------------------------------------
+  etatsBonPourArray = Object.values(EtatBonPour);
+  etatBonPour: EtatBonPour = EtatBonPour.INITIAL;
+
+  // INITIAL: EtatBonPour = EtatBonPour.INITIAL;
+  BAF: EtatBonPour = EtatBonPour.BAF;
+  // ALLERDLF: EtatBonPour = EtatBonPour.ALLERDLF;
+  // ALLERBLM: EtatBonPour = EtatBonPour.ALLERBLM;
+  // ALLERSECTION: EtatBonPour = EtatBonPour.ALLERSECTION;
+  // RETOURSECTION: EtatBonPour = EtatBonPour.RETOURSECTION;
   // ----------------------------------------------------------------------------------
 
   public utilisateurs: Utilisateur[] = [];
@@ -95,11 +118,21 @@ export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private securiteService: SecuriteService,
+    private notificationService: NotificationService,
     private myDateService: MyDateService,
     private fonctionUtilisateurService: FonctionUtilisateurService,
 
   ) { }
 
+
+  private sendNotification(type: NotificationType, message: string, titre?: string): void {
+    if (message) {
+      this.notificationService.showAlert(type, message, titre);
+    } else {
+      this.notificationService.showAlert(type, 'Une erreur s\'est produite. Veuillez réessayer.', titre);
+    }
+  }
+  
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -108,13 +141,16 @@ export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.utilisateur = this.fonctionUtilisateurService.getUtilisateur;
+    // this.utilisateur = this.fonctionUtilisateurService.getUtilisateur;
 
     this.tousPrivileges = this.fonctionUtilisateurService.tousPrivileges;
-    this.bonPourAjouterSection = this.fonctionUtilisateurService.bonPourAjouterSection;
-    this.bonPourAjouterBLM = this.fonctionUtilisateurService.bonPourAjouterBLM;
-    this.bonPourAjouterDLF = this.fonctionUtilisateurService.bonPourAjouterDLF;
-    this.bonPourAjouterInitial = this.fonctionUtilisateurService.bonPourAjouterInitial;
+    // this.bonPourAjouterSection = this.fonctionUtilisateurService.bonPourAjouterSection;
+    // this.bonPourAjouterBLM = this.fonctionUtilisateurService.bonPourAjouterBLM;
+    // this.bonPourAjouterDLF = this.fonctionUtilisateurService.bonPourAjouterDLF;
+    // this.bonPourAjouterInitial = this.fonctionUtilisateurService.bonPourAjouterInitial;
+
+    // ----------------------------------------------------------------------------
+    this.estBAF = this.fonctionUtilisateurService.estBAF;
 
 
     // --------------------------------------------------------------------------------
@@ -206,11 +242,104 @@ export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
     })));
 
 
-    // console.log(this.dataSource.data);
+    // console.log(this.dataSource.data.length);
     this.dataSource.paginator = this.paginator;
   }
 
 
+  etatSuivant(etatBonPour: EtatBonPour): EtatBonPour {
+    const currentIndex = this.etatsBonPourArray.indexOf(etatBonPour);
+    const nextIndex = (currentIndex + 1) % this.etatsBonPourArray.length;
+    return this.etatsBonPourArray[nextIndex];
+  }
+
+
+  popupValiderTransmettreArticles(bonPour: BonPour | undefined): void {
+    const dialogRef = this.matDialog.open(
+      ValidationComponent,
+      {
+        width: '40%',
+        // height: '80%',
+        enterAnimationDuration: '100ms',
+        exitAnimationDuration: '100ms'
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(() => {
+      // ----------------------------------
+      if (dialogRef.componentInstance instanceof ValidationComponent) {
+        this.reponseValidation = dialogRef.componentInstance.reponseValidation;
+        if (this.reponseValidation) {
+          this.transmettreArticles(bonPour);
+        }
+      }
+      // ----------------------------------
+      // this.ngOnInit();
+    });
+  }
+  
+
+  transmettreArticles(bonPour: BonPour | undefined): void {
+
+
+    if (!bonPour) {
+      this.sendNotification(NotificationType.ERROR, `Bon pour est vide`);
+      return;
+    }
+
+    if (!this.estBAF) {
+      this.sendNotification(NotificationType.ERROR, `Vous avez pas les prérogative`);
+      return;
+    }
+
+    if (this.dataSource.data.length == 0) {
+      this.sendNotification(NotificationType.ERROR, `La liste d'articles est toujours vide`);
+      return;
+    }
+
+    if (this.estBAF && bonPour) {
+      // ------------------------BAF----------------------------------------
+      // bonPour.identifiantBonPour = bonPour.identifiantBonPour;
+      // bonPour.descriptionBonPour = bonPour.descriptionBonPour;
+      bonPour.etatBonPour = this.etatSuivant(EtatBonPour.BAF); // this.bonPour.etatBonPour
+      // bonPour.codeSection = bonPour.codeSection;
+      // bonPour.codeUniteDouaniere = bonPour.codeUniteDouaniere;
+      // bonPour.numeroCourrielOrigine = bonPour.numeroCourrielOrigine;
+      // bonPour.dateCourrielOrigine = bonPour.dateCourrielOrigine;
+   
+
+      bonPour.objectCourrielOrigine = bonPour.objectCourrielOrigine;
+      bonPour.matriculeAgent = bonPour.matriculeAgent;
+      bonPour.dateEnregistrement = bonPour.dateEnregistrement;
+
+      // ------------------------DLF----------------------------------------
+      bonPour.numeroArriveDLF = null;    
+      bonPour.dateArriveDLF = null;
+      bonPour.observationDLF = null;
+      // ------------------------BLM----------------------------------------
+      bonPour.numeroArriveBLM = null;    
+      bonPour.dateArriveBLM = null;
+      bonPour.observationBLM = null;
+      // -----------------------SECTION----------------------------
+      bonPour.numeroArriveSection = null;
+      bonPour.dateArriveSection = null;    
+      bonPour.observationSection = null;
+    }
+    
+    // -----------------------------------------------------------------------------
+    
+    this.subscriptions.push(this.bonPourService.ajouterBonPour(bonPour).subscribe({
+        next: (response: BonPour) => {
+          // console.log(response);
+          this.sendNotification(NotificationType.SUCCESS, `Bon pour transmis`);
+        },
+        error: (errorResponse: HttpErrorResponse) => {
+          console.log(errorResponse);
+          // this.sendNotification(NotificationType.ERROR, errorResponse.error);
+        }
+      })
+    );
+  }
 
   popupAjouterArticle(bonPour: BonPour | undefined): void {
     const dialogRef = this.matDialog.open(

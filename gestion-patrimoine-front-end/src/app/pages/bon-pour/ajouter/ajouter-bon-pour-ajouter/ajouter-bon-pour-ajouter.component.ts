@@ -45,13 +45,30 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
   // estDLF: boolean = false;
 
   // ----------------------------------------------------------------------------------
+
+  // tousPrivileges: boolean = false;
+  // bonPourAjouterSection: boolean = false;
+  // bonPourAjouterBLM: boolean = false;
+  // bonPourAjouterDLF: boolean = false;
+  // bonPourAjouterInitial: boolean = false;
+  estBAF: boolean = false;
+  estDLF: boolean = false;
+  estBLM: boolean = false;
+  estSection: boolean = false;
+
+  // ----------------------------------------------------------------------------------
+
   etatsBonPourArray = Object.values(EtatBonPour);
   etatBonPour: EtatBonPour = EtatBonPour.INITIAL;
 
   INITIAL: EtatBonPour = EtatBonPour.INITIAL;
+  BAF: EtatBonPour = EtatBonPour.BAF;
   ALLERDLF: EtatBonPour = EtatBonPour.ALLERDLF;
   ALLERBLM: EtatBonPour = EtatBonPour.ALLERBLM;
   ALLERSECTION: EtatBonPour = EtatBonPour.ALLERSECTION;
+  RETOURSECTION: EtatBonPour = EtatBonPour.RETOURSECTION;
+
+  
   // ----------------------------------------------------------------------------------
   modelDate1: NgbDateStruct | null = null;
   modelDate2: NgbDateStruct | null = null;
@@ -345,7 +362,7 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
       // ------------------------BAF----------------------------------------
       bp.identifiantBonPour = this.bonPour.identifiantBonPour;
       bp.descriptionBonPour = this.bonPour.descriptionBonPour;
-      bp.etatBonPour = this.etatSuivant(EtatBonPour.ALLERDLF); // this.bonPour.etatBonPour
+      bp.etatBonPour = this.etatSuivant(EtatBonPour.ALLERDLF); // this.bonPour.etatBonPour  
       bp.codeSection = this.bonPour.codeSection;
       bp.codeUniteDouaniere = this.bonPour.codeUniteDouaniere;
       bp.numeroCourrielOrigine = this.bonPour.numeroCourrielOrigine;

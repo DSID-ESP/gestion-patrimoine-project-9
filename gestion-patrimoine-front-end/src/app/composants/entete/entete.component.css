@@ -23,7 +23,7 @@
   
   /* Style au survol des éléments */
   .dropdown-item1:hover {
-    background-color: #aedd71; /* Couleur de fond au survol */
+    background-color: #95d3a6; /* Couleur de fond au survol */
     color: #fff; /* Couleur du texte au survol */
   }
   
@@ -51,13 +51,13 @@
   
   /* Style lorsque le bouton est actif (clic) */
   .dropdown-button:active {
-    background-color: #aedd71; /* Couleur de fond lorsqu'il est actif (clic) */
-    color: #aedd71; /* Couleur du texte lorsqu'il est actif (clic) */
+    background-color: #95d3a6; /* Couleur de fond lorsqu'il est actif (clic) */
+    color: #95d3a6; /* Couleur du texte lorsqu'il est actif (clic) */
   }
   
   /* Style lorsque le bouton est en focus (utilisation du clavier) */
   .dropdown-button:focus {
-    box-shadow: 0 0 5px #aedd71; /* Ombre légère lorsqu'il est en focus */
+    box-shadow: 0 0 5px #95d3a6; /* Ombre légère lorsqu'il est en focus */
     background-color: #fff; /* Couleur de fond en focus */
     color: #000; /* Couleur du texte en focus */
   }

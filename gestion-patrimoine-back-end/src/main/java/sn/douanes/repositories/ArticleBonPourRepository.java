@@ -5,7 +5,10 @@ import org.springframework.stereotype.Repository;
 import sn.douanes.entities.ArticleBonPour;
 import sn.douanes.entities.keys.ArticleBonPourId;
 
+import java.util.List;
+
 @Repository
 public interface ArticleBonPourRepository extends JpaRepository<ArticleBonPour, ArticleBonPourId> {
 
+    List<ArticleBonPour> findAllByIdentifiantBonPour(String identifiantBonPour);
 }

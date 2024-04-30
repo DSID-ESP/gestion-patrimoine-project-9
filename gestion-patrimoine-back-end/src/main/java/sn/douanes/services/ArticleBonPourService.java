@@ -14,6 +14,7 @@ public interface ArticleBonPourService {
     void deleteArticleBonPour(ArticleBonPour a);
     void deleteArticleBonPourById(Integer codeArticleBonPour, String identifiantBonPour);
     ArticleBonPour getArticleBonPourById(Integer codeArticleBonPour, String identifiantBonPour);
+    List<ArticleBonPour> getAllArticleBonSortieById(String identifiantBonSortie);
     List<ArticleBonPour> getAllArticleBonPours();
 
     ArticleBonPour ajouterArticleBonPour(String identifiantBonPour, Integer codeArticleBonPour, String libelleArticleBonPour, Integer quantiteDemandee, TypeObjet codeTypeObjet, Agent matriculeAgent);
