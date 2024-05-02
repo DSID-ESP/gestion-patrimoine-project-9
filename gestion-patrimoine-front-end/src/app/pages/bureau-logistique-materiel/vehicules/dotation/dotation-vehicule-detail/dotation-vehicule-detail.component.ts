@@ -653,7 +653,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
   }
 
 
-  popupAjouterDotationVehicule(articleBonPour: ArticleBonPour, quantiteAccordeeTotal:number): void {
+  popupAjouterDotationVehicule(articleBonPour: ArticleBonPour, quantiteAccordeeTotal: number, bonPour: BonPour): void {
 
     console.log(articleBonPour,quantiteAccordeeTotal);
 
@@ -665,11 +665,9 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
         exitAnimationDuration: '100ms',
         data:  {
           articleBonPour: articleBonPour,
-          quantiteAccordeeTotal: quantiteAccordeeTotal
-
+          quantiteAccordeeTotal: quantiteAccordeeTotal,
+          bonpour: bonPour
         }
-
-
       }
     );
 

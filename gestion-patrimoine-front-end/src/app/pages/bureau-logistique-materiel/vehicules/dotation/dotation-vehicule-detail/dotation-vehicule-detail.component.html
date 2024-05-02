@@ -336,7 +336,7 @@
                                   {{ displayedColumnsCustom[i] }}
                               </th>
 
-                              <td (click)="popupAjouterDotationVehicule(element, quantiteAccordeeTotal)" mat-cell *matCellDef="let element"
+                              <td (click)="popupAjouterDotationVehicule(element, quantiteAccordeeTotal, bonPour)" mat-cell *matCellDef="let element"
                                   style="cursor: pointer;"
                                   [style.display]="columnsToHide.includes(column) ? 'none' : 'table-cell'">
 

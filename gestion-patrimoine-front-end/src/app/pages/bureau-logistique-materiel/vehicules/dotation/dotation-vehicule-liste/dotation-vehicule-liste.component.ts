@@ -300,7 +300,7 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
     const subscription = this.bonPourService.listeBonPours().subscribe({
       next: (response: BonPour[]) => {
         this.bonPours = response;
-        
+
         // this.vehicules = response.sort((a, b) => new Date(b.dateModification).getTime() - new Date(a.dateModification).getTime());
 
         this.dataSource = new MatTableDataSource<BonPour>(this.bonPours
@@ -315,7 +315,7 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
 
         })));
 
-        // console.log(this.dataSource.data);
+         console.log(this.dataSource.data);
         this.dataSource.paginator = this.paginator;
       },
       error: (errorResponse: HttpErrorResponse) => {
@@ -352,7 +352,7 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
       const encrypt = this.securiteService.encryptUsingAES256(id);
       this.router.navigate(['/dotation-vehicule-detail', encrypt]);
      }
-     
+
   }
 
 
