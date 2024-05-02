@@ -25,7 +25,7 @@ import java.sql.Date;
 public class BonSortie {
 
     @Id
-    @Column(name = "IDENTIFIANT_BON_SORIE", nullable = false)
+    @Column(name = "IDENTIFIANT_BON_SORTIE", nullable = false)
     private String identifiantBonSortie;
 
     @Column(name = "NUMERO_BON_SORTIE")

@@ -1,22 +1,22 @@
 
-INSERT INTO "type_unite_douaniere" ("code_type_unite_douaniere", "libelle_type_unite_douaniere") VALUES
-('BUR',	'BUREAU CENTRAL'),
-('BRI',	'BRIGADE MOBILE');
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."type_unite_douaniere" ("code_type_unite_douaniere", "libelle_type_unite_douaniere") VALUES
+('BUR', 'BUREAU CENTRAL'),
+('BRI', 'BRIGADE MOBILE');
 
 
-INSERT INTO "unite_douaniere" ("code_unite_douaniere", "effectif_unite_douaniere", "nom_unite_douaniere", "nombre_arme", "nombre_automobile", "nombre_materiel", "code_type_unite_douaniere") VALUES
-('06K',	10,	'BUREAU DE LA LOGISTIQUE ET DE LA MAINTENANCE',	3,	5,	20,	'BUR'),
-('06Z',	10,	'BUREAU DE LA PROGRAMMATION ET DES FINANCES',	3,	5,	20,	'BUR');
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."unite_douaniere" ("code_unite_douaniere", "effectif_unite_douaniere", "nom_unite_douaniere", "nombre_arme", "nombre_automobile", "nombre_materiel", "code_type_unite_douaniere") VALUES
+('06K', 10, 'BUREAU DE LA LOGISTIQUE ET DE LA MAINTENANCE', 3,  5,  20, 'BUR'),
+('06Z', 10, 'BUREAU DE LA PROGRAMMATION ET DES FINANCES',   3,  5,  20, 'BUR');
 
 
-INSERT INTO "sections" ("code_section", "libelle_section", "code_unite_douaniere") VALUES
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."sections" ("code_section", "libelle_section", "code_unite_douaniere") VALUES
 ('SA',  'SECTION ARMEMENT', '06K'),
 ('SG',  'SECTION GARAGE',   '06K'),
 ('SM',  'SECTION MATERIEL', '06K');
 
 
 
-INSERT INTO "agent" ("matricule_agent", "email_agent", "nom_agent", "code_agent", "numero_telephone_agent", "prenom_agent", "code_section", "code_unite_douaniere") VALUES
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."agent" ("matricule_agent", "email_agent", "nom_agent", "code_agent", "numero_telephone_agent", "prenom_agent", "code_section", "code_unite_douaniere") VALUES
 ('613693H', 'IBRAHIMA@ESP.SN',  'SECK', 'D3485',    773456789,  'IBRAHIMA DIAGNE',  'SG',   '06K'),
 ('506234B', 'OUMOU@ESP.SN',  'DIALLO',   'D2273',    777654321,  'OUMOU HAWA',   'SG',   '06K'),
 ('123456A', 'ADMIN1@ESP.SN', 'ADMIN1',    'D123A',    675555555,  'ADMINISTRATEUR1',   'SG',   '06K'),
@@ -26,14 +26,14 @@ INSERT INTO "agent" ("matricule_agent", "email_agent", "nom_agent", "code_agent"
 
 
 
-INSERT INTO "prestataires" ("ninea", "adresse", "adresse_email", "numero_telephone", "raison_sociale") VALUES
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."prestataires" ("ninea", "adresse", "adresse_email", "numero_telephone", "raison_sociale") VALUES
 ('005177614',   'ADDRESS 1',    'EMAIL1@EXAMPLE.COM',   123456789,  'CABINET ALPHA DE CONSULTANCE ET DE GENIE-CIVIL-SARL'),
 ('005174222',   'ADDRESS 2',    'EMAIL2@EXAMPLE.COM',   987654321,  'TRANSFERT DES TECHNOLOGIES-SARL'),
 ('005192373',   'ADDRESS 3',    'EMAIL3@EXAMPLE.COM',   555555555,  'ENTREPRISE SENEGALAISE DE PREFABRICATION-SARL');
 
 
 
-INSERT INTO "bordereau_livraison" ("identifiant_b_l", "conformite_b_l", "date_b_l", "date_enregistrement", "description_b_l", "lieu_de_livraison", "numero_b_l", "representant_prestataire", "code_section", "matricule_agent", "ninea") VALUES
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."bordereau_livraison" ("identifiant_b_l", "conformite_b_l", "date_b_l", "date_enregistrement", "description_b_l", "lieu_de_livraison", "numero_b_l", "representant_prestataire", "code_section", "matricule_agent", "ninea") VALUES
 ('BLSA202312011043210', 'OUI',  '2023-12-01',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 1', 'LIEU 1',   '001',  'LIVREUR 1',    'SA',   '613693H',  '005177614'),
 ('BLSM202312021143211', 'OUI',  '2023-12-02',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 2', 'LIEU 2',   '002',  'LIVREUR 2',    'SM',   '506234B',  '005174222'),
 ('BLSG202312031243213', 'NON',  '2023-12-03',   '2024-03-04 12:18:29.967049',   'DESCRIPTION BL 3', 'LIEU 3',   '003',  'LIVREUR 3',    'SG',   '123456A',  '005192373'),
@@ -43,7 +43,7 @@ INSERT INTO "bordereau_livraison" ("identifiant_b_l", "conformite_b_l", "date_b_
 
 
 
-INSERT INTO "bon_entree" ("identifiant_b_e", "date_bon_entree", "libelle_bon_entree", "numero_b_e", "observation_bon_entree", "identifiant_b_l") VALUES
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."bon_entree" ("identifiant_b_e", "date_bon_entree", "libelle_bon_entree", "numero_b_e", "observation_bon_entree", "identifiant_b_l") VALUES
 ('BESA202312011043210', '2023-12-01',   'LIBELLE BE 1', '001',  'OBSERVATION 1',    'BLSA202312011043210'),
 ('BESM202312021143211', '2023-12-02',   'LIBELLE BE 2', '002',  'OBSERVATION 2',    'BLSM202312021143211'),
 ('BESG202312031243213', '2023-12-03',   'LIBELLE BE 3', '003',  'OBSERVATION 3',    'BLSG202312031243213'),
@@ -53,23 +53,23 @@ INSERT INTO "bon_entree" ("identifiant_b_e", "date_bon_entree", "libelle_bon_ent
 
 
 
-INSERT INTO "lieu_stockage_vehicule" ("code_lieu_vh", "libellle_lieu_vh", "nombre_limite_stockage_vh") VALUES
-('PKN',	'PIKINE',	50),
-('CLB',	'COLOBANE',	100),
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."lieu_stockage_vehicule" ("code_lieu_vh", "libellle_lieu_vh", "nombre_limite_stockage_vh") VALUES
+('PKN', 'PIKINE',   50),
+('CLB', 'COLOBANE', 100),
 ('LB6', 'LIBERTÉ 6',    200),
-('HGY', 'HLM GRAND YOFF',	40);
+('HGY', 'HLM GRAND YOFF',   40);
 
 
 
 
-INSERT INTO "type_objet" ("code_type_objet", "libelle_type_objet", "code_section") VALUES
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."type_objet" ("code_type_objet", "libelle_type_objet", "code_section") VALUES
 ('ARMES',   'ARMES ET MUNITIONS',   'SA'),
 ('VEHIC',   'VEHICULES ET MATERIELS ROULANTS',  'SG'),
 ('MATER',   'MATERIELS',    'SM');
 
 
 
-INSERT INTO "article_bon_entree" ("code_article_bon_entree", "date_enregistrement", "libelle_article_bon_entree", "quantite_entree", "identifiant_b_e", "code_lieu_vh", "code_type_objet", "matricule_agent") VALUES
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."article_bon_entree" ("code_article_bon_entree", "date_enregistrement", "libelle_article_bon_entree", "quantite_entree", "identifiant_b_e", "code_lieu_vh", "code_type_objet", "matricule_agent") VALUES
 (1, '2024-03-04 12:37:34.514509',   'TOYOTA-CAMRY-123456',  1,  'BESA202312011043210',  'PKN',  'ARMES',    '613693H'),
 (1, '2024-03-04 12:37:34.51451',    'FORD-MUSTANG-789012',  1,  'BESM202312021143211',  'CLB',  'VEHIC',    '506234B'),
 (2, '2024-03-04 12:37:34.514511',   'FORD-ESCAPE-789013',   1,  'BESM202312021143211',  'LB6',  'VEHIC',    '506234B'),
@@ -80,14 +80,14 @@ INSERT INTO "article_bon_entree" ("code_article_bon_entree", "date_enregistremen
 
 
 
-INSERT INTO "bon_pour" ("identifiant_bon_pour", "description_bon_pour", "numero_courriel_origine", "date_courriel_origine", "etat_bon_pour", "object_courriel_origine", "numero_arrive_d_l_f", "date_arrive_d_l_f", "observation_d_l_f", "numero_arrive_b_l_m", "date_arrive_b_l_m", "observation_b_l_m", "numero_arrive_section", "date_arrive_section", "observation_section", "code_unite_douaniere", "code_section", "date_enregistrement", "matricule_agent") 
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."bon_pour" ("identifiant_bon_pour", "description_bon_pour", "numero_courriel_origine", "date_courriel_origine", "etat_bon_pour", "object_courriel_origine", "numero_arrive_d_l_f", "date_arrive_d_l_f", "observation_d_l_f", "numero_arrive_b_l_m", "date_arrive_b_l_m", "observation_b_l_m", "numero_arrive_section", "date_arrive_section", "observation_section", "code_unite_douaniere", "code_section", "date_enregistrement", "matricule_agent") 
 VALUES 
     ('BPSG202311121243214', 'DESCRIPTION 1', 123, '2024-01-24', 'EN COURS DE TRAITEMENT', 'OBJET 1', 456, '2024-01-25', 'OBSERVATION 1', 789, '2024-01-26', 'OBSERVATION 1', 101, '2024-01-27', 'OBSERVATION 1', '06Z', 'SG', CURRENT_TIMESTAMP, '613693H'),
     ('BPSG202311121243215', 'DESCRIPTION 2', 124, '2024-01-25', 'EN COURS DE TRAITEMENT', 'OBJET 2', 457, '2024-01-26', 'OBSERVATION 1', 790, '2024-01-27', 'OBSERVATION 1', 102, '2024-01-28', 'OBSERVATION 1', '06Z', 'SG', CURRENT_TIMESTAMP, '506234B'),
     ('BPSG202311121243216', 'DESCRIPTION 3', 125, '2024-01-26', 'EN COURS DE TRAITEMENT', 'OBJET 3', 458, '2024-01-27', 'OBSERVATION 1', 791, '2024-01-28', 'OBSERVATION 1', 103, '2024-01-29', 'OBSERVATION 1', '06K', 'SG', CURRENT_TIMESTAMP, '123456A');
 
 
-INSERT INTO "article_bon_pour" ("identifiant_bon_pour", "code_article_bon_pour", "libelle_article_bon_pour", "quantite_demandee", "code_type_objet", "matricule_agent") 
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."article_bon_pour" ("identifiant_bon_pour", "code_article_bon_pour", "libelle_article_bon_pour", "quantite_demandee", "code_type_objet", "matricule_agent") 
 VALUES 
     ('BPSG202311121243214', 1, 'LIBELLE ARTICLE 1', 10, 'VEHIC', '613693H'),
     ('BPSG202311121243215', 1, 'LIBELLE ARTICLE 1', 20, 'VEHIC', '506234B'),
@@ -95,7 +95,7 @@ VALUES
 
 
 
-INSERT INTO "bon_sortie" ("identifiant_bon_sortie", "date_bon_sortie", "description_bon_sortie", "numero_bon_sortie", "identifiant_bon_pour", "matricule_agent") 
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."bon_sortie" ("identifiant_bon_sortie", "date_bon_sortie", "description_bon_sortie", "numero_bon_sortie", "identifiant_bon_pour", "matricule_agent") 
 VALUES
 ('BSSG202311121243214', '2024-01-24',   'Description BS1',  'BS001',    'BPSG202311121243214',  '613693H'),
 ('BSSG202311121243215', '2024-01-25',   'Description BS2',  'BS002',    'BPSG202311121243215',  '506234B'),
@@ -103,7 +103,7 @@ VALUES
 
 
 
-INSERT INTO "article_bon_sortie" ("identifiant_bon_sortie", "code_article_bon_sortie", "libelle_article_bon_sortie", "quantite_accordee_section", "quantite_accordee_blm", "quantite_accordee_dlf", "quantite_accordee_definitive", "date_article_bon_sortie", "matricule_agent") 
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."article_bon_sortie" ("identifiant_bon_sortie", "code_article_bon_sortie", "libelle_article_bon_sortie", "quantite_accordee_section", "quantite_accordee_blm", "quantite_accordee_dlf", "quantite_accordee_definitive", "date_article_bon_sortie", "matricule_agent") 
 VALUES 
     ('BSSG202311121243214', 1, 'Article BS1', 5, 4, 3, 3, '2024-01-24', '613693H'),
     ('BSSG202311121243215', 1, 'Article BS2', 10, 9, 8, 8, '2024-01-25', '506234B'),
@@ -111,21 +111,21 @@ VALUES
     ('BSSG202311121243215', 2, 'Article BS4', 3, 3, 3, 3, '2024-01-26', '506234B');
 
 
-INSERT INTO "fonction_agent" ("code_fonction_agent", "libelle_fonction_agent")
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."fonction_agent" ("code_fonction_agent", "libelle_fonction_agent")
 VALUES ('ADMIN', 'ADMINISTRATEUR'), ('CSA', 'CHEF SECTION ARMEMENT'), ('ASA', 'AGENT SECTION ARMEMENT'),
        ('CSG', 'CHEF SECTION GARAGE'), ('ASG', 'AGENT SECTION GARAGE'), ('CSM', 'CHEF SECTION MATÉRIEL'),
        ('ASM', 'AGENT SECTION MATÉRIEL'), ('BLM', 'CHEF BLM'), ('DLF', 'DIRECTEUR DLF'), 
        ('BAF', 'BUREAU ADMINISTRATIF ET FINANCIER');
 
 
-INSERT INTO "marque_arme" ("code_marque_arme", "libelle_marque_arme") VALUES
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."marque_arme" ("code_marque_arme", "libelle_marque_arme") VALUES
 ('1',   'LIBELLE MARQUE ARME 1');
 
-INSERT INTO "type_arme" ("code_type_arme", "libelle_type_arme") VALUES
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."type_arme" ("code_type_arme", "libelle_type_arme") VALUES
 ('ARME1',   'LIBELLE TYPE ARME 1');
 
 
-INSERT INTO "marque_vehicule" ("code_marque_vh", "libelle_marque_vh")
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."marque_vehicule" ("code_marque_vh", "libelle_marque_vh")
 VALUES 
     ('ALF', 'ALFA ROMEO'),
     ('AST', 'ASTON MARTIN'),
@@ -163,7 +163,7 @@ VALUES
 
 
 
-INSERT INTO "pays" ("code_pays", "libelle_pays")
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."pays" ("code_pays", "libelle_pays")
 VALUES 
 ('AF', 'AFGHANISTAN'),
 ('ZA', 'AFRIQUE DU SUD'),
@@ -425,7 +425,7 @@ VALUES
 ('ZW', 'ZIMBABWE');
 
 
-INSERT INTO "secteur_activite" ("code_secteur_activite", "libelle_secteur_activite")
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."secteur_activite" ("code_secteur_activite", "libelle_secteur_activite")
 VALUES 
     ('IT', 'TECHNOLOGIES DE L''INFORMATION'),
     ('FINANCE', 'SERVICES FINANCIERS'),
@@ -437,21 +437,21 @@ VALUES
     ('MENUISIER', 'MENUISIER');
 
 
-INSERT INTO "prestataires_secteur" ("ninea", "code_secteur_activite")
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."prestataires_secteur" ("ninea", "code_secteur_activite")
 VALUES 
     ('005177614', 'IT'),
     ('005174222', 'FINANCE'),
     ('005192373', 'SANTE');
 
 
-INSERT INTO "type_energie" ("code_type_energie", "libelle_type_energie")
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."type_energie" ("code_type_energie", "libelle_type_energie")
 VALUES ('ESSENCE', 'ESSENCE'),
        ('GASOIL', 'GASOIL'),
        ('ELECTRIQUE', 'ELECTRIQUE'),
        ('HYBRIDE', 'HYBRIDE');
 
 
-INSERT INTO "type_vehicule" ("code_type_vehicule", "libelle_type_vehicule")
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."type_vehicule" ("code_type_vehicule", "libelle_type_vehicule")
 VALUES ('TV1', 'VP'),
        ('TV2', 'PICK-UP'),
        ('TV3', 'BUS'),
@@ -461,7 +461,7 @@ VALUES ('TV1', 'VP'),
 
 
 
-INSERT INTO "vehicule" ("numero_serie", "date_mise_en_circulation", "libelle_etat_vehicule", "modele", "numero_carte_grise", "numero_immatriculation", "code_article_bon_entree", "identifiant_b_e", "code_marque", "code_pays", "code_type_energie", "code_type_vehicule") VALUES
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."vehicule" ("numero_serie", "date_mise_en_circulation", "libelle_etat_vehicule", "modele", "numero_carte_grise", "numero_immatriculation", "code_article_bon_entree", "identifiant_b_e", "code_marque", "code_pays", "code_type_energie", "code_type_vehicule") VALUES
 ('123456',  '2023-01-01',   'NEUF', 'CAMRY',    'CG123',    'ABC123',   1,  'BESA202312011043210',  'TOY',  'US',   'ESSENCE',  'TV1'),
 ('789012',  '2023-01-02',   'NEUF', 'MUSTANG',    'CG789',    'XYZ789',   1,  'BESM202312021143211',  'FOR',  'JP',   'GASOIL',  'TV2'),
 ('789013',  '2023-01-02',   'NEUF', 'ESCAPE',    'CG789',    'XYZ789',   2,  'BESM202312021143211',  'FOR',  'JP',   'GASOIL',  'TV2'),
@@ -472,17 +472,17 @@ INSERT INTO "vehicule" ("numero_serie", "date_mise_en_circulation", "libelle_eta
 ('445679',  '2023-01-05',   'NEUF', 'M4',    'DG346',    'CEF346',   3,  'BESG202312031243214',  'BMW',  'FR',   'ESSENCE',  'TV3');
 
 
-INSERT INTO "dotation_vehicule" ("identifiant_d_v", "date_dotation", "code_article_bon_sortie", "identifiant_bon_sortie", "matricule_agent", "numero_serie") VALUES
-('DVSG202311121243214',	'2024-01-24',	1,	'BSSG202311121243214',	'613693H',	'123456'),
-('DVSG202311121243216',	'2024-01-22',	1,	'BSSG202311121243216',	'123456A',	'789012'),
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."dotation_vehicule" ("identifiant_d_v", "date_dotation", "code_article_bon_sortie", "identifiant_bon_sortie", "matricule_agent", "numero_serie") VALUES
+('DVSG202311121243214', '2024-01-24',   1,  'BSSG202311121243214',  '613693H',  '123456'),
+('DVSG202311121243216', '2024-01-22',   1,  'BSSG202311121243216',  '123456A',  '789012'),
 ('DVSG202311121243215', '2024-01-23',   1,  'BSSG202311121243215',  '506234B',  '345678'),
 ('DVSG202311121243213', '2024-01-23',   2,  'BSSG202311121243215',  '506234B',  '789013');
 
 
 
-INSERT INTO "utilisateur" ("utilisateur_id", "is_active", "is_not_locked", "join_date", "last_login_date", "last_login_date_display", "pwd", "user_name", "code_fonction_agent", "matricule_agent") VALUES
-(1,	't',	't',	'2024-03-02 13:45:32.901327',	'2024-03-02 13:45:32.901327',	'2024-03-02 13:45:32.901327',	'$2a$10$FWHTlMKYpU5OHsf5fv1f..oR.SHKk/4xp/T/7Sdx1HghBEPnrbWeK',	'613693H',	'CSG',	'613693H'),
-(2,	't',	't',	'2024-03-03 13:45:32.901327',	'2024-03-03 13:45:32.901327',	'2024-03-03 13:45:32.901327',	'$2a$10$Z.esrVqyc3o.MUdOBln6YulZD2xQIlT1auSHlltmC/X7SJCo7aODS',	'506234B',	'ADMIN',	'506234B'),
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."utilisateur" ("utilisateur_id", "is_active", "is_not_locked", "join_date", "last_login_date", "last_login_date_display", "pwd", "user_name", "code_fonction_agent", "matricule_agent") VALUES
+(1, 't',    't',    '2024-03-02 13:45:32.901327',   '2024-03-02 13:45:32.901327',   '2024-03-02 13:45:32.901327',   '$2a$10$FWHTlMKYpU5OHsf5fv1f..oR.SHKk/4xp/T/7Sdx1HghBEPnrbWeK', '613693H',  'CSG',  '613693H'),
+(2, 't',    't',    '2024-03-03 13:45:32.901327',   '2024-03-03 13:45:32.901327',   '2024-03-03 13:45:32.901327',   '$2a$10$Z.esrVqyc3o.MUdOBln6YulZD2xQIlT1auSHlltmC/X7SJCo7aODS', '506234B',  'ADMIN',    '506234B'),
 (3, 't',    't',    '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '$2a$10$FWHTlMKYpU5OHsf5fv1f..oR.SHKk/4xp/T/7Sdx1HghBEPnrbWeK', '123456A',  'BAF',  '123456A'), 
 (4, 't',    't',    '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '$2a$10$FWHTlMKYpU5OHsf5fv1f..oR.SHKk/4xp/T/7Sdx1HghBEPnrbWeK', '123456B',  'DLF',  '123456B'), 
 (5, 't',    't',    '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '2024-03-04 13:45:32.901327',   '$2a$10$FWHTlMKYpU5OHsf5fv1f..oR.SHKk/4xp/T/7Sdx1HghBEPnrbWeK', '123456C',  'BLM',  '123456C'),
@@ -491,14 +491,14 @@ INSERT INTO "utilisateur" ("utilisateur_id", "is_active", "is_not_locked", "join
 
 
 
-INSERT INTO "maintenance" ("identifiant_maintenance", "date_debut_maintenance", "date_fin_maintenance", "observation_maintenance", "type_maintenance", "numero_serie", "etat_maintenance") 
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."maintenance" ("identifiant_maintenance", "date_debut_maintenance", "date_fin_maintenance", "observation_maintenance", "type_maintenance", "numero_serie", "etat_maintenance") 
 VALUES
     ('MSG202311121243214',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 1',    'Vidange', '123456', 'TERMINÉ'),
     ('MSG202311121243215',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 2',    'Reparation', '789012', 'TERMINÉ'),
     ('MSG202311121243216',  '2024-01-25 16:06:51.51658',    '2024-03-25 16:06:51.51658',    'observation maintenance 3',    'Controle', '789013', 'TERMINÉ');
 
 
-INSERT INTO "huile" ("identifiant_huile", "libelle_huile")
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."huile" ("identifiant_huile", "libelle_huile")
 VALUES 
     ('huile0', 'Huiles moteur Shell Helix (10 l)'),
     ('huile1', 'Huile de moteur standard (10 l)'),
@@ -513,24 +513,24 @@ VALUES
     ('huile10', 'Huile de lubrification industrielle (10 l)');
 
 
-INSERT INTO "vidange" ("identifiant_maintenance", "identifiant_huile", "quantite") 
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."vidange" ("identifiant_maintenance", "identifiant_huile", "quantite") 
 VALUES
     ('MSG202311121243214',  'huile2',   2);
 
 
 
-INSERT INTO "reparation" ("identifiant_maintenance", "nature_reparation") 
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."reparation" ("identifiant_maintenance", "nature_reparation") 
 VALUES
     ('MSG202311121243215',  'SUITE ACCIDENT');
 
 
 
-INSERT INTO "accident" ("identifiant_maintenance", "commentaire_incident", "date_incident", "lieu_incident", "nombre_blesse", "nombre_deces") 
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."accident" ("identifiant_maintenance", "commentaire_incident", "date_incident", "lieu_incident", "nombre_blesse", "nombre_deces") 
 VALUES
     ('MSG202311121243215',  'commentaire incident 1',   '2024-03-25 16:32:01.746919',   'PIKINE',   1,  0);
 
 
-INSERT INTO "piece" ("identifiant_piece", "reference_piece")
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."piece" ("identifiant_piece", "reference_piece")
 VALUES 
     ('bougie1', 'Bougie d''allumage NGK BKR5E'),
     ('relais1', 'Relais de démarreur Denso 056700-5260'),
@@ -544,7 +544,7 @@ VALUES
     ('amortisseur1', 'Amortisseur Monroe 71516');
 
 
-INSERT INTO "changement_piece" ("code_changement_piece", "identifiant_maintenance", "identifiant_piece", "nombre_pieces") 
+INSERT INTO "DLF_PATRIMOINE"."G2010R"."changement_piece" ("code_changement_piece", "identifiant_maintenance", "identifiant_piece", "nombre_pieces") 
 VALUES
     (1, 'MSG202311121243215',  'bougie1',  1),
     (2, 'MSG202311121243215',  'relais1',  1),

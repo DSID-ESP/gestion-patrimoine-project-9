@@ -1,0 +1,66 @@
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."type_unite_douaniere";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."unite_douaniere";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."sections";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."agent";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."prestataires";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."bordereau_livraison";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."bon_entree";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."lieu_stockage_vehicule";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."type_objet";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."article_bon_entree";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."bon_pour";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."article_bon_pour";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."bon_sortie";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."article_bon_sortie";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."fonction_agent";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."marque_arme";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."type_arme";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."marque_vehicule";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."pays";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."secteur_activite";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."prestataires_secteur";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."type_energie";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."type_vehicule";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."vehicule";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."dotation_vehicule";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."utilisateur"; 
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."maintenance";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."huile";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."vidange";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."reparation";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."accident";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."piece";
+
+SELECT * FROM "DLF_PATRIMOINE"."G2010R"."changement_piece";
+

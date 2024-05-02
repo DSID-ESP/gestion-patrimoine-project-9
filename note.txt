@@ -15,6 +15,12 @@ INSERT INTO "DLF_PATRIMOINE"."G2010R".pays
 VALUES
 ('FR', 'FRANCE');
 
+
+
+UPDATE "DLF_PATRIMOINE"."G2010R".pays
+SET libelle_pays = 'SÉNÉGAL'
+WHERE code_pays = 'SN';
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE "DLF_PATRIMOINE"."G2010R"."BORDEREAU_LIVRAISON" 
