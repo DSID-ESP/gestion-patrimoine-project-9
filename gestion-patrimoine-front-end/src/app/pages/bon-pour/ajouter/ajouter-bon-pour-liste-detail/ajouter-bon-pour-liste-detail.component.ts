@@ -298,6 +298,9 @@ export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
     }
 
     if (this.estBAF && bonPour) {
+
+      // console.log(bonPour);
+      
       // ------------------------BAF----------------------------------------
       // bonPour.identifiantBonPour = bonPour.identifiantBonPour;
       // bonPour.descriptionBonPour = bonPour.descriptionBonPour;
@@ -308,9 +311,9 @@ export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
       // bonPour.dateCourrielOrigine = bonPour.dateCourrielOrigine;
    
 
-      bonPour.objectCourrielOrigine = bonPour.objectCourrielOrigine;
-      bonPour.matriculeAgent = bonPour.matriculeAgent;
-      bonPour.dateEnregistrement = bonPour.dateEnregistrement;
+      // bonPour.objectCourrielOrigine = bonPour.objectCourrielOrigine;
+      // bonPour.matriculeAgent = bonPour.matriculeAgent;
+      // bonPour.dateEnregistrement = bonPour.dateEnregistrement;
 
       // ------------------------DLF----------------------------------------
       bonPour.numeroArriveDLF = null;    

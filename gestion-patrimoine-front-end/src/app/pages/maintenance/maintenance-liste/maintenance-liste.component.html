@@ -22,11 +22,11 @@
         <div class="container py-4" style="text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
             <div class="row">
 
-                <div #monDiv (click)="divClique()" class="col-4">
+                <div #monDiv (click)="divClique()" class="col-3">
                     <div class="input-group" style=" width: 100%; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
                         <div class="input-group-prepend">
                             <span class="input-group-text h-100"
-                                style="box-shadow: #cff39f 0px 50px 100px -20px, #cff39f 0px 30px 60px -30px, #cff39f 0px -2px 6px 0px inset; outline: none;">
+                                style="box-shadow: #61b076 0px 50px 100px -20px, #61b076 0px 30px 60px -30px, #61b076 0px -2px 6px 0px inset; outline: none;">
                                 <!-- <mat-icon>search</mat-icon> -->
                                 <img src="../../../../../assets/loupe.png" alt="">
                             </span>
@@ -35,7 +35,7 @@
                         <input id="myInputSearch" #myInputSearch matInput (input)="applyFilter($event)" #searchBox
                             (input)="search(searchBox.value)" class="form-control input-sm bg-mywhite border-0"
                             type="search" placeholder="Rechercher" aria-label="Search"
-                            style="box-shadow: #cff39f 0px 50px 100px -20px, #cff39f 0px 30px 60px -30px, #cff39f 0px -2px 6px 0px inset; outline: none;">
+                            style="box-shadow: #61b076 0px 50px 100px -20px, #61b076 0px 30px 60px -30px, #61b076 0px -2px 6px 0px inset; outline: none;">
                     </div>
 
                     <div *ngIf="focusOnInput" style="position: absolute; background-color: #e7e7e7;">
@@ -44,8 +44,7 @@
                             *ngFor="let maintenance of maintenanceFilterDoubleNumeroSerieTypeMaintenance$ | async;"
                             style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
                             <!-- {{ bonEntree | json }}  -->
-                            <ng-container
-                                *ngIf="isNumber(termeRechercheNumeroSerieTypeMaintenance); else nonNumeric">
+                            <ng-container *ngIf="isNumber(termeRechercheNumeroSerieTypeMaintenance); else nonNumeric">
                                 <ng-container *ngIf="maintenance?.numeroSerie?.numeroSerie as numeroSerie;">
                                     <a (click)="FilterDoubleNumeroSerieTypeMaintenance(numeroSerie)"
                                         style="cursor: pointer; display: block; color: gray; background-color: #fff; margin: 5px; text-decoration: none;">
@@ -53,6 +52,7 @@
                                     </a>
                                 </ng-container>
                             </ng-container>
+                            
                             <ng-template #nonNumeric>
                                 <ng-container *ngIf="maintenance?.typeMaintenance as typeMaintenance;">
                                     <a (click)="FilterDoubleNumeroSerieTypeMaintenance(typeMaintenance)"
@@ -98,17 +98,26 @@
                   </select>
               </div> -->
 
-              <div class="col-3 text-center">
-                <select  (change)="filtrerParTypeMaintenance($event)" name="identifiantMaintenance" id="identifiantMaintenance" required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    <option value=""></option>
-                    <option value="vidange">vidange</option>
-                    <option value="reparation">reparation</option>
-                    <option value="controle" >controle</option>
-                </select>
-            </div>
+                <div class="col-3 text-center">
+                    <select (change)="filtrerParValeur($event)" name="identifiantMaintenance"
+                        id="identifiantMaintenance" required ngModel
+                        class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        <option value="" class="text-mygrey">RECHERCHER UN TYPE</option>
+                        <option value="vidange">vidange</option>
+                        <option value="reparation">réparation</option>
+                        <option value="controle">controle</option>
+                    </select>
+                </div>
 
-              <div class="col-2 text-center">
-              </div>
+                <div class="col-3 text-center">
+                    <select (change)="filtrerParValeur($event)" name="etatMaintenance"
+                        id="etatMaintenance" required ngModel
+                        class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                        <option value="" class="text-mygrey">RECHERCHER UN ÉTAT</option>
+                        <option value="EN COURS">EN COURS</option>
+                        <option value="TERMINÉ">TERMINÉ</option>
+                    </select>
+                </div>
 
                 <div class="col-3 d-flex justify-content-end">
                     <img (click)="popupAjouterMaintenance()" src="../../../../../assets/add.png" alt=""

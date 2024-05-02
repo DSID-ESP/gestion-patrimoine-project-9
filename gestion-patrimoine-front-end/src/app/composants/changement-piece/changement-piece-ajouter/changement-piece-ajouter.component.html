@@ -1,0 +1,64 @@
+<div class="card shadow">
+
+    <div class="card-header text-center fw-bold bg-myprimary fs-5">
+        Ajouter Pièce
+    </div>
+
+    <div class="card-body">
+
+        <div class="container px-3 py-2">
+            <form class="form" #ChangementPieceForm="ngForm" (ngSubmit)="ajouterChangementPiece(ChangementPieceForm)"
+            class="container px-3 py-2">
+    
+    
+            <div class="row g-4 mb-3">
+              <div class="col-8 mx-auto form-group">
+                <label for="myInputSearch" class="form-label fw-bold">Référence pièces</label>
+                <input type="text" [formControl]="controlPiece" [matAutocomplete]="auto" id="myInputSearch"
+                  class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+    
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelectedPiece($event)">
+                  <mat-option *ngFor="let piece of (filteredPieces | async)?.slice(0, 5)" [value]="piece.referencePiece">
+                    {{ piece.referencePiece }}
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+    
+              <div class="col-4 mx-auto form-group">
+                <label for="nombrePieces" class="form-label fw-bold">Nombre pièces</label>
+                <input id="nombrePieces" type="number" name="nombrePieces" required ngModel
+                  class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+              </div>
+    
+              <div class="col-6 mx-auto">
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="col-12 text-end">
+                <button type="submit" id="changement-piece-form"
+                  [disabled]="ChangementPieceForm.invalid" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                  Valider
+                </button>
+              </div>
+            </div>
+    
+          </form>
+        </div>
+
+        <div class="container px-3 py-2">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <button (click)="submitForm()" type="button" [disabled]="ChangementPieceForm.invalid" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                        Valider
+                    </button>
+
+                    <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour retourner">
+                        Retour
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

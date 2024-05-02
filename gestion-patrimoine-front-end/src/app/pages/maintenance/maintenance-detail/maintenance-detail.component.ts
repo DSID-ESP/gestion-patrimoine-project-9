@@ -18,6 +18,8 @@ import { VidangeService } from 'src/app/services/vidange.service';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { NotificationService } from 'src/app/services/notification.service';
 import { EtatMaintenance } from 'src/app/enum/etat-maintenance.enum';
+import { ValidationComponent } from 'src/app/composants/validation/validation.component';
+import { NatureReparation } from 'src/app/enum/nature-reparation.enum';
 
 @Component({
   selector: 'app-maintenance-detail',
@@ -28,9 +30,18 @@ import { EtatMaintenance } from 'src/app/enum/etat-maintenance.enum';
 })
 export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
 
+  reponseValidation: boolean = false;
+
+  // ---------------------------------------------------
+
   public maintenances: Maintenance[] = [];
   // public maintenance: Maintenance = new Maintenance();
 
+
+  // -----------------------------------------------------------------------------------
+  SUITEACCIDENT: string = NatureReparation.SUITEACCIDENT;
+  REPARETIONSIMPLE: string = NatureReparation.REPARETIONSIMPLE;
+  // -----------------------------------------------------------------------------------
 
   public vidanges: Vidange[] = [];
   public vidange: Vidange = new Vidange();
@@ -220,12 +231,34 @@ export class MaintenanceDetailComponent implements OnInit, OnDestroy  {
     });
   }
 
-  public terminerMaintenance(maintenance: Maintenance): void {
+  popupValiderTerminerMaintenance(maintenance: Maintenance): void {
+    const dialogRef = this.matDialog.open(
+      ValidationComponent,
+      {
+        width: '40%',
+        // height: '80%',
+        enterAnimationDuration: '100ms',
+        exitAnimationDuration: '100ms'
+      }
+    );
 
+    dialogRef.afterClosed().subscribe(() => {
+      // ----------------------------------
+      if (dialogRef.componentInstance instanceof ValidationComponent) {
+        this.reponseValidation = dialogRef.componentInstance.reponseValidation;
+        if (this.reponseValidation) {
+          this.terminerMaintenance(maintenance);
+        }
+      }
+      // ----------------------------------
+      // this.ngOnInit();
+    });
+  }
+
+  public terminerMaintenance(maintenance: Maintenance): void {
 
     maintenance.dateFinMaintenance = null;
     maintenance.etatMaintenance = EtatMaintenance.TERMINER;
-
 
     this.subscriptions.push(this.maintenancesService.terminerMaintenance(maintenance).subscribe({
       next: (response: Maintenance) => {

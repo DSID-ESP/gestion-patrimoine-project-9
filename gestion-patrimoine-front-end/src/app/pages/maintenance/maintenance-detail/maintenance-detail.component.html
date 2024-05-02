@@ -202,7 +202,7 @@
             <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'vidange'" class="container px-3 py-2">
                 <form class="container px-3 py-2">
                     <div class="row g-4 mb-3">
-                        <div class="col-3 mx-auto">
+                        <div class="col-6 mx-auto">
                             <span class="fw-bold">Libellé</span>
                             <div class="text-input text-uppercase">
                                 {{ vidange.identifiantHuile.libelleHuile }}
@@ -216,7 +216,7 @@
                             </div>
                         </div>
 
-                        <div class="col-6 mx-auto">
+                        <div class="col-3 mx-auto">
                         </div>
                     </div>
                 </form>
@@ -262,11 +262,11 @@
 
 
 
-            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation' && reparation.natureReparation" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation' && reparation.natureReparation == SUITEACCIDENT" class="text-center fw-bolder bg-myprimary mt-1" role="alert">
                 Accident
             </div>
 
-            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation' && reparation.natureReparation" class="container px-3 py-2">
+            <div *ngIf="maintenance.typeMaintenance.toLowerCase() == 'reparation' && reparation.natureReparation == SUITEACCIDENT" class="container px-3 py-2">
                 <form class="container px-3 py-2">
                     <div class="row g-4 mb-3">
                         <div class="col-3 mx-auto">
@@ -335,7 +335,7 @@
                   </button>
 
                   <!-- Condition pour afficher ou masquer le bouton "Terminer" -->
-                  <button (click)="terminerMaintenance(maintenance)"  *ngIf="!maintenance.dateFinMaintenance" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
+                  <button (click)="popupValiderTerminerMaintenance(maintenance)"  *ngIf="!maintenance.dateFinMaintenance" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
                       title="cliquer ici pour terminer la maintenance">
                       Terminer
                   </button>

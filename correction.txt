@@ -79,3 +79,45 @@ myDateStringFormatter(date: MyDate | string | undefined | null): string {
       return this.myDateService.formatterMyDate(date);
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+barre de recherche col-4 à 3
+
+ <div #monDiv (click)="divClique()" class="col-3">
+
+ 
+
+
+
+ filtrerParValeur(event: any) {
+    const value: string = event.target.value;
+    this.dataSource.filter = ''; ////////////////////initialiser si c'est au moins deux filtre
+
+    if (value) {
+      this.dataSource.filter = value.trim().toLowerCase();
+    } else {
+      this.dataSource.filter = '';
+    }
+
+  }
+
+
+
+
+
+
+
+

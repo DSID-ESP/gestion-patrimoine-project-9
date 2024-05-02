@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription, map, startWith } from 'rxjs';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
@@ -32,6 +32,9 @@ import { Huile } from 'src/app/model/huile';
 import { Piece } from 'src/app/model/piece';
 import { HuileService } from 'src/app/services/huile.service';
 import { PieceService } from 'src/app/services/piece.service';
+import { ChangementPieceAjouterComponent } from 'src/app/composants/changement-piece/changement-piece-ajouter/changement-piece-ajouter.component';
+import { LieuStockageVehicule } from 'src/app/model/lieu-stockage-vehicule.model';
+import { LieuStockageVehiculeService } from 'src/app/services/lieu-stockage-vehicule.service';
 
 @Component({
   selector: 'app-maintenance-ajouter',
@@ -44,8 +47,8 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
 
   // -----------------------------------------------------------------------------------
-  suiteAccident: string = NatureReparation.SUITEACCIDENT;
-  reparationSimple: string = NatureReparation.REPARETIONSIMPLE;
+  SUITEACCIDENT: string = NatureReparation.SUITEACCIDENT;
+  REPARETIONSIMPLE: string = NatureReparation.REPARETIONSIMPLE;
 
 
   // selectedAccident: boolean | undefined;
@@ -58,6 +61,9 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   nombreBlesse: number = 0;
   nombreDeces: number = 0;
 
+
+  accidentFormInvalid: boolean = true;
+  vidangeFormInvalid: boolean = true;
 
   // ----------------------------------------------------------------------------------
   modelDate1: NgbDateStruct | null = null;
@@ -75,11 +81,13 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   // selectedMatricule: string = "";
   controlDotationVehicule = new FormControl('');
   controlHuile = new FormControl('');
-  controlPiece = new FormControl('');
+  controlLieuIncident = new FormControl('');
+  // controlPiece = new FormControl('');
 
   filteredDotationVehicules: Observable<DotationVehicule[]> | undefined;
   filteredHuiles: Observable<Huile[]> | undefined;
-  filteredPieces: Observable<Piece[]> | undefined;
+  filteredLieuStockageVehicules: Observable<LieuStockageVehicule[]> | undefined;
+  // filteredPieces: Observable<Piece[]> | undefined;
   // -----------------------------------------------------------------------
 
   // public condition: Boolean = true;
@@ -93,12 +101,18 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   public huiles: Huile[] = [];
   public huile: Huile = new Huile();
 
+  public lieuStockageVehicules: LieuStockageVehicule[] = [];
+  public lieuStockageVehicule: LieuStockageVehicule = new LieuStockageVehicule();
+
+  
+  // public piecesSelect: Piece[] = [];
   public pieces: Piece[] = [];
   public piece: Piece = new Piece();
 
   public reparations: Reparation[] = [];
   public reparation: Reparation = new Reparation();
 
+  public changementPiecesSelect: ChangementPiece[] = [];
   public changementPieces: ChangementPiece[] = [];
   public changementPiece: ChangementPiece = new ChangementPiece();
 
@@ -122,6 +136,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     private accidentService: AccidentService,
     private vidangeService: VidangeService,
     private dotationVehiculeService: DotationVehiculeService,
+    private lieuStockageVehiculeService: LieuStockageVehiculeService,
     private bonSortieService: BonSortieService,
     private maintenanceService: MaintenanceService,
     private huileService: HuileService,
@@ -129,6 +144,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     private changementPieceService: ChangementPieceService,
     private notificationService: NotificationService,
     private myDateService: MyDateService,
+    private matDialog: MatDialog,
   ) { }
 
   private sendNotification(type: NotificationType, message: string, titre?: string): void {
@@ -147,8 +163,9 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     this.currentDateFormatted = this.myDateStringFormatter(new Date().toString());
 
     this.listeDotationVehicules();
-    this.listeChangementPieces();
-    this.listePieces();
+    this.listeLieuStockageVehicules();
+    // this.listeChangementPieces();
+    // this.listePieces();
     this.listeHuiles();
 
     this.filteredDotationVehicules = this.controlDotationVehicule.valueChanges.pipe(
@@ -161,10 +178,15 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
       map(value => this._filterHuile(value || '')),
     );
 
-    this.filteredPieces = this.controlPiece.valueChanges.pipe(
+    this.filteredLieuStockageVehicules = this.controlLieuIncident.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterPiece(value || '')),
+      map(value => this._filterLieuIncident(value || '')),
     );
+
+    // this.filteredPieces = this.controlPiece.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filterPiece(value || '')),
+    // );
 
 
   }
@@ -219,29 +241,54 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     return listeHuiles;
   }
 
-  private _filterPiece(value: string): Piece[] {
+
+  private _filterLieuIncident(value: string): LieuStockageVehicule[] {
 
     if (value == "") {
-      this.piece = new Piece();
+      this.lieuStockageVehicule = new LieuStockageVehicule();
     }
 
     // Trouver le vehicule ayant exactement le même numeroSerie que la valeur donnée
-    let pieceTrouve = this.pieces.find(piece => this._normalizeValue(piece.referencePiece) === value.toLocaleLowerCase());
-    if (pieceTrouve) {
-      this.piece = pieceTrouve;
+    let lieuStockageVehiculeTrouve = this.lieuStockageVehicules.find(lieuStockageVehicule => this._normalizeValue(lieuStockageVehicule.libellleLieuVH) === value.toLocaleLowerCase());
+    if (lieuStockageVehiculeTrouve) {
+      this.lieuStockageVehicule = lieuStockageVehiculeTrouve;
       // this.recupererBonsortieById(this.dotationVehicule.codeArticleBonSortie.identifiantBonSortie)
     } else {
-      this.piece = new Piece();
+      this.lieuStockageVehicule = new LieuStockageVehicule();
     }
 
     // la liste des vehicules trouvé ou vehicule trouvé en fonction du mot a rechercher
-    let listePieces = this.pieces.filter(piece => this._normalizeValue(piece.referencePiece).includes(value.toLocaleLowerCase()));
+    let listeLieuStockageVehicules = this.lieuStockageVehicules.filter(lieuStockageVehicule => this._normalizeValue(lieuStockageVehicule.libellleLieuVH).includes(value.toLocaleLowerCase()));
     // Trouver l'agent automatique au premier indice sans avoir saisie le matricule au complet
     // if (listeAgents.length == 1) {
     //   this.agent = this.agents.find(agent => agent.matriculeAgent === listeAgents[0].matriculeAgent) ?? new Agent();
     // }
-    return listePieces;
+    return listeLieuStockageVehicules;
   }
+
+  // private _filterPiece(value: string): Piece[] {
+
+  //   if (value == "") {
+  //     this.piece = new Piece();
+  //   }
+
+  //   // Trouver le vehicule ayant exactement le même numeroSerie que la valeur donnée
+  //   let pieceTrouve = this.pieces.find(piece => this._normalizeValue(piece.referencePiece) === value.toLocaleLowerCase());
+  //   if (pieceTrouve) {
+  //     this.piece = pieceTrouve;
+  //     // this.recupererBonsortieById(this.dotationVehicule.codeArticleBonSortie.identifiantBonSortie)
+  //   } else {
+  //     this.piece = new Piece();
+  //   }
+
+  //   // la liste des vehicules trouvé ou vehicule trouvé en fonction du mot a rechercher
+  //   let listePieces = this.pieces.filter(piece => this._normalizeValue(piece.referencePiece).includes(value.toLocaleLowerCase()));
+  //   // Trouver l'agent automatique au premier indice sans avoir saisie le matricule au complet
+  //   // if (listeAgents.length == 1) {
+  //   //   this.agent = this.agents.find(agent => agent.matriculeAgent === listeAgents[0].matriculeAgent) ?? new Agent();
+  //   // }
+  //   return listePieces;
+  // }
 
   private _normalizeValue(value: string): string {
     return value.toLocaleLowerCase().replace(/\s/g, '');
@@ -258,10 +305,15 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     this.huile = this.huiles.find(huile => huile.libelleHuile== selectedLibelleHuile) ?? new Huile();
   }
 
-  onOptionSelectedPiece(event: MatAutocompleteSelectedEvent) {
-    const selectedReferencePiece = event.option.value;
-    this.piece = this.pieces.find(piece => piece.referencePiece == selectedReferencePiece) ?? new Piece();
+  onOptionSelectedLieu(event: MatAutocompleteSelectedEvent) {
+    const selectedLibelleLieu = event.option.value;
+    this.lieuStockageVehicule = this.lieuStockageVehicules.find(lieuStockageVehicule => lieuStockageVehicule.libellleLieuVH== selectedLibelleLieu) ?? new LieuStockageVehicule();
   }
+
+  // onOptionSelectedPiece(event: MatAutocompleteSelectedEvent) {
+  //   const selectedReferencePiece = event.option.value;
+  //   this.piece = this.pieces.find(piece => piece.referencePiece == selectedReferencePiece) ?? new Piece();
+  // }
 
 
   // -------------------------------------------------------------------------------------------
@@ -333,13 +385,14 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
 
-  // ---------------------------------------------------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------------------------------------------------
-  public listeChangementPieces(): void {
 
-    const subscription = this.changementPieceService.listeChangementPieces().subscribe({
-      next: (response: ChangementPiece[]) => {
-        this.changementPieces = response;
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+  public listeLieuStockageVehicules(): void {
+
+    const subscription = this.lieuStockageVehiculeService.listeLieuStockageVehicules().subscribe({
+      next: (response: LieuStockageVehicule[]) => {
+        this.lieuStockageVehicules = response;
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -351,21 +404,40 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
 
+
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
-  public listePieces(): void {
+  // public listeChangementPieces(): void {
 
-    const subscription = this.pieceService.listePieces().subscribe({
-      next: (response: Piece[]) => {
-        this.pieces = response;
-      },
-      error: (errorResponse: HttpErrorResponse) => {
-        // console.log(errorResponse);
-      },
-    });
+  //   const subscription = this.changementPieceService.listeChangementPieces().subscribe({
+  //     next: (response: ChangementPiece[]) => {
+  //       this.changementPieces = response;
+  //     },
+  //     error: (errorResponse: HttpErrorResponse) => {
+  //       // console.log(errorResponse);
+  //     },
+  //   });
 
-    this.subscriptions.push(subscription);
-  }
+  //   this.subscriptions.push(subscription);
+  // }
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+  // public listePieces(): void {
+
+  //   const subscription = this.pieceService.listePieces().subscribe({
+  //     next: (response: Piece[]) => {
+  //       this.pieces = response;
+  //     },
+  //     error: (errorResponse: HttpErrorResponse) => {
+  //       // console.log(errorResponse);
+  //     },
+  //   });
+
+  //   this.subscriptions.push(subscription);
+  // }
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
 
@@ -397,6 +469,32 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   //   }, 1);
   // }
 
+  popupAjouterPiece(): void {
+    const dialogRef = this.matDialog.open(
+      ChangementPieceAjouterComponent,
+      {
+        width: '50%',
+        // height: '80%',
+        enterAnimationDuration: '100ms',
+        exitAnimationDuration: '100ms'
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(() => {
+      // ----------------------------------
+      if (dialogRef.componentInstance instanceof ChangementPieceAjouterComponent) {
+        const changementPiece = dialogRef.componentInstance.changementPiece;
+        if (changementPiece.identifiantPiece.referencePiece != "") {
+          this.changementPiecesSelect.push(changementPiece);
+          // console.log(this.changementPiecesSelect);
+        }
+        
+      }
+      // ----------------------------------
+      // this.ngOnInit();
+    });
+  }
+
 
   popupFermer(): void {
     this.dialogRef.close();
@@ -410,23 +508,29 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   // pour envoyer tous les formulaires
   public submitForm(): void {
-    this.clickButton('maintenance-form');
+    
     this.clickButton('vidange-form');
     this.clickButton('reparation-form');
-    this.clickButton('changement-piece-form');
+    // this.clickButton('changement-piece-form');
     this.clickButton('accident-form');
+
+    // avant de valider l'ensemble du formulaire
+    // setTimeout(() => {
+    //   this.clickButton('maintenance-form');
+    // }, 500);
+
+    this.clickButton('maintenance-form');
   }
 
   public ajouterVidange(VidangeForm: NgForm): void {
+
+    if (!VidangeForm.invalid) {
+      this.vidangeFormInvalid = false;
+    }
+
     this.vidange.identifiantMaintenance = ''; // à compléter
-    // if (this.huile) {
-      
-    // }
-    // this.vidange.identifiantHuile.libelleHuile = VidangeForm.value.libelleHuile;
     this.vidange.identifiantHuile = this.huile;
-    this.vidange.quantite = VidangeForm.value.quantite;
-    console.log(this.vidange);
-    
+    this.vidange.quantite = VidangeForm.value.quantite;    
   }
 
   public ajouterReparation(ReparationForm: NgForm): void {
@@ -436,22 +540,28 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   }
 
 
-  public ajouterChangementPiece(ChangementPieceForm: NgForm): void {
-    this.changementPiece.identifiantMaintenance = ''; // à compléter
-    this.changementPiece.codeChangementPiece = 0; // à compléter
-    this.changementPiece.nombrePieces = ChangementPieceForm.value.nombrePieces;
-    // if (this.piece) {
+  // public ajouterChangementPiece(ChangementPieceForm: NgForm): void {
+  //   this.changementPiece.identifiantMaintenance = ''; // à compléter
+  //   this.changementPiece.codeChangementPiece = 0; // à compléter
+  //   this.changementPiece.nombrePieces = ChangementPieceForm.value.nombrePieces;
+  //   // if (this.piece) {
       
-    // }
-    // this.changementPiece.identifiantPiece.referencePiece = ChangementPieceForm.value.referencePiece;
-    this.changementPiece.identifiantPiece = this.piece;
-  }
+  //   // }
+  //   // this.changementPiece.identifiantPiece.referencePiece = ChangementPieceForm.value.referencePiece;
+  //   this.changementPiece.identifiantPiece = this.piece;
+  // }
 
 
   public ajouterAccident(AccidentForm: NgForm): void {
+
+    if (!AccidentForm.invalid) {
+      this.accidentFormInvalid = false;
+    }
+
     this.accident.identifiantMaintenance = ''; // à compléter
     this.accident.dateIncident = AccidentForm.value.dateIncident;
-    this.accident.lieuIncident = AccidentForm.value.lieuIncident;
+    // this.accident.lieuIncident = ''; // à compléter
+    this.accident.lieuIncident = this.lieuStockageVehicule.libellleLieuVH;
     this.accident.commentaireIncident = AccidentForm.value.commentaireIncident;
     this.accident.nombreDeces = AccidentForm.value.nombreDeces;
     this.accident.nombreBlesse = AccidentForm.value.nombreBlesse;
@@ -466,10 +576,34 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
     if (this.dotationVehicule.numeroSerie.numeroSerie == '') {
       // this.condition = false;
-      this.sendNotification(NotificationType.ERROR, `Ce vehicule n'existe pas`);
+      this.sendNotification(NotificationType.ERROR, `Renseigner un véhicule`);
       return;
     }
 
+    if (this.lieuStockageVehicule.libellleLieuVH == '' && (this.selectedNatureReparation == NatureReparation.SUITEACCIDENT)) {
+      // this.condition = false;
+      this.sendNotification(NotificationType.ERROR, `Renseigner un lieu`);
+      return;
+    }
+
+    if (this.accidentFormInvalid && (this.selectedNatureReparation == NatureReparation.SUITEACCIDENT)) {
+      this.sendNotification(NotificationType.ERROR, `Velliez renseigner l'accident!`);
+      return;
+    }
+
+    if ((this.vidangeFormInvalid || this.huile.identifiantHuile == "") && this.selectedTypeMaintenance.toLowerCase() == 'vidange') {
+      if (this.huile.identifiantHuile == "") {
+        this.sendNotification(NotificationType.ERROR, `Velliez renseigner une huile!`);
+      }
+
+      if (this.vidangeFormInvalid) {
+        this.sendNotification(NotificationType.ERROR, `Velliez renseigner une quantité d'huile!`);
+      }
+      
+      return;
+    }
+
+    
 
 
     this.maintenance.numeroSerie = this.dotationVehicule.numeroSerie;
@@ -479,8 +613,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     this.maintenance.observationMaintenance = MaintenanceForm.value.observationMaintenance;
     this.maintenance.typeMaintenance = MaintenanceForm.value.typeMaintenance;
 
-    console.log(this.maintenance);
-
+    // console.log(this.maintenance);
 
 
     switch (this.maintenance.typeMaintenance.toLowerCase()) {
@@ -579,7 +712,15 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
       next: (response: Reparation) => {
         this.reparation = response;
 
-        this.recupererChangementPieceByIdentifiantMaintenance(this.changementPiece, maintenance, this.reparation);
+        // this.recupererChangementPieceByIdentifiantMaintenance(this.changementPiece, maintenance, this.reparation);
+
+
+        let nombreChangementPiece = 0;
+
+        for (const changementPiece of this.changementPiecesSelect) {
+          this.validerChangementPiece(changementPiece, maintenance, reparation, nombreChangementPiece);
+          nombreChangementPiece++; // Incrémentation de nombreChangementPiece à chaque itération
+        }
 
       },
       error: (errorResponse: HttpErrorResponse) => {
@@ -592,7 +733,9 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   public validerChangementPiece(changementPiece: ChangementPiece, maintenance: Maintenance, reparation: Reparation, nombreChangementPiece: number): void {
 
     changementPiece.identifiantMaintenance = maintenance.identifiantMaintenance;
+    
     changementPiece.codeChangementPiece = nombreChangementPiece + 1;
+
 
     // console.log(this.accident);
     // console.log(this.maintenance);
@@ -642,22 +785,22 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   }
 
 
-  public recupererChangementPieceByIdentifiantMaintenance(changementPiece: ChangementPiece, maintenance: Maintenance, reparation: Reparation): void {
+  // public recupererChangementPieceByIdentifiantMaintenance(changementPiece: ChangementPiece, maintenance: Maintenance, reparation: Reparation): void {
 
-    this.subscriptions.push(this.changementPieceService.recupererChangementPieceByIdentifiantMaintenance(maintenance.identifiantMaintenance).subscribe({
-      next: (response: ChangementPiece[]) => {
+  //   this.subscriptions.push(this.changementPieceService.recupererChangementPieceByIdentifiantMaintenance(maintenance.identifiantMaintenance).subscribe({
+  //     next: (response: ChangementPiece[]) => {
 
-        // this.nombreChangementPieceByIdentifiantMaintenance = response.length + 1;
-        const nombreChangementPiece = response.length;
+  //       // this.nombreChangementPieceByIdentifiantMaintenance = response.length + 1;
+  //       const nombreChangementPiece = response.length;
 
-        this.validerChangementPiece(changementPiece, maintenance, reparation, nombreChangementPiece);
-      },
-      error: (errorResponse: HttpErrorResponse) => {
+  //       this.validerChangementPiece(changementPiece, maintenance, reparation, nombreChangementPiece);
+  //     },
+  //     error: (errorResponse: HttpErrorResponse) => {
 
-      }
-    }));
+  //     }
+  //   }));
 
-  }
+  // }
 
   myDateStringFormatter(date: MyDate | string | undefined | null): string {
     if (!date) {
@@ -670,6 +813,11 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
       return this.myDateService.formatterMyDate(date);
     }
   }
+
+  supprimerChangementPiecesSelect(index: number) {
+    this.changementPiecesSelect.splice(index, 1);
+  }
+  
 
 
 

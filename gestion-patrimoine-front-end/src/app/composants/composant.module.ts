@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { LoaderComponent } from './loader/loader.component';
 import { EnteteComponent } from './entete/entete.component';
 import { MenuComponent } from './menu/menu.component';
@@ -28,6 +28,9 @@ import { BonEntreeDetailComponent } from './bon-entree/bon-entree-detail/bon-ent
 import { BonEntreeAjouterComponent } from './bon-entree/bon-entree-ajouter/bon-entree-ajouter.component';
 import { VehiculeAjouterDotationComponent } from './vehicule/vehicule-ajouter-dotation/vehicule-ajouter-dotation.component';
 import { ValidationComponent } from './validation/validation.component';
+import { ChangementPieceAjouterComponent } from './changement-piece/changement-piece-ajouter/changement-piece-ajouter.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @NgModule({
@@ -38,6 +41,7 @@ import { ValidationComponent } from './validation/validation.component';
     MenuComponent,
     PopupConfirmationSupprimerComponent,
     ValidationComponent,
+    ChangementPieceAjouterComponent,
 
     BonEntreeAjouterComponent,
     BonEntreeDetailComponent,
@@ -63,6 +67,7 @@ import { ValidationComponent } from './validation/validation.component';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     NgbModule, // dropdown
 
     MatExpansionModule,
@@ -72,6 +77,12 @@ import { ValidationComponent } from './validation/validation.component';
     MatIconModule,
     MatDividerModule,
     MatDialogModule,
+
+    MatAutocompleteModule,
+    AsyncPipe,
+    MatFormFieldModule,
+
+    // FormsModule,
     
     AppRoutingModule  
   ],
@@ -82,6 +93,7 @@ import { ValidationComponent } from './validation/validation.component';
     MenuComponent,
     PopupConfirmationSupprimerComponent,
     ValidationComponent,
+    ChangementPieceAjouterComponent,
 
     BonEntreeAjouterComponent,
     BonEntreeDetailComponent,

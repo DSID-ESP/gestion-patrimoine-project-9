@@ -276,13 +276,8 @@
     <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'vidange'" class="container px-3 py-2">
       <form class="form" #VidangeForm="ngForm" (ngSubmit)="ajouterVidange(VidangeForm)">
         <div class="row g-4 mb-3">
-          <!-- <div class="col-3 mx-auto form-group">
-            <label for="libelleHuile" class="form-label fw-bold">Libellé huile</label>
-            <input id="libelleHuile" type="text" name="libelleHuile" required ngModel
-              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-          </div> -->
 
-          <div class="col-3 mx-auto form-group">
+          <div class="col-6 mx-auto form-group">
             <label for="myInputSearch" class="form-label fw-bold">Libellé huile</label>
             <input type="text" [formControl]="controlHuile" [matAutocomplete]="auto" id="myInputSearch"
               class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
@@ -300,14 +295,14 @@
               class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
           </div>
 
-          <div class="col-6 mx-auto">
+          <div class="col-3 mx-auto">
           </div>
         </div>
 
         <div class="row">
           <div class="col-12 text-end">
             <button type="submit" id="vidange-form"
-              [disabled]="VidangeForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')" hidden
+              [disabled]="VidangeForm.invalid || MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie === '') || (this.huile.identifiantHuile == '')" hidden
               class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
               Valider
             </button>
@@ -330,8 +325,9 @@
               class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
               autocomplete="off">
 
-              <option [ngValue]="reparationSimple"> {{reparationSimple}} </option>
-              <option [ngValue]="suiteAccident"> {{suiteAccident}} </option>
+              <!-- <option [ngValue]="REPARETIONSIMPLE" selected> {{REPARETIONSIMPLE}} </option> -->
+              <option [ngValue]="REPARETIONSIMPLE"> {{REPARETIONSIMPLE}} </option>
+              <option [ngValue]="SUITEACCIDENT"> {{SUITEACCIDENT}} </option>
             </select>
 
           </div>
@@ -343,7 +339,7 @@
         <div class="row">
           <div class="col-12 text-end">
             <button type="submit" id="reparation-form"
-              [disabled]="ReparationForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')" hidden
+              [disabled]="ReparationForm.invalid || selectedTypeMaintenance.toLowerCase() == 'reparation' && selectedNatureReparation === REPARETIONSIMPLE" hidden
               class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
               Valider
             </button>
@@ -352,16 +348,34 @@
       </form>
     </div>
 
-    <div *ngIf="selectedNatureReparation === suiteAccident">
 
-      <div *ngIf="selectedNatureReparation" class="text-center fw-bolder bg-myprimary mt-1 py-1" role="alert">
-      </div>
+
+    <div *ngIf="selectedNatureReparation === SUITEACCIDENT" class="text-center fw-bolder bg-myprimary mt-1 py-1"
+      role="alert">
+    </div>
+
+    <div *ngIf="selectedNatureReparation === SUITEACCIDENT">
+
       <form class="form" #AccidentForm="ngForm" (ngSubmit)="ajouterAccident(AccidentForm)" class="container px-3 py-2">
         <div class="row g-4 mb-3">
-          <div class="col-3 mx-auto form-group">
+          <!-- <div class="col-3 mx-auto form-group">
             <label for="lieuIncident" class="form-label fw-bold">Lieu incident</label>
             <input id="lieuIncident" type="text" name="lieuIncident" required ngModel
               class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+          </div> -->
+
+          <!-- {{accidentFormInvalid}} -->
+
+          <div class="col-3 mx-auto form-group">
+            <label for="myInputSearch" class="form-label fw-bold">Lieu incident</label>
+            <input type="text" [formControl]="controlLieuIncident" [matAutocomplete]="autoLieu" id="myInputSearch"
+              class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+
+            <mat-autocomplete #autoLieu="matAutocomplete" (optionSelected)="onOptionSelectedLieu($event)">
+              <mat-option *ngFor="let lieuStockageVehicule of (filteredLieuStockageVehicules | async)?.slice(0, 5)" [value]="lieuStockageVehicule.libellleLieuVH">
+                {{ lieuStockageVehicule.libellleLieuVH }}
+              </mat-option>
+            </mat-autocomplete>
           </div>
 
           <div class="col-3 mx-auto form-group">
@@ -398,7 +412,7 @@
         <div class="row">
           <div class="col-12 text-end">
             <button type="submit" id="accident-form"
-              [disabled]="AccidentForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')" hidden
+              [disabled]="AccidentForm.invalid || MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie === '') || changementPiecesSelect.length === 0 || (lieuStockageVehicule.libellleLieuVH == '')" hidden
               class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
               Valider
             </button>
@@ -409,31 +423,57 @@
 
 
 
-    <!--
-        <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'"
-            class="text-center fw-bolder bg-myprimary mt-1" role="alert">Changement piéce
-        </div> -->
-
     <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation' ">
 
       <div *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'" class="text-center fw-bolder bg-myprimary mt-1"
         role="alert">Changement piéce
       </div>
-      <form class="form" #ChangementPieceForm="ngForm" (ngSubmit)="ajouterChangementPiece(ChangementPieceForm)"
-        class="container px-3 py-2">
+
+      <form class="form" class="container px-3 py-2">
+
         <div class="row g-4 mb-3">
+          <div class="col-3 mx-auto">
+            <!-- <button (click)="submitForm()" type="button" class="btn btn-mysecondary rounded-pill w-100" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+              <span class="fs-4">+</span> Ajouter une pièce
+            </button> -->
 
-          <!-- <div class="col-3 mx-auto">
-                        <label for="codeChangementPiece" class="form-label fw-bold">Code changement</label>
-                        <input id="codeChangementPiece" type="number" name="codeChangementPiece" required ngModel class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+            <button (click)="popupAjouterPiece()" type="button" class="btn border-2 border-myprimary rounded-pill w-100"
+              data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+              <span class="fs-5">+</span> Ajouter une pièce
+            </button>
+          </div>
+        </div>
 
-                        <input id="codeChangementPiece" hidden type="number" name="codeChangementPiece" disabled required [(ngModel)]="nombrePiece" class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                        <input   [placeholder]="'Code ' + nombrePiece" type="text" disabled   class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                    </div> -->
+        <div class="row g-4 mb-3">
+          <div class="col mx-auto text-center">
+            <div class="text-input text-uppercase">
+              <span class="border border-2 border-mysecondary rounded-4 p-2 m-1"
+                *ngFor="let changementPiece of changementPiecesSelect; let i = index"
+                style="display: inline-block; white-space: nowrap;">
+                {{ changementPiece.identifiantPiece.referencePiece }} ({{ changementPiece.nombrePieces }})
+                <!-- <span class="btn btn-mybrown btn-sm" (click)="supprimerChangementPiecesSelect(i)">x</span> -->
+                <span class="text-mybrown text-sm" (click)="supprimerChangementPiecesSelect(i)" style="cursor: pointer;">x</span>
+              </span>
+            </div>
+          </div>
+        </div>        
 
+        <!-- <div class="row g-4 mb-3">
+          <div class="col mx-auto text-center">
+            <div class="text-input text-uppercase">
+              <span class="border border-2 border-mysecondary rounded-4 p-2 m-1"
+                *ngFor="let changementPiece of changementPiecesSelect"
+                style="display: inline-block; white-space: nowrap;">
+                {{ changementPiece.identifiantPiece.referencePiece }} ({{ changementPiece.nombrePieces }})
+              </span>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- <div class="row g-4 mb-3">
           <div class="col-3 mx-auto form-group">
             <label for="myInputSearch" class="form-label fw-bold">Référence pièces</label>
-            <input type="text" [formControl]="controlHuile" [matAutocomplete]="auto" id="myInputSearch"
+            <input type="text" [formControl]="controlPiece" [matAutocomplete]="auto" id="myInputSearch"
               class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
 
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelectedPiece($event)">
@@ -449,17 +489,11 @@
               class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
           </div>
 
-          <!-- <div class="col-3 mx-auto form-group">
-            <label for="referencePiece" class="form-label fw-bold">Référence pièces</label>
-            <input id="referencePiece" type="text" name="referencePiece" required ngModel
-              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-          </div> -->
-
           <div class="col-6 mx-auto">
           </div>
-        </div>
+        </div> -->
 
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-12 text-end">
             <button type="submit" id="changement-piece-form"
               [disabled]="ChangementPieceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')" hidden
@@ -467,69 +501,10 @@
               Valider
             </button>
           </div>
-        </div>
+        </div> -->
+
       </form>
     </div>
-
-
-
-
-    <!-- <div *ngIf="selectedNatureReparation === suiteAccident" class="container px-3 py-2">
-
-      <div *ngIf="selectedNatureReparation" class="text-center fw-bolder bg-myprimary mt-1 py-1" role="alert">
-      </div>
-      <form class="form" #AccidentForm="ngForm" (ngSubmit)="ajouterAccident(AccidentForm)">
-        <div class="row g-4 mb-3">
-          <div class="col-3 mx-auto form-group">
-            <label for="lieuIncident" class="form-label fw-bold">Lieu incident</label>
-            <input id="lieuIncident" type="text" name="lieuIncident" required ngModel
-              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-          </div>
-
-          <div class="col-3 mx-auto form-group">
-            <label for="dateIncident" class="form-label fw-bold">Date incident</label>
-            <input type="text" name="dateIncident" id="dateIncident" autocomplete="off" ngbDatepicker
-              #dp1="ngbDatepicker" (click)="dp1.toggle()" required [(ngModel)]="modelDate1"
-              [value]="formatDate(modelDate1)"
-              class="text-input form-control bg-mywhite border border-myprimary px-1 text-uppercase">
-          </div>
-
-          <div class="col-3 mx-auto form-group">
-            <label for="nombreBlesse" class="form-label fw-bold">Nombre blessés</label>
-            <input id="nombreBlesse" type="number" name="nombreBlesse" required [(ngModel)]="nombreBlesse"
-              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-          </div>
-
-          <div class="col-3 mx-auto form-group">
-            <label for="nombreDeces" class="form-label fw-bold">Nombre décès</label>
-            <input id="nombreDeces" type="number" name="nombreDeces" required [(ngModel)]="nombreDeces"
-              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-          </div>
-        </div>
-
-        <div class="row g-4 mb-3">
-          <div class="col-12 mx-auto form-group">
-            <label for="commentaireIncident" class="form-label fw-bold">Commentaire incident</label>
-            <textarea name="commentaireIncident" id="commentaireIncident" rows="2" required ngModel
-              class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
-              style="resize: none;"></textarea>
-          </div>
-        </div>
-
-
-        <div class="row">
-          <div class="col-12 text-end">
-            <button type="submit" id="accident-form" [disabled]="AccidentForm.invalid || (vehicule.numeroSerie == '')"
-              hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
-              Valider
-            </button>
-          </div>
-        </div>
-      </form>
-    </div> -->
-
-
-
 
 
 
@@ -538,22 +513,40 @@
         <div class="col-12 text-end">
           <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'controle' || selectedTypeMaintenance == ''"
             (click)="submitForm()" type="button"
-            [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')"
+            [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie === '')"
             class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
             Valider
           </button>
 
           <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'vidange'" (click)="submitForm()" type="button"
-            [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')"
+            [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie === '') || (this.huile.identifiantHuile === '')"
             class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
             Valider
           </button>
 
-          <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation'" (click)="submitForm()" type="button"
-            [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')"
+          <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation' && selectedNatureReparation === REPARETIONSIMPLE" (click)="submitForm()" type="button"
+            [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie === '') || changementPiecesSelect.length === 0"
             class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
             Valider
           </button>
+
+          <!-- --------------------------------------------------- -->
+
+          <button *ngIf="selectedTypeMaintenance.toLowerCase() == 'reparation' && selectedNatureReparation === SUITEACCIDENT"
+            (click)="submitForm()" type="button"
+            [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie === '') || changementPiecesSelect.length === 0 || (lieuStockageVehicule.libellleLieuVH == '')"
+            class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+            Valider
+          </button>
+
+
+          <!-- --------------------------------------------------- -->
+
+          <!-- <button (click)="submitForm()" type="button"
+            [disabled]="MaintenanceForm.invalid || (dotationVehicule.numeroSerie.numeroSerie == '')"
+            class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+            Valider
+          </button> -->
 
           <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
             data-bs-toggle="tooltip" title="cliquer ici pour retourner">

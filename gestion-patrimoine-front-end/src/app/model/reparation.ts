@@ -4,17 +4,17 @@ export class Reparation {
 
   public identifiantMaintenance: string;
   public natureReparation: string;
-  public suiteAccident: boolean;
+  // public suiteAccident: boolean;
 
 
   constructor(
     identifiantMaintenance = '',
     natureReparation = '',
-    suiteAccident = false
+    // suiteAccident = false
   ) {
     this.identifiantMaintenance = identifiantMaintenance;
     this.natureReparation = natureReparation;
-    this.suiteAccident = suiteAccident;
+    // this.suiteAccident = suiteAccident;
   }
 
 
