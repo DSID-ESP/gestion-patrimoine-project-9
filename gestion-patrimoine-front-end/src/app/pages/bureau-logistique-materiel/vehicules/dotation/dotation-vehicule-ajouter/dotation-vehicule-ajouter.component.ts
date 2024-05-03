@@ -73,6 +73,10 @@ export class DotationVehiculeAjouterComponent {
   RETOURBLM: EtatBonPour = EtatBonPour.RETOURBLM;
   RETOURDLF: EtatBonPour = EtatBonPour.RETOURDLF;
 
+  quantiteAccordeeSection: number = 0;
+  quantiteAccordeeDLF: number = 0;
+  quantiteAccordeeBLM: number = 0;
+
 
 
   // public articleBonPour: ArticleBonPour = new ArticleBonPour();
@@ -369,6 +373,9 @@ export class DotationVehiculeAjouterComponent {
       let articleBonSortie: ArticleBonSortie = new ArticleBonSortie();
 
       articleBonSortie.quantiteAccordeeSection = quantiteAccordee;
+      articleBonSortie.quantiteAccordeeBLM = null;
+      articleBonSortie.quantiteAccordeeDLF = null;
+      articleBonSortie.quantiteAccordeeDefinitive = null;
       articleBonSortie.libelleArticleBonSortie = "LIBELLE " + quantiteAccordee + " BS";
       //this.articleBonSortie.identifiantBonSortie= this.bonSortie.identifiantBonSortie;
       articleBonSortie.codeArticleBonSortie = this.nombreArticle;
@@ -418,6 +425,9 @@ export class DotationVehiculeAjouterComponent {
 
       this.articleBonSortie.quantiteAccordeeBLM= quantiteAccordee;
 
+      this.articleBonSortie.quantiteAccordeeDLF = null;
+      this.articleBonSortie.quantiteAccordeeDefinitive = null;
+
       console.log(this.bonSortie);
 
       console.log(this.articleBonSortie);
@@ -443,6 +453,51 @@ export class DotationVehiculeAjouterComponent {
 
     }
 
+
+    if (this.estDLF && this.articleBonSortie.identifiantBonSortie !== ""){
+
+
+      let quantiteAccordee: number = ArticleBonSortieForm.value.quantiteAccordeeDLF;
+
+      let quantitePermise: number = this.articleBonPour.quantiteDemandee - this.quantiteAccordeeTotal;
+
+      if (quantitePermise <  quantiteAccordee ) {
+
+
+        this.sendNotification(NotificationType.ERROR, `Vous avez dépassé la limite de quantité permise (${quantitePermise}) véhicule(s)`);
+
+        return ;
+
+
+
+      }
+
+     this.articleBonSortie.quantiteAccordeeDLF= quantiteAccordee;
+
+      this.articleBonSortie.quantiteAccordeeDefinitive= quantiteAccordee;
+
+      //this.articleBonSortie.libelleArticleBonSortie= "LIBELLE " + quantiteAccordee + " BS";
+      //this.articleBonSortie.identifiantBonSortie= this.bonSortie.identifiantBonSortie;
+     // this.articleBonSortie.codeArticleBonSortie= this.nombreArticle;
+     // this.articleBonSortie.dateArticleBonSortie = null;
+      //this.articleBonSortie.matriculeAgent= this.agents[0];
+      // this.articleBonSortie.codeArticleBonSortie= ArticleBonSortieForm.value.codeArticleBonSortie;
+      // console.log(this.articleBonPour,this.articleBonSortie);
+      console.log(this.articleBonSortie);
+
+
+
+
+
+      this.popupVehicule( this.articleBonPour, this.articleBonSortie,this.bonSortie,this.bonPour);
+
+
+    }
+
+
+
+
+
   }
 
  public transmettreBonPour(bonpour: BonPour): void {
@@ -462,6 +517,14 @@ export class DotationVehiculeAjouterComponent {
 
 
     }
+
+    if (this.estBLM) {
+
+      this.bonPour.etatBonPour = this.etatSuivant(EtatBonPour.RETOURBLM); // this.bonPour.etatBonPour
+
+
+    }
+
 
     // -----------------------------------------------------------------------------
 
@@ -500,7 +563,7 @@ export class DotationVehiculeAjouterComponent {
 
 
 
-  // if (this.estDLF){
+  // if (this.estDLF && this.articleBonSortie.identifiantBonSortie !== ""){
 
 
   //   let quantiteAccordee: number = ArticleBonSortieForm.value.quantiteAccordeeDLF;
@@ -549,7 +612,7 @@ export class DotationVehiculeAjouterComponent {
 
 
 
-  popupVehicule(articleBonPour: ArticleBonPour, articleBonSortie: ArticleBonSortie, bonSortie: BonSortie): void {
+  popupVehicule(articleBonPour: ArticleBonPour, articleBonSortie: ArticleBonSortie, bonSortie: BonSortie,bonPour:BonPour): void {
     const dialogRef = this.matDialog.open(
       VehiculeAjouterDotationComponent,
       {
@@ -560,7 +623,8 @@ export class DotationVehiculeAjouterComponent {
         data: {
           articleBonPour: articleBonPour,
           articleBonSortie: articleBonSortie,
-          bonSortie: bonSortie
+          bonSortie: bonSortie,
+          bonPour: bonPour
 
         }
       }

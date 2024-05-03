@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import sn.douanes.entities.*;
 import sn.douanes.services.DotationVehiculeService;
+import sn.douanes.services.VehiculeService;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public class DotationVehiculeController {
 
     @Autowired
     DotationVehiculeService dotationVehiculeService;
+
+    @Autowired
+    VehiculeService vehiculeService;
 
 
     @GetMapping("/DotationVehicules")
@@ -57,6 +61,15 @@ public class DotationVehiculeController {
             @PathVariable("identifiantDV") String identifiantDV
     ) {
         return dotationVehiculeService.getDotationVehiculeById(identifiantDV);
+    }
+
+    @GetMapping("RecupererDotationVehiculeByNumeroSerie/{numeroSerie}")
+    // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
+    public DotationVehicule RecupererDotationVehiculeByNumeroSerie(
+            @PathVariable("numeroSerie") String numeroSerie
+    ) {
+        Vehicule vehicule = vehiculeService.getVehiculeById(numeroSerie);
+        return dotationVehiculeService.getDotationVehiculeByNumeroSerie(vehicule);
     }
 
     private ResponseEntity<HttpResponse> response(HttpStatus httpStatus, String message) {

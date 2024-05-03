@@ -46,11 +46,11 @@
         <div class="container px-3 py-2">
             <div class="row">
                 <div class="col-12 text-end">
-                    <button  type="button" class="btn btn-mybrown fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour supprimer">
+                    <button  type="button" [hidden]="!estBAF" class="btn btn-mybrown fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour supprimer">
                         Supprimer
                     </button>
 
-                    <button  type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
+                    <button  type="button" [hidden]="!estBAF" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
                         Modifier
                     </button>
 

@@ -3,19 +3,24 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { EtatBonPour } from 'src/app/enum/etat-bon-pour.enum';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { Agent } from 'src/app/model/agent.model';
 import { ArticleBonEntree } from 'src/app/model/article-bon-entree.model';
 import { ArticleBonPour } from 'src/app/model/article-bon-pour.model';
 import { ArticleBonSortie } from 'src/app/model/article-bon-sortie.model';
+import { BonPour } from 'src/app/model/bon-pour.model';
 import { BonSortie } from 'src/app/model/bon-sortie.model';
 import { DotationVehicule } from 'src/app/model/dotation-vehicule.model';
+import { Utilisateur } from 'src/app/model/utilisateur.model';
 import { Vehicule } from 'src/app/model/vehicule.model';
 import { AgentService } from 'src/app/services/agent.service';
 import { ArticleBonEntreeService } from 'src/app/services/article-bon-entree.service';
 import { ArticleBonSortieService } from 'src/app/services/article-bon-sortie.service';
+import { BonPourService } from 'src/app/services/bon-pour.service';
 import { BonSortieService } from 'src/app/services/bon-sortie.service';
 import { DotationVehiculeService } from 'src/app/services/dotation-vehicule.service';
+import { FonctionUtilisateurService } from 'src/app/services/fonction-utilisateur.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { VehiculeService } from 'src/app/services/vehicule.service';
 
@@ -41,6 +46,9 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
   public articleBonPours: ArticleBonPour[] = [];
   public articleBonPour: ArticleBonPour = new ArticleBonPour();
 
+  public bonPours: BonPour[] = [];
+  public bonPour: BonPour = new BonPour();
+
   public articleBonEntrees: ArticleBonEntree[] = [];
   public articleBonEntree: ArticleBonEntree = new ArticleBonEntree();
 
@@ -55,6 +63,8 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
 
 
 
+
+
   public bonSorties: BonSortie[] = [];
   public bonSortie: BonSortie = new BonSortie();
 
@@ -65,9 +75,26 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
+
+  public utilisateurs: Utilisateur[] = [];
+  public utilisateur: Utilisateur | undefined;
+
+
+
+  estDLF: boolean = false;
+
+  RETOURSECTION: EtatBonPour = EtatBonPour.RETOURSECTION;
+  RETOURBLM: EtatBonPour = EtatBonPour.RETOURBLM;
+  RETOURDLF: EtatBonPour = EtatBonPour.RETOURDLF;
+
+
+  // ----------------------------------------------------------------------------------
+
+  etatsBonPourArray = Object.values(EtatBonPour);
+
   constructor(
     public dialogRef: MatDialogRef<VehiculeAjouterDotationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { articleBonPour: ArticleBonPour, articleBonSortie: ArticleBonSortie, bonSortie: BonSortie },
+    @Inject(MAT_DIALOG_DATA) public data: { articleBonPour: ArticleBonPour, articleBonSortie: ArticleBonSortie, bonSortie: BonSortie,bonPour:BonPour },
     private matDialog: MatDialog,
     private fb: FormBuilder,
     private bonSortieService: BonSortieService,
@@ -77,7 +104,8 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
     private vehiculeService: VehiculeService,
     private articleBonEntreeService: ArticleBonEntreeService,
     private notificationService: NotificationService,
-
+    private fonctionUtilisateurService: FonctionUtilisateurService,
+    private bonPourService: BonPourService
   ) { }
 
 
@@ -97,13 +125,26 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
     this.articleBonPour = this.data.articleBonPour;
     this.articleBonSortie = this.data.articleBonSortie;
     this.bonSortie = this.data.bonSortie;
+    this.bonPour = this.data.bonPour;
+
     // this.vehiculesSelectedBefore = this.vehiculesSelected = this.data.vehiculesSelected;
     // console.log(this.vehiculesSelectBefore);
     this.listeAgents();
     this.listeVehicules();
     this.listeDotations()
     // this.listeBonDeSorties();
+
+
+    this.utilisateur = this.fonctionUtilisateurService.getUtilisateur;
+    this.estDLF = this.fonctionUtilisateurService.estDLF;
   }
+
+  etatSuivant(etatBonPour: EtatBonPour): EtatBonPour {
+    const currentIndex = this.etatsBonPourArray.indexOf(etatBonPour);
+    const nextIndex = (currentIndex + 1) % this.etatsBonPourArray.length;
+    return this.etatsBonPourArray[nextIndex];
+  }
+
 
 
 
@@ -212,73 +253,6 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
   }
 
 
-  // validerVehicule(): void {
-
-  //   this.ajouterArticleBonSortie( this.bonDeSortie,this.vehiculesSelect);
-
-
-  //   this.popupFermer();
-  // }
-
-
-
-
-  // public ajouterArticleBonSortie( bonDeSortie: BonDeSortie, vehiculesSelect: Vehicule[]): void {
-
-
-
-  //   console.log(new ArticleBonSortie());
-
-
-
-
-
-  //   this.subscriptions.push(this.articleBonSortieService.listeArticleBonSorties().subscribe({
-  //     next: (response: ArticleBonSortie[]) => {
-
-  //        console.log(response);
-
-
-  //     },
-  //     error: (errorResponse: HttpErrorResponse) => {
-
-  //     }
-  //   })
-  // );
-
-  // }
-
-
-  public validerBonSortie(bonSortie: BonSortie): void {
-
-
-    this.subscriptions.push(this.bonSortieService.ajouterBonSortie(bonSortie).subscribe({
-      next: (response: BonSortie) => {
-        this.bonSortie = response;
-        console.log(this.bonSortie);
-
-        this.articleBonSortie.identifiantBonSortie= this.bonSortie.identifiantBonSortie;
-
-        this.ajouterArticleBonSortie(this.articleBonSortie, this.vehiculesSelect)
-
-      },
-      error: (errorResponse: HttpErrorResponse) => {
-
-      }
-    })
-    );
-
-
-
-
-
-  }
-
-
-
-
-
-
 
 
   public validerDotationVehicule(articleBonSortie: ArticleBonSortie, vehiculesSelect: Vehicule[]): void {
@@ -320,19 +294,47 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
   }
 
 
+  public terminerBonPour(bonPour: BonPour): void {
+
+
+    if (this.estDLF) {
+      bonPour.etatBonPour = this.etatSuivant(EtatBonPour.RETOURDLF); // this.bonPour.etatBonPour
+    }
+
+
+
+
+    // -----------------------------------------------------------------------------
+
+    this.subscriptions.push(this.bonPourService.modifierBonPour(bonPour).subscribe({
+      next: (response: BonPour) => {
+        // console.log(response);
+        this.sendNotification(NotificationType.SUCCESS, `Bon pour transmis`);
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        console.log(errorResponse);
+        // this.sendNotification(NotificationType.ERROR, errorResponse.error);
+      }
+    })
+    );
+  }
+
+
+
   public ajouterArticleBonSortie(articleBonSortie: ArticleBonSortie, vehiculesSelect: Vehicule[]): void {
 
 
     if (vehiculesSelect.length == articleBonSortie.quantiteAccordeeDefinitive ) {
 
-      this.subscriptions.push(this.articleBonSortieService.ajouterArticleBonSortie(articleBonSortie).subscribe({
+      this.subscriptions.push(this.articleBonSortieService.modifierArticleBonSortie(this.articleBonSortie).subscribe({
         next: (response: ArticleBonSortie) => {
           // this.articleBonSortie = articleBonSortie;
 
           console.log(response);
 
 
-          this.validerDotationVehicule(response, vehiculesSelect)
+          this.validerDotationVehicule(response, vehiculesSelect);
+          this.terminerBonPour(this.bonPour);
 
           // console.log(response);
 

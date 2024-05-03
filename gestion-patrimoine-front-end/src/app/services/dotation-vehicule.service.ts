@@ -22,24 +22,28 @@ export class DotationVehiculeService {
   //  CRUD DOTATIONVEHICULE
 
   public listeDotationVehicules(): Observable<DotationVehicule[]> {
-    return this.httpClient.get<DotationVehicule[]>(`${this.urlServeur}/DotationVehicules`);
+    return this.httpClient.get<DotationVehicule[]>(`${this.urlServeur}/DotationVehicules`, { withCredentials: true });
   }
 
   public ajouterDotationVehicule(dotationVehicule: DotationVehicule): Observable<DotationVehicule> {
-    return this.httpClient.post<DotationVehicule>(`${this.urlServeur}/AjouterDotationVehicule`, dotationVehicule);
+    return this.httpClient.post<DotationVehicule>(`${this.urlServeur}/AjouterDotationVehicule`, dotationVehicule, { withCredentials: true });
   }
 
 
   public modifierDotationVehicule(dotationVehicule: DotationVehicule): Observable<DotationVehicule> {
-    return this.httpClient.put<DotationVehicule>(`${this.urlServeur}/ModifierDotationVehicule`, dotationVehicule);
+    return this.httpClient.put<DotationVehicule>(`${this.urlServeur}/ModifierDotationVehicule`, dotationVehicule, { withCredentials: true });
   }
 
   public supprimerDotationVehiculeById(identifiantDV: string): Observable<CustomHttpRespone> {
-    return this.httpClient.delete<CustomHttpRespone>(`${this.urlServeur}/SupprimerDotationVehiculeById/${identifiantDV}`);
+    return this.httpClient.delete<CustomHttpRespone>(`${this.urlServeur}/SupprimerDotationVehiculeById/${identifiantDV}`, { withCredentials: true });
   }
 
   public recupererDotationVehiculeById(identifiantDV: string): Observable<DotationVehicule> {
-    return this.httpClient.get<DotationVehicule>(`${this.urlServeur}/RecupererDotationVehiculeById/${identifiantDV}`);
+    return this.httpClient.get<DotationVehicule>(`${this.urlServeur}/RecupererDotationVehiculeById/${identifiantDV}`, { withCredentials: true });
+  }
+
+  public recupererDotationVehiculeByNumeroSerie(numeroSerie: string): Observable<DotationVehicule> {
+    return this.httpClient.get<DotationVehicule>(`${this.urlServeur}/RecupererDotationVehiculeByNumeroSerie/${numeroSerie}`, { withCredentials: true });
   }
 
 

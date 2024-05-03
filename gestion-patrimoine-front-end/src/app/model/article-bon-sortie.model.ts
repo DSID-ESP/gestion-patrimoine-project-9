@@ -9,10 +9,10 @@ export class ArticleBonSortie {
   public identifiantBonSortie: string;
   public libelleArticleBonSortie: string;
   public dateArticleBonSortie: MyDate | null;
-  public quantiteAccordeeSection: number;
-  public quantiteAccordeeBLM: number;
-  public quantiteAccordeeDLF: number;
-  public quantiteAccordeeDefinitive: number;
+  public quantiteAccordeeSection: number | null;
+  public quantiteAccordeeBLM: number | null;
+  public quantiteAccordeeDLF: number | null;
+  public quantiteAccordeeDefinitive: number | null;
   public matriculeAgent: Agent;
 
 
@@ -31,10 +31,10 @@ export class ArticleBonSortie {
     this.identifiantBonSortie = identifiantBonSortie;
     this.libelleArticleBonSortie = libelleArticleBonSortie;
     this.dateArticleBonSortie = dateArticleBonSortie || null;
-    this.quantiteAccordeeSection = quantiteAccordeeSection;
-    this.quantiteAccordeeBLM = quantiteAccordeeBLM;
-    this.quantiteAccordeeDLF = quantiteAccordeeDLF;
-    this.quantiteAccordeeDefinitive = quantiteAccordeeDefinitive;
+    this.quantiteAccordeeSection = quantiteAccordeeSection || null;
+    this.quantiteAccordeeBLM = quantiteAccordeeBLM || null;
+    this.quantiteAccordeeDLF = quantiteAccordeeDLF || null;
+    this.quantiteAccordeeDefinitive = quantiteAccordeeDefinitive || null;
     this.matriculeAgent = matriculeAgent;
   }
 

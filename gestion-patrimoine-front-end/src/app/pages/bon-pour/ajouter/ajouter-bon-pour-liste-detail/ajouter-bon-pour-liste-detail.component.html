@@ -182,7 +182,7 @@
                                     Transmettre
                                 </button>
 
-                                <button (click)="popupAjouterArticle(bonPour)" [hidden]="!estBAF" type="button" class="btn btn-mysecondary fw-bold mx-2"
+                                <button (click)="popupAjouterArticle(bonPour)" [hidden]="!estBAF || bonPour?.etatBonPour != BAF" type="button" class="btn btn-mysecondary fw-bold mx-2"
                                     data-bs-toggle="tooltip" title="cliquer ici pour ajouter article">
                                     Ajouter article
                                 </button>

@@ -395,7 +395,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
         // Calculer la quantité totale accordée pour ces articles et l'ajouter à la quantité totale
         const quantitePourCeBonSortie = articleBonSortieAssocies.reduce((total, article) => {
-            return total + (article ? article.quantiteAccordeeDefinitive : 0);
+            return total + (article && article.quantiteAccordeeDefinitive ? article.quantiteAccordeeDefinitive : 0);
         }, 0);
 
         this.quantiteAccordeeTotal += quantitePourCeBonSortie;

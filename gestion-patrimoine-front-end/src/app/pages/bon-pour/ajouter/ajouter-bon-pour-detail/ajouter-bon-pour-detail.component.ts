@@ -15,7 +15,20 @@ import { Utilisateur } from 'src/app/model/utilisateur.model';
 })
 export class AjouterBonPourDetailComponent implements OnInit, OnDestroy {
 
-  
+  // ---------------------------------------------------
+
+  // tousPrivileges: boolean = false;
+  // bonPourAjouterSection: boolean = false;
+  // bonPourAjouterBLM: boolean = false;
+  // bonPourAjouterDLF: boolean = false;
+  // bonPourAjouterInitial: boolean = false;
+
+  estBAF: boolean = false;
+  // estDLF: boolean = false;
+  // estBLM: boolean = false;
+  // estSection: boolean = false;
+
+  // ----------------------------------------------------------------------------------
 
   private subscriptions: Subscription[] = [];
 
@@ -28,6 +41,18 @@ export class AjouterBonPourDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     
+    // this.utilisateur = this.fonctionUtilisateurService.getUtilisateur;
+
+    // this.tousPrivileges = this.fonctionUtilisateurService.tousPrivileges;
+    // this.bonPourAjouterSection = this.fonctionUtilisateurService.bonPourAjouterSection;
+    // this.bonPourAjouterBLM = this.fonctionUtilisateurService.bonPourAjouterBLM;
+    // this.bonPourAjouterDLF = this.fonctionUtilisateurService.bonPourAjouterDLF;
+    // this.bonPourAjouterInitial = this.fonctionUtilisateurService.bonPourAjouterInitial;
+
+    // ----------------------------------------------------------------------------
+    this.estBAF = this.fonctionUtilisateurService.estBAF;
+    // --------------------------------------------------------------------------------
+
   }
 
   ngOnDestroy(): void {

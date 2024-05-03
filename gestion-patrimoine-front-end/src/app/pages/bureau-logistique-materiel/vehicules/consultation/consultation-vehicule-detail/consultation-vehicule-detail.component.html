@@ -34,6 +34,82 @@
                 <app-vehicule-detail #dataVehicule></app-vehicule-detail>
             </div>
 
+            <!-- ------------------Unité Douanière-------------------------------------------------------- -->
+            <div *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''" class="text-center fw-bolder bg-myprimary mt-1"
+                role="alert">
+                Unité Douanière
+            </div>
+
+            <div *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''" class="container px-3 py-2">
+                <form class="form">
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                                <span class="fw-bold">Code unité</span>
+                                <div class="text-input text-uppercase"> {{
+                                    bonSortie.identifiantBonPour.codeUniteDouaniere.codeUniteDouaniere }} </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                                <span class="fw-bold">Type unité</span>
+                                <div class="text-input text-uppercase"> {{
+                                    bonSortie.identifiantBonPour.codeUniteDouaniere.codeTypeUniteDouaniere.libelleTypeUniteDouaniere
+                                    }}
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="col-6 mx-auto">
+                            <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                                <span class="fw-bold">Nom unité</span>
+                                <div class="text-input text-uppercase"> {{
+                                    bonSortie.identifiantBonPour.codeUniteDouaniere.nomUniteDouaniere }} </div>
+                            </ng-container>
+                        </div>
+
+                    </div>
+
+                    <div class="row g-4 mb-3">
+                        <div class="col-3 mx-auto">
+                            <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                                <span class="fw-bold">Effectif unité</span>
+                                <div class="text-input text-uppercase"> {{
+                                    bonSortie.identifiantBonPour.codeUniteDouaniere.effectifUniteDouaniere }} </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                                <span class="fw-bold">Nombre arme</span>
+                                <div class="text-input text-uppercase"> {{
+                                    bonSortie.identifiantBonPour.codeUniteDouaniere.nombreArme }}
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                                <span class="fw-bold">Nombre véhicule</span>
+                                <div class="text-input text-uppercase"> {{
+                                    bonSortie.identifiantBonPour.codeUniteDouaniere.nombreAutomobile }} </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="col-3 mx-auto">
+                            <ng-container *ngIf="dotationVehicule.numeroSerie.numeroSerie != ''">
+                                <span class="fw-bold">Nombre matériel</span>
+                                <div class="text-input text-uppercase"> {{
+                                    bonSortie.identifiantBonPour.codeUniteDouaniere.nombreMateriel
+                                    }} </div>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
             <!-- ------------------Bon entrée-------------------------------------------------------- -->
             <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
                 Bon entrée
@@ -50,8 +126,8 @@
 
                         <div class="col-3 mx-auto">
                             <span class="fw-bold">Date bon entree</span>
-                            <div class="text-input text-uppercase"> 
-                                {{ myDateStringFormatter(bonEntree.dateBonEntree) }} 
+                            <div class="text-input text-uppercase">
+                                {{ myDateStringFormatter(bonEntree.dateBonEntree) }}
                             </div>
                         </div>
 
@@ -81,7 +157,7 @@
 
                         <div class="col-3 mx-auto">
                             <span class="fw-bold">Date Bordereau</span>
-                            <div class="text-input text-uppercase"> 
+                            <div class="text-input text-uppercase">
                                 {{ myDateStringFormatter(bonEntree.identifiantBL.dateBL) }}
                             </div>
                         </div>
@@ -108,7 +184,8 @@
                     <div class="row g-4 mb-3">
                         <div class="col-12 mx-auto">
                             <span class="fw-bold">Prestataire</span>
-                            <div class="text-input text-uppercase"> {{ bonEntree.identifiantBL.ninea ? bonEntree.identifiantBL.ninea.raisonSociale : '---' }} </div>
+                            <div class="text-input text-uppercase"> {{ bonEntree.identifiantBL.ninea ?
+                                bonEntree.identifiantBL.ninea.raisonSociale : '---' }} </div>
                         </div>
                     </div>
                 </form>

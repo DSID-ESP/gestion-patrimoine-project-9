@@ -83,6 +83,9 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
   ALLERBLM: EtatBonPour = EtatBonPour.ALLERBLM;
   ALLERSECTION: EtatBonPour = EtatBonPour.ALLERSECTION;
   RETOURSECTION: EtatBonPour = EtatBonPour.RETOURSECTION;
+  RETOURBLM: EtatBonPour = EtatBonPour.RETOURBLM;
+  RETOURDLF: EtatBonPour = EtatBonPour.RETOURDLF;
+  TERMINER: EtatBonPour = EtatBonPour.TERMINER;
   // ----------------------------------------------------------------------------------
 
 

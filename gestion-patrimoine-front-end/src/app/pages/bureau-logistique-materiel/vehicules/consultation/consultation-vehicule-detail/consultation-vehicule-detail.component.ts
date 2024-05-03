@@ -9,6 +9,10 @@ import { MyDateService } from 'src/app/services/my-date.service';
 import { BonEntreeService } from 'src/app/services/bon-entree.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MyDate } from 'src/app/model/my-date.model';
+import { DotationVehicule } from 'src/app/model/dotation-vehicule.model';
+import { BonSortie } from 'src/app/model/bon-sortie.model';
+import { DotationVehiculeService } from 'src/app/services/dotation-vehicule.service';
+import { BonSortieService } from 'src/app/services/bon-sortie.service';
 
 @Component({
   selector: 'app-consultation-vehicule-detail',
@@ -22,6 +26,12 @@ export class ConsultationVehiculeDetailComponent implements OnInit, OnDestroy, A
   public bonEntrees: BonEntree[] = [];
   public bonEntree: BonEntree = new BonEntree();
 
+  public dotationVehicules: DotationVehicule[] = [];
+  public dotationVehicule: DotationVehicule = new DotationVehicule();
+
+  public bonSorties: BonSortie[] = [];
+  public bonSortie: BonSortie = new BonSortie();
+
   // public numeroBonEntree: string = '';
   // public dateBonEntree: string = '';
   // public raisonSociale: any = '';
@@ -29,6 +39,8 @@ export class ConsultationVehiculeDetailComponent implements OnInit, OnDestroy, A
   // public numeroBordereauLivraison: string = '';
   // public lieuDeLivraison: string = '';
 
+  
+  public identifiantBE: string = '';
   public numeroSerie: string = '';
   public libelleArticleBonEntree: string = '';
   
@@ -49,8 +61,10 @@ export class ConsultationVehiculeDetailComponent implements OnInit, OnDestroy, A
 
       this.numeroSerie = this.data.vehicule.numeroSerie;
       this.libelleArticleBonEntree = this.data.vehicule.codeArticleBonEntree.libelleArticleBonEntree;
+      this.identifiantBE = this.data.vehicule.codeArticleBonEntree.identifiantBE;
 
-      this.recupererBonEntreeById(this.data.vehicule.codeArticleBonEntree.identifiantBE);
+      this.recupererBonEntreeById(this.identifiantBE);
+      this.recupererDotationVehiculeById(this.numeroSerie);
 
       // Déclencher manuellement la détection des changements si nécessaire
       this.cdr.detectChanges();
@@ -64,11 +78,14 @@ export class ConsultationVehiculeDetailComponent implements OnInit, OnDestroy, A
     private matDialog: MatDialog,
     private myDateService: MyDateService,
     private bonEntreeService: BonEntreeService,
+    private dotationVehiculeService: DotationVehiculeService,
+    private bonSortieService: BonSortieService,
     private cdr: ChangeDetectorRef // Ajout de ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    // console.log(this.vehicule);
+    // this.recupererBonEntreeById(this.identifiantBE);
+    // this.recupererDotationVehiculeById(this.numeroSerie);
 
     // this.recupererBonEntreeById(this.data.vehicule.codeArticleBonEntree.identifiantBonEntree);
 
@@ -103,19 +120,63 @@ export class ConsultationVehiculeDetailComponent implements OnInit, OnDestroy, A
 
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
-  public recupererBonEntreeById(identifiantBonEntree: string): void {
+  public recupererDotationVehiculeById(numeroSerie: string): void {
 
-    const subscription = this.bonEntreeService.recupererBonEntreeById(identifiantBonEntree).subscribe({
-      next: (response: BonEntree) => {
-        this.bonEntree = response;
-        // console.log(this.bonEntree);
+    this.subscriptions.push(this.dotationVehiculeService.recupererDotationVehiculeByNumeroSerie(numeroSerie).subscribe({
+      next: (response: DotationVehicule) => {
+        this.dotationVehicule = response;
+
+        this.recupererBonsortieById(this.dotationVehicule.codeArticleBonSortie.identifiantBonSortie)
+
+        
+        
       },
       error: (errorResponse: HttpErrorResponse) => {
-        // console.log(errorResponse);
-      },
-    });
 
-    this.subscriptions.push(subscription);
+      }
+    }));
+    
+  }
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+  public recupererBonsortieById(identifiantBonSortie: string): void {
+
+    if (identifiantBonSortie != "") {
+      this.subscriptions.push(this.bonSortieService.recupererBonSortieById(identifiantBonSortie).subscribe({
+        next: (response: BonSortie) => {
+          this.bonSortie = response;
+        },
+        error: (errorResponse: HttpErrorResponse) => {
+  
+        }
+      }));
+    }
+
+  }
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+  public recupererBonEntreeById(identifiantBonEntree: string): void {
+
+    if (identifiantBonEntree != "") {
+      const subscription = this.bonEntreeService.recupererBonEntreeById(identifiantBonEntree).subscribe({
+        next: (response: BonEntree) => {
+          this.bonEntree = response;
+          // console.log(this.bonEntree);
+        },
+        error: (errorResponse: HttpErrorResponse) => {
+          // console.log(errorResponse);
+        },
+      });
+  
+      this.subscriptions.push(subscription);
+    }
   }
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------

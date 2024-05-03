@@ -16,6 +16,7 @@ public interface DotationVehiculeService {
     void deleteDotationVehicule(DotationVehicule d);
     void deleteDotationVehiculeById(String id);
     DotationVehicule getDotationVehiculeById(String id);
+    DotationVehicule getDotationVehiculeByNumeroSerie(Vehicule numeroSerie);
     List<DotationVehicule> getAllDotationVehicules();
 
     DotationVehicule ajouterDotationVehicule(String identifiantDV, Vehicule numeroSerie, Date dateDotation, Agent matriculeAgent, ArticleBonSortie codeArticleBonSortie);
