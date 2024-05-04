@@ -1,6 +1,6 @@
 import { Agent } from "./agent.model";
 import { MyDate } from "./my-date.model";
-import { BonPour } from "./bon-pour.model";
+import { ArticleBonPour } from "./article-bon-pour.model";
 
 export class BonSortie {
 
@@ -9,7 +9,7 @@ export class BonSortie {
   public descriptionBonSortie: string;
   public dateBonSortie: MyDate | null;
   public matriculeAgent: Agent;
-  public identifiantBonPour: BonPour;
+  public codeArticleBonPour: ArticleBonPour;
 
 
   constructor(
@@ -18,14 +18,14 @@ export class BonSortie {
     descriptionBonSortie = '',
     dateBonSortie = new MyDate(),
     matriculeAgent = new Agent(),
-    identifiantBonPour = new BonPour()
+    codeArticleBonPour = new ArticleBonPour()
   ) {
     this.identifiantBonSortie = identifiantBonSortie;
     this.numeroBonSortie = numeroBonSortie;
     this.descriptionBonSortie = descriptionBonSortie;
     this.dateBonSortie = dateBonSortie;
     this.matriculeAgent = matriculeAgent;
-    this.identifiantBonPour = identifiantBonPour;
+    this.codeArticleBonPour = codeArticleBonPour;
   }
 
 }

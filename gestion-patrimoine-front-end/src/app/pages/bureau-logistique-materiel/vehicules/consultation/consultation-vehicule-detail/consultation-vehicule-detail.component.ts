@@ -13,6 +13,8 @@ import { DotationVehicule } from 'src/app/model/dotation-vehicule.model';
 import { BonSortie } from 'src/app/model/bon-sortie.model';
 import { DotationVehiculeService } from 'src/app/services/dotation-vehicule.service';
 import { BonSortieService } from 'src/app/services/bon-sortie.service';
+import { BonPourService } from 'src/app/services/bon-pour.service';
+import { BonPour } from 'src/app/model/bon-pour.model';
 
 @Component({
   selector: 'app-consultation-vehicule-detail',
@@ -31,6 +33,9 @@ export class ConsultationVehiculeDetailComponent implements OnInit, OnDestroy, A
 
   public bonSorties: BonSortie[] = [];
   public bonSortie: BonSortie = new BonSortie();
+
+  public bonPours: BonPour[] = [];
+  public bonPour: BonPour = new BonPour();
 
   // public numeroBonEntree: string = '';
   // public dateBonEntree: string = '';
@@ -80,6 +85,7 @@ export class ConsultationVehiculeDetailComponent implements OnInit, OnDestroy, A
     private bonEntreeService: BonEntreeService,
     private dotationVehiculeService: DotationVehiculeService,
     private bonSortieService: BonSortieService,
+    private bonPourService: BonPourService,
     private cdr: ChangeDetectorRef // Ajout de ChangeDetectorRef
   ) {}
 
@@ -124,12 +130,15 @@ export class ConsultationVehiculeDetailComponent implements OnInit, OnDestroy, A
 
     this.subscriptions.push(this.dotationVehiculeService.recupererDotationVehiculeByNumeroSerie(numeroSerie).subscribe({
       next: (response: DotationVehicule) => {
-        this.dotationVehicule = response;
-
-        this.recupererBonsortieById(this.dotationVehicule.codeArticleBonSortie.identifiantBonSortie)
-
         
-        
+        if (response) {
+          this.dotationVehicule = response;
+        }
+
+        if (this.dotationVehicule && this.dotationVehicule.codeArticleBonSortie) {
+          this.recupererBonsortieById(this.dotationVehicule.codeArticleBonSortie.identifiantBonSortie);
+        }
+    
       },
       error: (errorResponse: HttpErrorResponse) => {
 
@@ -147,7 +156,11 @@ export class ConsultationVehiculeDetailComponent implements OnInit, OnDestroy, A
     if (identifiantBonSortie != "") {
       this.subscriptions.push(this.bonSortieService.recupererBonSortieById(identifiantBonSortie).subscribe({
         next: (response: BonSortie) => {
-          this.bonSortie = response;
+          if (response) {
+            this.bonSortie = response;
+            this.recupererBonPourById(this.bonSortie.codeArticleBonPour.identifiantBonPour);
+          }
+          
         },
         error: (errorResponse: HttpErrorResponse) => {
   
@@ -158,6 +171,27 @@ export class ConsultationVehiculeDetailComponent implements OnInit, OnDestroy, A
   }
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
+
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+  public recupererBonPourById(identifiantBonPour: string): void {
+
+    if (identifiantBonPour != "") {
+      this.subscriptions.push(this.bonPourService.recupererBonPourById(identifiantBonPour).subscribe({
+        next: (response: BonPour) => {
+          this.bonPour = response;
+        },
+        error: (errorResponse: HttpErrorResponse) => {
+  
+        }
+      }));
+    }
+
+  }
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+
 
 
   // ---------------------------------------------------------------------------------------------------------------------

@@ -383,7 +383,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
   quantiteAccordeeByIdentifiantBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[], articleBonSorties: ArticleBonSortie[]): number {
     // Filtrer les bons de sortie correspondant à l'identifiant de l'articleBonPour
-    const bonsSortiesAssocies = bonSorties.filter(bonSortie => bonSortie.identifiantBonPour.identifiantBonPour === articleBonPour.identifiantBonPour);
+    const bonsSortiesAssocies = bonSorties.filter(bonSortie => bonSortie.codeArticleBonPour.identifiantBonPour === articleBonPour.identifiantBonPour);
 
     // Initialiser la quantité totale à 0
     this.quantiteAccordeeTotal = 0;
@@ -456,7 +456,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
     for (const bonSortie of bonSorties) {
       // Comparer les bonEntree ici (assurez-vous d'implémenter une méthode de comparaison dans la classe BonEntree)
-      if (bonPour && bonSortie.identifiantBonPour && JSON.stringify(bonPour) === JSON.stringify(bonSortie.identifiantBonPour)) {
+      if (bonPour && bonSortie.codeArticleBonPour.identifiantBonPour && JSON.stringify(bonPour) === JSON.stringify(bonSortie.codeArticleBonPour.identifiantBonPour)) {
 
         return bonSortie;
       }

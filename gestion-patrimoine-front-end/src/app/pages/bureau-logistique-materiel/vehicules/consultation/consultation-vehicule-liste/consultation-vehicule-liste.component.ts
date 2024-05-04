@@ -29,6 +29,7 @@ import { ArticleBonSortie } from 'src/app/model/article-bon-sortie.model';
 import { BonPour } from 'src/app/model/bon-pour.model';
 import { BonSortieService } from 'src/app/services/bon-sortie.service';
 import { BonSortie } from 'src/app/model/bon-sortie.model';
+import { BonPourService } from 'src/app/services/bon-pour.service';
 
 @Component({
   selector: 'app-consultation-vehicule-liste',
@@ -48,6 +49,9 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
 
   public bonSorties: BonSortie[] = [];
   public bonSortie: BonSortie = new BonSortie();
+
+  public bonPours: BonPour[] = [];
+  public bonPour: BonPour = new BonPour();
 
   // public bonSorties: BonSortie[] = [];
   // public bonSortie: BonSortie = new BonSortie();
@@ -157,7 +161,7 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
     private matDialog: MatDialog,
     private dotationVehiculeService: DotationVehiculeService,
     private bonSortieService: BonSortieService,
-
+    private bonPourService: BonPourService
   ) { }
 
   ngOnDestroy(): void {
@@ -176,6 +180,7 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
     this.listeLieuStockageVehicules();
     this.listeUniteDouanieres();
     this.listeBonSorties();
+    this.listeBonPours();
 
 
     /* ----------------------------------------------------------------------------------------- */
@@ -369,7 +374,7 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
           rowLibelleArticleBonEntree: item.codeArticleBonEntree.libelleArticleBonEntree,
           rowLieuStockageVehicule: item.codeArticleBonEntree.codeLieuVH.libellleLieuVH,
           rowNombreAgeVehicule: this.calculerAgeVehicule(new Date(item.dateMiseEnCirculation.toString())),
-          rowNomUniteDouaniere: this.identifiantBonSortieByDotationVehicules(item, this.dotationVehicules),
+          rowNomUniteDouaniere: this.nomUniteDouaniereByDotationVehicules(item, this.dotationVehicules),
           rowNumber: this.rowNumber++,
         })));
 
@@ -388,31 +393,55 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
   }
 
 
-  identifiantBonSortieByDotationVehicules(vehicule: Vehicule, dotationVehicules: DotationVehicule[]): string {
+  // ----------------------------------------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------------------------------------
+  
+  // nomUniteDouaniereByDotationVehicules(vehicule: Vehicule, dotationVehicules: DotationVehicule[]): string {
 
-    let identifiantBonSortie = "";
+  //   let identifiantBonSortie = "";
+  //   let identifiantBonPour = "";
+  //   let nomUniteDouaniere = "";
 
-    for (let dotationVehicule of dotationVehicules) {
+  //   for (let dotationVehicule of dotationVehicules) {
 
-      if (vehicule.numeroSerie === dotationVehicule.numeroSerie.numeroSerie) {
-        identifiantBonSortie = dotationVehicule.codeArticleBonSortie.identifiantBonSortie;
-        return this.identifiantBonPourByIdentifiantBonSortie(identifiantBonSortie);
-      }
-    }
+  //     if (vehicule.numeroSerie === dotationVehicule.numeroSerie.numeroSerie) {
+  //       identifiantBonSortie = dotationVehicule.codeArticleBonSortie.identifiantBonSortie;
+  //       identifiantBonPour = this.bonSorties.find(bonSortie => bonSortie.identifiantBonSortie === identifiantBonSortie)?.codeArticleBonPour?.identifiantBonPour || '';
+  //       nomUniteDouaniere = this.bonPours.find(bonPour => bonPour.identifiantBonPour === identifiantBonPour)?.codeUniteDouaniere?.nomUniteDouaniere || '';
+  //       return nomUniteDouaniere;
+  //     }
+  //   }
 
-    return "";
+  //   return "";
+  // }
+
+  nomUniteDouaniereByDotationVehicules(vehicule: Vehicule, dotationVehicules: DotationVehicule[]): string {
+    const identifiantBonSortie = this.getIdentifiantBonSortie(vehicule, dotationVehicules);
+    const identifiantBonPour = this.getIdentifiantBonPour(identifiantBonSortie);
+    return this.getNomUniteDouaniere(identifiantBonPour);
   }
 
-  identifiantBonPourByIdentifiantBonSortie(identifiantBonSortie: string): string {
-
-    let bonSortie: BonSortie | undefined;
-
-    // console.log(this.bonSorties);
-
-    bonSortie = this.bonSorties.find(bonSortie => bonSortie.identifiantBonSortie === identifiantBonSortie);
-
-    return bonSortie? bonSortie.identifiantBonPour.codeUniteDouaniere.nomUniteDouaniere : "";
+  private getIdentifiantBonSortie(vehicule: Vehicule, dotationVehicules: DotationVehicule[]): string {
+    const dotationVehicule = dotationVehicules.find(dv => vehicule.numeroSerie === dv.numeroSerie.numeroSerie);
+    return dotationVehicule ? dotationVehicule.codeArticleBonSortie.identifiantBonSortie : '';
   }
+
+  private getIdentifiantBonPour(identifiantBonSortie: string): string {
+    const bonSortie = this.bonSorties.find(bs => bs.identifiantBonSortie === identifiantBonSortie);
+    return bonSortie?.codeArticleBonPour?.identifiantBonPour || '';
+  }
+
+  private getNomUniteDouaniere(identifiantBonPour: string): string {
+    const bonPour = this.bonPours.find(bp => bp.identifiantBonPour === identifiantBonPour);
+    return bonPour?.codeUniteDouaniere?.nomUniteDouaniere || '';
+  }
+
+  // ----------------------------------------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------------------------------------
+
+
 
   public listeLieuStockageVehicules(): void {
 
@@ -436,7 +465,21 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
       next: (response: BonSortie[]) => {
         this.bonSorties = response;
         // console.log(this.bonSorties);
-        this.listeVehicules();
+        // this.listeVehicules();
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        // console.log(errorResponse);
+      },
+    });
+
+    this.subscriptions.push(subscription);
+  }
+
+  public listeBonPours(): void {
+
+    const subscription = this.bonPourService.listeBonPours().subscribe({
+      next: (response: BonPour[]) => {
+        this.bonPours = response;
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -468,7 +511,7 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
     const subscription = this.dotationVehiculeService.listeDotationVehicules().subscribe({
       next: (response: DotationVehicule[]) => {
         this.dotationVehicules = response;
-        this.listeBonSorties();
+        this.listeVehicules();
 
       },
       error: (errorResponse: HttpErrorResponse) => {

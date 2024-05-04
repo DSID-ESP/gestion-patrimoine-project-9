@@ -29,8 +29,8 @@ import { ConsultationReceptionVehiculeListeComponent } from './vehicules/consult
 import { ConsultationReceptionVehiculeDetailComponent } from './vehicules/consultation/consultation-reception-vehicule-detail/consultation-reception-vehicule-detail.component';
 import { ReceptionVehiculeModifierBonEntreeComponent } from './vehicules/reception/reception-vehicule-modifier-bon-entree/reception-vehicule-modifier-bon-entree.component';
 import { DotationVehiculeListeComponent } from './vehicules/dotation/dotation-vehicule-liste/dotation-vehicule-liste.component';
-import { DotationVehiculeAjouterBonSortieComponent } from './vehicules/dotation/dotation-vehicule-ajouter-bon-sortie/dotation-vehicule-ajouter-bon-sortie.component';
-import { DotationVehiculeDetailBonSortieComponent } from './vehicules/dotation/dotation-vehicule-detail-bon-sortie/dotation-vehicule-detail-bon-sortie.component';
+// import { DotationVehiculeAjouterBonSortieComponent } from './vehicules/dotation/dotation-vehicule-ajouter-bon-sortie/dotation-vehicule-ajouter-bon-sortie.component';
+// import { DotationVehiculeDetailBonSortieComponent } from './vehicules/dotation/dotation-vehicule-detail-bon-sortie/dotation-vehicule-detail-bon-sortie.component';
 import { DotationVehiculeAjouterComponent } from './vehicules/dotation/dotation-vehicule-ajouter/dotation-vehicule-ajouter.component';
 import { DotationVehiculeDetailComponent } from './vehicules/dotation/dotation-vehicule-detail/dotation-vehicule-detail.component';
 import { AuthActivateRouteGuard } from 'src/app/routeguards/auth.routeguard';
@@ -62,8 +62,8 @@ registerLocaleData(localeFr);
     ConsultationReceptionVehiculeDetailComponent,
 
     DotationVehiculeListeComponent,
-    DotationVehiculeAjouterBonSortieComponent,
-    DotationVehiculeDetailBonSortieComponent,
+    // DotationVehiculeAjouterBonSortieComponent,
+    // DotationVehiculeDetailBonSortieComponent,
     DotationVehiculeAjouterComponent,
     DotationVehiculeDetailComponent
   ],

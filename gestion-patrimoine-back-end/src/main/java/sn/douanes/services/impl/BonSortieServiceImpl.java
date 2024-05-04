@@ -3,6 +3,7 @@ package sn.douanes.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sn.douanes.entities.Agent;
+import sn.douanes.entities.ArticleBonPour;
 import sn.douanes.entities.BonPour;
 import sn.douanes.entities.BonSortie;
 import sn.douanes.repositories.BonSortieRepository;
@@ -57,7 +58,7 @@ public class BonSortieServiceImpl implements BonSortieService {
             String descriptionBonSortie,
             Date dateBonSortie,
             Agent matriculeAgent,
-            BonPour identifiantBonPour
+            ArticleBonPour codeArticleBonPour
 
     ) {
 
@@ -70,7 +71,7 @@ public class BonSortieServiceImpl implements BonSortieService {
         bonSortie.setNumeroBonSortie(numeroBonSortie);
         bonSortie.setDescriptionBonSortie(descriptionBonSortie);
         bonSortie.setDateBonSortie(new Date(System.currentTimeMillis()));
-        bonSortie.setIdentifiantBonPour(identifiantBonPour);
+        bonSortie.setCodeArticleBonPour(codeArticleBonPour);
         bonSortie.setMatriculeAgent(matriculeAgent);
 
 

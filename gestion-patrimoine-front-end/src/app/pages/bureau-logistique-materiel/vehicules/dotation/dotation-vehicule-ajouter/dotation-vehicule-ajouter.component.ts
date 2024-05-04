@@ -246,50 +246,59 @@ export class DotationVehiculeAjouterComponent {
 
   AfficherFormBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[]): BonSortie {
 
-
-    console.log(this.articleBonPour.identifiantBonPour);
-
+    // console.log(this.articleBonPour.identifiantBonPour);
     for (const bonSortie of bonSorties) {
       // Comparer les bonEntree ici (assurez-vous d'implémenter une méthode de comparaison dans la classe BonEntree)
-      if (articleBonPour.identifiantBonPour === bonSortie.identifiantBonPour.identifiantBonPour) {
-
+      if (articleBonPour.identifiantBonPour === bonSortie.codeArticleBonPour.identifiantBonPour) {
         return bonSortie;
       }
-
     }
-
 
     return new BonSortie();
   }
 
 
+  // public ajouterBonSortie(BonSortieForm: NgForm): void {
+
+  //   this.bonSortie.numeroBonSortie = 'BS005';
+  //   this.bonSortie.dateBonSortie = null;
+  //   this.bonSortie.matriculeAgent = this.agents[0];
+  //   this.bonSortie.identifiantBonPour = this.bonPour;
+  //   this.bonSortie.descriptionBonSortie = BonSortieForm.value.descriptionBonSortie;
+
+  //   this.subscriptions.push(this.bonSortieService.ajouterBonSortie(this.bonSortie).subscribe({
+  //     next: (response: BonSortie) => {
+  //       this.bonSortie = response;
+
+  //       this.clickButton('article-bon-sortie-form');
+
+  //     },
+  //     error: (errorResponse: HttpErrorResponse) => {
+
+  //     }
+  //   })
+  //   );
+
+  // }
+
   public ajouterBonSortie(BonSortieForm: NgForm): void {
 
     this.bonSortie.numeroBonSortie = 'BS005';
     this.bonSortie.dateBonSortie = null;
-    this.bonSortie.matriculeAgent = this.agents[0];
-    this.bonSortie.identifiantBonPour = this.bonPour;
+    this.bonSortie.matriculeAgent = this.utilisateur ? this.utilisateur.matriculeAgent : new Agent(); // utilisateur peut etre undefied
+    this.bonSortie.codeArticleBonPour = this.articleBonPour;
     this.bonSortie.descriptionBonSortie = BonSortieForm.value.descriptionBonSortie;
-
 
     this.subscriptions.push(this.bonSortieService.ajouterBonSortie(this.bonSortie).subscribe({
       next: (response: BonSortie) => {
         this.bonSortie = response;
-        console.log(this.bonSortie);
-
         this.clickButton('article-bon-sortie-form');
-
       },
       error: (errorResponse: HttpErrorResponse) => {
 
       }
     })
     );
-
-
-
-
-
 
   }
 
@@ -334,7 +343,7 @@ export class DotationVehiculeAjouterComponent {
   // }
 
   nombreArticleBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[]): number {
-    const matchingArticles = bonSorties.filter(bonSortie => bonSortie && bonSortie.identifiantBonPour && articleBonPour.identifiantBonPour === bonSortie.identifiantBonPour.identifiantBonPour);
+    const matchingArticles = bonSorties.filter(bonSortie => bonSortie && bonSortie.codeArticleBonPour && articleBonPour.identifiantBonPour === bonSortie.codeArticleBonPour.identifiantBonPour);
     return matchingArticles.length + 1;
   }
 
@@ -543,7 +552,7 @@ export class DotationVehiculeAjouterComponent {
 
 
   ArticleBonSortieByIdentifiantBonSortie(articleBonPour: ArticleBonPour): ArticleBonSortie {
-    const bonSortie = this.bonSorties.find(bonSortie => bonSortie.identifiantBonPour.identifiantBonPour === articleBonPour.identifiantBonPour);
+    const bonSortie = this.bonSorties.find(bonSortie => bonSortie.codeArticleBonPour.identifiantBonPour === articleBonPour.identifiantBonPour);
 
    if (bonSortie) {
 

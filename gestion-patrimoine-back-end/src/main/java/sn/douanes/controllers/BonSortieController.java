@@ -34,7 +34,7 @@ public class BonSortieController {
     // @PreAuthorize("hasAnyAuthority('ADMINISTRATEUR')")
     public BonSortie AjouterBonSortie(@RequestBody BonSortie bonSortie) {
         // return BonDeSortieService.saveBonDeSortie(BonDeSortie);
-        return bonSortieService.ajouterBonSortie(bonSortie.getNumeroBonSortie(), bonSortie.getDescriptionBonSortie(),bonSortie.getDateBonSortie(), bonSortie.getMatriculeAgent(), bonSortie.getIdentifiantBonPour());
+        return bonSortieService.ajouterBonSortie(bonSortie.getNumeroBonSortie(), bonSortie.getDescriptionBonSortie(),bonSortie.getDateBonSortie(), bonSortie.getMatriculeAgent(), bonSortie.getCodeArticleBonPour());
     }
 
 

@@ -6,12 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 import java.sql.Date;
@@ -41,10 +36,16 @@ public class BonSortie {
     @JoinColumn(name = "MATRICULE_AGENT")
     private Agent matriculeAgent;
 
-    @ManyToOne
-    @JoinColumn(name = "IDENTIFIANT_BON_POUR")
-    private BonPour identifiantBonPour;
+//    @ManyToOne
+//    @JoinColumn(name = "IDENTIFIANT_BON_POUR")
+//    private BonPour identifiantBonPour;
 
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "IDENTIFIANT_BON_POUR", referencedColumnName = "IDENTIFIANT_BON_POUR"),
+            @JoinColumn(name = "CODE_ARTICLE_BON_POUR", referencedColumnName = "CODE_ARTICLE_BON_POUR")
+    })
+    private ArticleBonPour codeArticleBonPour;
 
 
 

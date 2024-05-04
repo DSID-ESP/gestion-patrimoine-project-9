@@ -2,6 +2,7 @@ package sn.douanes.services;
 
 
 import sn.douanes.entities.Agent;
+import sn.douanes.entities.ArticleBonPour;
 import sn.douanes.entities.BonPour;
 import sn.douanes.entities.BonSortie;
 
@@ -17,7 +18,7 @@ public interface BonSortieService {
     BonSortie getBonSortieById(String id);
     List<BonSortie> getAllBonSorties();
 
-    BonSortie ajouterBonSortie(String numeroBonSortie, String descriptionBonSortie, Date dateBonSortie, Agent matriculeAgent, BonPour identifiantBonPour);
+    BonSortie ajouterBonSortie(String numeroBonSortie, String descriptionBonSortie, Date dateBonSortie, Agent matriculeAgent, ArticleBonPour codeArticleBonPour);
 
 
 }

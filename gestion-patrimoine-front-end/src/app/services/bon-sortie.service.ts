@@ -38,8 +38,8 @@ export class BonSortieService {
     return this.httpClient.delete<CustomHttpRespone>(`${this.urlServeur}/SupprimerBonSortieById/${identifiantBonSortie}`, { withCredentials: true });
   }
 
-  public recupererBonSortieById(idIdentifiantBonSortie: string): Observable<BonSortie> {
-    return this.httpClient.get<BonSortie>(`${this.urlServeur}/RecupererBonSortieById/${idIdentifiantBonSortie}`, { withCredentials: true });
+  public recupererBonSortieById(identifiantBonSortie: string): Observable<BonSortie> {
+    return this.httpClient.get<BonSortie>(`${this.urlServeur}/RecupererBonSortieById/${identifiantBonSortie}`, { withCredentials: true });
   }
 
 

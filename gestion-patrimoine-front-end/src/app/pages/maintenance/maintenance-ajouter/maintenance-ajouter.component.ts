@@ -35,6 +35,8 @@ import { PieceService } from 'src/app/services/piece.service';
 import { ChangementPieceAjouterComponent } from 'src/app/composants/changement-piece/changement-piece-ajouter/changement-piece-ajouter.component';
 import { LieuStockageVehicule } from 'src/app/model/lieu-stockage-vehicule.model';
 import { LieuStockageVehiculeService } from 'src/app/services/lieu-stockage-vehicule.service';
+import { BonPourService } from 'src/app/services/bon-pour.service';
+import { BonPour } from 'src/app/model/bon-pour.model';
 
 @Component({
   selector: 'app-maintenance-ajouter',
@@ -125,6 +127,9 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
   public bonSorties: BonSortie[] = [];
   public bonSortie: BonSortie = new BonSortie();
 
+  public bonPours: BonPour[] = [];
+  public bonPour: BonPour = new BonPour();
+
   public maintenances: Maintenance[] = [];
   public maintenance: Maintenance = new Maintenance();
 
@@ -138,6 +143,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     private dotationVehiculeService: DotationVehiculeService,
     private lieuStockageVehiculeService: LieuStockageVehiculeService,
     private bonSortieService: BonSortieService,
+    private bonPourService: BonPourService,
     private maintenanceService: MaintenanceService,
     private huileService: HuileService,
     private pieceService: PieceService,
@@ -203,7 +209,7 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
     let dotationVehiculeTrouve = this.dotationVehicules.find(dotationVehicule => this._normalizeValue(dotationVehicule.numeroSerie.numeroSerie) === value.toLocaleLowerCase());
     if (dotationVehiculeTrouve) {
       this.dotationVehicule = dotationVehiculeTrouve;
-      this.recupererBonsortieById(this.dotationVehicule.codeArticleBonSortie.identifiantBonSortie)
+      this.recupererBonsortieById(this.dotationVehicule.codeArticleBonSortie.identifiantBonSortie);
     } else {
       this.dotationVehicule = new DotationVehicule();
     }
@@ -351,11 +357,32 @@ export class MaintenanceAjouterComponent implements OnInit, OnDestroy {
 
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
-  public recupererBonsortieById(idIdentifiantBonSortie: string): void {
+  public recupererBonsortieById(identifiantBonSortie: string): void {
 
-    this.subscriptions.push(this.bonSortieService.recupererBonSortieById(idIdentifiantBonSortie).subscribe({
+    this.subscriptions.push(this.bonSortieService.recupererBonSortieById(identifiantBonSortie).subscribe({
       next: (response: BonSortie) => {
-        this.bonSortie = response;
+        if (response) {
+          this.bonSortie = response;
+          this.recupererBonPourById(this.bonSortie.codeArticleBonPour.identifiantBonPour);
+        }
+        
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+
+      }
+    }));
+
+  }
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+  public recupererBonPourById(identifiantBonPour: string): void {
+
+    this.subscriptions.push(this.bonPourService.recupererBonPourById(identifiantBonPour).subscribe({
+      next: (response: BonPour) => {
+        this.bonPour = response;
       },
       error: (errorResponse: HttpErrorResponse) => {
 
