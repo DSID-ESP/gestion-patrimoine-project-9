@@ -135,13 +135,13 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
     private bonSortieService: BonSortieService,
     private articleBonSortieService: ArticleBonSortieService,
     private vehiculeService: VehiculeService,
-    private dotationVehiculeService: DotationVehiculeService,
+    // private dotationVehiculeService: DotationVehiculeService,
     private agentService: AgentService,
     private matDialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private typeUniteDouaniereService: TypeUniteDouaniereService,
-    private uniteDouaniereService: UniteDouaniereService,
+    // private typeUniteDouaniereService: TypeUniteDouaniereService,
+    // private uniteDouaniereService: UniteDouaniereService,
     private securiteService: SecuriteService,
     private myDateService: MyDateService
   ) { }
@@ -182,11 +182,9 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
     if (decrypt) {
 
-
       this.subscriptions.push(this.bonPourService.recupererBonPourById(decrypt).subscribe({
         next: (response: BonPour) => {
           this.bonPour = response;
-
 
           this.listeBonDeSorties();
           // this.listeArticleBonPours();
@@ -383,23 +381,44 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
   quantiteAccordeeByIdentifiantBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[], articleBonSorties: ArticleBonSortie[]): number {
     // Filtrer les bons de sortie correspondant à l'identifiant de l'articleBonPour
-    const bonsSortiesAssocies = bonSorties.filter(bonSortie => bonSortie.codeArticleBonPour.identifiantBonPour === articleBonPour.identifiantBonPour);
+    // const bonSortiesAssocies = bonSorties.filter(bonSortie => bonSortie.codeArticleBonPour.identifiantBonPour === articleBonPour.identifiantBonPour);
 
     // Initialiser la quantité totale à 0
     this.quantiteAccordeeTotal = 0;
 
     // Parcourir les bons de sortie associés
-    bonsSortiesAssocies.forEach(bonSortie => {
-        // Filtrer les articles bon sortie associés à ce bon de sortie
-        const articleBonSortieAssocies = articleBonSorties.filter(article => article.identifiantBonSortie === bonSortie.identifiantBonSortie);
+    // bonSortiesAssocies.forEach(bonSortie => {
+    //     // Filtrer les articles bon sortie associés à ce bon de sortie
+    //     const articleBonSortieAssocies = articleBonSorties.filter(article => article.identifiantBonSortie === bonSortie.identifiantBonSortie);
 
-        // Calculer la quantité totale accordée pour ces articles et l'ajouter à la quantité totale
-        const quantitePourCeBonSortie = articleBonSortieAssocies.reduce((total, article) => {
-            return total + (article && article.quantiteAccordeeDefinitive ? article.quantiteAccordeeDefinitive : 0);
-        }, 0);
+    //     // Calculer la quantité totale accordée pour ces articles et l'ajouter à la quantité totale
+    //     const quantitePourCeBonSortie = articleBonSortieAssocies.reduce((total, article) => {
+    //         return total + (article && article.quantiteAccordeeDefinitive ? article.quantiteAccordeeDefinitive : 0);
+    //     }, 0);
 
-        this.quantiteAccordeeTotal += quantitePourCeBonSortie;
-    });
+    //     this.quantiteAccordeeTotal += quantitePourCeBonSortie;
+    // });
+
+
+    let articleBonSortieAssocies: ArticleBonSortie[];
+    let quantitePourCeBonSortie: number = 0;
+    
+    const bonSortie = bonSorties.find(bonSortie => bonSortie.codeArticleBonPour.identifiantBonPour === articleBonPour.identifiantBonPour);
+
+    // Filtrer les articles bon sortie associés à ce bon de sortie
+    if (bonSortie) {
+      articleBonSortieAssocies = articleBonSorties.filter(article => article.identifiantBonSortie === bonSortie.identifiantBonSortie);
+    
+      // Calculer la quantité totale accordée pour ces articles et l'ajouter à la quantité totale
+        quantitePourCeBonSortie = articleBonSortieAssocies.reduce((total, article) => {
+          return total + (article && article.quantiteAccordeeDefinitive ? article.quantiteAccordeeDefinitive : 0);
+      }, 0);
+    }
+
+    
+
+    this.quantiteAccordeeTotal += quantitePourCeBonSortie;
+
 
     return this.quantiteAccordeeTotal;
 }
