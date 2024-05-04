@@ -283,7 +283,7 @@ export class DotationVehiculeAjouterComponent {
 
   public ajouterBonSortie(BonSortieForm: NgForm): void {
 
-    this.bonSortie.numeroBonSortie = 'BS005';
+    this.bonSortie.numeroBonSortie = 'BS000';
     this.bonSortie.dateBonSortie = null;
     this.bonSortie.matriculeAgent = this.utilisateur ? this.utilisateur.matriculeAgent : new Agent(); // utilisateur peut etre undefied
     this.bonSortie.codeArticleBonPour = this.articleBonPour;
