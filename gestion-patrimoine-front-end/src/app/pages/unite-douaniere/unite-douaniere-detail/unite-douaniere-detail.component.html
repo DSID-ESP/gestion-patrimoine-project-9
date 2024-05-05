@@ -72,11 +72,11 @@
             <div class="container px-3 py-2">
               <div class="row">
                   <div class="col-12 text-end">
-                      <button  (click)="supprimerUniteDouaniere(uniteDouaniere.codeUniteDouaniere)" type="button" class="btn btn-mybrown fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour supprimer">
+                      <button  (click)="supprimerUniteDouaniere(uniteDouaniere.codeUniteDouaniere)" [hidden]="consultation" type="button" class="btn btn-mybrown fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour supprimer">
                           Supprimer
                       </button>
 
-                      <button (click)="popupModifier()"  type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour modifier">
+                      <button (click)="popupModifier()" [hidden]="consultation"  type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour modifier">
                           Modifier
                       </button>
 

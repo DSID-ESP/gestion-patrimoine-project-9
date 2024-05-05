@@ -537,3 +537,36 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 }
 
 
+
+
+-------------------------------
+<div class="col-6 mx-auto form-group"
+     (mouseover)="addHoverBorder()"
+     (mouseout)="removeHoverBorder()">
+    <span class="fw-bold">Unité douanière</span>
+    <div class="text-input" [ngClass]="{'hover-border': isHover}">
+        {{ bonPour?.codeUniteDouaniere?.nomUniteDouaniere }}
+    </div>
+</div>
+-------------------------------
+.hover-border {
+    border: 1px solid #ced4da; /* Bordure Bootstrap de base */
+    border-radius: 0.25rem; /* Facultatif : pour arrondir les bords */
+}
+
+/* Facultatif : Styles de transition pour une animation fluide */
+.text-input {
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+---------------------------------
+export class VotreComposant {
+    isHover: boolean = false;
+
+    addHoverBorder() {
+        this.isHover = true;
+    }
+
+    removeHoverBorder() {
+        this.isHover = false;
+    }
+}

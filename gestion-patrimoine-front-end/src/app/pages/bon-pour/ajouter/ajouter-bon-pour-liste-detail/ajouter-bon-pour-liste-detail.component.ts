@@ -22,6 +22,8 @@ import { EtatBonPour } from 'src/app/enum/etat-bon-pour.enum';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ValidationComponent } from 'src/app/composants/validation/validation.component';
+import { UniteDouaniere } from 'src/app/model/unite-douaniere.model';
+import { UniteDouaniereDetailComponent } from 'src/app/pages/unite-douaniere/unite-douaniere-detail/unite-douaniere-detail.component';
 
 @Component({
   selector: 'app-ajouter-bon-pour-liste-detail',
@@ -31,6 +33,8 @@ import { ValidationComponent } from 'src/app/composants/validation/validation.co
   styleUrl: './ajouter-bon-pour-liste-detail.component.css'
 })
 export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
+
+  
 
   reponseValidation: boolean = false;
 
@@ -66,6 +70,9 @@ export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
 
   public bonPours: BonPour[] = [];
   public bonPour: BonPour | undefined;
+
+  public uniteDouanieres: UniteDouaniere[] = [];
+  public uniteDouaniere: UniteDouaniere = new UniteDouaniere();
 
   public articleBonPours: ArticleBonPour[] = [];
   public articleBonPour: ArticleBonPour | undefined;
@@ -385,6 +392,25 @@ export class AjouterBonPourListeDetailComponent implements OnInit, OnDestroy {
         enterAnimationDuration: '100ms',
         exitAnimationDuration: '100ms',
         data: articleBonPour
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.ngOnInit();
+    });
+  }
+
+  goToDetailUniteDouaniere(uniteDouaniere: UniteDouaniere, consultation: Boolean): void {
+    const dialogRef = this.matDialog.open(
+      UniteDouaniereDetailComponent,
+      {
+        width: '80%',
+        enterAnimationDuration: '100ms',
+        exitAnimationDuration: '100ms',
+        data: {
+          uniteDouaniere: uniteDouaniere,
+          consultation: consultation
+        }
       }
     );
 

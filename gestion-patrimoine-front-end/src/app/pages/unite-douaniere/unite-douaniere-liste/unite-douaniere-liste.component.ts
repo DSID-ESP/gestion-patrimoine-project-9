@@ -256,14 +256,17 @@ export class UniteDouaniereListeComponent implements OnInit, OnDestroy {
   }
 
 
-  goToDetail(uniteDouaniere: UniteDouaniere): void {
+  goToDetail(uniteDouaniere: UniteDouaniere, consultation: Boolean): void {
     const dialogRef = this.matDialog.open(
       UniteDouaniereDetailComponent,
       {
         width: '80%',
         enterAnimationDuration: '100ms',
         exitAnimationDuration: '100ms',
-        data: uniteDouaniere
+        data: {
+          uniteDouaniere: uniteDouaniere,
+          consultation: consultation
+        }
       }
     );
 

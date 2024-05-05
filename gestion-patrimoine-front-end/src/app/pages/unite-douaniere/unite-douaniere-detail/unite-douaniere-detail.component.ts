@@ -26,6 +26,11 @@ export class UniteDouaniereDetailComponent implements OnInit, OnDestroy  {
   public typeUniteDouanieres: TypeUniteDouaniere[] = [];
   public typeUniteDouaniere: TypeUniteDouaniere = new TypeUniteDouaniere();
 
+  public uniteDouanieres: UniteDouaniere[] = [];
+  public uniteDouaniere: UniteDouaniere = new UniteDouaniere();
+
+
+  public consultation: Boolean = false;
 
   afficherPopupDetail: boolean = true;
 
@@ -33,7 +38,8 @@ export class UniteDouaniereDetailComponent implements OnInit, OnDestroy  {
 
   constructor(
     public dialogRef: MatDialogRef<UniteDouaniereDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public uniteDouaniere: UniteDouaniere,
+    // @Inject(MAT_DIALOG_DATA) public uniteDouaniere: UniteDouaniere,
+    @Inject(MAT_DIALOG_DATA) public data: { uniteDouaniere: UniteDouaniere, consultation: Boolean },
     private matDialog: MatDialog,
     private uniteDouaniereService: UniteDouaniereService,
     private notificationService: NotificationService,
@@ -51,6 +57,9 @@ export class UniteDouaniereDetailComponent implements OnInit, OnDestroy  {
   }
 
   ngOnInit(): void {
+    this.uniteDouaniere = this.data.uniteDouaniere;
+    this.consultation = this.data.consultation;
+    
     this.listeTypeUniteDouanieres();
   }
 

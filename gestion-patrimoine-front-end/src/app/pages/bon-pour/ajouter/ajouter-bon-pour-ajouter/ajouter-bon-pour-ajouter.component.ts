@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { BonPour } from 'src/app/model/bon-pour.model';
 import { ArticleBonPour } from 'src/app/model/article-bon-pour.model';
@@ -25,6 +25,9 @@ import { FonctionUtilisateurService } from 'src/app/services/fonction-utilisateu
 import { EtatBonPour } from 'src/app/enum/etat-bon-pour.enum';
 import { Utilisateur } from 'src/app/model/utilisateur.model';
 import { MyDateService } from 'src/app/services/my-date.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { AjouterBonPourDetailComponent } from '../ajouter-bon-pour-detail/ajouter-bon-pour-detail.component';
 
 @Component({
   selector: 'app-ajouter-bon-pour-ajouter',
@@ -88,6 +91,43 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
   }
   // ----------------------------------------------------------------------------------
 
+
+  /* ----------------------------------------------------------------------------------------- */
+  // tableau
+  rowNumber!: number; // numéro de ligne pour le tableau
+  // columnsToCodeMarque: string[] = [
+  //   "codeMarque"
+  // ];
+  // columnsToCodePays: string[] = [
+  //   "codePays"
+  // ];
+  columnsDateFormat: string[] = [
+  ];
+  columnsToHide: string[] = [
+  ];
+
+  dataSource = new MatTableDataSource<ArticleBonPour>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  displayedColumns: string[] = [
+    "rowNumber",
+    // "codeArticleBonPour",
+    "quantiteDemandee",
+    "rowCodeTypeObjet",
+    "libelleArticleBonPour"
+
+
+  ];
+  displayedColumnsCustom: string[] = [
+    "N°",
+    "Qte demandée",
+    "Nature",
+    // "Code article",
+    "Description article bon pour",
+
+
+  ];
+  /* ----------------------------------------------------------------------------------------- */
+
   // public bonPours: BonPour[] = [];
   // public bonPour: BonPour | undefined;
 
@@ -115,6 +155,7 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
   constructor(
     private datePipe: DatePipe,
     public dialogRef: MatDialogRef<AjouterBonPourAjouterComponent>,
+    private matDialog: MatDialog,
     private router: Router,
     // private articleBonPourService: ArticleBonPourService,
     private bonPourService: BonPourService,
@@ -122,6 +163,7 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
     private sectionsService: SectionsService,
     private agentService: AgentService,
     private fonctionUtilisateurService: FonctionUtilisateurService,
+    private articleBonPourService: ArticleBonPourService,
     private notificationService: NotificationService,
     private myDateService: MyDateService,
     @Inject(MAT_DIALOG_DATA) public bonPour: BonPour
@@ -157,6 +199,8 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
     this.listeUniteDouanieres();
     this.listeSections();
     this.listeAgents();
+
+    this.listeArticleBonPours();
 
     // console.log(this.bonPour);
     
@@ -302,6 +346,58 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
 
   popupFermer(): void {
     this.dialogRef.close();
+  }
+
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+  public listeArticleBonPours(): void {
+
+    const subscription = this.articleBonPourService.listeArticleBonPours().subscribe({
+      next: (response: ArticleBonPour[]) => {
+        this.articleBonPours = response;
+        // console.log(this.articleBonPours);
+
+        // this.articleBonPours = response.sort((a, b) => Number(a.quantiteDemandee) - Number(b.quantiteDemandee));
+
+        if (this.bonPour) {
+          this.filtreArticleBonPourByBonPour(this.articleBonPours, this.bonPour);
+        } else {
+          // console.error('articleBonPours is undefined');
+        }
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        // console.log(errorResponse);
+      },
+    });
+
+    this.subscriptions.push(subscription);
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------------------------
+
+
+
+
+  filtreArticleBonPourByBonPour(articleBonPours: ArticleBonPour[], bonPour: BonPour): void {
+
+    articleBonPours = articleBonPours.filter((articleBonPour: ArticleBonPour) => {
+      return articleBonPour.identifiantBonPour && bonPour.identifiantBonPour && articleBonPour.identifiantBonPour === bonPour.identifiantBonPour;
+    }).sort((a, b) => Number(a.quantiteDemandee) - Number(b.quantiteDemandee));
+
+    this.rowNumber = 1;
+
+    // this.dataSource = new MatTableDataSource<IVehicule>(this.vehicules);
+    this.dataSource = new MatTableDataSource<ArticleBonPour>(articleBonPours.map((item) => ({
+      ...item,
+      rowCodeTypeObjet: item.codeTypeObjet.libelleTypeObjet,
+      rowNumber: this.rowNumber++,
+    })));
+
+
+    // console.log(this.dataSource.data.length);
+    this.dataSource.paginator = this.paginator;
   }
 
 
@@ -479,6 +575,22 @@ export class AjouterBonPourAjouterComponent implements OnInit, OnDestroy {
   // --------------------------------------------------------------------------
 
 
+
+  popupDetail(articleBonPour: ArticleBonPour): void {
+    const dialogRef = this.matDialog.open(
+      AjouterBonPourDetailComponent,
+      {
+        width: '80%',
+        enterAnimationDuration: '100ms',
+        exitAnimationDuration: '100ms',
+        data: articleBonPour
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.ngOnInit();
+    });
+  }
 
   // onSubmit(): void {
   //   // console.log(this.vehiculeForm.value);

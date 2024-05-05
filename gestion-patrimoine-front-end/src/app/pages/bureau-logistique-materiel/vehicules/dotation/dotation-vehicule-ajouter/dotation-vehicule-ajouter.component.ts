@@ -103,10 +103,11 @@ export class DotationVehiculeAjouterComponent {
 
   ngOnInit(): void {
     // this.listeSecteurActivites();
+    this.listeBonDeSorties();
     this.listeAgents();
     this.listeBonPours();
-    this.listeBonDeSorties();
-     this.listeArticleBonSorties();
+    
+    //  this.listeArticleBonSorties();
 
 
 
@@ -150,23 +151,12 @@ export class DotationVehiculeAjouterComponent {
 
 
 
-  public listeArticleBonSorties(): void {
+  public listeArticleBonSorties(bonSorties: BonSortie[]): void {
 
     const subscription = this.articleBonSortieService.listeArticleBonSorties().subscribe({
       next: (response: ArticleBonSortie[]) => {
         this.articleBonSorties = response;
-        // console.log(this.articleBonSorties);
-
-        // console.log(this.bonSortie);
-
-        //  this.listeBonDeSorties
-
-
-        // this.nombreArticle = this.nombreArticleBonSortie(this.articleBonPour, this.bonSorties);
-
-        //console.log(this.nombreArticle);
-
-        //this.codeArticleBonEntree =  this.nombreArticle;
+        this.nombreArticle = this.nombreArticleBonSortie(this.articleBonPour, bonSorties, this.articleBonSorties);
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -185,16 +175,13 @@ export class DotationVehiculeAjouterComponent {
     const subscription = this.bonSortieService.listeBonSorties().subscribe({
       next: (response: BonSortie[]) => {
         this.bonSorties = response;
-        // this.bonDeSortie = this.filtreBonPourArticleBonSortie(this.articleBonPour.identifiantBP, this.bonDeSorties);
-        this.bonSortie = this.AfficherFormBonSortie(this.articleBonPour, this.bonSorties);
-        // console.log(this.bonSortie);
-        // console.log(this.bonPour);
 
-        this.listeArticleBonSorties();
-
-        this.nombreArticle = this.nombreArticleBonSortie(this.articleBonPour, this.bonSorties);
+        // this.bonSortie = this.AfficherFormBonSortie(this.articleBonPour, this.bonSorties);
 
 
+        this.listeArticleBonSorties(this.bonSorties);
+
+        // this.nombreArticle = this.nombreArticleBonSortie(this.articleBonPour, this.bonSorties);
 
       },
       error: (errorResponse: HttpErrorResponse) => {
@@ -244,18 +231,18 @@ export class DotationVehiculeAjouterComponent {
 
 
 
-  AfficherFormBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[]): BonSortie {
+  // AfficherFormBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[]): BonSortie {
 
-    // console.log(this.articleBonPour.identifiantBonPour);
-    for (const bonSortie of bonSorties) {
-      // Comparer les bonEntree ici (assurez-vous d'implémenter une méthode de comparaison dans la classe BonEntree)
-      if (articleBonPour.identifiantBonPour === bonSortie.codeArticleBonPour.identifiantBonPour) {
-        return bonSortie;
-      }
-    }
+  //   // console.log(this.articleBonPour.identifiantBonPour);
+  //   for (const bonSortie of bonSorties) {
+  //     // Comparer les bonEntree ici (assurez-vous d'implémenter une méthode de comparaison dans la classe BonEntree)
+  //     if (articleBonPour.identifiantBonPour === bonSortie.codeArticleBonPour.identifiantBonPour) {
+  //       return bonSortie;
+  //     }
+  //   }
 
-    return new BonSortie();
-  }
+  //   return new BonSortie();
+  // }
 
 
   // public ajouterBonSortie(BonSortieForm: NgForm): void {
@@ -337,14 +324,25 @@ export class DotationVehiculeAjouterComponent {
   }
 
 
-  //   nombreArticleBonSortie(bonSortie: BonSortie, articleBonSorties: ArticleBonSortie[]): number {
-  //     const matchingArticles = articleBonSorties.filter(articleBonSortie => bonSortie && articleBonSortie.codeArticleBonSortie && bonSortie.identifiantBonSortie === articleBonSortie.identifiantBonSortie);
-  //     return matchingArticles.length + 1;
-  // }
+  // un articleBonPour pour un bonSortie et un bonSortie pour plusieur articleBonSorties
+  nombreArticleBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[], articleBonSorties: ArticleBonSortie[]): number {
 
-  nombreArticleBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[]): number {
-    const matchingArticles = bonSorties.filter(bonSortie => bonSortie && bonSortie.codeArticleBonPour && articleBonPour.identifiantBonPour === bonSortie.codeArticleBonPour.identifiantBonPour);
-    return matchingArticles.length + 1;
+    // rechercher l'articleBonPour dans les bonSorties
+    const bonSortie = bonSorties.find(
+      bonSortie => 
+        bonSortie && 
+        bonSortie.codeArticleBonPour && 
+        articleBonPour.identifiantBonPour === bonSortie.codeArticleBonPour.identifiantBonPour && 
+        articleBonPour.codeArticleBonPour === bonSortie.codeArticleBonPour.codeArticleBonPour
+    );
+    
+    if (bonSortie) {
+      this.bonSortie = bonSortie;
+      const matchingArticles = articleBonSorties.filter(articleBonSortie => articleBonSortie && articleBonSortie.identifiantBonSortie && articleBonSortie.identifiantBonSortie === bonSortie.identifiantBonSortie);
+      return matchingArticles.length + 1; // nombre articleBonSorties + 1
+    }
+
+    return 1; // pas encore de bonSortie car pas trouver de bonSortie
   }
 
   //  incrementerNombreArticles(bonSorties: BonSortie[], nouvelleBonSortie: BonSortie, articleBonSorties: ArticleBonSortie[]): void {

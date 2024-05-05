@@ -402,7 +402,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
     let articleBonSortieAssocies: ArticleBonSortie[];
     let quantitePourCeBonSortie: number = 0;
-    
+
     const bonSortie = bonSorties.find(bonSortie => bonSortie.codeArticleBonPour.identifiantBonPour === articleBonPour.identifiantBonPour);
 
     // Filtrer les articles bon sortie associés à ce bon de sortie
@@ -410,15 +410,12 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
       articleBonSortieAssocies = articleBonSorties.filter(article => article.identifiantBonSortie === bonSortie.identifiantBonSortie);
     
       // Calculer la quantité totale accordée pour ces articles et l'ajouter à la quantité totale
-        quantitePourCeBonSortie = articleBonSortieAssocies.reduce((total, article) => {
+      quantitePourCeBonSortie = articleBonSortieAssocies.reduce((total, article) => {
           return total + (article && article.quantiteAccordeeDefinitive ? article.quantiteAccordeeDefinitive : 0);
       }, 0);
     }
 
-    
-
     this.quantiteAccordeeTotal += quantitePourCeBonSortie;
-
 
     return this.quantiteAccordeeTotal;
 }
