@@ -33,6 +33,10 @@ import { VehiculeService } from 'src/app/services/vehicule.service';
 })
 export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
 
+  retour: Boolean = false;
+
+  // -------------------------------------------------
+
   checkArray: FormArray | undefined;
   public vehiculeForm!: FormGroup;
 
@@ -361,6 +365,7 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
 
   retourner(): void {
     // this.vehiculesSelect = this.vehiculesSelectedBefore;
+    this.retour = true;
     this.popupFermer();
   }
 

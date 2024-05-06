@@ -84,22 +84,26 @@ INSERT INTO "bon_pour" ("identifiant_bon_pour", "description_bon_pour", "numero_
 VALUES 
     ('BPSG202311121243214', 'DESCRIPTION 1', 123, '2024-01-24', 'TERMINÉ', 'OBJET 1', 456, '2024-01-25', 'OBSERVATION 1', 789, '2024-01-26', 'OBSERVATION 1', 101, '2024-01-27', 'OBSERVATION 1', '06Z', 'SG', CURRENT_TIMESTAMP, '613693H'),
     ('BPSG202311121243215', 'DESCRIPTION 2', 124, '2024-01-25', 'TERMINÉ', 'OBJET 2', 457, '2024-01-26', 'OBSERVATION 1', 790, '2024-01-27', 'OBSERVATION 1', 102, '2024-01-28', 'OBSERVATION 1', '06Z', 'SG', CURRENT_TIMESTAMP, '506234B'),
-    ('BPSG202311121243216', 'DESCRIPTION 3', 125, '2024-01-26', 'TERMINÉ', 'OBJET 3', 458, '2024-01-27', 'OBSERVATION 1', 791, '2024-01-28', 'OBSERVATION 1', 103, '2024-01-29', 'OBSERVATION 1', '06K', 'SG', CURRENT_TIMESTAMP, '123456A');
+    ('BPSG202311121243216', 'DESCRIPTION 3', 125, '2024-01-26', 'TERMINÉ', 'OBJET 3', 458, '2024-01-27', 'OBSERVATION 1', 791, '2024-01-28', 'OBSERVATION 1', 103, '2024-01-29', 'OBSERVATION 1', '06K', 'SG', CURRENT_TIMESTAMP, '123456A'),
+    ('BPSG20240506145144333',  'Description bon pour 1', 12345,  '2024-05-03', 'EN COURS DE TRAITEMENT',  'Object Courrier origine', 12345, '2024-05-10', 'Observation DLF', 12345, '2024-05-18', 'Observation BLM', 12345, '2024-05-30', 'Observation Section', '06K', 'SG',  '2024-05-06 14:55:19.166', '123456A');
+
 
 
 INSERT INTO "article_bon_pour" ("identifiant_bon_pour", "code_article_bon_pour", "libelle_article_bon_pour", "quantite_demandee", "code_type_objet", "matricule_agent") 
 VALUES 
     ('BPSG202311121243214', 1, 'LIBELLE ARTICLE 1', 10, 'VEHIC', '613693H'),
     ('BPSG202311121243215', 1, 'LIBELLE ARTICLE 1', 20, 'VEHIC', '506234B'),
-    ('BPSG202311121243216', 1, 'LIBELLE ARTICLE 1', 30, 'VEHIC', '123456A');
-
+    ('BPSG202311121243216', 1, 'LIBELLE ARTICLE 1', 30, 'VEHIC', '123456A'),
+    ('BPSG20240506145144333', 1,   'Description article bon pour', 2,  'VEHIC',    '613693H'),
+    ('BPSG20240506145144333', 2,   'Description article bon pour', 2,  'VEHIC',    '613693H');
 
 
 INSERT INTO "bon_sortie" ("identifiant_bon_sortie", "date_bon_sortie", "description_bon_sortie", "numero_bon_sortie", "code_article_bon_pour", "identifiant_bon_pour", "matricule_agent") 
 VALUES
 ('BSSG202311121243214', '2024-01-24',   'Description BS1',  'BS001',    1,    'BPSG202311121243214',  '613693H'),
 ('BSSG202311121243215', '2024-01-25',   'Description BS2',  'BS002',    1,    'BPSG202311121243215',  '506234B'),
-('BSSG202311121243216', '2024-01-26',   'Description BS3',  'BS003',    1,    'BPSG202311121243216',  '123456A');
+('BSSG202311121243216', '2024-01-26',   'Description BS3',  'BS003',    1,    'BPSG202311121243216',  '123456A'),
+('BSSG202311121243217', '2024-01-26',   'Description BS4',  'BS003',    1,    'BPSG202311121243215',  '123456A');
 
 
 
@@ -108,7 +112,7 @@ VALUES
     ('BSSG202311121243214', 1, 'Article BS1', 5, 4, 3, 3, '2024-01-24', '613693H'),
     ('BSSG202311121243215', 1, 'Article BS2', 10, 9, 8, 8, '2024-01-25', '506234B'),
     ('BSSG202311121243216', 1, 'Article BS3', 15, 13, 12, 12, '2024-01-26', '123456A'),
-    ('BSSG202311121243215', 2, 'Article BS4', 3, 3, 3, 3, '2024-01-26', '506234B');
+    ('BSSG202311121243217', 2, 'Article BS4', 3, 3, 3, 3, '2024-01-26', '506234B');
 
 
 INSERT INTO "fonction_agent" ("code_fonction_agent", "libelle_fonction_agent")
@@ -476,7 +480,7 @@ INSERT INTO "dotation_vehicule" ("identifiant_d_v", "date_dotation", "code_artic
 ('DVSG202311121243214',	'2024-01-24',	1,	'BSSG202311121243214',	'613693H',	'123456'),
 ('DVSG202311121243216',	'2024-01-22',	1,	'BSSG202311121243216',	'123456A',	'789012'),
 ('DVSG202311121243215', '2024-01-23',   1,  'BSSG202311121243215',  '506234B',  '345678'),
-('DVSG202311121243213', '2024-01-23',   2,  'BSSG202311121243215',  '506234B',  '789013');
+('DVSG202311121243213', '2024-01-23',   2,  'BSSG202311121243217',  '506234B',  '789013');
 
 
 

@@ -72,6 +72,7 @@ export class DotationVehiculeAjouterComponent {
   RETOURSECTION: EtatBonPour = EtatBonPour.RETOURSECTION;
   RETOURBLM: EtatBonPour = EtatBonPour.RETOURBLM;
   RETOURDLF: EtatBonPour = EtatBonPour.RETOURDLF;
+  TERMINER: EtatBonPour = EtatBonPour.TERMINER;
 
   quantiteAccordeeSection: number = 0;
   quantiteAccordeeDLF: number = 0;
@@ -102,14 +103,9 @@ export class DotationVehiculeAjouterComponent {
   ) { }
 
   ngOnInit(): void {
-    // this.listeSecteurActivites();
     this.listeBonDeSorties();
     this.listeAgents();
     this.listeBonPours();
-    
-    //  this.listeArticleBonSorties();
-
-
 
     this.utilisateur = this.fonctionUtilisateurService.getUtilisateur;
     this.estBAF = this.fonctionUtilisateurService.estBAF;
@@ -122,8 +118,6 @@ export class DotationVehiculeAjouterComponent {
     this.bonPour = this.data.bonpour
 
 
-    // this.articleBonSortie = this.ArticleBonSortieByIdentifiantBonSortie(this.articleBonPour);
-    //  this.bonSortie = this.data.bonsortie;
 
   }
 
@@ -156,7 +150,18 @@ export class DotationVehiculeAjouterComponent {
     const subscription = this.articleBonSortieService.listeArticleBonSorties().subscribe({
       next: (response: ArticleBonSortie[]) => {
         this.articleBonSorties = response;
+
+        console.log(this.bonPour.etatBonPour == EtatBonPour.TERMINER);
+
         this.nombreArticle = this.nombreArticleBonSortie(this.articleBonPour, bonSorties, this.articleBonSorties);
+
+        
+        // if (this.bonPour.etatBonPour == EtatBonPour.TERMINER) {
+        //   this.nombreArticle = this.nombreArticleBonSortie(this.articleBonPour, bonSorties, this.articleBonSorties);
+        // } else {
+        //   this.nombreArticle = this.nombreArticleBonSortie(this.articleBonPour, bonSorties, this.articleBonSorties);
+        // }
+        
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -176,12 +181,7 @@ export class DotationVehiculeAjouterComponent {
       next: (response: BonSortie[]) => {
         this.bonSorties = response;
 
-        // this.bonSortie = this.AfficherFormBonSortie(this.articleBonPour, this.bonSorties);
-
-
         this.listeArticleBonSorties(this.bonSorties);
-
-        // this.nombreArticle = this.nombreArticleBonSortie(this.articleBonPour, this.bonSorties);
 
       },
       error: (errorResponse: HttpErrorResponse) => {
@@ -301,70 +301,97 @@ export class DotationVehiculeAjouterComponent {
 
 
   // pour envoyer tous les formulaires
-
   public submitForm(): void {
 
-
     this.clickButton1('bon-sortie-form');
-
 
   }
 
 
   public submitArticleBonSortieForm(): void {
 
-
-
-
     this.submitForm();
-
-    // this.clickButton('article-bon-sortie-form');
-
 
   }
 
 
-  // un articleBonPour pour un bonSortie et un bonSortie pour plusieur articleBonSorties
+  // un articleBonPour pour plusieur bonSortie et un bonSortie pour un articleBonSortie
   nombreArticleBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[], articleBonSorties: ArticleBonSortie[]): number {
 
     // rechercher l'articleBonPour dans les bonSorties
-    const bonSortie = bonSorties.find(
+    const bonSortiesTrouves: BonSortie[] = bonSorties.filter(
       bonSortie => 
         bonSortie && 
         bonSortie.codeArticleBonPour && 
         articleBonPour.identifiantBonPour === bonSortie.codeArticleBonPour.identifiantBonPour && 
         articleBonPour.codeArticleBonPour === bonSortie.codeArticleBonPour.codeArticleBonPour
-    );
+    ).sort((a, b) => a.identifiantBonSortie.localeCompare(b.identifiantBonSortie));
     
-    if (bonSortie) {
-      this.bonSortie = bonSortie;
-      const matchingArticles = articleBonSorties.filter(articleBonSortie => articleBonSortie && articleBonSortie.identifiantBonSortie && articleBonSortie.identifiantBonSortie === bonSortie.identifiantBonSortie);
-      return matchingArticles.length + 1; // nombre articleBonSorties + 1
+    // console.log(bonSortiesTrouves);
+    
+
+    if (bonSortiesTrouves.length > 0) {
+      
+      // recuperer le dernier bonSortie enregistrer s'il existe
+      this.bonSortie = bonSortiesTrouves[bonSortiesTrouves.length - 1];
+
+      if (this.bonPour.etatBonPour == EtatBonPour.TERMINER) {
+        this.bonSortie = new BonSortie();
+        // this.nombreArticle = this.nombreArticle - 1;
+      }
+
+
+      // Définir une fonction de filtrage pour trouver les ArticleBonSortie associés à un bon de sortie spécifique
+      const trouverArticleBonSortiesPourBonSortie = (bonSortie: BonSortie, articleBonSorties: ArticleBonSortie[]) => {
+        // return articleBonSorties.filter(article => article.identifiantBonSortie === bonSortie.identifiantBonSortie);
+        return articleBonSorties.filter(article => article.identifiantBonSortie === bonSortie.identifiantBonSortie);
+      };
+
+      // Liste pour stocker tous les ArticleBonSortie associés aux bons de sortie trouvés
+      const tousLesArticleBonSortieAssocies: ArticleBonSortie[] = [];
+
+      // Parcourir tous les bons de sortie trouvés
+      bonSortiesTrouves.forEach(bonSortieAssocie => {
+        // Trouver les ArticleBonSortie associés à ce bon de sortie et les ajouter à la liste
+        const articleBonSortieAssocies: ArticleBonSortie[] = trouverArticleBonSortiesPourBonSortie(bonSortieAssocie, articleBonSorties);
+        // Ajouter les ArticleBonSortie trouvés à la liste
+
+        tousLesArticleBonSortieAssocies.push(...articleBonSortieAssocies);
+      });
+
+
+
+      // tousLesArticleBonSortieAssocies.sort((a, b) => a.identifiantBonSortie.localeCompare(b.identifiantBonSortie))
+
+
+      let nombreArticle: number = 0;
+
+      tousLesArticleBonSortieAssocies.forEach(articleBonSortieAssocie => {
+        if (articleBonSortieAssocie.quantiteAccordeeDefinitive !== 0 && articleBonSortieAssocie.quantiteAccordeeDefinitive !== null) {
+          nombreArticle++;
+        } else {
+          this.articleBonSortie = articleBonSortieAssocie;
+        }
+      });
+
+      
+
+      if (this.articleBonSortie.identifiantBonSortie !== "" || this.bonPour.etatBonPour === EtatBonPour.TERMINER || this.bonPour.etatBonPour === EtatBonPour.RETOURSECTION) {
+        nombreArticle++;
+      }
+
+      return nombreArticle;
     }
 
     return 1; // pas encore de bonSortie car pas trouver de bonSortie
   }
 
-  //  incrementerNombreArticles(bonSorties: BonSortie[], nouvelleBonSortie: BonSortie, articleBonSorties: ArticleBonSortie[]): void {
-  //   // On incrémente le nombre d'articles pour la nouvelle bon de sortie
-  //   nouvelleBonSortie.nombreArticle = nombreArticleBonSortie(nouvelleBonSortie, articleBonSorties);
-  //   // On ajoute la nouvelle bon de sortie à la liste
-  //   bonSorties.push(nouvelleBonSortie);
-  // }
 
 
 
 
   // --------------------------------------------------------------------------
-  // pour executer ajouterPrestataire
-  // public submitBonEntreeForm(): void {
-  //   this.clickButton('article-bon-sortie-form')
-  // }
-
   public ajouterArticleBonSortie(ArticleBonSortieForm: NgForm): void {
-
-
-
 
     if (this.estSection) {
 
@@ -389,11 +416,6 @@ export class DotationVehiculeAjouterComponent {
       articleBonSortie.dateArticleBonSortie = null;
       articleBonSortie.matriculeAgent = this.agents[0];
       articleBonSortie.identifiantBonSortie = this.bonSortie.identifiantBonSortie;
-      // this.articleBonSortie.codeArticleBonSortie= ArticleBonSortieForm.value.codeArticleBonSortie;
-      // console.log(this.articleBonPour,this.articleBonSortie);
-      console.log(this.bonSortie);
-
-      console.log(this.articleBonSortie);
 
 
 
@@ -435,11 +457,8 @@ export class DotationVehiculeAjouterComponent {
       this.articleBonSortie.quantiteAccordeeDLF = null;
       this.articleBonSortie.quantiteAccordeeDefinitive = null;
 
-      console.log(this.bonSortie);
-
-      console.log(this.articleBonSortie);
-
-
+      // console.log(this.bonSortie);
+      // console.log(this.articleBonSortie);
 
       // this.popupVehicule( this.articleBonPour, this.articleBonSortie,this.bonSortie);
 
@@ -463,20 +482,13 @@ export class DotationVehiculeAjouterComponent {
 
     if (this.estDLF && this.articleBonSortie.identifiantBonSortie !== ""){
 
-
       let quantiteAccordee: number = ArticleBonSortieForm.value.quantiteAccordeeDLF;
 
       let quantitePermise: number = this.articleBonPour.quantiteDemandee - this.quantiteAccordeeTotal;
 
       if (quantitePermise <  quantiteAccordee ) {
-
-
         this.sendNotification(NotificationType.ERROR, `Vous avez dépassé la limite de quantité permise (${quantitePermise}) véhicule(s)`);
-
         return ;
-
-
-
       }
 
      this.articleBonSortie.quantiteAccordeeDLF= quantiteAccordee;
@@ -492,13 +504,7 @@ export class DotationVehiculeAjouterComponent {
       // console.log(this.articleBonPour,this.articleBonSortie);
       console.log(this.articleBonSortie);
 
-
-
-
-
       this.popupVehicule( this.articleBonPour, this.articleBonSortie,this.bonSortie,this.bonPour);
-
-
     }
 
 
@@ -549,73 +555,27 @@ export class DotationVehiculeAjouterComponent {
   }
 
 
-  ArticleBonSortieByIdentifiantBonSortie(articleBonPour: ArticleBonPour): ArticleBonSortie {
-    const bonSortie = this.bonSorties.find(bonSortie => bonSortie.codeArticleBonPour.identifiantBonPour === articleBonPour.identifiantBonPour);
+  // pas bon : ArticleBonSortieByIdentifiantBonSortie xxxxxxxxxxxxxx remplacer par nombreArticleBonSortie
+  // ArticleBonSortieByIdentifiantBonSortie(articleBonPour: ArticleBonPour): ArticleBonSortie {
+  //   const bonSortie = this.bonSorties.find(bonSortie => bonSortie.codeArticleBonPour.identifiantBonPour === articleBonPour.identifiantBonPour);
 
-   if (bonSortie) {
+  //  if (bonSortie) {
 
-    this.bonSortie = bonSortie;
-    // console.log(bonSortie.identifiantBonSortie);
+  //   this.bonSortie = bonSortie;
+  //   // console.log(bonSortie.identifiantBonSortie);
 
-    this.articleBonSortie = this.articleBonSorties.find(article => article.identifiantBonSortie === bonSortie.identifiantBonSortie) ?? new ArticleBonSortie();
+  //   this.articleBonSortie = this.articleBonSorties.find(article => article.identifiantBonSortie === bonSortie.identifiantBonSortie) ?? new ArticleBonSortie();
 
-      return this.articleBonSorties.find(article => article.identifiantBonSortie === bonSortie.identifiantBonSortie) ?? new ArticleBonSortie();
-    }
-
-    return new ArticleBonSortie();
-
-  }
-
-
-
-
-
-  // if (this.estDLF && this.articleBonSortie.identifiantBonSortie !== ""){
-
-
-  //   let quantiteAccordee: number = ArticleBonSortieForm.value.quantiteAccordeeDLF;
-
-  //   let quantitePermise: number = this.articleBonPour.quantiteDemandee - this.quantiteAccordeeTotal;
-
-  //   if (quantitePermise <  quantiteAccordee ) {
-
-
-  //     this.sendNotification(NotificationType.ERROR, `Vous avez dépassé la limite de quantité permise (${quantitePermise}) véhicule(s)`);
-
-  //     return ;
-
-
-
+  //     return this.articleBonSorties.find(article => article.identifiantBonSortie === bonSortie.identifiantBonSortie) ?? new ArticleBonSortie();
   //   }
 
-  //   this.articleBonSortie.quantiteAccordeeDefinitive= quantiteAccordee;
-  //   this.articleBonSortie.libelleArticleBonSortie= "LIBELLE " + quantiteAccordee + " BS";
-  //   //this.articleBonSortie.identifiantBonSortie= this.bonSortie.identifiantBonSortie;
-  //   this.articleBonSortie.codeArticleBonSortie= this.nombreArticle;
-  //   this.articleBonSortie.dateArticleBonSortie = null;
-  //   this.articleBonSortie.matriculeAgent= this.agents[0];
-  //   // this.articleBonSortie.codeArticleBonSortie= ArticleBonSortieForm.value.codeArticleBonSortie;
-  //   // console.log(this.articleBonPour,this.articleBonSortie);
-  //   console.log(this.articleBonSortie);
-
-
-
-  //   this.popupVehicule( this.articleBonPour, this.articleBonSortie,this.bonSortie);
-
+  //   return new ArticleBonSortie();
 
   // }
 
 
 
-
-
-
-
-
-
   // -----------------------------------------------------------------------------
-
-
 
 
 
@@ -632,7 +592,6 @@ export class DotationVehiculeAjouterComponent {
           articleBonSortie: articleBonSortie,
           bonSortie: bonSortie,
           bonPour: bonPour
-
         }
       }
     );
@@ -640,12 +599,15 @@ export class DotationVehiculeAjouterComponent {
     dialogRef.afterClosed().subscribe(() => {
       // ----------------------------------
       // Accéder à this.secteurActivitesForm après la fermeture du popup
-      // if (dialogRef.componentInstance instanceof PopupSecteurActiviteComponent) {
-      // this.secteurActivitesSelect = dialogRef.componentInstance.secteurActivitesSelect;
-      // console.log(this.secteurActivitesSelect);
-      // }
+      if (dialogRef.componentInstance instanceof VehiculeAjouterDotationComponent) {
+        const retour: Boolean = dialogRef.componentInstance.retour;
+
+        if (!retour) {
+          this.popupFermer();
+        }
+
+      }
       // ----------------------------------
-      // this.popupFermer();
     });
   }
 

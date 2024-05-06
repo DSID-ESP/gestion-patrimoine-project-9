@@ -34,6 +34,8 @@ import { BonPourService } from 'src/app/services/bon-pour.service';
 import { TypeObjet } from 'src/app/model/type-objet.model';
 import { DotationVehiculeAjouterComponent } from '../dotation-vehicule-ajouter/dotation-vehicule-ajouter.component';
 import { ArticleBonSortieService } from 'src/app/services/article-bon-sortie.service';
+import { TypeObjetPatrimoine } from 'src/app/enum/type-objet-patrimoine.enum';
+import { UniteDouaniereDetailComponent } from 'src/app/pages/unite-douaniere/unite-douaniere-detail/unite-douaniere-detail.component';
 
 @Component({
   selector: 'app-dotation-vehicule-detail',
@@ -184,9 +186,12 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
       this.subscriptions.push(this.bonPourService.recupererBonPourById(decrypt).subscribe({
         next: (response: BonPour) => {
-          this.bonPour = response;
 
-          this.listeBonDeSorties();
+          if (response) {
+            this.bonPour = response;
+            this.listeBonDeSorties(this.bonPour);
+          }
+          
           // this.listeArticleBonPours();
         },
         error: (errorResponse: HttpErrorResponse) => {
@@ -198,19 +203,42 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
   }
 
 
+  goToDetailUniteDouaniere(uniteDouaniere: UniteDouaniere, consultation: Boolean): void {
+    const dialogRef = this.matDialog.open(
+      UniteDouaniereDetailComponent,
+      {
+        width: '80%',
+        enterAnimationDuration: '100ms',
+        exitAnimationDuration: '100ms',
+        data: {
+          uniteDouaniere: uniteDouaniere,
+          consultation: consultation
+        }
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.ngOnInit();
+    });
+  }
+
+
   // ---------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------------------------------------------------------------------------
-  public listeBonDeSorties(): void {
+  public listeBonDeSorties(bonPour: BonPour): void {
 
     const subscription = this.bonSortieService.listeBonSorties().subscribe({
       next: (response: BonSortie[]) => {
         this.bonSorties = response;
-        // this.bonDeSortie = this.filtreBonPourArticleBonSortie(this.articleBonPour.identifiantBP, this.bonDeSorties);
-        this.bonSortie = this.AfficherFormBonSortie(this.bonPour, this.bonSorties);
-        // console.log(this.bonSortie);
-        // console.log(this.bonPour);
 
-        this.listeArticleBonPours();
+        // Utilisez la méthode find pour rechercher le bon de sortie correspondant
+        this.bonSortie = this.bonSorties.find(bonSortie =>
+          bonPour &&
+          bonSortie.codeArticleBonPour.identifiantBonPour === bonPour.identifiantBonPour
+        ) ?? new BonSortie();
+
+
+        this.listeArticleBonPours(bonPour, this.bonSorties);
 
       },
       error: (errorResponse: HttpErrorResponse) => {
@@ -239,42 +267,33 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
   }
 
 
-  public listeArticleBonPours(): void {
+  public listeArticleBonPours(bonPour: BonPour, bonSorties: BonSortie[]): void {
 
     const subscription = this.articleBonPourService.listeArticleBonPours().subscribe({
       next: (response: ArticleBonPour[]) => {
         //this.articleBonPours = response;
 
-        const nomTypeObjet = "VEHICULES ET MATERIELS ROULANTS";
-        this.articleBonPours =  response.filter(articleBonPour => articleBonPour.codeTypeObjet.libelleTypeObjet === nomTypeObjet)
+        this.articleBonPours =  response.filter(articleBonPour => articleBonPour.codeTypeObjet.libelleTypeObjet === TypeObjetPatrimoine.VEHIC)
 
+        if (bonPour.identifiantBonPour != "" && this.articleBonPours.length > 0) {
 
-        // this.articleBonPours = response.sort((a, b) => Number(a.quantiteDemandee) - Number(b.quantiteDemandee));
+          // let articleBonPoursListe: ArticleBonPour[] | undefined;
 
-        if (this.bonPour && this.articleBonPours) {
-
-          // this.filtreArticleBonPourByBonPour(this.articleBonPours, this.bonPour);
-
-          let articleBonPoursListe: ArticleBonPour[] | undefined;
-
-          articleBonPoursListe = this.articleBonPours.filter(articleBonPour => articleBonPour.identifiantBonPour === this.bonPour.identifiantBonPour);
+          const articleBonPoursListe: ArticleBonPour[] = this.articleBonPours.filter(articleBonPour => articleBonPour.identifiantBonPour === bonPour.identifiantBonPour);
+          
           this.rowNumber = 1;
 
-          articleBonPoursListe =  articleBonPoursListe.map((item) => ({
+          this.dataSource = new MatTableDataSource<ArticleBonPour>(articleBonPoursListe.map((item) => ({
             ...item,
             rowCodeTypeObjet: item.codeTypeObjet.libelleTypeObjet,
             rowNumber: this.rowNumber++,
-            rowQuantiteAccorde: this.quantiteAccordeeByIdentifiantBonSortie(item, this.bonSorties, this.articleBonSorties)
-          }));
-
-          this.dataSource = new MatTableDataSource<ArticleBonPour>(articleBonPoursListe.map((item) => ({
-            ...item
+            rowQuantiteAccorde: this.quantiteAccordeeByIdentifiantBonSortie(item, bonSorties, this.articleBonSorties)
           })));
 
           this.dataSource.paginator = this.paginator;
 
         } else {
-          console.error('articleBonPours is undefined');
+          console.error('articles BonPour is undefined');
         }
 
 
@@ -287,149 +306,53 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.push(subscription);
   }
 
-  // filtreArticleBonPourByBonPour(articleBonPours: ArticleBonPour[], bonPour: BonPour): void {
-
-  //   articleBonPours = this.articleBonPours.filter(articleBonPour => articleBonPour.identifiantBonPour === bonPour.identifiantBonPour);
-
-  //   this.rowNumber = 1;
-
-  //   articleBonPours =  articleBonPours.map((item) => ({
-  //     ...item,
-  //     rowCodeTypeObjet: item.codeTypeObjet.libelleTypeObjet,
-  //     rowNumber: this.rowNumber++,
-  //     rowQuantiteAccorde: this.quantiteAccordeeByIdentifiantBonSortie(item, this.bonSorties, this.articleBonSorties)
-  //   }));
-
-
-  //   this.dataSource = new MatTableDataSource<ArticleBonPour>(articleBonPours.map((item) => ({
-  //     ...item
-  //   })));
-
-  //   this.dataSource.paginator = this.paginator;
-  // }
-
-
-
-  // quantiteAccordeeByIdentifiantBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[], articleBonSorties: ArticleBonSortie[]): number {
-
-
-  //   const bonsSortiesAssocies = bonSorties.filter(bonSortie => articleBonPour.identifiantBonPour === bonSortie.identifiantBonPour.identifiantBonPour);
-
-  //    console.log(bonSortie);
-  //   console.log(articleBonPour);
-
-
-  //   bonsSortiesAssocies.forEach(bonSortie => {
-  //     // Filtrer les articles bon sortie associés à ce bon de sortie
-  //     const articleBonSortie = articleBonSorties.filter(articleBonSortie => articleBonSortie.identifiantBonSortie === bonSortie.identifiantBonSortie);
-
-  //     // Calculer la quantité totale accordée pour ces articles et l'ajouter à la quantité totale
-
-  //     this.quantiteAccordeeTotal = articleBonSorties.reduce((total, articleBonSorties) => {
-  //       return total + (articleBonSortie ? articleBonSortie.quantiteAccordeeDefinitive : 0);
-  //     }, 0);
-  //     return this.quantiteAccordeeTotal;
-  // });
-
-
-
-  //     this.quantiteAccordeeTotal = articleBonSorties.reduce((total, articleBonSortie) => {
-  //       return total + (articleBonSortie ? articleBonSortie.quantiteAccordeeDefinitive : 0);
-  //     }, 0);
-  //     return this.quantiteAccordeeTotal;
-
-  //   } else {
-  //     return 0;
-  //   }
-
-  // }
-
-
-
-  // quantiteAccordeeByIdentifiantBonSortie(articleBonPour: ArticleBonPour,articleBonSorties: ArticleBonSortie[]): number {
-
-
-
-  //   // console.log(bonSortie);
-  //   // console.log(articleBonPour);
-
-
-  //   if (articleBonPour) {
-
-  //     // console.log(articleBonSorties[0]?.identifiantBonSortie);
-  //     // console.log(bonSortie.identifiantBonSortie);
-
-  //     articleBonSorties = articleBonSorties.filter(articleBonSortie => articleBonSortie.identifiantBonSortie === articleBonPour.identifiantBonPour);
-
-
-
-  //     // console.log(articleBonSorties);
-
-
-
-  //     this.quantiteAccordeeTotal = articleBonSorties.reduce((total, articleBonSortie) => {
-  //       return total + (articleBonSortie ? articleBonSortie.quantiteAccordeeDefinitive : 0);
-  //     }, 0);
-  //     return this.quantiteAccordeeTotal;
-
-  //   } else {
-  //     return 0;
-  //   }
-
-  // }
 
 
   quantiteAccordeeByIdentifiantBonSortie(articleBonPour: ArticleBonPour, bonSorties: BonSortie[], articleBonSorties: ArticleBonSortie[]): number {
-    // Filtrer les bons de sortie correspondant à l'identifiant de l'articleBonPour
-    // const bonSortiesAssocies = bonSorties.filter(bonSortie => bonSortie.codeArticleBonPour.identifiantBonPour === articleBonPour.identifiantBonPour);
 
     // Initialiser la quantité totale à 0
     this.quantiteAccordeeTotal = 0;
 
-    // Parcourir les bons de sortie associés
-    // bonSortiesAssocies.forEach(bonSortie => {
-    //     // Filtrer les articles bon sortie associés à ce bon de sortie
-    //     const articleBonSortieAssocies = articleBonSorties.filter(article => article.identifiantBonSortie === bonSortie.identifiantBonSortie);
-
-    //     // Calculer la quantité totale accordée pour ces articles et l'ajouter à la quantité totale
-    //     const quantitePourCeBonSortie = articleBonSortieAssocies.reduce((total, article) => {
-    //         return total + (article && article.quantiteAccordeeDefinitive ? article.quantiteAccordeeDefinitive : 0);
-    //     }, 0);
-
-    //     this.quantiteAccordeeTotal += quantitePourCeBonSortie;
-    // });
-
-
-    let articleBonSortieAssocies: ArticleBonSortie[];
-    let quantitePourCeBonSortie: number = 0;
-
-    const bonSortie = bonSorties.find(bonSortie => bonSortie.codeArticleBonPour.identifiantBonPour === articleBonPour.identifiantBonPour);
+    // Rechercher l'articleBonPour dans les bonSorties
+    const bonSortiesTrouves: BonSortie[] = bonSorties.filter(
+      bonSortie =>
+        bonSortie &&
+        bonSortie.codeArticleBonPour &&
+        articleBonPour.identifiantBonPour === bonSortie.codeArticleBonPour.identifiantBonPour &&
+        articleBonPour.codeArticleBonPour === bonSortie.codeArticleBonPour.codeArticleBonPour
+    );
 
     // Filtrer les articles bon sortie associés à ce bon de sortie
-    if (bonSortie) {
-      articleBonSortieAssocies = articleBonSorties.filter(article => article.identifiantBonSortie === bonSortie.identifiantBonSortie);
-    
-      // Calculer la quantité totale accordée pour ces articles et l'ajouter à la quantité totale
-      quantitePourCeBonSortie = articleBonSortieAssocies.reduce((total, article) => {
-          return total + (article && article.quantiteAccordeeDefinitive ? article.quantiteAccordeeDefinitive : 0);
+    if (bonSortiesTrouves.length > 0) {
+      // Calculer la quantité totale accordée pour les articles associés à tous les bons de sortie trouvés
+      this.quantiteAccordeeTotal += bonSortiesTrouves.reduce((total, bonSortieAssocie) => {
+        // Filtrer les articles associés à ce bon de sortie et calculer leur quantité totale accordée
+        const quantiteBonSortieAssocie = articleBonSorties
+          .filter(article => article.identifiantBonSortie === bonSortieAssocie.identifiantBonSortie)
+          .reduce((totalArticle, article) => {
+            return totalArticle + (article && article.quantiteAccordeeDefinitive !== 0 && article.quantiteAccordeeDefinitive !== null ? article.quantiteAccordeeDefinitive : 0);
+          }, 0);
+        // Ajouter la quantité totale accordée pour les articles associés à ce bon de sortie à la quantité totale
+        return total + quantiteBonSortieAssocie;
       }, 0);
     }
 
-    this.quantiteAccordeeTotal += quantitePourCeBonSortie;
+
+
 
     return this.quantiteAccordeeTotal;
 }
 
 
 
-  nombreArticleBonEntree(bonPour: BonPour, articleBonPours: ArticleBonPour[]): number {
-    return articleBonPours.reduce((count, article) => {
-      if (bonPour && article.identifiantBonPour && bonPour.identifiantBonPour === article.identifiantBonPour) {
-        return count + 1;
-      }
-      return count;
-    }, 1);
-  }
+  // nombreArticleBonEntree(bonPour: BonPour, articleBonPours: ArticleBonPour[]): number {
+  //   return articleBonPours.reduce((count, article) => {
+  //     if (bonPour && article.identifiantBonPour && bonPour.identifiantBonPour === article.identifiantBonPour) {
+  //       return count + 1;
+  //     }
+  //     return count;
+  //   }, 1);
+  // }
 
 
 
@@ -467,21 +390,21 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.push(subscription);
   }
 
-  AfficherFormBonSortie(bonPour: BonPour, bonSorties: BonSortie[]): BonSortie {
+  // AfficherFormBonSortie(bonPour: BonPour, bonSorties: BonSortie[]): BonSortie {
 
 
-    for (const bonSortie of bonSorties) {
-      // Comparer les bonEntree ici (assurez-vous d'implémenter une méthode de comparaison dans la classe BonEntree)
-      if (bonPour && bonSortie.codeArticleBonPour.identifiantBonPour && JSON.stringify(bonPour) === JSON.stringify(bonSortie.codeArticleBonPour.identifiantBonPour)) {
+  //   for (const bonSortie of bonSorties) {
+  //     // Comparer les bonEntree ici (assurez-vous d'implémenter une méthode de comparaison dans la classe BonEntree)
+  //     if (bonPour && bonSortie.codeArticleBonPour.identifiantBonPour && JSON.stringify(bonPour) === JSON.stringify(bonSortie.codeArticleBonPour.identifiantBonPour)) {
 
-        return bonSortie;
-      }
+  //       return bonSortie;
+  //     }
 
-    }
+  //   }
 
 
-    return new BonSortie();
-  }
+  //   return new BonSortie();
+  // }
 
 
   // filtreBonPourArticleBonSortie(bonPour: BonPour, bonDeSorties: BonDeSortie[]): BonDeSortie {

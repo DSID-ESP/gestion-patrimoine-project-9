@@ -1,0 +1,8 @@
+
+export enum TypeObjetPatrimoine {
+
+  ARMES = 'ARMES ET MUNITIONS',
+  VEHIC = 'VEHICULES ET MATERIELS ROULANTS',
+  MATER = 'MATERIELS',
+  
+}

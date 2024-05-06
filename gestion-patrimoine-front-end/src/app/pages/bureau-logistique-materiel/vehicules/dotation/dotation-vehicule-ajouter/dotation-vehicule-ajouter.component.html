@@ -22,19 +22,32 @@
 
             <div class="row g-4">
 
-              <ng-container *ngIf="(bonSortie.identifiantBonSortie !== ''); else pasBonSortie">
-                <div class="col-12 mx-auto form-group">
-                  <label for="descriptionBonSortie" class="form-label fw-bold">Description bon sortie</label>
-                  <textarea name="descriptionBonSortie" id="descriptionBonSortie" rows="2" disabled required [(ngModel)]="bonSortie!.descriptionBonSortie"
-                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
-                    style="resize: none;"></textarea>
-                </div>
+              <ng-container *ngIf="estSection; else pasSection">
+                <ng-container *ngIf="(bonSortie.identifiantBonSortie !== ''); else pasBonSortie">
+                  <div class="col-12 mx-auto form-group">
+                    <label for="descriptionBonSortie" class="form-label fw-bold">Description bon sortie</label>
+                    <textarea name="descriptionBonSortie" id="descriptionBonSortie" rows="2" disabled required
+                      [(ngModel)]="bonSortie!.descriptionBonSortie"
+                      class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
+                      style="resize: none;"></textarea>
+                  </div>
+                </ng-container>
+
+                <ng-template #pasBonSortie>
+                  <div class="col-12 mx-auto form-group">
+                    <label for="descriptionBonSortie" class="form-label fw-bold">Description bon sortie</label>
+                    <textarea name="descriptionBonSortie" id="descriptionBonSortie" rows="2" required ngModel
+                      class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
+                      style="resize: none;"></textarea>
+                  </div>
+                </ng-template>
               </ng-container>
 
-              <ng-template #pasBonSortie>
+              <ng-template #pasSection>
                 <div class="col-12 mx-auto form-group">
                   <label for="descriptionBonSortie" class="form-label fw-bold">Description bon sortie</label>
-                  <textarea name="descriptionBonSortie" id="descriptionBonSortie" rows="2" required ngModel
+                  <textarea name="descriptionBonSortie" id="descriptionBonSortie" rows="2" disabled required
+                    [(ngModel)]="bonSortie!.descriptionBonSortie"
                     class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"
                     style="resize: none;"></textarea>
                 </div>
@@ -90,33 +103,31 @@
           (ngSubmit)="ajouterArticleBonSortie(ArticleBonSortieForm)">
 
           <div class="row g-4 ">
-
-
             <div class="col-3 mx-auto form-group">
               <label for="codeArticleBonSortie" class="form-label fw-bold">N° article</label>
               <input id="codeArticleBonSortie" hidden type="number" name="codeArticleBonSortie" disabled required
                 [(ngModel)]="nombreArticle"
                 class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+
               <input type="text" name="nombreArticle" disabled [placeholder]="'Article ' + nombreArticle"
                 class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
             </div>
 
             <div class="col-3 mx-auto form-group">
-             <!-- {{(bonPour?.etatBonPour == RETOURSECTION)}} {{estSection}} -->
 
-             <!-- {{articleBonSortie | json}} -->
-             <!-- {{bonSortie | json}} -->
 
-              <ng-container *ngIf="(bonPour?.etatBonPour == RETOURSECTION) && estSection; else consultationSection">
+              <ng-container
+                *ngIf="((bonPour?.etatBonPour == RETOURSECTION) || (bonPour?.etatBonPour == TERMINER)) && estSection; else consultationSection">
                 <label for="quantiteAccordeeSection" class="form-label fw-bold">Quantite accordée section</label>
-                <input id="quantiteAccordeeSection" type="number" name="quantiteAccordeeSection" required [(ngModel)]="quantiteAccordeeSection"
+                <input id="quantiteAccordeeSection" type="number" name="quantiteAccordeeSection" required
+                  [(ngModel)]="quantiteAccordeeSection"
                   class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
               </ng-container>
 
               <ng-template #consultationSection>
                 <label for="quantiteAccordeeSection" class="form-label fw-bold">Qte accordée section</label>
                 <input id="quantiteAccordeeSection" type="number" disabled name="quantiteAccordeeSection" required
-                  [(ngModel)]="ArticleBonSortieByIdentifiantBonSortie(articleBonPour)!.quantiteAccordeeSection"
+                  [(ngModel)]="articleBonSortie.quantiteAccordeeSection"
                   class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
               </ng-template>
             </div>
@@ -124,37 +135,42 @@
 
 
             <div class="col-3 mx-auto form-group">
-              <ng-container *ngIf="ArticleBonSortieByIdentifiantBonSortie(articleBonPour)!.identifiantBonSortie !== ''">
-                  <ng-container *ngIf="(bonPour?.etatBonPour === RETOURBLM) && estBLM ; else consultationBLM">
-                    <label for="quantiteAccordeeBLM" class="form-label fw-bold">Qte accordée BLM</label>
-                    <input id="quantiteAccordeeBLM" type="number"  name="quantiteAccordeeBLM" required
+              <ng-container *ngIf="articleBonSortie.identifiantBonSortie !== ''">
+                <ng-container *ngIf="(bonPour?.etatBonPour === RETOURBLM) && estBLM ; else consultationBLM">
+                  <label for="quantiteAccordeeBLM" class="form-label fw-bold">Qte accordée BLM</label>
+                  <input id="quantiteAccordeeBLM" type="number" name="quantiteAccordeeBLM" required
                     [(ngModel)]="quantiteAccordeeBLM"
-                      class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                  </ng-container>
-
-                  <ng-template #consultationBLM>
-                    <label for="quantiteAccordeeBLM" class="form-label fw-bold">Qte accordée BLM</label>
-                    <input id="quantiteAccordeeBLM" type="number" disabled name="quantiteAccordeeBLM" required
-                      [(ngModel)]="ArticleBonSortieByIdentifiantBonSortie(articleBonPour)!.quantiteAccordeeBLM"
-                      class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                  </ng-template>
+                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
                 </ng-container>
+
+                <ng-template #consultationBLM>
+                  <label for="quantiteAccordeeBLM" class="form-label fw-bold">Qte accordée BLM</label>
+                  <input id="quantiteAccordeeBLM" type="number" disabled name="quantiteAccordeeBLM" required
+                    [(ngModel)]="articleBonSortie.quantiteAccordeeBLM"
+                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                </ng-template>
+              </ng-container>
             </div>
 
             <div class="col-3 mx-auto form-group">
-            <ng-container *ngIf="ArticleBonSortieByIdentifiantBonSortie(articleBonPour)!.identifiantBonSortie !== '' && ArticleBonSortieByIdentifiantBonSortie(articleBonPour)!.quantiteAccordeeBLM !== null">
-              <ng-container  *ngIf="(bonPour?.etatBonPour == RETOURDLF) && estDLF; else consultationDLF">
-                <label for="quantiteAccordeeDLF" class="form-label fw-bold">Qte accordée DLF </label>
-                <input id="quantiteAccordeeDLF" type="number" name="quantiteAccordeeDLF" required   [(ngModel)]="quantiteAccordeeDLF"
-                  class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-              </ng-container>
+              <ng-container
+                *ngIf="articleBonSortie.identifiantBonSortie !== '' && articleBonSortie.quantiteAccordeeBLM !== null">
+                <ng-container *ngIf="(bonPour?.etatBonPour == RETOURDLF) && estDLF; else consultationDLF">
+                  <label for="quantiteAccordeeDLF" class="form-label fw-bold">Qte accordée DLF </label>
+                  <input id="quantiteAccordeeDLF" type="number" name="quantiteAccordeeDLF" required
+                    [(ngModel)]="quantiteAccordeeDLF"
+                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                </ng-container>
 
-              <ng-template #consultationDLF>
-                <label for="quantiteAccordeeDLF" class="form-label fw-bold">Qte accordée DLF </label>
-                <input id="quantiteAccordeeDLF"  disabled type="number" name="quantiteAccordeeDLF" required  [(ngModel)]="ArticleBonSortieByIdentifiantBonSortie(articleBonPour)!.quantiteAccordeeDLF"
-                  class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-              </ng-template>
-            </ng-container>
+                <ng-template #consultationDLF>
+                  <label for="quantiteAccordeeDLF" class="form-label fw-bold">Qte accordée DLF </label>
+                  <!-- <input id="quantiteAccordeeDLF"  disabled type="number" name="quantiteAccordeeDLF" required  [(ngModel)]="ArticleBonSortieByIdentifiantBonSortie(articleBonPour)!.quantiteAccordeeDLF"
+                  class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase"> -->
+                  <input id="quantiteAccordeeDLF" disabled type="number" name="quantiteAccordeeDLF" required
+                    [(ngModel)]="articleBonSortie.quantiteAccordeeDLF"
+                    class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
+                </ng-template>
+              </ng-container>
             </div>
 
 
@@ -183,15 +199,15 @@
         <div class="row">
           <div class="col-12 text-end">
 
-            <button type="button"  (click)="submitArticleBonSortieForm()" [disabled]="ArticleBonSortieForm.invalid  || (BonSortieForm.invalid)" class="btn btn-mysecondary fw-bold mx-2" [hidden]="!estSection && !estBLM"
-            data-bs-toggle="tooltip" title="cliquer ici pour transmettre">
-            Transmettre
+            <button type="button"  (click)="submitArticleBonSortieForm()" [disabled]="ArticleBonSortieForm.invalid  || (BonSortieForm.invalid) || (estSection && bonPour.etatBonPour !== RETOURSECTION) || (estBLM && bonPour.etatBonPour !== RETOURBLM)" class="btn btn-mysecondary fw-bold mx-2" [hidden]="!estSection && !estBLM"
+              data-bs-toggle="tooltip" title="cliquer ici pour transmettre">
+              Transmettre
             </button>
+            
             <button (click)="submitArticleBonSortieForm()" type="button"
-              [disabled]="ArticleBonSortieForm.invalid  || (BonSortieForm.invalid)" [hidden]="estBAF || estBLM || estSection"
+              [disabled]="ArticleBonSortieForm.invalid  || (BonSortieForm.invalid) || (estDLF && bonPour.etatBonPour !== RETOURDLF)" [hidden]="estBAF || estBLM || estSection"
               class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour continuer">
-              Continuer
-            </button>
+              Continuer</button>
 
             <button (click)="popupFermer()" type="button" class="btn btn-mysecondary fw-bold mx-2"
               data-bs-toggle="tooltip" title="cliquer ici pour retourner">

@@ -13,9 +13,9 @@
         <div class="container p-2">
 
             <!-- --------------------FORMULAIRES------------------------------------------------------ -->
-            <div class="container">
+            <!-- <div class="container">
 
-                <!-- --------------------Unite Douaniere------------------------------------------------------ -->
+                --------------------Unite Douaniere------------------------------------------------------
                 <div class="container">
                     <div class="text-center fw-bolder bg-myprimary mt-1" role="alert">
                         Unité Douanière
@@ -63,7 +63,7 @@
                     </form>
                 </div>
 
-            </div>
+            </div> -->
 
             <!-- --------------------FORMULAIRES------------------------------------------------------ -->
             <div class="container">
@@ -100,11 +100,15 @@
                                 </div>
                 
                                 <div class="row g-4 mb-3">
-                                    <div class="col-6 mx-auto form-group">
+                                    <!-- <div class="col-6 mx-auto form-group">
                                         <span class="fw-bold">Unité douanière</span>
                                         <div class="text-input"> {{ bonPour.codeUniteDouaniere.nomUniteDouaniere }} </div>
-                                    </div>
+                                    </div> -->
                 
+                                    <div class="col-6 mx-auto form-group rounded-pill border border-1 border-myprimary" (click)="goToDetailUniteDouaniere(bonPour.codeUniteDouaniere, true)" style="cursor: pointer;">
+                                        <span class="fw-bold">Unité douanière</span>
+                                        <div class="text-input">{{ bonPour.codeUniteDouaniere.nomUniteDouaniere }}</div>
+                                    </div>
                 
                                     <div class="col-3">
                                     </div>
