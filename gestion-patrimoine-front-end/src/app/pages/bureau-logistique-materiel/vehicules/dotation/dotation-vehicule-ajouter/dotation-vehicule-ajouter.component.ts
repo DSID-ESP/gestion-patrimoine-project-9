@@ -155,13 +155,13 @@ export class DotationVehiculeAjouterComponent {
 
         this.nombreArticle = this.nombreArticleBonSortie(this.articleBonPour, bonSorties, this.articleBonSorties);
 
-        
+
         // if (this.bonPour.etatBonPour == EtatBonPour.TERMINER) {
         //   this.nombreArticle = this.nombreArticleBonSortie(this.articleBonPour, bonSorties, this.articleBonSorties);
         // } else {
         //   this.nombreArticle = this.nombreArticleBonSortie(this.articleBonPour, bonSorties, this.articleBonSorties);
         // }
-        
+
       },
       error: (errorResponse: HttpErrorResponse) => {
         // console.log(errorResponse);
@@ -170,8 +170,6 @@ export class DotationVehiculeAjouterComponent {
 
     this.subscriptions.push(subscription);
   }
-
-
 
 
 
@@ -268,24 +266,35 @@ export class DotationVehiculeAjouterComponent {
 
   // }
 
+
   public ajouterBonSortie(BonSortieForm: NgForm): void {
 
-    this.bonSortie.numeroBonSortie = 'BS000';
-    this.bonSortie.dateBonSortie = null;
-    this.bonSortie.matriculeAgent = this.utilisateur ? this.utilisateur.matriculeAgent : new Agent(); // utilisateur peut etre undefied
-    this.bonSortie.codeArticleBonPour = this.articleBonPour;
-    this.bonSortie.descriptionBonSortie = BonSortieForm.value.descriptionBonSortie;
 
-    this.subscriptions.push(this.bonSortieService.ajouterBonSortie(this.bonSortie).subscribe({
-      next: (response: BonSortie) => {
-        this.bonSortie = response;
-        this.clickButton('article-bon-sortie-form');
-      },
-      error: (errorResponse: HttpErrorResponse) => {
 
-      }
-    })
-    );
+      this.bonSortie.numeroBonSortie = 'BS000';
+      this.bonSortie.dateBonSortie = null;
+      this.bonSortie.matriculeAgent = this.utilisateur ? this.utilisateur.matriculeAgent : new Agent(); // utilisateur peut etre undefied
+      this.bonSortie.codeArticleBonPour = this.articleBonPour;
+      this.bonSortie.descriptionBonSortie = BonSortieForm.value.descriptionBonSortie;
+
+      this.subscriptions.push(this.bonSortieService.ajouterBonSortie(this.bonSortie).subscribe({
+        next: (response: BonSortie) => {
+          this.bonSortie = response;
+          this.clickButton('article-bon-sortie-form');
+        },
+        error: (errorResponse: HttpErrorResponse) => {
+
+        }
+      })
+      );
+
+
+
+
+
+
+
+
 
   }
 
@@ -307,10 +316,30 @@ export class DotationVehiculeAjouterComponent {
 
   }
 
+  public submitForm2(): void {
+
+    this.clickButton('article-bon-sortie-form');
+
+  }
+
 
   public submitArticleBonSortieForm(): void {
+    // this.estSection &&  (this.bonPour.etatBonPour === this.RETOURSECTION) || (this.bonPour.etatBonPour === this.TERMINER
 
-    this.submitForm();
+    if (this.bonSortie.identifiantBonSortie === "") {
+
+      this.submitForm();
+
+    }
+
+    else{
+
+      this.submitForm2();
+
+    }
+
+
+
 
   }
 
@@ -320,18 +349,18 @@ export class DotationVehiculeAjouterComponent {
 
     // rechercher l'articleBonPour dans les bonSorties
     const bonSortiesTrouves: BonSortie[] = bonSorties.filter(
-      bonSortie => 
-        bonSortie && 
-        bonSortie.codeArticleBonPour && 
-        articleBonPour.identifiantBonPour === bonSortie.codeArticleBonPour.identifiantBonPour && 
+      bonSortie =>
+        bonSortie &&
+        bonSortie.codeArticleBonPour &&
+        articleBonPour.identifiantBonPour === bonSortie.codeArticleBonPour.identifiantBonPour &&
         articleBonPour.codeArticleBonPour === bonSortie.codeArticleBonPour.codeArticleBonPour
     ).sort((a, b) => a.identifiantBonSortie.localeCompare(b.identifiantBonSortie));
-    
+
     // console.log(bonSortiesTrouves);
-    
+
 
     if (bonSortiesTrouves.length > 0) {
-      
+
       // recuperer le dernier bonSortie enregistrer s'il existe
       this.bonSortie = bonSortiesTrouves[bonSortiesTrouves.length - 1];
 
@@ -374,7 +403,7 @@ export class DotationVehiculeAjouterComponent {
         }
       });
 
-      
+
 
       if (this.articleBonSortie.identifiantBonSortie !== "" || this.bonPour.etatBonPour === EtatBonPour.TERMINER || this.bonPour.etatBonPour === EtatBonPour.RETOURSECTION) {
         nombreArticle++;

@@ -74,11 +74,7 @@
                 Valider
               </button>
 
-              <!-- <button [routerLink]="'/affectation-vehicule'" type="button"
-                class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
-                title="cliquer ici pour retourner">
-                Retour
-            </button> -->
+
             </div>
           </div>
         </div>
@@ -193,17 +189,29 @@
           </div>
 
         </form>
+
+        <div class="row">
+          <div class="col-12 text-end">
+            <button (click)="submitForm2()" hidden class="btn btn-myprimary fw-bold mx-2" data-bs-toggle="tooltip"
+              title="cliquer ici pour valider">
+              Valider
+            </button>
+
+
+          </div>
+        </div>
+
       </div>
 
       <div class="container px-3 py-2">
         <div class="row">
           <div class="col-12 text-end">
 
-            <button type="button"  (click)="submitArticleBonSortieForm()" [disabled]="ArticleBonSortieForm.invalid  || (BonSortieForm.invalid) || (estSection && bonPour.etatBonPour !== RETOURSECTION) || (estBLM && bonPour.etatBonPour !== RETOURBLM)" class="btn btn-mysecondary fw-bold mx-2" [hidden]="!estSection && !estBLM"
+            <button type="button"  (click)="submitArticleBonSortieForm()" [disabled]="ArticleBonSortieForm.invalid  || (BonSortieForm.invalid) || (estSection && bonPour.etatBonPour !== RETOURSECTION && bonPour.etatBonPour !== TERMINER) || (estBLM && bonPour.etatBonPour !== RETOURBLM)" class="btn btn-mysecondary fw-bold mx-2" [hidden]="!estSection && !estBLM"
               data-bs-toggle="tooltip" title="cliquer ici pour transmettre">
               Transmettre
             </button>
-            
+
             <button (click)="submitArticleBonSortieForm()" type="button"
               [disabled]="ArticleBonSortieForm.invalid  || (BonSortieForm.invalid) || (estDLF && bonPour.etatBonPour !== RETOURDLF)" [hidden]="estBAF || estBLM || estSection"
               class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour continuer">

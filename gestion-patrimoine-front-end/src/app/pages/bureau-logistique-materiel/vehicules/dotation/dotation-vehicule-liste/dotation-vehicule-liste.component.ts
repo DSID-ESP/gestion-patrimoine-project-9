@@ -18,6 +18,8 @@ import { BonPourService } from 'src/app/services/bon-pour.service';
 import { DotationVehiculeAjouterComponent } from '../dotation-vehicule-ajouter/dotation-vehicule-ajouter.component';
 import { FormControl } from '@angular/forms';
 import { EtatBonPour } from 'src/app/enum/etat-bon-pour.enum';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-dotation-vehicule-liste',
@@ -135,7 +137,7 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
     "N° courrier origine",
     "Etat bon pour",
     "Date arrivéé DLF",
-     "Unité"
+    "Unité"
   ];
   /* ----------------------------------------------------------------------------------------- */
 
@@ -185,52 +187,375 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
     /* ----------------------------------------------------------------------------------------- */
   }
 
+  generatePDF(): void {
+
+    const data: BonPour[] = this.dataSource.filteredData;
+    const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
+
+    // Création d'un nouveau document jsPDF
+    const doc = new jsPDF();
+
+
+    // const fontName = 'times'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
+
+    const texteFontName = 'Roboto-Regular'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
+    const texteFontSize = 8; // Taille de la police
+
+
+    // Définition du texte au-dessus de l'image
+    const titre = "LISTE DES BON POURS";
+    const titreX = 60; // Position horizontale du texte
+    const titreY = 50; // Position verticale du texte
+    const titreFontName = 'Roboto-Regular'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
+    const titreFontSize = 15; // Taille de la police
+
+    // Déterminer la longueur du texte et la largeur de la page
+    const titreLength = doc.getStringUnitWidth(titre) * titreFontSize / doc.internal.scaleFactor;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    // Calculer la position horizontale pour centrer le texte
+    const titreXCentered = (pageWidth - titreLength) / 2;
+
+
+    // Ajout du logo à l'en-tête
+    const logoImg = new Image();
+    logoImg.src = '../../../../../assets/douanes.jpeg'; // Assurez-vous de remplacer 'path/to/your/logo.png' par le chemin de votre propre logo
+
+    const logoWidth = 24; // Largeur du logo
+    const logoHeight = 16; // Hauteur du logo
+    const logoMarginLeft = 18;
+    const logoMarginTop = 24;
+
+    const marginLeft = 10;
+    const marginTop = 40;
+    const marginRight = 10;
+    const marginBottom = 10;
+
+    // Attendre que l'image soit chargée avant de l'ajouter au document
+    logoImg.onload = function () {
+      doc.setFont(texteFontName, 'normal'); // Définition de la police d'écriture et de son style
+      doc.setFontSize(texteFontSize); // Définition de la taille de la police
+      doc.text("République du Sénégal", 18, 14);
+      doc.text("Ministère des Finances et du budget", 10, 18);
+      doc.text("Direction générale des Douanes", 13, 22);
+
+      doc.setFont(titreFontName, 'bold'); // Définition de la police d'écriture et de son style
+      doc.setFontSize(titreFontSize); // Définition de la taille de la police
+      doc.text(titre, titreXCentered, titreY);
+
+      doc.addImage(logoImg, 'JPEG', logoMarginLeft, logoMarginTop, logoWidth, logoHeight);
+
+
+
+      generateTable(); // Une fois le texte et le logo ajoutés, générez le tableau
+    };
+
+    // Fonction pour générer le tableau dans le PDF
+    function generateTable() {
+      // Création des données du tableau pour autoTable
+      const tableData = data.map((item: BonPour) => [
+        item.numeroCourrielOrigine,
+        item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
+        item.etatBonPour,
+        item.codeUniteDouaniere.nomUniteDouaniere,
+        item.numeroArriveDLF,
+        item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
+        item.numeroArriveBLM,
+        item.dateArriveBLM ? `${new Date(item.dateArriveBLM.toString()).getDate()} ${months[new Date(item.dateArriveBLM.toString()).getMonth()]} ${new Date(item.dateArriveBLM.toString()).getFullYear()}` : 'N/A',
+        item.numeroArriveSection,
+        item.dateArriveSection ? `${new Date(item.dateArriveSection.toString()).getDate()} ${months[new Date(item.dateArriveSection.toString()).getMonth()]} ${new Date(item.dateArriveSection.toString()).getFullYear()}` : 'N/A',
+      ]);
+
+      // Générer le tableau dans le PDF avec des styles de texte personnalisés
+      autoTable(doc, {
+        head: [
+          [
+            { content: 'N° courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            { content: 'Date courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            { content: 'Etat bon pour', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            { content: 'Unité douanière', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            { content: 'N° arrivée DLF', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            { content: 'Date arrivée DLF', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            { content: 'N° arrivée BLM', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            { content: 'Date arrivée BLM', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            { content: 'N° arrivée section', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            { content: 'Date arrivée section', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } }
+          ]
+        ],
+        body: tableData.map(row => row.map(cell => ({ content: cell ? cell.toString() : '', styles: { fontSize: 6, halign: 'center', valign: 'middle' } }))),
+        margin: { top: marginTop + logoHeight + 5, right: marginRight, bottom: marginBottom, left: marginLeft },
+        theme: 'plain',
+        tableLineColor: [0, 0, 0], // Couleur de la ligne du tableau
+        tableLineWidth: 0.1, // Épaisseur de la ligne du tableau
+        didDrawCell: function (data) {
+          doc.setLineWidth(0.1);
+          doc.line(data.cell.x, data.cell.y, data.cell.x, data.cell.y + data.cell.height); // Vertical line
+          doc.line(data.cell.x, data.cell.y + data.cell.height, data.cell.x + data.cell.width, data.cell.y + data.cell.height); // Horizontal line
+        },
+
+        // didDrawPage: function (data) {
+        //   // Cette fonction sera appelée après le dessin de chaque page du PDF
+
+        //   // Définir l'épaisseur de la ligne
+        //   doc.setLineWidth(0.1);
+
+        //   // Dessiner une ligne horizontale en haut de la page pour séparer le tableau
+        //   // Placer cette ligne juste après les lignes du tableau
+        //   doc.line(marginLeft, data.settings.margin.top + 5, pageWidth - marginRight, data.settings.margin.top + 5);
+        // }
+
+      });
+
+      // ------------------------------------------------------------------
+      // Enregistrez le document PDF avec le nom spécifié
+      // doc.save('liste-bon-pour.pdf');
+
+      // ------------------------------------------------------------------
+      // // // Générer le blob à partir des données du PDF
+      // const blob = doc.output('blob');
+      // // Créer une URL pour le blob
+      // const url = URL.createObjectURL(blob);
+      // // Ouvrir le PDF dans une nouvelle fenêtre ou un nouvel onglet
+      // window.open(url, '_blank');
+
+      // ------------------------------------------------------------------
+      // Générer le blob à partir des données du PDF
+      const blob = doc.output('blob');
+      // Spécifier le nom du fichier PDF
+      const nomFichier = "nom_personnalisé.pdf";
+      // Créer une URL pour le blob
+      const url = URL.createObjectURL(blob);
+      // Ouvrir le PDF dans une nouvelle fenêtre ou un nouvel onglet avec le nom spécifié
+      window.open(url, '_blank', `resizable=yes,scrollbars=yes,status=yes,toolbar=yes,menubar=yes,titlebar=yes,location=yes,name=${nomFichier}`);
+
+      
+    }
+  }
 
 
   // generatePDF(): void {
 
-  //   const data: BonEntree[] = this.dataSource.filteredData;
-  //   // console.log(data);
-
-
+  //   const data: BonPour[] = this.dataSource.filteredData;
   //   const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
 
+  //   // Création d'un nouveau document jsPDF
   //   const doc = new jsPDF();
 
-  //   // Créez un tableau de données pour autoTable
-  //   const tableData = data.map((item: BonEntree) => [
-  //     item.numeroBE,
-  //     item.libelleBonEntree,
-  //     `${new Date(item.dateBonEntree.toString()).getDate()} ${months[new Date(item.dateBonEntree.toString()).getMonth()]} ${new Date(item.dateBonEntree.toString()).getFullYear() % 100}`,
-  //     item.observationBonEntree,
-  //     item.rowNombreArticleBonEntree
-  //   ]);
 
-  //   // Configuration pour le PDF avec une taille de page personnalisée
+  //   // const fontName = 'times'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
+
+  //   const texteFontName = 'Roboto-Regular'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
+  //   const texteFontSize = 8; // Taille de la police
+
+
+  //   // Définition du texte au-dessus de l'image
+  //   const titre = "LISTE DES BON POURS";
+  //   const titreX = 60; // Position horizontale du texte
+  //   const titreY = 50; // Position verticale du texte
+  //   const titreFontName = 'Roboto-Regular'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
+  //   const titreFontSize = 15; // Taille de la police
+
+  //   // Déterminer la longueur du texte et la largeur de la page
+  //   const titreLength = doc.getStringUnitWidth(titre) * titreFontSize / doc.internal.scaleFactor;
+  //   const pageWidth = doc.internal.pageSize.getWidth();
+  //   // Calculer la position horizontale pour centrer le texte
+  //   const titreXCentered = (pageWidth - titreLength) / 2;
+
+
+  //   // Ajout du logo à l'en-tête
+  //   const logoImg = new Image();
+  //   logoImg.src = '../../../../../assets/douanes.jpeg'; // Assurez-vous de remplacer 'path/to/your/logo.png' par le chemin de votre propre logo
+
+  //   const logoWidth = 24; // Largeur du logo
+  //   const logoHeight = 16; // Hauteur du logo
+  //   const logoMarginLeft = 18;
+  //   const logoMarginTop = 24;
 
   //   const marginLeft = 10;
-  //   const marginTop = 10;
+  //   const marginTop = 40;
   //   const marginRight = 10;
   //   const marginBottom = 10;
 
-  //   // Générer le tableau dans le PDF avec des styles de texte personnalisés
-  //   autoTable(doc, {
-  //     head: [
-  //       [
-  //         { content: 'N° bon d\'entrée', styles: { fontSize: 6 } },
-  //         { content: 'Libelle bon d\'entrée', styles: { fontSize: 6 } },
-  //         { content: 'Date bon d\'entrée', styles: { fontSize: 6 } },
-  //         { content: 'Observation bon d\'entrée', styles: { fontSize: 6 } },
-  //         { content: 'Articles', styles: { fontSize: 6 } }
-  //       ]
-  //     ],
-  //     body: tableData.map(row => row.map(cell => ({ content: cell.toString(), styles: { fontSize: 6 } }))),
-  //     margin: { top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft },
-  //     theme: 'plain'
-  //   });
+  //   // Attendre que l'image soit chargée avant de l'ajouter au document
+  //   logoImg.onload = function () {
+  //     doc.setFont(texteFontName, 'normal'); // Définition de la police d'écriture et de son style
+  //     doc.setFontSize(texteFontSize); // Définition de la taille de la police
+  //     doc.text("République du Sénégal", 18, 14);
+  //     doc.text("Ministère des Finances et du budget", 10, 18);
+  //     doc.text("Direction générale des Douanes", 13, 22);
 
-  //   doc.save('bon-entree-liste.pdf');
+  //     doc.setFont(titreFontName, 'bold'); // Définition de la police d'écriture et de son style
+  //     doc.setFontSize(titreFontSize); // Définition de la taille de la police
+  //     doc.text(titre, titreXCentered, titreY);
+
+  //     doc.addImage(logoImg, 'JPEG', logoMarginLeft, logoMarginTop, logoWidth, logoHeight);
+
+
+
+  //     generateTable(); // Une fois le texte et le logo ajoutés, générez le tableau
+  //   };
+
+  //   // Fonction pour générer le tableau dans le PDF
+  //   function generateTable() {
+  //     // Création des données du tableau pour autoTable
+  //     const tableData = data.map((item: BonPour) => [
+  //       item.numeroCourrielOrigine,
+  //       item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
+  //       item.etatBonPour,
+  //       item.codeUniteDouaniere.nomUniteDouaniere,
+  //       item.numeroArriveDLF,
+  //       item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
+  //       item.numeroArriveBLM,
+  //       item.dateArriveBLM ? `${new Date(item.dateArriveBLM.toString()).getDate()} ${months[new Date(item.dateArriveBLM.toString()).getMonth()]} ${new Date(item.dateArriveBLM.toString()).getFullYear()}` : 'N/A',
+  //       item.numeroArriveSection,
+  //       item.dateArriveSection ? `${new Date(item.dateArriveSection.toString()).getDate()} ${months[new Date(item.dateArriveSection.toString()).getMonth()]} ${new Date(item.dateArriveSection.toString()).getFullYear()}` : 'N/A',
+  //     ]);
+
+  //     // Générer le tableau dans le PDF avec des styles de texte personnalisés
+  //     autoTable(doc, {
+  //       head: [
+  //         [
+  //           { content: 'N° courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+  //           { content: 'Date courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+  //           { content: 'Etat bon pour', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+  //           { content: 'Unité douanière', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+  //           { content: 'N° arrivée DLF', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+  //           { content: 'Date arrivée DLF', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+  //           { content: 'N° arrivée BLM', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+  //           { content: 'Date arrivée BLM', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+  //           { content: 'N° arrivée section', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+  //           { content: 'Date arrivée section', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } }
+  //         ]
+  //       ],
+  //       body: tableData.map(row => row.map(cell => ({ content: cell ? cell.toString() : '', styles: { fontSize: 6, halign: 'center', valign: 'middle' } }))),
+  //       margin: { top: marginTop + logoHeight + 5, right: marginRight, bottom: marginBottom, left: marginLeft },
+  //       theme: 'plain',
+  //       tableLineColor: [0, 0, 0], // Couleur de la ligne du tableau
+  //       tableLineWidth: 0.1 // Épaisseur de la ligne du tableau
+  //     });
+
+  //     // ------------------------------------------------------------------
+  //     // Enregistrez le document PDF avec le nom spécifié
+  //     // doc.save('liste-bon-pour.pdf');
+
+  //     // ------------------------------------------------------------------
+  //     // // Générer le blob à partir des données du PDF
+  //     const blob = doc.output('blob');
+  //     // Créer une URL pour le blob
+  //     const url = URL.createObjectURL(blob);
+  //     // Ouvrir le PDF dans une nouvelle fenêtre ou un nouvel onglet
+  //     window.open(url, '_blank');
+  //   }
   // }
+
+
+  // generatePDF(): void {
+
+  //   const data: BonPour[] = this.dataSource.filteredData;
+  //   const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
+
+  //   // Création d'un nouveau document jsPDF
+  //   const doc = new jsPDF();
+
+
+  //   // const fontName = 'times'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
+
+  //   const texteFontName = 'Roboto-Regular'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
+  //   const texteFontSize = 8; // Taille de la police
+
+
+  //   // Définition du texte au-dessus de l'image
+  //   const titre = "LISTE DES BON POURS";
+  //   const titreX = 60; // Position horizontale du texte
+  //   const titreY = 50; // Position verticale du texte
+  //   const titreFontName = 'Roboto-Regular'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
+  //   const titreFontSize = 15; // Taille de la police
+
+
+  //   // Ajout du logo à l'en-tête
+  //   const logoImg = new Image();
+  //   logoImg.src = '../../../../../assets/douanes.jpeg'; // Assurez-vous de remplacer 'path/to/your/logo.png' par le chemin de votre propre logo
+
+  //   const logoWidth = 24; // Largeur du logo
+  //   const logoHeight = 16; // Hauteur du logo
+  //   const logoMarginLeft = 18;
+  //   const logoMarginTop = 24;
+
+  //   const marginLeft = 10;
+  //   const marginTop = 40;
+  //   const marginRight = 10;
+  //   const marginBottom = 10;
+
+  //   // Attendre que l'image soit chargée avant de l'ajouter au document
+  //   logoImg.onload = function () {
+  //     doc.setFont(texteFontName, 'normal'); // Définition de la police d'écriture et de son style
+  //     doc.setFontSize(texteFontSize); // Définition de la taille de la police
+  //     doc.text("République du Sénégal", 18, 14);
+  //     doc.text("Ministère des Finances et du budget", 10, 18);
+  //     doc.text("Direction générale des Douanes", 13, 22);
+
+  //     doc.setFont(titreFontName, 'bold'); // Définition de la police d'écriture et de son style
+  //     doc.setFontSize(titreFontSize); // Définition de la taille de la police
+  //     doc.text(titre, titreX, titreY);
+
+  //     doc.addImage(logoImg, 'JPEG', logoMarginLeft, logoMarginTop, logoWidth, logoHeight);
+
+
+
+  //     generateTable(); // Une fois le texte et le logo ajoutés, générez le tableau
+  //   };
+
+  //   // Fonction pour générer le tableau dans le PDF
+  //   function generateTable() {
+  //     // Création des données du tableau pour autoTable
+  //     const tableData = data.map((item: BonPour) => [
+  //       item.numeroCourrielOrigine,
+  //       item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
+  //       item.etatBonPour,
+  //       item.codeUniteDouaniere.nomUniteDouaniere,
+  //       item.numeroArriveDLF,
+  //       item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
+  //       item.numeroArriveBLM,
+  //       item.dateArriveBLM ? `${new Date(item.dateArriveBLM.toString()).getDate()} ${months[new Date(item.dateArriveBLM.toString()).getMonth()]} ${new Date(item.dateArriveBLM.toString()).getFullYear()}` : 'N/A',
+  //       item.numeroArriveSection,
+  //       item.dateArriveSection ? `${new Date(item.dateArriveSection.toString()).getDate()} ${months[new Date(item.dateArriveSection.toString()).getMonth()]} ${new Date(item.dateArriveSection.toString()).getFullYear()}` : 'N/A',
+  //     ]);
+
+  //     // Générer le tableau dans le PDF avec des styles de texte personnalisés
+  //     autoTable(doc, {
+  //       head: [
+  //         [
+  //           { content: 'N° courrier origine', styles: { fontSize: 6 } },
+  //           { content: 'Date courrier origine', styles: { fontSize: 6 } },
+  //           { content: 'Etat bon pour', styles: { fontSize: 6 } },
+  //           { content: 'Unité douanière', styles: { fontSize: 6 } },
+  //           { content: 'N° arrivée DLF', styles: { fontSize: 6 } },
+  //           { content: 'Date arrivée DLF', styles: { fontSize: 6 } },
+  //           { content: 'N° arrivée BLM', styles: { fontSize: 6 } },
+  //           { content: 'Date arrivée BLM', styles: { fontSize: 6 } },
+  //           { content: 'N° arrivée section', styles: { fontSize: 6 } },
+  //           { content: 'Date arrivée section', styles: { fontSize: 6 } }
+  //         ]
+  //       ],
+  //       body: tableData.map(row => row.map(cell => ({ content: cell ? cell.toString() : '', styles: { fontSize: 6 } }))),
+  //       margin: { top: marginTop + logoHeight + 5, right: marginRight, bottom: marginBottom, left: marginLeft },
+  //       theme: 'plain'
+  //     });
+
+  //     // ------------------------------------------------------------------
+  //     // Enregistrez le document PDF avec le nom spécifié
+  //     // doc.save('liste-bon-pour.pdf');
+
+  //     // ------------------------------------------------------------------
+  //     // // Générer le blob à partir des données du PDF
+  //     const blob = doc.output('blob');
+  //     // Créer une URL pour le blob
+  //     const url = URL.createObjectURL(blob);
+  //     // Ouvrir le PDF dans une nouvelle fenêtre ou un nouvel onglet
+  //     window.open(url, '_blank');
+  //   }
+  // }
+
+
 
 
   private _filter(value: string): UniteDouaniere[] {
@@ -306,14 +631,14 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
         this.dataSource = new MatTableDataSource<BonPour>(this.bonPours
           .filter(
             bonPour => bonPour.etatBonPour !== EtatBonPour.BAF &&
-            bonPour.etatBonPour !== EtatBonPour.ALLERDLF &&
-            bonPour.etatBonPour !== EtatBonPour.ALLERBLM &&
-            bonPour.etatBonPour !== EtatBonPour.ALLERSECTION
+              bonPour.etatBonPour !== EtatBonPour.ALLERDLF &&
+              bonPour.etatBonPour !== EtatBonPour.ALLERBLM &&
+              bonPour.etatBonPour !== EtatBonPour.ALLERSECTION
           ).map((item) => ({
-          ...item,
-          rowNomUnite: item.codeUniteDouaniere?.nomUniteDouaniere,
+            ...item,
+            rowNomUnite: item.codeUniteDouaniere?.nomUniteDouaniere,
 
-        })));
+          })));
 
         //  console.log(this.dataSource.data);
         this.dataSource.paginator = this.paginator;
@@ -347,11 +672,11 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
 
   goToDetail(bonPour: BonPour): void {
 
-     const id = bonPour.identifiantBonPour;
-     if (id) {
+    const id = bonPour.identifiantBonPour;
+    if (id) {
       const encrypt = this.securiteService.encryptUsingAES256(id);
       this.router.navigate(['/dotation-vehicule-detail', encrypt]);
-     }
+    }
 
   }
 
