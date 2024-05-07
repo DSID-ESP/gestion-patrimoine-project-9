@@ -36,6 +36,8 @@ import { DotationVehiculeAjouterComponent } from '../dotation-vehicule-ajouter/d
 import { ArticleBonSortieService } from 'src/app/services/article-bon-sortie.service';
 import { TypeObjetPatrimoine } from 'src/app/enum/type-objet-patrimoine.enum';
 import { UniteDouaniereDetailComponent } from 'src/app/pages/unite-douaniere/unite-douaniere-detail/unite-douaniere-detail.component';
+import autoTable from 'jspdf-autotable';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-dotation-vehicule-detail',
@@ -54,6 +56,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
   //rowQuantiteAccorde!: number;
 
 
+  peutImprimer: Boolean = false;
 
 
   public bonSorties: BonSortie[] = [];
@@ -337,6 +340,9 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
       }, 0);
     }
 
+    if (this.quantiteAccordeeTotal > 0) {
+      this.peutImprimer = true;
+    }
 
 
 
@@ -388,6 +394,124 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions.push(subscription);
+  }
+
+  generatePDF(): void {
+
+    const data: ArticleBonPour[] = this.dataSource.filteredData;
+    const bonPour: BonPour = this.bonPour;
+    
+    const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
+
+    // Création d'un nouveau document jsPDF
+    const doc = new jsPDF();
+
+
+    // const fontName = 'times'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
+
+    const texteFontName = 'Roboto-Regular'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
+    const texteFontSize = 8; // Taille de la police
+
+
+    // Définition du texte au-dessus de l'image
+    const titre = "BON DE SORTIE";
+    const titreX = 60; // Position horizontale du texte
+    const titreY = 50; // Position verticale du texte
+    const titreFontName = 'Roboto-Regular'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
+    const titreFontSize = 15; // Taille de la police
+
+    // Déterminer la longueur du texte et la largeur de la page
+    const titreLength = doc.getStringUnitWidth(titre) * titreFontSize / doc.internal.scaleFactor;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    // Calculer la position horizontale pour centrer le texte
+    const titreXCentered = (pageWidth - titreLength) / 2;
+
+
+    // Ajout du logo à l'en-tête
+    const logoImg = new Image();
+    logoImg.src = '../../../../../assets/douanes.jpeg'; // Assurez-vous de remplacer 'path/to/your/logo.png' par le chemin de votre propre logo
+
+    const logoWidth = 24; // Largeur du logo
+    const logoHeight = 16; // Hauteur du logo
+    const logoMarginLeft = 18;
+    const logoMarginTop = 24;
+
+    const marginLeft = 10;
+    const marginTop = 40;
+    const marginRight = 10;
+    const marginBottom = 10;
+
+    // Attendre que l'image soit chargée avant de l'ajouter au document
+    logoImg.onload = function () {
+      doc.setFont(texteFontName, 'normal'); // Définition de la police d'écriture et de son style
+      doc.setFontSize(texteFontSize); // Définition de la taille de la police
+      doc.text("République du Sénégal", 18, 14);
+      doc.text("Ministère des Finances et du budget", 10, 18);
+      doc.text("Direction générale des Douanes", 13, 22);
+
+      doc.setFont(titreFontName, 'bold'); // Définition de la police d'écriture et de son style
+      doc.setFontSize(titreFontSize); // Définition de la taille de la police
+      doc.text(titre, titreXCentered, titreY);
+
+      doc.addImage(logoImg, 'JPEG', logoMarginLeft, logoMarginTop, logoWidth, logoHeight);
+
+
+
+      generateTable(); // Une fois le texte et le logo ajoutés, générez le tableau
+    };
+
+    // Fonction pour générer le tableau dans le PDF
+    function generateTable() {
+      // Création des données du tableau pour autoTable
+      const tableData = data.map((item: ArticleBonPour) => [
+        item.identifiantBonPour,
+        // item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
+      ]);
+
+      // Générer le tableau dans le PDF avec des styles de texte personnalisés
+      autoTable(doc, {
+        head: [
+          [
+            { content: 'N° courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            // { content: 'Date courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+          ]
+        ],
+        body: tableData.map(row => row.map(cell => ({ content: cell ? cell.toString() : '', styles: { fontSize: 6, halign: 'center', valign: 'middle' } }))),
+        margin: { top: marginTop + logoHeight + 5, right: marginRight, bottom: marginBottom, left: marginLeft },
+        theme: 'plain',
+        tableLineColor: [0, 0, 0], // Couleur de la ligne du tableau
+        tableLineWidth: 0.1, // Épaisseur de la ligne du tableau
+        didDrawCell: function (data) {
+          doc.setLineWidth(0.1);
+          doc.line(data.cell.x, data.cell.y, data.cell.x, data.cell.y + data.cell.height); // Vertical line
+          doc.line(data.cell.x, data.cell.y + data.cell.height, data.cell.x + data.cell.width, data.cell.y + data.cell.height); // Horizontal line
+        },
+
+        // didDrawPage: function (data) {
+        //   // Cette fonction sera appelée après le dessin de chaque page du PDF
+
+        //   // Définir l'épaisseur de la ligne
+        //   doc.setLineWidth(0.1);
+
+        //   // Dessiner une ligne horizontale en haut de la page pour séparer le tableau
+        //   // Placer cette ligne juste après les lignes du tableau
+        //   doc.line(marginLeft, data.settings.margin.top + 5, pageWidth - marginRight, data.settings.margin.top + 5);
+        // }
+
+      });
+
+      // ------------------------------------------------------------------
+      // Enregistrez le document PDF avec le nom spécifié
+      // doc.save('liste-bon-pour.pdf');
+
+      // ------------------------------------------------------------------
+      // // Générer le blob à partir des données du PDF
+      const blob = doc.output('blob');
+      // Créer une URL pour le blob
+      const url = URL.createObjectURL(blob);
+      // Ouvrir le PDF dans une nouvelle fenêtre ou un nouvel onglet
+      window.open(url, '_blank');
+    }
   }
 
   // AfficherFormBonSortie(bonPour: BonPour, bonSorties: BonSortie[]): BonSortie {

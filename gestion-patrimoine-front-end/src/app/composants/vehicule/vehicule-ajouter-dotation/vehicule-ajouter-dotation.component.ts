@@ -313,7 +313,7 @@ export class VehiculeAjouterDotationComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.bonPourService.modifierBonPour(bonPour).subscribe({
       next: (response: BonPour) => {
         // console.log(response);
-        this.sendNotification(NotificationType.SUCCESS, `Bon pour transmis`);
+        this.sendNotification(NotificationType.SUCCESS, `Bon pour terminé`);
       },
       error: (errorResponse: HttpErrorResponse) => {
         console.log(errorResponse);

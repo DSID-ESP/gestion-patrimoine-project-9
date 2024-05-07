@@ -227,6 +227,11 @@
                     <div class="container px-3 py-2">
                         <div class="row">
                             <div class="col-12 text-end">
+                                <button (click)="generatePDF()" [disabled]="!peutImprimer" type="button"
+                                    class="btn btn-myprimary fw-bold mx-2" data-bs-toggle="tooltip"
+                                    title="cliquer ici pour imprimer">
+                                    Imprimer
+                                </button>
 
                                 <button [routerLink]="'/affectation-vehicule'" type="button"
                                     class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"

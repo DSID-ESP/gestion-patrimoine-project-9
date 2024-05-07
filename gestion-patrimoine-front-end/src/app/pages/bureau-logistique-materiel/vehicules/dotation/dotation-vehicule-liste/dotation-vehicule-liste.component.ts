@@ -310,25 +310,14 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
       // doc.save('liste-bon-pour.pdf');
 
       // ------------------------------------------------------------------
-      // // // Générer le blob à partir des données du PDF
-      // const blob = doc.output('blob');
-      // // Créer une URL pour le blob
-      // const url = URL.createObjectURL(blob);
-      // // Ouvrir le PDF dans une nouvelle fenêtre ou un nouvel onglet
-      // window.open(url, '_blank');
-
-      // ------------------------------------------------------------------
-      // Générer le blob à partir des données du PDF
+      // // Générer le blob à partir des données du PDF
       const blob = doc.output('blob');
-      // Spécifier le nom du fichier PDF
-      const nomFichier = "nom_personnalisé.pdf";
       // Créer une URL pour le blob
       const url = URL.createObjectURL(blob);
-      // Ouvrir le PDF dans une nouvelle fenêtre ou un nouvel onglet avec le nom spécifié
-      window.open(url, '_blank', `resizable=yes,scrollbars=yes,status=yes,toolbar=yes,menubar=yes,titlebar=yes,location=yes,name=${nomFichier}`);
-
-      
+      // Ouvrir le PDF dans une nouvelle fenêtre ou un nouvel onglet
+      window.open(url, '_blank');
     }
+    
   }
 
 
