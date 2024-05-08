@@ -57,8 +57,8 @@
 }
 
 .option_item .checkbox:checked~.option_inner.fond {
-    border-color: #f0dd99;
-    color: #f0dd99;
+    border-color: #61b076;
+    color: #61b076;
     /* background-image: url(../../assets/images/user-logo.jpg); */
     overflow-y: auto;
 }
@@ -93,5 +93,5 @@
 }
 
 .option_item .option_inner.fond .tickmark {
-    border-color: #f0dd99 transparent transparent #f0dd99;
+    border-color: #61b076 transparent transparent #61b076;
 }
