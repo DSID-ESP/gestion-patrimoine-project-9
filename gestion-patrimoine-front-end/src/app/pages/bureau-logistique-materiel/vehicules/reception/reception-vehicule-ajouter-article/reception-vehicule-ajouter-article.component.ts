@@ -184,7 +184,7 @@ export class ReceptionVehiculeAjouterArticleComponent implements OnInit, OnDestr
       this.notificationService.showAlert(type, 'Une erreur s\'est produite. Veuillez réessayer.', titre);
     }
   }
-  
+
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -429,6 +429,8 @@ export class ReceptionVehiculeAjouterArticleComponent implements OnInit, OnDestr
     if (formattedDate) {
       VehiculeForm.value.dateMiseEnCirculation = formattedDate;
     }
+
+
 
     this.vehicule = VehiculeForm.value;
     this.validerArticleBonEntree();

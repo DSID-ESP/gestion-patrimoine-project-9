@@ -54,7 +54,7 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
 
   public utilisateurs: Utilisateur[] = [];
   public utilisateur: Utilisateur | undefined;
-  
+
   // ----------------------------------------------------------------------------------
 
   public bonPourList: BonPour[] = [];
@@ -96,7 +96,7 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
   // public filteredBonPours: Observable<BonPour[]> | undefined;
 
   private subscriptions: Subscription[] = [];
-  
+
 
 
   /* ----------------------------------------------------------------------------------------- */
@@ -181,7 +181,7 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
     "Description bon pour",
     "N° courrier origine",
     "Date courrier origine",
-    "Etat bon pour",
+    "État bon pour",
     "Object courrier origine",
     "N° arrivée DLF",
     "Date arrivée DLF",
@@ -465,7 +465,7 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
             ...item,
              rowNomUnite: item.codeUniteDouaniere?.nomUniteDouaniere,
           })).sort((a, b) => a.numeroCourrielOrigine - b.numeroCourrielOrigine));
-          
+
         } else {
 
           this.dataSource = new MatTableDataSource<BonPour>(
@@ -534,7 +534,7 @@ export class AjouterBonPourListeComponent implements OnInit, OnDestroy {
   goToDetail(bonPour: BonPour): void {
 
     // console.log(this.estDLF);
-    
+
     if (this.estDLF && (bonPour.etatBonPour == EtatBonPour.ALLERDLF)) {
       this.popupAjouterBonPourArticleBonPour(bonPour);
     } else if (this.estBLM && (bonPour.etatBonPour == EtatBonPour.ALLERBLM)) {

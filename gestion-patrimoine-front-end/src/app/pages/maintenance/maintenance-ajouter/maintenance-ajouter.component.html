@@ -42,7 +42,7 @@
 
           <div class="col-3 mx-auto">
             <ng-container *ngIf="dotationVehicule.numeroSerie.libelleEtatVehicule != ''">
-              <span class="fw-bold">Etat véhicule</span>
+              <span class="fw-bold">État véhicule</span>
               <div class="text-input text-uppercase"> {{ dotationVehicule.numeroSerie.libelleEtatVehicule }} </div>
             </ng-container>
           </div>
@@ -74,7 +74,7 @@
 
           <div class="col-3 mx-auto">
             <ng-container *ngIf="dotationVehicule.numeroSerie.numeroCarteGrise != ''">
-              <span class="fw-bold">Etat véhicule</span>
+              <span class="fw-bold">État véhicule</span>
               <div class="text-input text-uppercase"> {{
                 myDateStringFormatter(dotationVehicule.numeroSerie.dateMiseEnCirculation) }} </div>
             </ng-container>
@@ -113,7 +113,7 @@
                   <button type="submit" id="maintenance-form"  [disabled]="MaintenanceForm.invalid || (vehicule.numeroSerie == '')" hidden class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip" title="cliquer ici pour ajouter">
                       Valider
                   </button>
-                  
+
               </div>
           </div> -->
       </form>
@@ -456,7 +456,7 @@
               </span>
             </div>
           </div>
-        </div>        
+        </div>
 
         <!-- <div class="row g-4 mb-3">
           <div class="col mx-auto text-center">

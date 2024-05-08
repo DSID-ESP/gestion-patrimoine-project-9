@@ -101,7 +101,7 @@ export class MaintenanceListeComponent implements OnInit, OnDestroy {
     // "identifiantMaintenance",
     "N° série",
     "Date prise en charge",
-    "Etat maintenance",
+    "État maintenance",
     "Type maintenance",
    // "Observation"
   ];

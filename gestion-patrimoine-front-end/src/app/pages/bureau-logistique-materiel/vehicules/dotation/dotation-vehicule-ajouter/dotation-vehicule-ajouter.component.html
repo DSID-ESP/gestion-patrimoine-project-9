@@ -114,7 +114,7 @@
 
               <ng-container
                 *ngIf="((bonPour?.etatBonPour == RETOURSECTION) || (bonPour?.etatBonPour == TERMINER)) && estSection; else consultationSection">
-                <label for="quantiteAccordeeSection" class="form-label fw-bold">Quantite accordée section</label>
+                <label for="quantiteAccordeeSection" class="form-label fw-bold">Qte accordée section</label>
                 <input id="quantiteAccordeeSection" type="number" name="quantiteAccordeeSection" required
                   [(ngModel)]="quantiteAccordeeSection"
                   class="text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">

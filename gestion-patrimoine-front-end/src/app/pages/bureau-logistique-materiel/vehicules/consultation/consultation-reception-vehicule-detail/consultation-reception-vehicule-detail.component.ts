@@ -91,7 +91,7 @@ export class ConsultationReceptionVehiculeDetailComponent implements OnInit, OnD
   displayedColumnsCustom: string[] = [
     // "N°",
     "N°",
-    "Libelle article",
+    "Libellé article",
     // "Marque",
     // "Modèle",
     "N° série",
@@ -134,7 +134,7 @@ export class ConsultationReceptionVehiculeDetailComponent implements OnInit, OnD
 
     const decrypt = this.securiteService.decryptUsingAES256(id);
 
-    // console.log(id); 
+    // console.log(id);
     // console.log(decrypt);
 
 

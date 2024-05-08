@@ -135,7 +135,7 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
   displayedColumnsCustom: string[] = [
 
     "N° courrier origine",
-    "Etat bon pour",
+    "État bon pour",
     "Date arrivéé DLF",
     "Unité"
   ];
@@ -255,14 +255,14 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
       const tableData = data.map((item: BonPour) => [
         item.numeroCourrielOrigine,
         item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
-        item.etatBonPour,
+        // item.etatBonPour,
         item.codeUniteDouaniere.nomUniteDouaniere,
-        item.numeroArriveDLF,
+        // item.numeroArriveDLF,
         item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
-        item.numeroArriveBLM,
-        item.dateArriveBLM ? `${new Date(item.dateArriveBLM.toString()).getDate()} ${months[new Date(item.dateArriveBLM.toString()).getMonth()]} ${new Date(item.dateArriveBLM.toString()).getFullYear()}` : 'N/A',
-        item.numeroArriveSection,
-        item.dateArriveSection ? `${new Date(item.dateArriveSection.toString()).getDate()} ${months[new Date(item.dateArriveSection.toString()).getMonth()]} ${new Date(item.dateArriveSection.toString()).getFullYear()}` : 'N/A',
+        // item.numeroArriveBLM,
+        // item.dateArriveBLM ? `${new Date(item.dateArriveBLM.toString()).getDate()} ${months[new Date(item.dateArriveBLM.toString()).getMonth()]} ${new Date(item.dateArriveBLM.toString()).getFullYear()}` : 'N/A',
+        // item.numeroArriveSection,
+        // item.dateArriveSection ? `${new Date(item.dateArriveSection.toString()).getDate()} ${months[new Date(item.dateArriveSection.toString()).getMonth()]} ${new Date(item.dateArriveSection.toString()).getFullYear()}` : 'N/A',
       ]);
 
       // Générer le tableau dans le PDF avec des styles de texte personnalisés
@@ -271,14 +271,14 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
           [
             { content: 'N° courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
             { content: 'Date courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
-            { content: 'Etat bon pour', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            // { content: 'Etat bon pour', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
             { content: 'Unité douanière', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
-            { content: 'N° arrivée DLF', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
-            { content: 'Date arrivée DLF', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
-            { content: 'N° arrivée BLM', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
-            { content: 'Date arrivée BLM', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
-            { content: 'N° arrivée section', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
-            { content: 'Date arrivée section', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } }
+            // { content: 'N° arrivée DLF', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            // { content: 'Date arrivée DLF', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            // { content: 'N° arrivée BLM', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            // { content: 'Date arrivée BLM', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            // { content: 'N° arrivée section', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            // { content: 'Date arrivée section', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } }
           ]
         ],
         body: tableData.map(row => row.map(cell => ({ content: cell ? cell.toString() : '', styles: { fontSize: 6, halign: 'center', valign: 'middle' } }))),
@@ -317,7 +317,7 @@ export class DotationVehiculeListeComponent implements OnInit, OnDestroy {
       // Ouvrir le PDF dans une nouvelle fenêtre ou un nouvel onglet
       window.open(url, '_blank');
     }
-    
+
   }
 
 

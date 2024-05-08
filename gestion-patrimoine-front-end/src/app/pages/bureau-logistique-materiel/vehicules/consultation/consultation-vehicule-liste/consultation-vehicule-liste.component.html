@@ -88,7 +88,8 @@
 
                 <div class="col-3 d-flex justify-content-end">
                     <!-- <img (click)="popupAjouter()" src="../../../../../assets/add.png" alt="" class="icon-button"> -->
-                    <img (click)="generatePDF()" src="../../../../../assets/fichier-pdf.png" alt="" class="icon-button">
+                    <!-- <img (click)="generatePDF()" src="../../../../../assets/fichier-pdf.png" alt="" class="icon-button"> -->
+                    <img  src="../../../../../assets/fichier-pdf.png" alt="" class="icon-button">
                     <!-- <img (click)="exporter.exportTable('xlsx', {fileName:'vehicule-liste'})" src="../../../../../assets/xls.png" alt="" class="icon-button"> -->
                     <img src="../../../../../assets/xls.png" alt="" class="icon-button">
                 </div>
@@ -110,21 +111,21 @@
                         </mat-option>
                     </mat-autocomplete>
 
-                    <!-- 
+                    <!--
                     <select  (change)="filtrerParUniteDouaniere($event)" name="codeUniteDouaniere" id="codeUniteDouaniere" required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
                         <option value="">Nom unite </option>
                         <option *ngFor="let uniteDouaniere of uniteDouanieres" [value]="uniteDouaniere.nomUniteDouaniere">
                             {{ uniteDouaniere.nomUniteDouaniere }}
                         </option>
-                    </select> 
+                    </select>
                     -->
 
                 </div>
 
                 <div class="col-3 text-center">
-                    <select (change)="filtrerParLieuStockageVehicule($event)" name="codeLieuVH" id="codeLieuVH" 
+                    <select (change)="filtrerParLieuStockageVehicule($event)" name="codeLieuVH" id="codeLieuVH"
                         required ngModel class="form-select text-input form-control bg-mywhite border  border-myprimary px-1 text-uppercase">
-                        <option value="">Lieu stockage vehicule</option>
+                        <option value="">Lieu stockage véhicule</option>
                         <option *ngFor="let lieuStockageVehicule of lieuStockageVehicules"
                             [value]="lieuStockageVehicule.libellleLieuVH">
                             {{ lieuStockageVehicule.libellleLieuVH }}

@@ -20,7 +20,7 @@ export class Vehicule {
   public modele: string;
   public libelleEtatVehicule: string;
   public codePays: Pays;
-  public dateMiseEnCirculation: MyDate;
+  public dateMiseEnCirculation: MyDate | null;
 
 
   constructor(
@@ -43,10 +43,10 @@ export class Vehicule {
     this.codeTypeEnergie = codeTypeEnergie;
     this.numeroCarteGrise = numeroCarteGrise;
     this.codeTypeVehicule = codeTypeVehicule;
-    this.modele = modele; 
-    this.libelleEtatVehicule = libelleEtatVehicule; 
+    this.modele = modele;
+    this.libelleEtatVehicule = libelleEtatVehicule;
     this.codePays = codePays;
-    this.dateMiseEnCirculation = dateMiseEnCirculation;
+    this.dateMiseEnCirculation = dateMiseEnCirculation || null;
   }
 
 }

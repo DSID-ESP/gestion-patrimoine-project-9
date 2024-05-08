@@ -23,7 +23,7 @@
     </div>
 
     <div class="row g-4 mb-3">
-    
+
         <div class="col-3 mx-auto">
             <span class="fw-bold">Type énergie</span>
             <div class="text-input text-uppercase"> {{ vehicule.codeTypeEnergie.libelleTypeEnergie }} </div>
@@ -41,9 +41,12 @@
 
         <div class="col-3 mx-auto">
             <span class="fw-bold">Date mise en circulation</span>
-            <div class="text-input text-uppercase"> 
-                <!-- {{ vehicule.dateMiseEnCirculation }}  -->
-                {{ myDateStringFormatter(vehicule.dateMiseEnCirculation) }}
+            <div class="text-input text-uppercase">
+
+                <!-- {{ myDateStringFormatter(vehicule.dateMiseEnCirculation) }} -->
+                {{ vehicule.dateMiseEnCirculation ? myDateStringFormatter(vehicule.dateMiseEnCirculation) : '' }}
+
+
             </div>
         </div>
     </div>

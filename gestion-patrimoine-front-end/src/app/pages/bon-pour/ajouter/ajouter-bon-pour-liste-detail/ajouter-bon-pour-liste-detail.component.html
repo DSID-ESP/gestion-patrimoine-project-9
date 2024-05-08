@@ -29,29 +29,29 @@
                                         <span class="fw-bold">N° courrier origine</span>
                                         <div class="text-input"> {{ bonPour?.numeroCourrielOrigine }} </div>
                                     </div>
-                
+
                                     <div class="col-3 mx-auto">
                                         <span class="fw-bold">Date courrier origine</span>
                                         <div class="text-input text-uppercase">
                                             {{ myDateStringFormatter(bonPour?.dateCourrielOrigine) }}
                                         </div>
                                     </div>
-                
+
                                     <div class="col-3 mx-auto">
-                                        <span class="fw-bold">Etat bon pour</span>
+                                        <span class="fw-bold">État bon pour</span>
                                         <div class="text-input"> {{ bonPour?.etatBonPour }} </div>
                                     </div>
-                
+
                                     <div class="col-3 mx-auto form-group">
                                     </div>
                                 </div>
-                
+
                                 <div class="row g-4 mb-3">
                                     <!-- <div class="col-6 mx-auto form-group" style="">
                                         <span class="fw-bold">Unité douanière</span>
                                         <div class="text-input"> {{ bonPour?.codeUniteDouaniere?.nomUniteDouaniere }} </div>
                                     </div> -->
-                
+
                                     <!-- <div class="col-6 mx-auto form-group  border-hover" (click)="goToDetailUniteDouaniere(bonPour?.codeUniteDouaniere ?? uniteDouaniere, true)">
                                         <span class="fw-bold">Unité douanière</span>
                                         <div class="text-input">{{ bonPour?.codeUniteDouaniere?.nomUniteDouaniere }}</div>
@@ -62,21 +62,21 @@
                                         <div class="text-input">{{ bonPour?.codeUniteDouaniere?.nomUniteDouaniere }}</div>
                                     </div>
 
-                
+
                                     <div class="col-3">
                                     </div>
-                
+
                                     <div class="col-3">
                                     </div>
                                 </div>
-                
+
                                 <div class="row g-4 mb-3">
                                     <div class="col-12 mx-auto form-group">
                                         <span class="fw-bold">Object Courrier origine</span>
                                         <div class="text-input"> {{ bonPour?.objectCourrielOrigine }} </div>
                                     </div>
                                 </div>
-                
+
                                 <div class="row g-4 mb-3">
                                     <div class="col-12 mx-auto form-group">
                                         <span class="fw-bold">Description bon pour</span>
@@ -104,23 +104,23 @@
                                         <span class="fw-bold">N° arrivée DLF</span>
                                         <div class="text-input"> {{ bonPour?.numeroArriveDLF }} </div>
                                     </div>
-                
+
                                     <div class="col-6 mx-auto form-group">
                                         <span class="fw-bold">Date arrivée DLF</span>
                                         <div class="text-input text-uppercase">
                                             {{ myDateStringFormatter(bonPour?.dateArriveDLF) }}
                                         </div>
                                     </div>
-        
+
                                     <div class="col-12 mx-auto form-group">
                                         <span class="fw-bold">Observation DLF</span>
                                         <div class="text-input"> {{ bonPour?.observationDLF }} </div>
                                     </div>
                                 </div>
                             </div>
-        
+
                             <!-- -------------------------------------------------------------------------------- -->
-        
+
                             <div class="col-6" *ngIf="tousPrivileges && !(bonPour?.numeroArriveBLM == null)">
                                 <div class="row p-2 border rounded-3 border-myprimary">
                                     <div class="col-12 fs-5 fw-bold border-bottom border-solid border-1 border-myprimary mb-2" *ngIf="tousPrivileges && !(bonPour?.numeroArriveBLM == null)">
@@ -130,14 +130,14 @@
                                         <span class="fw-bold">N° arrivée BLM</span>
                                         <div class="text-input"> {{ bonPour?.numeroArriveBLM }} </div>
                                     </div>
-                
+
                                     <div class="col-6 mx-auto form-group">
                                         <span class="fw-bold">Date arrivée BLM</span>
                                         <div class="text-input text-uppercase">
                                             {{ myDateStringFormatter(bonPour?.dateArriveBLM) }}
                                         </div>
                                     </div>
-        
+
                                     <div class="col-12 mx-auto form-group">
                                         <span class="fw-bold">Observation BLM</span>
                                         <div class="text-input"> {{ bonPour?.observationBLM }} </div>
@@ -156,21 +156,21 @@
                                         <span class="fw-bold">N° arrivée section</span>
                                         <div class="text-input"> {{ bonPour?.numeroArriveSection }} </div>
                                     </div>
-                
+
                                     <div class="col-6 mx-auto form-group">
                                         <span class="fw-bold">Date arrivée section</span>
                                         <div class="text-input text-uppercase">
                                             {{ myDateStringFormatter(bonPour?.dateArriveSection) }}
                                         </div>
                                     </div>
-        
+
                                     <div class="col-12 mx-auto form-group">
                                         <span class="fw-bold">Observation section</span>
                                         <div class="text-input"> {{ bonPour?.observationSection }} </div>
                                     </div>
                                 </div>
                             </div>
-        
+
                             <div class="col-6">
                             </div>
                         </div>
@@ -186,7 +186,7 @@
                                   Transmettre
                                 </button> -->
 
-                 
+
                                 <button (click)="popupValiderTransmettreArticles(bonPour)" [hidden]="!estBAF || bonPour?.etatBonPour != BAF" type="button" class="btn btn-mysecondary fw-bold mx-2" data-bs-toggle="tooltip"
                                     title="cliquer ici pour modifier">
                                     Transmettre

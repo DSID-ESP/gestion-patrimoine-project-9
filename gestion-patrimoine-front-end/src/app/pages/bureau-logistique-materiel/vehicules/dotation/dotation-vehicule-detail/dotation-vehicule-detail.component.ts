@@ -62,6 +62,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
   public bonSorties: BonSortie[] = [];
   public bonSortie: BonSortie = new BonSortie();
 
+  public articleBonPoursListe: ArticleBonPour[] = [];
   public articleBonPours: ArticleBonPour[] = [];
   public articleBonPour: ArticleBonPour = new ArticleBonPour();
 
@@ -194,7 +195,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
             this.bonPour = response;
             this.listeBonDeSorties(this.bonPour);
           }
-          
+
           // this.listeArticleBonPours();
         },
         error: (errorResponse: HttpErrorResponse) => {
@@ -276,17 +277,18 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
       next: (response: ArticleBonPour[]) => {
         //this.articleBonPours = response;
 
-        this.articleBonPours =  response.filter(articleBonPour => articleBonPour.codeTypeObjet.libelleTypeObjet === TypeObjetPatrimoine.VEHIC)
+        this.articleBonPours = response.filter(articleBonPour => articleBonPour.codeTypeObjet.libelleTypeObjet === TypeObjetPatrimoine.VEHIC)
 
         if (bonPour.identifiantBonPour != "" && this.articleBonPours.length > 0) {
 
           // let articleBonPoursListe: ArticleBonPour[] | undefined;
 
-          const articleBonPoursListe: ArticleBonPour[] = this.articleBonPours.filter(articleBonPour => articleBonPour.identifiantBonPour === bonPour.identifiantBonPour);
-          
+          this.articleBonPoursListe = this.articleBonPours.filter(articleBonPour => articleBonPour.identifiantBonPour === bonPour.identifiantBonPour);
+
+          // rowNumber!: number;
           this.rowNumber = 1;
 
-          this.dataSource = new MatTableDataSource<ArticleBonPour>(articleBonPoursListe.map((item) => ({
+          this.dataSource = new MatTableDataSource<ArticleBonPour>(this.articleBonPoursListe.map((item) => ({
             ...item,
             rowCodeTypeObjet: item.codeTypeObjet.libelleTypeObjet,
             rowNumber: this.rowNumber++,
@@ -347,7 +349,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
 
     return this.quantiteAccordeeTotal;
-}
+  }
 
 
 
@@ -398,8 +400,48 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
   generatePDF(bonPour: BonPour): void {
 
-    const data: ArticleBonPour[] = this.dataSource.filteredData;
-    // const bonPour: BonPour = this.bonPour;
+
+    let rowNumber: number = 1;
+    //   const articleBonPoursListe: any[] = this.articleBonPoursListe.map((item: ArticleBonPour) => ({
+
+    //     rowNumber: rowNumber++,
+    //     rowLibelleArticleBonPour: item.libelleArticleBonPour,
+    //     rowQuantiteAccorde: this.quantiteAccordeeByIdentifiantBonSortie(item, this.bonSorties, this.articleBonSorties),
+    //     rowCodeTypeObjet: item.codeTypeObjet.libelleTypeObjet,
+    // }));
+    // const tableData: Array<Array<string | number | Date>>  = [articleBonPoursListe]
+
+
+    const articleBonPoursListe: any[] = this.articleBonPoursListe.map((item: ArticleBonPour) => ({
+      rowNumber: rowNumber++,
+      rowLibelleArticleBonPour: item.libelleArticleBonPour,
+      rowQuantiteAccorde: this.quantiteAccordeeByIdentifiantBonSortie(item, this.bonSorties, this.articleBonSorties),
+      rowCodeTypeObjet: item.codeTypeObjet.libelleTypeObjet,
+    }));
+
+    // tableData devrait être un tableau contenant chaque élément de articleBonPoursListe
+    const tableData: Array<Array<string | number | Date>> = articleBonPoursListe.map((item: any) => [
+      item.rowNumber,
+      item.rowLibelleArticleBonPour,
+      item.rowQuantiteAccorde,
+      item.rowCodeTypeObjet,
+    ]);
+
+
+
+    // { content: 'N°', styles: { fontSize: 6 } },
+    // { content: 'Description article bon pour', styles: { fontSize: 6 } },
+    // { content: 'Qte Accordée', styles: { fontSize: 6 } },
+    // { content: 'Nature', styles: { fontSize: 6 } },
+
+    // const tableData = articleBonPoursListe.map((item: ArticleBonPour) => [
+
+    //   item.libelleArticleBonPour,
+
+    // ]);
+
+    // const tableData: string[] = articleBonPoursListe.map((item: ArticleBonPour) => item.libelleArticleBonPour);
+
 
     const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
 
@@ -413,7 +455,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
 
     // Définition du texte au-dessus de l'image
-    const titre = "BON DE SORTIE N° 10232";
+    const titre = "BON DE SORTIE N° " + bonPour.numeroCourrielOrigine;
     const titreX = 60; // Position horizontale du texte
     const titreY = 45; // Position verticale du texte
     const titreFontName = 'Roboto-Regular'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
@@ -456,190 +498,231 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
       // --------------------------------------------------------------------------
       // --------------------------------------------------------------------------
-      generateTable1(); 
+      generateTable1();
       // --------------------------------------------------------------------------
       // --------------------------------------------------------------------------
-      // generateTable2();
-      // --------------------------------------------------------------------------
-      // --------------------------------------------------------------------------
-      // generateTable3();
-      // --------------------------------------------------------------------------
-      // --------------------------------------------------------------------------
-      // generateTable4();
-      // --------------------------------------------------------------------------
-      // --------------------------------------------------------------------------
+
     };
 
 
     function generateTable1() {
-
-      // const tableData = data.map((item: ArticleBonPour) => [
-      //   item.identifiantBonPour,
-      //   // item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
-      // ]);
-
-      // const tableData: BonPour[] = [bonPour]; 
-      // const tableData: BonPour = bonPour;
-
-  
-      // Générer le tableau dans le PDF avec des styles de texte personnalisés
       autoTable(doc, {
         head: [
           [
-            { content: 'Bon Pour', styles: { fontSize: 8, halign: 'center', valign: 'middle', fillColor: [97, 176, 118], fontStyle: 'bold' }, colSpan: 4 }               
+            { content: 'Bon Pour', styles: { fontSize: 8, halign: 'center', valign: 'middle', fillColor: [97, 176, 118], fontStyle: 'bold' }, colSpan: 4 }
           ]
         ],
         body: [
           [
-            // { content: 'N° courrier origine\n'+(bonPour.numeroCourrielOrigine ? bonPour.numeroCourrielOrigine.toString() : ''), styles: { fontSize: 6, halign: 'left', valign: 'middle', fontStyle: 'bold' }, },
-            { content: 'N° courrier origine', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 1, cellPadding: 1, fontStyle: 'bold' } },
-            { content: 'Date courrier origine', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 1, cellPadding: 1, fontStyle: 'bold'  } },
-            { content: 'Etat bon pour', styles: { fontSize: 7, halign: 'left', valign: 'middle', minCellHeight: 1, cellPadding: 1, fontStyle: 'bold' } },
+            { content: 'N° courrier origine', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' } },
+            { content: 'Date courrier origine', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' } },
+            { content: 'Etat bon pour', styles: { fontSize: 7, halign: 'left', valign: 'middle', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' } },
             { content: '' }
           ],
           [
-            { content: bonPour.numeroCourrielOrigine ? bonPour.numeroCourrielOrigine.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', cellPadding: 1 } },
-            { content: bonPour.dateCourrielOrigine ? `${new Date(bonPour.dateCourrielOrigine.toString()).getDate()} ${months[new Date(bonPour.dateCourrielOrigine.toString()).getMonth()]} ${new Date(bonPour.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A', styles: { fontSize: 6, halign: 'left', valign: 'top', cellPadding: 1 } },
-            { content: bonPour.etatBonPour ? bonPour.etatBonPour.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', cellPadding: 1 } },
+            { content: bonPour.numeroCourrielOrigine ? bonPour.numeroCourrielOrigine.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: bonPour.dateCourrielOrigine ? `${new Date(bonPour.dateCourrielOrigine.toString()).getDate()} ${months[new Date(bonPour.dateCourrielOrigine.toString()).getMonth()]} ${new Date(bonPour.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: bonPour.etatBonPour ? bonPour.etatBonPour.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
             { content: '' }
           ],
           [
-            { content: 'Unité douanière', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 1, cellPadding: 1, fontStyle: 'bold' }, colSpan: 3 },
+            { content: 'Unité douanière', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' }, colSpan: 3 },
             { content: '' }
           ],
           [
-            { content: bonPour.codeUniteDouaniere.nomUniteDouaniere ? bonPour.codeUniteDouaniere.nomUniteDouaniere.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', cellPadding: 1 }, colSpan: 3 },
+            { content: bonPour.codeUniteDouaniere.nomUniteDouaniere ? bonPour.codeUniteDouaniere.nomUniteDouaniere.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 }, colSpan: 3 },
             { content: '' }
           ],
           [
-            { content: 'Object Courrier origine', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 1, cellPadding: 1, fontStyle: 'bold' }, colSpan: 3  },
+            { content: 'Object Courrier origine', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' }, colSpan: 3 },
             { content: '' }
           ],
           [
-            { content: bonPour.objectCourrielOrigine ? bonPour.objectCourrielOrigine.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', cellPadding: 1 }, colSpan: 3 },
+            { content: bonPour.objectCourrielOrigine ? bonPour.objectCourrielOrigine.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 }, colSpan: 3 },
             { content: '' }
           ],
           [
-            { content: 'Description bon pour', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 1, cellPadding: 1, fontStyle: 'bold' }, colSpan: 3  },
+            { content: 'Description bon pour', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' }, colSpan: 3 },
             { content: '' }
           ],
           [
-            { content: bonPour.descriptionBonPour ? bonPour.descriptionBonPour.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', cellPadding: 1 }, colSpan: 3 },
+            { content: bonPour.descriptionBonPour ? bonPour.descriptionBonPour.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 }, colSpan: 3 },
             { content: '' }
           ]
 
         ],
         margin: { top: marginTop + 10, right: marginRight, bottom: marginBottom, left: marginLeft },
         theme: 'plain',
-        // tableLineColor: [0, 0, 0], 
-        // tableLineWidth: 0.1, 
-        // didDrawCell: function (data) {
-        //   doc.setLineWidth(0.1);
-        //   doc.line(data.cell.x, data.cell.y, data.cell.x, data.cell.y + data.cell.height); // Vertical line
-        //   doc.line(data.cell.x, data.cell.y + data.cell.height, data.cell.x + data.cell.width, data.cell.y + data.cell.height); // Horizontal line
-        // }
       });
 
-      // ------------------------------------------------------------------
-      // doc.save('liste-bon-pour.pdf');
-      // ------------------------------------------------------------------
-      const blob = doc.output('blob');
-      const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');
-    }
 
-    function generateTable2() {
-      // Création des données du tableau pour autoTable
-      const tableData = data.map((item: ArticleBonPour) => [
-        item.identifiantBonPour,
-        // item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
-      ]);
+      // --------------------------------------------------------------------------------------
 
-      // Générer le tableau dans le PDF avec des styles de texte personnalisés
+
+      // Calcul de la largeur disponible
+      const availableWidth = pageWidth - marginLeft - marginRight;
+
+      // Premier tableau
       autoTable(doc, {
         head: [
           [
-            { content: 'N° courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } }         
+            { content: '', styles: { fontSize: 8, halign: 'center', valign: 'middle', fillColor: [97, 176, 118], fontStyle: 'bold', cellPadding: 0 }, colSpan: 2 }
           ]
         ],
-        body: tableData.map(row => row.map(cell => ({ content: cell ? cell.toString() : '', styles: { fontSize: 6, halign: 'center', valign: 'middle' } }))),
-        margin: { top: marginTop + logoHeight + 65, right: marginRight, bottom: marginBottom, left: marginLeft },
+        body: [
+          [
+            { content: 'N° arrivée DLF', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' } },
+            { content: 'Date arrivée DLF', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' } }
+          ],
+          [
+            { content: bonPour.numeroArriveDLF ? bonPour.numeroArriveDLF.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: bonPour.dateArriveDLF ? `${new Date(bonPour.dateArriveDLF.toString()).getDate()} ${months[new Date(bonPour.dateArriveDLF.toString()).getMonth()]} ${new Date(bonPour.dateArriveDLF.toString()).getFullYear()}` : 'N/A', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } }
+          ],
+          [
+            { content: 'Observation DLF', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' }, colSpan: 4 },
+          ],
+          [
+            { content: bonPour.observationDLF ? bonPour.observationDLF.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 }, colSpan: 4 },
+          ]
+        ],
+        margin: { top: marginTop + 10, right: marginRight, bottom: marginBottom, left: marginLeft },
         theme: 'plain',
-        tableLineColor: [0, 0, 0], 
-        tableLineWidth: 0.1, 
-        didDrawCell: function (data) {
-          doc.setLineWidth(0.1);
-          doc.line(data.cell.x, data.cell.y, data.cell.x, data.cell.y + data.cell.height); // Vertical line
-          doc.line(data.cell.x, data.cell.y + data.cell.height, data.cell.x + data.cell.width, data.cell.y + data.cell.height); // Horizontal line
+        // Utilisation de la moitié de la largeur disponible pour chaque tableau
+        tableWidth: (availableWidth / 2) - 3, // Demi-largeur disponible
+        didDrawPage: function () {
+          // Deuxième tableau
+          autoTable(doc, {
+            head: [
+              [
+                { content: '', styles: { fontSize: 8, halign: 'center', valign: 'middle', fillColor: [97, 176, 118], fontStyle: 'bold', cellPadding: 0 }, colSpan: 2 }
+              ]
+            ],
+            body: [
+              [
+                { content: 'N° arrivée BLM', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' } },
+                { content: 'Date arrivée BLM', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' } }
+              ],
+              [
+                { content: bonPour.numeroArriveBLM ? bonPour.numeroArriveBLM.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+                { content: bonPour.dateArriveBLM ? `${new Date(bonPour.dateArriveBLM.toString()).getDate()} ${months[new Date(bonPour.dateArriveBLM.toString()).getMonth()]} ${new Date(bonPour.dateArriveBLM.toString()).getFullYear()}` : 'N/A', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } }
+              ],
+              [
+                { content: 'Observation BLM', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' }, colSpan: 4 },
+              ],
+              [
+                { content: bonPour.observationBLM ? bonPour.observationBLM.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 }, colSpan: 4 },
+              ]
+            ],
+            margin: { top: marginTop + 10, right: marginRight, bottom: marginBottom, left: marginLeft + availableWidth / 2 }, // Décalage de la moitié de la largeur
+            theme: 'plain',
+            // Utilisation de la moitié de la largeur disponible pour chaque tableau
+            tableWidth: (availableWidth / 2) - 3  // Demi-largeur disponible
+          });
+
         }
       });
 
-      // ------------------------------------------------------------------
-      // doc.save('liste-bon-pour.pdf');
-      // ------------------------------------------------------------------
-      const blob = doc.output('blob');
-      const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');
-    }
+      autoTable(doc, {
+        // Définition du troisième tableau ici
+        head: [
+          [
+            { content: '', styles: { fontSize: 8, halign: 'center', valign: 'middle', fillColor: [97, 176, 118], fontStyle: 'bold', cellPadding: 0 }, colSpan: 2 }
+          ]
+        ],
+        body: [
+          [
+            { content: 'N° arrivée DLF', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' } },
+            { content: 'Date arrivée DLF', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' } }
+          ],
+          [
+            { content: bonPour.numeroArriveDLF ? bonPour.numeroArriveDLF.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: bonPour.dateArriveDLF ? `${new Date(bonPour.dateArriveDLF.toString()).getDate()} ${months[new Date(bonPour.dateArriveDLF.toString()).getMonth()]} ${new Date(bonPour.dateArriveDLF.toString()).getFullYear()}` : 'N/A', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } }
+          ],
+          [
+            { content: 'Observation DLF', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 0.5, cellPadding: 1, fontStyle: 'bold' }, colSpan: 4 },
+          ],
+          [
+            { content: bonPour.observationDLF ? bonPour.observationDLF.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 }, colSpan: 4 },
+          ]
+        ],
+        // margin: { top: marginTop + 10, right: marginRight, bottom: marginBottom, left: marginLeft + availableWidth / 2 }, // Décalage de la moitié de la largeur
+        margin: { top: marginTop + 10, right: marginRight, bottom: marginBottom, left: marginLeft },
+        theme: 'plain',
+        // Utilisation de la moitié de la largeur disponible pour chaque tableau
+        tableWidth: (availableWidth / 2) - 3  // Demi-largeur disponible
+      });
 
-    function generateTable3() {
-      // Création des données du tableau pour autoTable
-      const tableData = data.map((item: ArticleBonPour) => [
-        item.identifiantBonPour,
-        // item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
-      ]);
 
-      // Générer le tableau dans le PDF avec des styles de texte personnalisés
+
+      // --------------------------------------------------------------------------------------
+
       autoTable(doc, {
         head: [
           [
-            { content: 'N° courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } }         
+            { content: 'Listes d\'articles', styles: { fontSize: 8, halign: 'center', valign: 'middle', fillColor: [97, 176, 118], fontStyle: 'bold', cellPadding: 1 }, colSpan: 4 }
+          ],
+          [
+            { content: 'N°', styles: { fontSize: 6 } },
+            { content: 'Description article bon pour', styles: { fontSize: 6 } },
+            { content: 'Qte Accordée', styles: { fontSize: 6 } },
+            { content: 'Nature', styles: { fontSize: 6 } },
           ]
         ],
-        body: tableData.map(row => row.map(cell => ({ content: cell ? cell.toString() : '', styles: { fontSize: 6, halign: 'center', valign: 'middle' } }))),
-        margin: { top: marginTop + logoHeight + 65, right: marginRight, bottom: marginBottom, left: marginLeft },
-        theme: 'plain',
-        tableLineColor: [0, 0, 0], 
-        tableLineWidth: 0.1, 
-        didDrawCell: function (data) {
-          doc.setLineWidth(0.1);
-          doc.line(data.cell.x, data.cell.y, data.cell.x, data.cell.y + data.cell.height); // Vertical line
-          doc.line(data.cell.x, data.cell.y + data.cell.height, data.cell.x + data.cell.width, data.cell.y + data.cell.height); // Horizontal line
-        }
+        body: tableData.map(row => row.map(cell => ({ content: cell.toString(), styles: { fontSize: 6 } }))),
+        // body: articleBonPoursListe.map(row => row.map(cell => ({ content: cell.toString(), styles: { fontSize: 6 } }))),
+        // body: articleBonPoursListe.map(row => row.map((cell: { toString: () => any; }) => ({ content: cell.toString(), styles: { fontSize: 6 } }))),
+        margin: { top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft },
+        theme: 'plain'
       });
 
-      // ------------------------------------------------------------------
-      // doc.save('liste-bon-pour.pdf');
-      // ------------------------------------------------------------------
-      const blob = doc.output('blob');
-      const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');
-    }
 
-    function generateTable4() {
-      // Création des données du tableau pour autoTable
-      const tableData = data.map((item: ArticleBonPour) => [
-        item.identifiantBonPour,
-        // item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
-      ]);
+      // --------------------------------------------------------------------------------------
 
-      // Générer le tableau dans le PDF avec des styles de texte personnalisés
       autoTable(doc, {
         head: [
           [
-            { content: 'N° courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } }         
+            { content: 'Listes des véhicules', styles: { fontSize: 8, halign: 'center', valign: 'middle', fillColor: [97, 176, 118], fontStyle: 'bold', cellPadding: 1 }, colSpan: 4 }
+          ],
+          [
+            { content: 'N° serie', styles: { fontSize: 6 } },
+            { content: 'N° immatriculation', styles: { fontSize: 6 } },
+            { content: 'Modele', styles: { fontSize: 6 } },
+            // { content: 'Etat vehicule', styles: { fontSize: 6 } },
+            // { content: 'Type energie', styles: { fontSize: 6 } },
+            // { content: 'Provenance', styles: { fontSize: 6 } },
+            { content: 'N° carte grise', styles: { fontSize: 6 } },
+            { content: 'Date mise en circulation', styles: { fontSize: 6 } },
+            // { content: 'Type vehicule', styles: { fontSize: 6 } },
           ]
         ],
-        body: tableData.map(row => row.map(cell => ({ content: cell ? cell.toString() : '', styles: { fontSize: 6, halign: 'center', valign: 'middle' } }))),
-        margin: { top: marginTop + logoHeight + 65, right: marginRight, bottom: marginBottom, left: marginLeft },
-        theme: 'plain',
-        tableLineColor: [0, 0, 0], 
-        tableLineWidth: 0.1, 
-        didDrawCell: function (data) {
-          doc.setLineWidth(0.1);
-          doc.line(data.cell.x, data.cell.y, data.cell.x, data.cell.y + data.cell.height); // Vertical line
-          doc.line(data.cell.x, data.cell.y + data.cell.height, data.cell.x + data.cell.width, data.cell.y + data.cell.height); // Horizontal line
-        }
+        // body: tableData.map(row => row.map(cell => ({ content: cell.toString(), styles: { fontSize: 6 } }))),
+        // body: articleBonPoursListe.map(row => row.map(cell => ({ content: cell.toString(), styles: { fontSize: 6 } }))),
+        // body: articleBonPoursListe.map(row => row.map((cell: { toString: () => any; }) => ({ content: cell.toString(), styles: { fontSize: 6 } }))),
+        body: [
+          [
+            { content: '123456', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: 'ABC123', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: 'CAMRY', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: 'CG123', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: '1 JANVIER 2023', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+          ],
+          [
+            { content: '789012', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 }},
+            { content: 'XYZ789', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: 'MUSTANG', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: 'CG789', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: '2 JANVIER 2023', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+          ],
+          [
+            { content: '789013 ', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: 'XYZ789', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: 'ESCAPE', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: 'CG789', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+            { content: '2 JANVIER 2023', styles: { fontSize: 6, halign: 'left', valign: 'top', minCellHeight: 0.5, cellPadding: 1 } },
+          ]
+        ],
+        margin: { top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft },
+        theme: 'plain'
       });
 
       // ------------------------------------------------------------------
@@ -649,6 +732,8 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
       const url = URL.createObjectURL(blob);
       window.open(url, '_blank');
     }
+
+
   }
 
   // AfficherFormBonSortie(bonPour: BonPour, bonSorties: BonSortie[]): BonSortie {
@@ -855,7 +940,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
   popupAjouterDotationVehicule(articleBonPour: ArticleBonPour, quantiteAccordeeTotal: number, bonPour: BonPour): void {
 
-    console.log(articleBonPour,quantiteAccordeeTotal);
+    console.log(articleBonPour, quantiteAccordeeTotal);
 
     const dialogRef = this.matDialog.open(
       DotationVehiculeAjouterComponent,
@@ -863,7 +948,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
         width: '80%',
         enterAnimationDuration: '100ms',
         exitAnimationDuration: '100ms',
-        data:  {
+        data: {
           articleBonPour: articleBonPour,
           quantiteAccordeeTotal: quantiteAccordeeTotal,
           bonpour: bonPour

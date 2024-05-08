@@ -373,7 +373,9 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
           rowTypeVehicule: item.codeTypeVehicule.libelleTypeVehicule,
           rowLibelleArticleBonEntree: item.codeArticleBonEntree.libelleArticleBonEntree,
           rowLieuStockageVehicule: item.codeArticleBonEntree.codeLieuVH.libellleLieuVH,
-          rowNombreAgeVehicule: this.calculerAgeVehicule(new Date(item.dateMiseEnCirculation.toString())),
+         // rowNombreAgeVehicule: this.calculerAgeVehicule(new Date(item.dateMiseEnCirculation.toString())),
+         rowNombreAgeVehicule: item.dateMiseEnCirculation ? this.calculerAgeVehicule(new Date(item.dateMiseEnCirculation.toString())) : null,
+
           rowNomUniteDouaniere: this.nomUniteDouaniereByDotationVehicules(item, this.dotationVehicules),
           rowNumber: this.rowNumber++,
         })));
@@ -396,7 +398,7 @@ export class ConsultationVehiculeListeComponent implements OnInit, OnDestroy {
   // ----------------------------------------------------------------------------------------------------------
   // ----------------------------------------------------------------------------------------------------------
   // ----------------------------------------------------------------------------------------------------------
-  
+
   // nomUniteDouaniereByDotationVehicules(vehicule: Vehicule, dotationVehicules: DotationVehicule[]): string {
 
   //   let identifiantBonSortie = "";
