@@ -396,16 +396,15 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
     this.subscriptions.push(subscription);
   }
 
-  generatePDF(): void {
+  generatePDF(bonPour: BonPour): void {
 
     const data: ArticleBonPour[] = this.dataSource.filteredData;
-    const bonPour: BonPour = this.bonPour;
-    
+    // const bonPour: BonPour = this.bonPour;
+
     const months = ['JANV.', 'FÉVR.', 'MARS', 'AVR.', 'MAI', 'JUIN', 'JUIL.', 'AOÛT', 'SEPT.', 'OCT.', 'NOV.', 'DÉC.'];
 
     // Création d'un nouveau document jsPDF
     const doc = new jsPDF();
-
 
     // const fontName = 'times'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
 
@@ -414,9 +413,9 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
 
     // Définition du texte au-dessus de l'image
-    const titre = "BON DE SORTIE";
+    const titre = "BON DE SORTIE N° 10232";
     const titreX = 60; // Position horizontale du texte
-    const titreY = 50; // Position verticale du texte
+    const titreY = 45; // Position verticale du texte
     const titreFontName = 'Roboto-Regular'; // Nom de la police (vous pouvez remplacer 'times' par le nom de la police que vous souhaitez utiliser)
     const titreFontSize = 15; // Taille de la police
 
@@ -434,7 +433,7 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
     const logoWidth = 24; // Largeur du logo
     const logoHeight = 16; // Hauteur du logo
     const logoMarginLeft = 18;
-    const logoMarginTop = 24;
+    const logoMarginTop = 18;
 
     const marginLeft = 10;
     const marginTop = 40;
@@ -445,9 +444,9 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
     logoImg.onload = function () {
       doc.setFont(texteFontName, 'normal'); // Définition de la police d'écriture et de son style
       doc.setFontSize(texteFontSize); // Définition de la taille de la police
-      doc.text("République du Sénégal", 18, 14);
-      doc.text("Ministère des Finances et du budget", 10, 18);
-      doc.text("Direction générale des Douanes", 13, 22);
+      doc.text("République du Sénégal", 16, 8);
+      doc.text("Ministère des Finances et du budget", 10, 12);
+      doc.text("Direction générale des Douanes", 13, 16);
 
       doc.setFont(titreFontName, 'bold'); // Définition de la police d'écriture et de son style
       doc.setFontSize(titreFontSize); // Définition de la taille de la police
@@ -455,13 +454,101 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
 
       doc.addImage(logoImg, 'JPEG', logoMarginLeft, logoMarginTop, logoWidth, logoHeight);
 
-
-
-      generateTable(); // Une fois le texte et le logo ajoutés, générez le tableau
+      // --------------------------------------------------------------------------
+      // --------------------------------------------------------------------------
+      generateTable1(); 
+      // --------------------------------------------------------------------------
+      // --------------------------------------------------------------------------
+      // generateTable2();
+      // --------------------------------------------------------------------------
+      // --------------------------------------------------------------------------
+      // generateTable3();
+      // --------------------------------------------------------------------------
+      // --------------------------------------------------------------------------
+      // generateTable4();
+      // --------------------------------------------------------------------------
+      // --------------------------------------------------------------------------
     };
 
-    // Fonction pour générer le tableau dans le PDF
-    function generateTable() {
+
+    function generateTable1() {
+
+      // const tableData = data.map((item: ArticleBonPour) => [
+      //   item.identifiantBonPour,
+      //   // item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
+      // ]);
+
+      // const tableData: BonPour[] = [bonPour]; 
+      // const tableData: BonPour = bonPour;
+
+  
+      // Générer le tableau dans le PDF avec des styles de texte personnalisés
+      autoTable(doc, {
+        head: [
+          [
+            { content: 'Bon Pour', styles: { fontSize: 8, halign: 'center', valign: 'middle', fillColor: [97, 176, 118], fontStyle: 'bold' }, colSpan: 4 }               
+          ]
+        ],
+        body: [
+          [
+            // { content: 'N° courrier origine\n'+(bonPour.numeroCourrielOrigine ? bonPour.numeroCourrielOrigine.toString() : ''), styles: { fontSize: 6, halign: 'left', valign: 'middle', fontStyle: 'bold' }, },
+            { content: 'N° courrier origine', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 1, cellPadding: 1, fontStyle: 'bold' } },
+            { content: 'Date courrier origine', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 1, cellPadding: 1, fontStyle: 'bold'  } },
+            { content: 'Etat bon pour', styles: { fontSize: 7, halign: 'left', valign: 'middle', minCellHeight: 1, cellPadding: 1, fontStyle: 'bold' } },
+            { content: '' }
+          ],
+          [
+            { content: bonPour.numeroCourrielOrigine ? bonPour.numeroCourrielOrigine.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', cellPadding: 1 } },
+            { content: bonPour.dateCourrielOrigine ? `${new Date(bonPour.dateCourrielOrigine.toString()).getDate()} ${months[new Date(bonPour.dateCourrielOrigine.toString()).getMonth()]} ${new Date(bonPour.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A', styles: { fontSize: 6, halign: 'left', valign: 'top', cellPadding: 1 } },
+            { content: bonPour.etatBonPour ? bonPour.etatBonPour.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', cellPadding: 1 } },
+            { content: '' }
+          ],
+          [
+            { content: 'Unité douanière', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 1, cellPadding: 1, fontStyle: 'bold' }, colSpan: 3 },
+            { content: '' }
+          ],
+          [
+            { content: bonPour.codeUniteDouaniere.nomUniteDouaniere ? bonPour.codeUniteDouaniere.nomUniteDouaniere.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', cellPadding: 1 }, colSpan: 3 },
+            { content: '' }
+          ],
+          [
+            { content: 'Object Courrier origine', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 1, cellPadding: 1, fontStyle: 'bold' }, colSpan: 3  },
+            { content: '' }
+          ],
+          [
+            { content: bonPour.objectCourrielOrigine ? bonPour.objectCourrielOrigine.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', cellPadding: 1 }, colSpan: 3 },
+            { content: '' }
+          ],
+          [
+            { content: 'Description bon pour', styles: { fontSize: 7, halign: 'left', valign: 'bottom', minCellHeight: 1, cellPadding: 1, fontStyle: 'bold' }, colSpan: 3  },
+            { content: '' }
+          ],
+          [
+            { content: bonPour.descriptionBonPour ? bonPour.descriptionBonPour.toString() : '', styles: { fontSize: 6, halign: 'left', valign: 'top', cellPadding: 1 }, colSpan: 3 },
+            { content: '' }
+          ]
+
+        ],
+        margin: { top: marginTop + 10, right: marginRight, bottom: marginBottom, left: marginLeft },
+        theme: 'plain',
+        // tableLineColor: [0, 0, 0], 
+        // tableLineWidth: 0.1, 
+        // didDrawCell: function (data) {
+        //   doc.setLineWidth(0.1);
+        //   doc.line(data.cell.x, data.cell.y, data.cell.x, data.cell.y + data.cell.height); // Vertical line
+        //   doc.line(data.cell.x, data.cell.y + data.cell.height, data.cell.x + data.cell.width, data.cell.y + data.cell.height); // Horizontal line
+        // }
+      });
+
+      // ------------------------------------------------------------------
+      // doc.save('liste-bon-pour.pdf');
+      // ------------------------------------------------------------------
+      const blob = doc.output('blob');
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    }
+
+    function generateTable2() {
       // Création des données du tableau pour autoTable
       const tableData = data.map((item: ArticleBonPour) => [
         item.identifiantBonPour,
@@ -472,44 +559,94 @@ export class DotationVehiculeDetailComponent implements OnInit, OnDestroy {
       autoTable(doc, {
         head: [
           [
-            { content: 'N° courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
-            // { content: 'Date courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } },
+            { content: 'N° courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } }         
           ]
         ],
         body: tableData.map(row => row.map(cell => ({ content: cell ? cell.toString() : '', styles: { fontSize: 6, halign: 'center', valign: 'middle' } }))),
-        margin: { top: marginTop + logoHeight + 5, right: marginRight, bottom: marginBottom, left: marginLeft },
+        margin: { top: marginTop + logoHeight + 65, right: marginRight, bottom: marginBottom, left: marginLeft },
         theme: 'plain',
-        tableLineColor: [0, 0, 0], // Couleur de la ligne du tableau
-        tableLineWidth: 0.1, // Épaisseur de la ligne du tableau
+        tableLineColor: [0, 0, 0], 
+        tableLineWidth: 0.1, 
         didDrawCell: function (data) {
           doc.setLineWidth(0.1);
           doc.line(data.cell.x, data.cell.y, data.cell.x, data.cell.y + data.cell.height); // Vertical line
           doc.line(data.cell.x, data.cell.y + data.cell.height, data.cell.x + data.cell.width, data.cell.y + data.cell.height); // Horizontal line
-        },
-
-        // didDrawPage: function (data) {
-        //   // Cette fonction sera appelée après le dessin de chaque page du PDF
-
-        //   // Définir l'épaisseur de la ligne
-        //   doc.setLineWidth(0.1);
-
-        //   // Dessiner une ligne horizontale en haut de la page pour séparer le tableau
-        //   // Placer cette ligne juste après les lignes du tableau
-        //   doc.line(marginLeft, data.settings.margin.top + 5, pageWidth - marginRight, data.settings.margin.top + 5);
-        // }
-
+        }
       });
 
       // ------------------------------------------------------------------
-      // Enregistrez le document PDF avec le nom spécifié
       // doc.save('liste-bon-pour.pdf');
+      // ------------------------------------------------------------------
+      const blob = doc.output('blob');
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    }
+
+    function generateTable3() {
+      // Création des données du tableau pour autoTable
+      const tableData = data.map((item: ArticleBonPour) => [
+        item.identifiantBonPour,
+        // item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
+      ]);
+
+      // Générer le tableau dans le PDF avec des styles de texte personnalisés
+      autoTable(doc, {
+        head: [
+          [
+            { content: 'N° courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } }         
+          ]
+        ],
+        body: tableData.map(row => row.map(cell => ({ content: cell ? cell.toString() : '', styles: { fontSize: 6, halign: 'center', valign: 'middle' } }))),
+        margin: { top: marginTop + logoHeight + 65, right: marginRight, bottom: marginBottom, left: marginLeft },
+        theme: 'plain',
+        tableLineColor: [0, 0, 0], 
+        tableLineWidth: 0.1, 
+        didDrawCell: function (data) {
+          doc.setLineWidth(0.1);
+          doc.line(data.cell.x, data.cell.y, data.cell.x, data.cell.y + data.cell.height); // Vertical line
+          doc.line(data.cell.x, data.cell.y + data.cell.height, data.cell.x + data.cell.width, data.cell.y + data.cell.height); // Horizontal line
+        }
+      });
 
       // ------------------------------------------------------------------
-      // // Générer le blob à partir des données du PDF
+      // doc.save('liste-bon-pour.pdf');
+      // ------------------------------------------------------------------
       const blob = doc.output('blob');
-      // Créer une URL pour le blob
       const url = URL.createObjectURL(blob);
-      // Ouvrir le PDF dans une nouvelle fenêtre ou un nouvel onglet
+      window.open(url, '_blank');
+    }
+
+    function generateTable4() {
+      // Création des données du tableau pour autoTable
+      const tableData = data.map((item: ArticleBonPour) => [
+        item.identifiantBonPour,
+        // item.dateCourrielOrigine ? `${new Date(item.dateCourrielOrigine.toString()).getDate()} ${months[new Date(item.dateCourrielOrigine.toString()).getMonth()]} ${new Date(item.dateCourrielOrigine.toString()).getFullYear()}` : 'N/A',
+      ]);
+
+      // Générer le tableau dans le PDF avec des styles de texte personnalisés
+      autoTable(doc, {
+        head: [
+          [
+            { content: 'N° courrier origine', styles: { fontSize: 6, halign: 'center', valign: 'middle', fillColor: [176, 196, 222] } }         
+          ]
+        ],
+        body: tableData.map(row => row.map(cell => ({ content: cell ? cell.toString() : '', styles: { fontSize: 6, halign: 'center', valign: 'middle' } }))),
+        margin: { top: marginTop + logoHeight + 65, right: marginRight, bottom: marginBottom, left: marginLeft },
+        theme: 'plain',
+        tableLineColor: [0, 0, 0], 
+        tableLineWidth: 0.1, 
+        didDrawCell: function (data) {
+          doc.setLineWidth(0.1);
+          doc.line(data.cell.x, data.cell.y, data.cell.x, data.cell.y + data.cell.height); // Vertical line
+          doc.line(data.cell.x, data.cell.y + data.cell.height, data.cell.x + data.cell.width, data.cell.y + data.cell.height); // Horizontal line
+        }
+      });
+
+      // ------------------------------------------------------------------
+      // doc.save('liste-bon-pour.pdf');
+      // ------------------------------------------------------------------
+      const blob = doc.output('blob');
+      const url = URL.createObjectURL(blob);
       window.open(url, '_blank');
     }
   }
